@@ -1,7 +1,7 @@
 # concurrent-slicing
 
 In-progress Agda development accompanying the paper _Causally consistent
-dynamic slicing_, submitted to CONCUR 2016.
+dynamic slicing_.
 
 ## Required libraries:
 
