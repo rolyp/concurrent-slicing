@@ -13,13 +13,17 @@ dynamic slicing_.
 ## Tasks
 
 * _Example_
-* Prove functor-like postulates in `Proc.Ren.Lattice`
-* Prove easy postulates in `Transition.Lattice`
+* Functor-like postulates in `Proc.Ren.Lattice`
 * Galois connection for generalised bound braid
-* `target⋆ᴹ` for transition sequences
-* _Galois connection for transition sequences_
 * Galois connection for renamings of transition sequences
 * Lattice isomorphism for transition slice and (generalised) bound braid
 * Lattice isomorphism for transition sequence slice and (generalised) bound braid
 * Galois connection relating targets of causally equivalent transition
   sequences (composite braiding?)
+
+### Minor
+
+* Better names in Galois connection for transition sequences
+* Easy postulates in `Transition.Lattice`
+* `target⋆ᴹ` for transition sequences
+* Low-hanging fruit aligning paper with Agda
