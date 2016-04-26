@@ -4,6 +4,7 @@ module Transition.Concur.Cofinal.Lattice where
 
    open import Action as ᴬ using (Action)
    open import Action.Concur using (_ᴬ⌣_; module _ᴬ⌣_; ᴬ⊖-✓); open _ᴬ⌣_
+   open import Braiding.Proc using (module _⋉̂_); open _⋉̂_
    open import Name using (zero)
    open import Proc using (Proc↱)
    open import Proc.Lattice as ᴾ̃ using (↓_; ↓⁻_); open ᴾ̃.↓_; open ᴾ̃.↓⁻_
@@ -37,7 +38,9 @@ braid (𝐸 ᵇᵇ│ Q) γ P₁ = {!!}
 braid (𝐸 ᵇᶜ│ Q) γ P₁ = {!!}
 braid (𝐸 ᶜᵇ│ Q) γ P₁ = {!!}
 braid (𝐸 ᶜᶜ│ Q) γ P₁ = {!!}
-braid (𝐸 ᵛᵛ│ Q) γ P₁ = {!!}
+braid (𝐸 ᵛᵛ│ Q) γ ◻ = {!!}
+braid (𝐸 ᵛᵛ│ Q) (γ │₁ refl) [ R │ S ] = [ braid 𝐸 γ R │ S ]
+braid (𝐸 ᵛᵛ│ Q) (x │₂ γ) [ R │ S ] = {!!}
 braid (𝐸 │• 𝐸₁) γ P₁ = {!!}
 braid (𝐸 │•ᵥ 𝐸₁) γ P₁ = {!!}
 braid (𝐸 │ᵥ• 𝐸₁) γ P₁ = {!!}
