@@ -37,9 +37,8 @@ module Transition.Concur.Cofinal.Lattice where
    braid (P │ᶜᶜ 𝐸) γ P₁ = {!!}
    braid (P │ᵛᵛ 𝐸) γ P₁ = {!!}
    braid (𝐸 ᵇᵇ│ Q) γ P₁ = {!!}
-   braid (𝐸 ᵇᶜ│ Q₀) _ P with (S (⊖₁ 𝐸) ᴾ.│ (push *) Q₀) | S′ (⊖₁ 𝐸) ᴾ.│ (suc *) Q₀
-   braid (𝐸 ᵇᶜ│ Q₀) refl P | _ | ._ = P
-   braid (𝐸 ᶜᵇ│ Q) γ P₁ = {!!}
+   braid (𝐸 ᵇᶜ│ Q₀) γ rewrite γ = idᶠ
+   braid (𝐸 ᶜᵇ│ Q) γ rewrite γ = idᶠ
    braid (𝐸 ᶜᶜ│ Q) γ P₁ = {!!}
    braid (𝐸 ᵛᵛ│ Q) γ ◻ = {!!}
    braid (𝐸 ᵛᵛ│ Q) (γ │₁ refl) [ R │ S′ ] = [ braid 𝐸 γ R │ S′ ]
