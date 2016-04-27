@@ -25,11 +25,11 @@ module Transition.Concur.Cofinal.Lattice where
    braid (𝐸 │•ᶜ F) γ rewrite γ = idᶠ
    braid (E ᵇ│• 𝐸) γ rewrite γ = idᶠ
    braid (E ᶜ│• 𝐸) γ rewrite γ = idᶠ
-   braid (𝐸 │ᵥᵇ F) γ P₁ = {!!}
+   braid (𝐸 │ᵥᵇ F) γ rewrite γ = idᶠ
    braid (𝐸 │ᵥᶜ F) γ rewrite γ = idᶠ
-   braid (E ᵇ│ᵥ 𝐸) γ P₁ = {!!}
+   braid (E ᵇ│ᵥ 𝐸) γ rewrite γ = idᶠ
    braid (E ᶜ│ᵥ 𝐸) γ rewrite γ = idᶠ
-   braid (𝐸 ➕₁ Q) γ P₁ = {!!}
+   braid (𝐸 ➕₁ Q) γ = braid 𝐸 γ
    braid (P │ᵇᵇ 𝐸) γ P₁ = {!!}
    braid (P │ᵇᶜ 𝐸) γ rewrite γ = idᶠ
    braid (P │ᶜᵇ 𝐸) γ rewrite γ = idᶠ
@@ -42,8 +42,8 @@ module Transition.Concur.Cofinal.Lattice where
    braid (𝐸 ᵛᵛ│ Q) γ ◻ = {!!}
    braid (𝐸 ᵛᵛ│ Q) (γ │₁ refl) [ R │ S′ ] = [ braid 𝐸 γ R │ S′ ]
    braid (𝐸 ᵛᵛ│ Q) (x │₂ γ) [ R │ S′ ] = {!!}
-   braid (𝐸 │• 𝐸₁) γ P₁ = {!!}
-   braid (𝐸 │•ᵥ 𝐸₁) γ P₁ = {!!}
+   braid (𝐸 │• 𝐸₁) γ rewrite γ = idᶠ
+   braid (𝐸 │•ᵥ 𝐸₁) γ rewrite γ = idᶠ
    braid (𝐸 │ᵥ• 𝐸₁) γ P₁ = {!!}
    braid (𝐸 │ᵥ 𝐸₁) γ P₁ = {!!}
    braid (𝐸 │ᵥ′ 𝐸₁) γ P₁ = {!!}
