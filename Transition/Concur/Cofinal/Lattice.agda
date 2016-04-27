@@ -17,19 +17,18 @@ module Transition.Concur.Cofinal.Lattice where
    braid : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
            (𝐸 : E ⌣₁[ 𝑎 ] E′) → let Q = S (⊖₁ 𝐸); Q′ = (Proc↱ (sym (ᴬ⊖-✓ 𝑎)) (S′ (⊖₁ 𝐸))) in
            ⋉̂[ Γ , 𝑎 , zero ] Q Q′ → ↓ Q → ↓ Q′
-   braid (E ᵇ│ᵇ F) γ ◻ = {!!}
-   braid (E ᵇ│ᵇ F) γ [ _ │ _ ] = {!!}
+   braid (E ᵇ│ᵇ F) γ P = {!!}
    braid (E ᵇ│ᶜ F) refl = idᶠ
    braid (E ᶜ│ᵇ F) refl = idᶠ
    braid (E ᶜ│ᶜ F) refl = idᶠ
-   braid (𝐸 │•ᵇ F) γ P₁ = {!!}
-   braid (𝐸 │•ᶜ F) γ P₁ = {!!}
-   braid (E ᵇ│• 𝐸) γ P₁ = {!!}
-   braid (E ᶜ│• 𝐸) γ P₁ = {!!}
+   braid (𝐸 │•ᵇ F) γ rewrite γ = idᶠ
+   braid (𝐸 │•ᶜ F) γ rewrite γ = idᶠ
+   braid (E ᵇ│• 𝐸) γ rewrite γ = idᶠ
+   braid (E ᶜ│• 𝐸) γ rewrite γ = idᶠ
    braid (𝐸 │ᵥᵇ F) γ P₁ = {!!}
-   braid (𝐸 │ᵥᶜ F) γ P₁ = {!!}
+   braid (𝐸 │ᵥᶜ F) γ rewrite γ = idᶠ
    braid (E ᵇ│ᵥ 𝐸) γ P₁ = {!!}
-   braid (E ᶜ│ᵥ 𝐸) γ P₁ = {!!}
+   braid (E ᶜ│ᵥ 𝐸) γ rewrite γ = idᶠ
    braid (𝐸 ➕₁ Q) γ P₁ = {!!}
    braid (P │ᵇᵇ 𝐸) γ P₁ = {!!}
    braid (P │ᵇᶜ 𝐸) γ rewrite γ = idᶠ
