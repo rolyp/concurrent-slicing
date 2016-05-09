@@ -16,10 +16,10 @@ module Braiding.Proc.Lattice.GaloisConnection where
    open import Ren.Lattice.Properties
    open import Ren.Properties
    open import Braiding.Proc using (_⋉̂_; module _⋉̂_; ⋉̂-sym; ⋉̂-sym-involutive); open _⋉̂_
-   open import Braiding.Proc.Lattice using (_/̂_; /-ν)
+   open import Braiding.Proc.Lattice using (braid̂; braid-ν)
 
    infixl 8 _/ᴹ_
-   _/ᴹ_ : ∀ {Γ} {P₀ P₀′ : Proc Γ} {P P′ : ↓ P₀} → P ≤ P′ → (φ : P₀ ⋉̂ P₀′) → P /̂ φ ≤ P′ /̂ φ
+   _/ᴹ_ : ∀ {Γ} {P₀ P₀′ : Proc Γ} {P P′ : ↓ P₀} → P ≤ P′ → (φ : P₀ ⋉̂ P₀′) → braid̂ φ P ≤ braid̂ φ P′
    ◻ /ᴹ _ = ◻
    _/ᴹ_ {P = [ ν ◻ ]} {[ ν ◻ ]} [ ν ◻ ] (νν-swapₗ _) = [ ν ◻ ]
    _/ᴹ_ {P = [ ν ◻ ]} {[ ν [ ν _ ] ]} [ ν ◻ ] (νν-swapₗ _) = [ ν ◻ ]
@@ -81,7 +81,7 @@ module Braiding.Proc.Lattice.GaloisConnection where
 
    -- Exhibit one half of the isomorphism and then derive the other from involutivity of symmetry.
    {-# TERMINATING #-}
-   iso» : ∀ {Γ} {P₀ P₀′ : Proc Γ} (P : ↓ P₀′) (φ : P₀ ⋉̂ P₀′) → P /̂ ⋉̂-sym φ /̂ φ ≡ P
+   iso» : ∀ {Γ} {P₀ P₀′ : Proc Γ} (P : ↓ P₀′) (φ : P₀ ⋉̂ P₀′) → braid̂ φ (braid̂ (⋉̂-sym φ) P) ≡ P
    iso» ◻ _ = refl
    iso» [ ν ◻ ] (νν-swapₗ P) = refl
    iso» [ ν [ ν P′ ] ] (νν-swapₗ P) = cong (λ P → [ ν [ ν P ] ]) (swap̃-inv₁ P′)
@@ -114,11 +114,11 @@ module Braiding.Proc.Lattice.GaloisConnection where
    iso» [ ν [ ν [ ν P ] ] ] (ν (ν νν-swapₗ _)) = cong (λ P → [ ν P ]) (iso» [ ν [ ν P ] ] (ν νν-swapₗ _))
    iso» [ ν [ ν [ ν P ] ] ] (ν (ν νν-swapᵣ _)) = cong (λ P → [ ν P ]) (iso» [ ν [ ν P ] ] (ν νν-swapᵣ _))
 
-   «iso : ∀ {Γ} {P₀ P₀′ : Proc Γ} (P : ↓ P₀) (φ : P₀ ⋉̂ P₀′) → P /̂ φ /̂ ⋉̂-sym φ ≡ P
+   «iso : ∀ {Γ} {P₀ P₀′ : Proc Γ} (P : ↓ P₀) (φ : P₀ ⋉̂ P₀′) → braid̂ (⋉̂-sym φ) (braid̂ φ P) ≡ P
    «iso P φ with iso» P (⋉̂-sym φ); ... | iso rewrite ⋉̂-sym-involutive φ = iso
 
    gc : ∀ {Γ} {P₀ P₀′ : Proc Γ} (φ : P₀ ⋉̂ P₀′) → GaloisConnection (poset {a = P₀}) (poset {a = P₀′})
-   gc φ = ⟪ flip _/̂_ φ , flip _/̂_ (⋉̂-sym φ) ~ isGC ⟫
+   gc φ = ⟪ braid̂ φ , braid̂ (⋉̂-sym φ) ~ isGC ⟫
       where
          isGC = record {
                f-mono = λ _ _ → ≤⇒≤ᴸ ∘ᶠ flip _/ᴹ_ φ ∘ᶠ ≤ᴸ⇒≤;
