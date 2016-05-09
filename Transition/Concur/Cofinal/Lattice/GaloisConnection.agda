@@ -2,6 +2,7 @@ module Transition.Concur.Cofinal.Lattice.GaloisConnection where
 
    open import ConcurrentSlicingCommon hiding (poset)
    open import Ext.Algebra
+   import Relation.Binary.EqReasoning as EqReasoning
 
    open import Action as ᴬ using (Action)
    open import Action.Concur using (_ᴬ⌣_; module _ᴬ⌣_; ᴬ⌣-sym); open _ᴬ⌣_
@@ -12,9 +13,11 @@ module Transition.Concur.Cofinal.Lattice.GaloisConnection where
    open import Name using (Cxt; zero)
    open import Proc as ᴾ using (Proc↱)
    import Proc.Lattice
+   import Proc.Ren
    open import Proc.Ren.Lattice using (_*ᴹ)
-   import Ren as ᴿ
+   open import Ren as ᴿ using (); open ᴿ.Renameable ⦃...⦄
    open import Ren.Lattice using (swap; _ᴿ+_)
+   open import Ren.Properties
    open import Transition using (_—[_-_]→_)
    open import Transition.Concur using (Concur; ⌣-sym; module Delta′; ⊖); open Delta′
    open import Transition.Concur.Cofinal using (⋈̂[_,_,_]; ⋈̂-sym)
