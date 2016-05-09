@@ -10,6 +10,9 @@ module Transition.Concur.Cofinal.Lattice.GaloisConnection where
    open import Name using (Cxt; zero)
    open import Proc as ᴾ using (Proc↱)
    import Proc.Lattice
+   open import Proc.Ren.Lattice using (_*ᴹ)
+   import Ren as ᴿ
+   open import Ren.Lattice using (swap; _ᴿ+_)
    open import Transition using (_—[_-_]→_)
    open import Transition.Concur using (Concur; ⌣-sym; module Delta′; ⊖); open Delta′
    open import Transition.Concur.Cofinal using (⋈̂[_,_,_]; ⋈̂-sym)
@@ -18,7 +21,7 @@ module Transition.Concur.Cofinal.Lattice.GaloisConnection where
    braidingᴹ : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) {Δ : Cxt} {P₀ P′₀} (γ : ⋈̂[ Γ , 𝑎 , Δ ] P₀ P′₀) →
                ∀ {P P′ : ↓ P₀} → P ≤ P′ → braiding 𝑎 γ P ≤ braiding 𝑎 γ P′
    braidingᴹ ˣ∇ˣ refl = idᶠ
-   braidingᴹ ᵇ∇ᵇ {Δ} γ P = ?
+   braidingᴹ {Γ} ᵇ∇ᵇ {Δ} refl = ᴹ (swap ᴿ+ Δ) *ᴹ
    braidingᴹ ᵇ∇ᶜ refl = idᶠ
    braidingᴹ ᶜ∇ᵇ refl = idᶠ
    braidingᴹ ᶜ∇ᶜ refl = idᶠ
