@@ -5,6 +5,8 @@ module Transition.Concur.Cofinal.Lattice.GaloisConnection where
 
    open import Action as ᴬ using (Action)
    open import Action.Concur using (_ᴬ⌣_; module _ᴬ⌣_; ᴬ⌣-sym); open _ᴬ⌣_
+   open import Braiding.Proc using (⋉̂-sym)
+   open import Braiding.Proc.Lattice using (braid̂)
    open import Braiding.Proc.Lattice.GaloisConnection using (braid̂ᴹ)
    import Lattice; open Lattice.Prefixes ⦃...⦄
    open import Name using (Cxt; zero)
@@ -29,7 +31,12 @@ module Transition.Concur.Cofinal.Lattice.GaloisConnection where
 
    «iso : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) {Δ : Cxt} {P P′} (γ : ⋈̂[ Γ , 𝑎 , Δ ] P P′) (P† : ↓ P) →
           braiding 𝑎 (⋈̂-sym 𝑎 Δ γ) (braiding 𝑎 γ P†) ≡ P†
-   «iso 𝑎 γ P = {!!}
+   «iso ˣ∇ˣ refl _ = refl
+   «iso ᵇ∇ᵇ refl P = {!!}
+   «iso ᵇ∇ᶜ refl _ = refl
+   «iso ᶜ∇ᵇ refl _ = refl
+   «iso ᶜ∇ᶜ refl _ = refl
+   «iso ᵛ∇ᵛ = flip Braiding.Proc.Lattice.GaloisConnection.«iso
 
    iso» : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) {Δ : Cxt} {P P′} (γ : ⋈̂[ Γ , 𝑎 , Δ ] P P′) (P† : ↓ P′) →
           braiding 𝑎 γ (braiding 𝑎 (⋈̂-sym 𝑎 Δ γ) P†) ≡ P†
