@@ -10,16 +10,18 @@ module Transition.Concur.Cofinal.Lattice where
    open import Proc as ᴾ using (Proc↱); open ᴾ.Proc
    open import Proc.Lattice as ᴾ̃ using (↓_; ↓⁻_); open ᴾ̃.↓_; open ᴾ̃.↓⁻_
    import Proc.Ren
-   open import Ren as ᴿ using (push); open ᴿ.Renameable ⦃...⦄
+   open import Proc.Ren.Lattice renaming (_* to _*̃)
+   import Ren as ᴿ; open ᴿ.Renameable ⦃...⦄
+   open import Ren.Lattice using (swap)
    open import Ren.Properties
    open import Transition using (_—[_-_]→_; target)
    open import Transition.Concur using (Concur₁; module Concur₁; module Delta′; ⊖₁); open Concur₁; open Delta′
    open import Transition.Concur.Cofinal using (⋉̂[_,_,_])
 
    braiding : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
-           (𝐸 : E ⌣₁[ 𝑎 ] E′) → let Q = S (⊖₁ 𝐸); Q′ = (Proc↱ (sym (ᴬ⊖-✓ 𝑎)) (S′ (⊖₁ 𝐸))) in
-           ⋉̂[ Γ , 𝑎 , zero ] Q Q′ → ↓ Q → ↓ Q′
-   braiding (E ᵇ│ᵇ F) γ P = {!!}
+              (𝐸 : E ⌣₁[ 𝑎 ] E′) → let Q = S (⊖₁ 𝐸); Q′ = (Proc↱ (sym (ᴬ⊖-✓ 𝑎)) (S′ (⊖₁ 𝐸))) in
+              ⋉̂[ Γ , 𝑎 , zero ] Q Q′ → ↓ Q → ↓ Q′
+   braiding (E ᵇ│ᵇ F) γ P = subst ↓_ (sym (cong₂ _│_ (swap∘push (target E)) (swap∘suc-push (target F)))) ((swap *̃) P)
    braiding (E ᵇ│ᶜ F) refl = idᶠ
    braiding (E ᶜ│ᵇ F) refl = idᶠ
    braiding (E ᶜ│ᶜ F) refl = idᶠ
@@ -50,11 +52,11 @@ module Transition.Concur.Cofinal.Lattice where
    braiding (𝐸 │ᵥ 𝐹) γ rewrite γ = idᶠ
    braiding (𝐸 │ᵥ′ 𝐹) = braid̂
    braiding (ν• 𝐸) γ rewrite γ = idᶠ
-   braiding (ν•ᵇ 𝐸) γ P₁ = {!!}
+   braiding (ν•ᵇ 𝐸) γ P = {!!}
    braiding (ν•ᶜ 𝐸) γ rewrite γ = idᶠ
-   braiding (νᵇᵇ_ {a = x •} {a} 𝐸) γ P₁ = {!!}
-   braiding (νᵇᵇ_ {a = • x} {u •} 𝐸) γ P₁ = {!!}
-   braiding (νᵇᵇ_ {a = • x} {• u} 𝐸) γ P₁ = {!!}
+   braiding (νᵇᵇ_ {a = x •} {a} 𝐸) γ P = {!!}
+   braiding (νᵇᵇ_ {a = • x} {u •} 𝐸) γ P = {!!}
+   braiding (νᵇᵇ_ {a = • x} {• u} 𝐸) γ P = {!!}
    braiding (νˣˣ 𝐸) γ rewrite γ = idᶠ
    braiding (νᵇᶜ 𝐸) γ rewrite γ = idᶠ
    braiding (νᶜᵇ 𝐸) γ rewrite γ = idᶠ
