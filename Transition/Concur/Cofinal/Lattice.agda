@@ -59,5 +59,5 @@ module Transition.Concur.Cofinal.Lattice where
    braiding (νᵇᶜ 𝐸) γ rewrite γ = idᶠ
    braiding (νᶜᵇ 𝐸) γ rewrite γ = idᶠ
    braiding (νᶜᶜ 𝐸) γ rewrite γ = idᶠ
-   braiding (νᵛᵛ 𝐸) γ P = {!!}
+   braiding (νᵛᵛ 𝐸) = braid̂
    braiding (! 𝐸) = braiding 𝐸
