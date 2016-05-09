@@ -15,19 +15,18 @@ module Braiding.Proc.Lattice where
    open import Braiding.Proc using (_⋉̂_; module _⋉̂_; ⋉̂-sym; _⋉_; module _⋉_); open _⋉̂_; open _⋉_
 
    -- Image of a process slice in a bound braid.
-   infixl 8 _/̂_
-   _/̂_ : ∀ {Γ} {P₀ P₀′ : Proc Γ} → ↓ P₀ → P₀ ⋉̂ P₀′ → ↓ P₀′
-   ◻ /̂ _ = ◻
-   [ ν ◻ ] /̂ νν-swapₗ _ = [ ν ◻ ]
-   [ ν [ ν P′ ] ] /̂ νν-swapₗ P = [ ν [ ν subst ↓_ (swap-involutive P) ((swap *̃) P′) ] ]
-   [ ν ◻ ] /̂ νν-swapᵣ _ = [ ν ◻ ]
-   [ ν [ ν P′ ] ] /̂ νν-swapᵣ P = [ ν [ ν (swap *̃) P′ ] ]
-   [ P ➕ Q ] /̂ (φ ➕₁ refl) = [ P /̂ φ ➕ Q ]
-   [ P ➕ Q ] /̂ (refl ➕₂ ψ) = [ P ➕ Q /̂ ψ ]
-   [ P │ Q ] /̂ (φ │₁ refl) = [ (P /̂ φ) │ Q ]
-   [ P │ Q ] /̂ (refl │₂ ψ) = [ P │ (Q /̂ ψ) ]
-   [ ν P ] /̂ ν φ = [ ν (P /̂ φ) ]
-   [ ! P ] /̂ ! φ = [ ! (P /̂ φ) ]
+   braid̂ : ∀ {Γ} {P₀ P₀′ : Proc Γ} → P₀ ⋉̂ P₀′ → ↓ P₀ → ↓ P₀′
+   braid̂ _ ◻ = ◻
+   braid̂ (νν-swapₗ _) [ ν ◻ ]  = [ ν ◻ ]
+   braid̂ (νν-swapₗ P) [ ν [ ν P′ ] ] = [ ν [ ν subst ↓_ (swap-involutive P) ((swap *̃) P′) ] ]
+   braid̂ (νν-swapᵣ _) [ ν ◻ ] = [ ν ◻ ]
+   braid̂ (νν-swapᵣ P) [ ν [ ν P′ ] ] = [ ν [ ν (swap *̃) P′ ] ]
+   braid̂ (φ ➕₁ refl) [ P ➕ Q ] = [ braid̂ φ P ➕ Q ]
+   braid̂ (refl ➕₂ ψ) [ P ➕ Q ] = [ P ➕ braid̂ ψ Q ]
+   braid̂ (φ │₁ refl) [ P │ Q ] = [ (braid̂ φ P) │ Q ]
+   braid̂ (refl │₂ ψ) [ P │ Q ] = [ P │ (braid̂ ψ Q) ]
+   braid̂ (ν φ) [ ν P ] = [ ν (braid̂ φ P) ]
+   braid̂ (! φ) [ ! P ] = [ ! (braid̂ φ P) ]
 
    -- Image of a process slice in a (generalised) bound braid.
    infixl 8 _/_
