@@ -58,7 +58,8 @@ module Transition.Concur.Cofinal.Lattice where
    braiding (νᵇᵇ_ {a = x •} {a} 𝐸) γ P = {!!}
    braiding (νᵇᵇ_ {a = • x} {u •} 𝐸) γ P =
       subst ↓_ (cong ν_ (trans (sym (swap∘suc-swap∘swap _)) (cong (ᴿ.swap *) (cong (suc ᴿ.swap *) (⊖₁-✓ 𝐸))))) ((swap *̃) P)
-   braiding (νᵇᵇ_ {a = • x} {• u} 𝐸) γ P = {!!}
+   braiding (νᵇᵇ_ {a = • x} {• u} 𝐸) γ P =
+      subst ↓_ (cong ν_ (trans (sym (swap∘suc-swap∘swap _)) (cong (ᴿ.swap *) (cong (suc ᴿ.swap *) (⊖₁-✓ 𝐸))))) ((swap *̃) P)
    braiding (νˣˣ 𝐸) γ rewrite γ = idᶠ
    braiding (νᵇᶜ 𝐸) γ rewrite γ = idᶠ
    braiding (νᶜᵇ 𝐸) γ rewrite γ = idᶠ
