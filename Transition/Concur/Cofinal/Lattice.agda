@@ -16,7 +16,7 @@ module Transition.Concur.Cofinal.Lattice where
 
    braiding : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) {Δ : Cxt} {P P′} → ⋈̂[ Γ , 𝑎 , Δ ] P P′ → ↓ P → ↓ P′
    braiding ˣ∇ˣ refl = idᶠ
-   braiding ᵇ∇ᵇ {Δ} γ P† = subst ↓_ γ (((swap ᴿ+ Δ) *̃) P†)
+   braiding ᵇ∇ᵇ {Δ} refl = (swap ᴿ+ Δ) *̃
    braiding ᵇ∇ᶜ refl = idᶠ
    braiding ᶜ∇ᵇ refl = idᶠ
    braiding ᶜ∇ᶜ refl = idᶠ
