@@ -1,17 +1,18 @@
 module Transition.Concur.Cofinal.Lattice where
 
    open import ConcurrentSlicingCommon
+   import Relation.Binary.EqReasoning as EqReasoning
 
    open import Action as ᴬ using (Action); open ᴬ.Action; open ᴬ.Actionᵇ; open ᴬ.Actionᶜ
    open import Action.Concur using (_ᴬ⌣_; module _ᴬ⌣_; ᴬ⊖-✓); open _ᴬ⌣_
    open import Braiding.Proc using (module _⋉̂_); open _⋉̂_
    open import Braiding.Proc.Lattice using (braid̂)
-   open import Name using (zero; suc)
+   open import Name using (zero)
    open import Proc as ᴾ using (Proc↱); open ᴾ.Proc
    open import Proc.Lattice as ᴾ̃ using (↓_; ↓⁻_); open ᴾ̃.↓_; open ᴾ̃.↓⁻_
    import Proc.Ren
    open import Proc.Ren.Lattice renaming (_* to _*̃)
-   import Ren as ᴿ; open ᴿ.Renameable ⦃...⦄
+   open import Ren as ᴿ using (suc); open ᴿ.Renameable ⦃...⦄
    open import Ren.Lattice using (swap)
    open import Ren.Properties
    open import Transition using (_—[_-_]→_; target)
@@ -55,7 +56,8 @@ module Transition.Concur.Cofinal.Lattice where
    braiding (ν•ᵇ 𝐸) γ P = subst ↓_ (cong (ᴿ.swap *) (⊖₁-✓ 𝐸)) ((swap *̃) P)
    braiding (ν•ᶜ 𝐸) γ rewrite γ = idᶠ
    braiding (νᵇᵇ_ {a = x •} {a} 𝐸) γ P = {!!}
-   braiding (νᵇᵇ_ {a = • x} {u •} 𝐸) γ P = {!!}
+   braiding (νᵇᵇ_ {a = • x} {u •} 𝐸) γ P =
+      subst ↓_ (cong ν_ (trans (sym (swap∘suc-swap∘swap _)) (cong (ᴿ.swap *) (cong (suc ᴿ.swap *) (⊖₁-✓ 𝐸))))) ((swap *̃) P)
    braiding (νᵇᵇ_ {a = • x} {• u} 𝐸) γ P = {!!}
    braiding (νˣˣ 𝐸) γ rewrite γ = idᶠ
    braiding (νᵇᶜ 𝐸) γ rewrite γ = idᶠ
