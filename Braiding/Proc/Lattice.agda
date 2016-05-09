@@ -29,29 +29,28 @@ module Braiding.Proc.Lattice where
    braid̂ (! φ) [ ! P ] = [ ! (braid̂ φ P) ]
 
    -- Image of a process slice in a (generalised) bound braid.
-   infixl 8 _/_
-   _/_ : ∀ {Γ} {P₀ P₀′ : Proc Γ} → ↓ P₀ → P₀ ⋉ P₀′ → ↓ P₀′
-   ◻ / _ = ◻
-   [ ν ◻ ] / νν-swapₗ _ = [ ν ◻ ]
-   [ ν [ ν P′ ] ] / νν-swapₗ P = [ ν [ ν subst ↓_ (swap-involutive P) ((swap *̃) P′) ] ]
-   [ ν ◻ ] / νν-swapᵣ _ = [ ν ◻ ]
-   [ ν [ ν P′ ] ] / νν-swapᵣ P = [ ν [ ν (swap *̃) P′ ] ]
-   [ Ο ] / Ο = [ Ο ]
-   [ x •∙ P ] / (_ •∙ refl) = [ x •∙ P ]
-   [ • x 〈 y 〉∙ P ] / (• _ 〈 _ 〉∙ refl) = [ • x 〈 y 〉∙ P ]
-   [ P ➕ Q ] / (φ ➕₁ refl) = [ P / φ ➕ Q ]
-   [ P ➕ Q ] / (refl ➕₂ ψ) = [ P ➕ Q / ψ ]
-   [ P │ Q ] / (φ │ ψ) = [ (P / φ) │ (Q / ψ) ]
-   [ ν P ] / ν φ = [ ν (P / φ) ]
-   [ ! P ] / ! φ = [ ! (P / φ) ]
+   braid : ∀ {Γ} {P₀ P₀′ : Proc Γ} → P₀ ⋉ P₀′ → ↓ P₀ → ↓ P₀′
+   braid _ ◻ = ◻
+   braid (νν-swapₗ _) [ ν ◻ ] = [ ν ◻ ]
+   braid (νν-swapₗ P) [ ν [ ν P′ ] ] = [ ν [ ν subst ↓_ (swap-involutive P) ((swap *̃) P′) ] ]
+   braid (νν-swapᵣ _) [ ν ◻ ] = [ ν ◻ ]
+   braid (νν-swapᵣ P) [ ν [ ν P′ ] ] = [ ν [ ν (swap *̃) P′ ] ]
+   braid Ο [ Ο ] = [ Ο ]
+   braid (_ •∙ refl) [ x •∙ P ] = [ x •∙ P ]
+   braid (• _ 〈 _ 〉∙ refl) [ • x 〈 y 〉∙ P ] = [ • x 〈 y 〉∙ P ]
+   braid (φ ➕₁ refl) [ P ➕ Q ] = [ braid φ P ➕ Q ]
+   braid (refl ➕₂ ψ) [ P ➕ Q ] = [ P ➕ braid ψ Q ]
+   braid (φ │ ψ) [ P │ Q ] = [ (braid φ P) │ (braid ψ Q) ]
+   braid (ν φ) [ ν P ] = [ ν (braid φ P) ]
+   braid (! φ) [ ! P ] = [ ! (braid φ P) ]
 
    -- "Obviously" true, but not quite definitionally so.
-   /-ν : ∀ {Γ} {P₀ P₀′ : Proc (Γ + 1)} (P : ↓ P₀) {φ : P₀ ⋉ P₀′} → [ ν P ] / ν φ ≡ [ ν (P / φ) ]
-   /-ν ◻ = refl
-   /-ν [ Ο ] = refl
-   /-ν [ _ •∙ _ ] = refl
-   /-ν [ • _ 〈 _ 〉∙ _ ] = refl
-   /-ν [ _ ➕ _ ] = refl
-   /-ν [ _ │ _ ] = refl
-   /-ν [ ν _ ] = refl
-   /-ν [ ! _ ] = refl
+   braid-ν : ∀ {Γ} {P₀ P₀′ : Proc (Γ + 1)} (P : ↓ P₀) {φ : P₀ ⋉ P₀′} → braid (ν φ) [ ν P ] ≡ [ ν (braid φ P) ]
+   braid-ν ◻ = refl
+   braid-ν [ Ο ] = refl
+   braid-ν [ _ •∙ _ ] = refl
+   braid-ν [ • _ 〈 _ 〉∙ _ ] = refl
+   braid-ν [ _ ➕ _ ] = refl
+   braid-ν [ _ │ _ ] = refl
+   braid-ν [ ν _ ] = refl
+   braid-ν [ ! _ ] = refl
