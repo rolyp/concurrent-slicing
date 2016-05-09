@@ -52,7 +52,7 @@ module Transition.Concur.Cofinal.Lattice where
    braiding (𝐸 │ᵥ 𝐹) γ rewrite γ = idᶠ
    braiding (𝐸 │ᵥ′ 𝐹) = braid̂
    braiding (ν• 𝐸) γ rewrite γ = idᶠ
-   braiding (ν•ᵇ 𝐸) γ P = {!!}
+   braiding (ν•ᵇ 𝐸) γ P = subst ↓_ (cong (ᴿ.swap *) (⊖₁-✓ 𝐸)) ((swap *̃) P)
    braiding (ν•ᶜ 𝐸) γ rewrite γ = idᶠ
    braiding (νᵇᵇ_ {a = x •} {a} 𝐸) γ P = {!!}
    braiding (νᵇᵇ_ {a = • x} {u •} 𝐸) γ P = {!!}
