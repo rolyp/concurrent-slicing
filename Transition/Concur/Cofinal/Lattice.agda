@@ -18,6 +18,7 @@ module Transition.Concur.Cofinal.Lattice where
    open import Transition using (_—[_-_]→_; target)
    open import Transition.Concur using (Concur₁; module Concur₁; module Delta′; ⊖₁); open Concur₁; open Delta′
    open import Transition.Concur.Cofinal using (⋉̂[_,_,_]; ⊖₁-✓)
+   open import Transition.Ren using (_*ᵇ)
 
    braiding : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
               (𝐸 : E ⌣₁[ 𝑎 ] E′) → let Q = S (⊖₁ 𝐸); Q′ = (Proc↱ (sym (ᴬ⊖-✓ 𝑎)) (S′ (⊖₁ 𝐸))) in
@@ -55,7 +56,9 @@ module Transition.Concur.Cofinal.Lattice where
    braiding (ν• 𝐸) γ rewrite γ = idᶠ
    braiding (ν•ᵇ 𝐸) γ P = subst ↓_ (cong (ᴿ.swap *) (⊖₁-✓ 𝐸)) ((swap *̃) P)
    braiding (ν•ᶜ 𝐸) γ rewrite γ = idᶠ
-   braiding (νᵇᵇ_ {a = x •} {a} 𝐸) γ P = {!!}
+   braiding (νᵇᵇ_ {a = x •} {a} 𝐸) γ P with (ᴿ.swap *ᵇ) (E/E′ (⊖₁ 𝐸)) | (ᴿ.swap *ᵇ) (E′/E (⊖₁ 𝐸))
+   ... | _ | _ rewrite swap∘push∘push x | swap∘push∘push a =
+      subst ↓_ (cong ν_ (trans (sym (swap∘suc-swap∘swap _)) (cong (ᴿ.swap *) (cong (suc ᴿ.swap *) (⊖₁-✓ 𝐸))))) ((swap *̃) P)
    braiding (νᵇᵇ_ {a = • x} {u •} 𝐸) γ P =
       subst ↓_ (cong ν_ (trans (sym (swap∘suc-swap∘swap _)) (cong (ᴿ.swap *) (cong (suc ᴿ.swap *) (⊖₁-✓ 𝐸))))) ((swap *̃) P)
    braiding (νᵇᵇ_ {a = • x} {• u} 𝐸) γ P =
