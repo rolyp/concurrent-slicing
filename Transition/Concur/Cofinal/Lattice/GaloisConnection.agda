@@ -40,7 +40,12 @@ module Transition.Concur.Cofinal.Lattice.GaloisConnection where
 
    iso» : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) {Δ : Cxt} {P P′} (γ : ⋈̂[ Γ , 𝑎 , Δ ] P P′) (P† : ↓ P′) →
           braiding 𝑎 γ (braiding 𝑎 (⋈̂-sym 𝑎 Δ γ) P†) ≡ P†
-   iso» 𝑎 γ P = {!!}
+   iso» ˣ∇ˣ refl _ = refl
+   iso» ᵇ∇ᵇ refl P = {!!}
+   iso» ᵇ∇ᶜ refl _ = refl
+   iso» ᶜ∇ᵇ refl _ = refl
+   iso» ᶜ∇ᶜ refl _ = refl
+   iso» ᵛ∇ᵛ = flip Braiding.Proc.Lattice.GaloisConnection.iso»
 
    gc : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) {Δ : Cxt} {P P′} (γ : ⋈̂[ Γ , 𝑎 , Δ ] P P′) →
         GaloisConnection (poset {a = P}) (poset {a = P′})
