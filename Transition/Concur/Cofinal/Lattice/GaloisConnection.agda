@@ -10,8 +10,8 @@ module Transition.Concur.Cofinal.Lattice.GaloisConnection where
    open import Braiding.Proc.Lattice using (braid̂)
    open import Braiding.Proc.Lattice.GaloisConnection using (braid̂ᴹ)
    import Lattice; open Lattice.Prefixes ⦃...⦄
-   open import Name using (Cxt; zero)
-   open import Proc as ᴾ using (Proc↱)
+   open import Name using (Cxt; zero; _+_)
+   open import Proc as ᴾ using (Proc; Proc↱)
    import Proc.Lattice
    import Proc.Ren
    open import Proc.Ren.Lattice renaming (_* to _*̃) using (_*ᴹ)
@@ -32,6 +32,11 @@ module Transition.Concur.Cofinal.Lattice.GaloisConnection where
    braidingᴹ ᶜ∇ᶜ refl = idᶠ
    braidingᴹ ᵛ∇ᵛ γ = braid̂ᴹ γ
 
+   babble : ∀ {Γ} Δ (P : Proc (Γ + 2 + Δ)) a a′ → ((ᴿ.swap ᴿ.ᴿ+ Δ) *) (((ᴿ.swap ᴿ.ᴿ+ Δ) *) P) ≡ P → ∀ Q →
+            (quib : ((ᴿ.swap ᴿ.ᴿ+ Δ) *) (((ᴿ.swap ᴿ.ᴿ+ Δ) *) P) ≡ P) →
+            braiding (ᵇ∇ᵇ {a = a} {a′}) {Δ} quib Q ≅ ((swap ᴿ+ Δ) *̃) Q
+   babble = {!!}
+
    «iso : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) {Δ : Cxt} {P P′} (γ : ⋈̂[ Γ , 𝑎 , Δ ] P P′) (P† : ↓ P) →
           braiding 𝑎 (⋈̂-sym 𝑎 Δ γ) (braiding 𝑎 γ P†) ≡ P†
    «iso ˣ∇ˣ refl _ = refl
@@ -41,9 +46,6 @@ module Transition.Concur.Cofinal.Lattice.GaloisConnection where
           blah = refl
           quib : ((ᴿ.swap ᴿ.ᴿ+ Δ) *) (((ᴿ.swap ᴿ.ᴿ+ Δ) *) P) ≡ P
           quib = ⋈̂-sym (ᵇ∇ᵇ {a = a} {a′}) Δ blah
-          babble : ((ᴿ.swap ᴿ.ᴿ+ Δ) *) (((ᴿ.swap ᴿ.ᴿ+ Δ) *) P) ≡ P → ∀ Q →
-                   braiding (ᵇ∇ᵇ {a = a} {a′}) {Δ} quib Q ≅ ((swap ᴿ+ Δ) *̃) Q
-          babble = {!!}
       in ≅-to-≡ (
       begin
          braiding (ᵇ∇ᵇ {a = a} {a′}) {Δ} quib (((swap ᴿ+ Δ) *̃) P†)
