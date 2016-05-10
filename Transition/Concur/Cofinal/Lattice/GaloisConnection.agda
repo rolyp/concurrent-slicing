@@ -49,7 +49,7 @@ module Transition.Concur.Cofinal.Lattice.GaloisConnection where
       in ≅-to-≡ (
       begin
          braiding (ᵇ∇ᵇ {a = a} {a′}) {Δ} quib (((swap ᴿ+ Δ) *̃) P†)
-      ≅⟨ babble Δ (((ᴿ.swap ᴿ.ᴿ+ Δ) *) P) P a a′ (((swap ᴿ+ Δ) *̃) P†) {!!} ⟩
+      ≅⟨ babble Δ (((ᴿ.swap ᴿ.ᴿ+ Δ) *) P) P a a′ (((swap ᴿ+ Δ) *̃) P†) quib ⟩
          ((swap ᴿ+ Δ) *̃) (((swap ᴿ+ Δ) *̃) P†)
       ≅⟨ {!!} ⟩
          P†
