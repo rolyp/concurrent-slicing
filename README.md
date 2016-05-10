@@ -15,6 +15,7 @@ dynamic slicing_.
 * _Example_
 * _Lattice iso for cofinality braiding_
 * Functor-like postulates in `Proc.Ren.Lattice`
+* to-↓-preserves-+ postulate
 * Galois connection for generalised bound braid
 * Galois connection for renamings of transition sequences
 * Lattice iso for transition sequence slice and (generalised) bound braid
