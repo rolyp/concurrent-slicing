@@ -35,13 +35,21 @@ module Transition.Concur.Cofinal.Lattice.GaloisConnection where
    «iso : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) {Δ : Cxt} {P P′} (γ : ⋈̂[ Γ , 𝑎 , Δ ] P P′) (P† : ↓ P) →
           braiding 𝑎 (⋈̂-sym 𝑎 Δ γ) (braiding 𝑎 γ P†) ≡ P†
    «iso ˣ∇ˣ refl _ = refl
-   «iso (ᵇ∇ᵇ {a} {a′}) {Δ} refl P =
-      let open EqReasoning (setoid _) in
+   «iso (ᵇ∇ᵇ {a} {a′}) {Δ} {P} refl P† =
+      let open ≅-Reasoning
+          blah : ((ᴿ.swap ᴿ.ᴿ+ Δ) *) P ≡ ((ᴿ.swap ᴿ.ᴿ+ Δ) *) P
+          blah = refl
+          quib : ((ᴿ.swap ᴿ.ᴿ+ Δ) *) (((ᴿ.swap ᴿ.ᴿ+ Δ) *) P) ≡ P
+          quib = ⋈̂-sym (ᵇ∇ᵇ {a = a} {a′}) Δ blah
+      in ≅-to-≡ (
       begin
-         braiding (ᵇ∇ᵇ {a = a} {a′}) {Δ} (⋈̂-sym (ᵇ∇ᵇ {a = a} {a′}) Δ refl) (((swap ᴿ+ Δ) Proc.Ren.Lattice.*) P)
-      ≡⟨ {!!} ⟩
-         P
+         braiding (ᵇ∇ᵇ {a = a} {a′}) {Δ} quib (((swap ᴿ+ Δ) Proc.Ren.Lattice.*) P†)
+      ≅⟨ {!!} ⟩
+         ((swap ᴿ+ Δ) Proc.Ren.Lattice.*) (((swap ᴿ+ Δ) Proc.Ren.Lattice.*) P†)
+      ≅⟨ {!!} ⟩
+         P†
       ∎
+      )
    «iso ᵇ∇ᶜ refl _ = refl
    «iso ᶜ∇ᵇ refl _ = refl
    «iso ᶜ∇ᶜ refl _ = refl
