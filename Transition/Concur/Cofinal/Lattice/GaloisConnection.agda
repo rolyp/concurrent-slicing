@@ -26,7 +26,7 @@ module Transition.Concur.Cofinal.Lattice.GaloisConnection where
    braidingᴹ : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) {Δ : Cxt} {P₀ P′₀} (γ : ⋈̂[ Γ , 𝑎 , Δ ] P₀ P′₀) →
                ∀ {P P′ : ↓ P₀} → P ≤ P′ → braiding 𝑎 γ P ≤ braiding 𝑎 γ P′
    braidingᴹ ˣ∇ˣ refl = idᶠ
-   braidingᴹ {Γ} ᵇ∇ᵇ {Δ} refl = ᴹ (swap ᴿ+ Δ) *ᴹ
+   braidingᴹ ᵇ∇ᵇ {Δ} refl = ᴹ (swap ᴿ+ Δ) *ᴹ
    braidingᴹ ᵇ∇ᶜ refl = idᶠ
    braidingᴹ ᶜ∇ᵇ refl = idᶠ
    braidingᴹ ᶜ∇ᶜ refl = idᶠ
@@ -35,7 +35,13 @@ module Transition.Concur.Cofinal.Lattice.GaloisConnection where
    «iso : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) {Δ : Cxt} {P P′} (γ : ⋈̂[ Γ , 𝑎 , Δ ] P P′) (P† : ↓ P) →
           braiding 𝑎 (⋈̂-sym 𝑎 Δ γ) (braiding 𝑎 γ P†) ≡ P†
    «iso ˣ∇ˣ refl _ = refl
-   «iso ᵇ∇ᵇ refl P = {!!}
+   «iso (ᵇ∇ᵇ {a} {a′}) {Δ} refl P =
+      let open EqReasoning (setoid _) in
+      begin
+         braiding (ᵇ∇ᵇ {a = a} {a′}) {Δ} (⋈̂-sym (ᵇ∇ᵇ {a = a} {a′}) Δ refl) (((swap ᴿ+ Δ) Proc.Ren.Lattice.*) P)
+      ≡⟨ {!!} ⟩
+         P
+      ∎
    «iso ᵇ∇ᶜ refl _ = refl
    «iso ᶜ∇ᵇ refl _ = refl
    «iso ᶜ∇ᶜ refl _ = refl
