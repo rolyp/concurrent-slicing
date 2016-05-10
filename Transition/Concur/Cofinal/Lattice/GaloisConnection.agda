@@ -14,7 +14,7 @@ module Transition.Concur.Cofinal.Lattice.GaloisConnection where
    open import Proc as ᴾ using (Proc↱)
    import Proc.Lattice
    import Proc.Ren
-   open import Proc.Ren.Lattice using (_*ᴹ)
+   open import Proc.Ren.Lattice renaming (_* to _*̃) using (_*ᴹ)
    open import Ren as ᴿ using (); open ᴿ.Renameable ⦃...⦄
    open import Ren.Lattice using (swap; _ᴿ+_)
    open import Ren.Properties
@@ -41,11 +41,14 @@ module Transition.Concur.Cofinal.Lattice.GaloisConnection where
           blah = refl
           quib : ((ᴿ.swap ᴿ.ᴿ+ Δ) *) (((ᴿ.swap ᴿ.ᴿ+ Δ) *) P) ≡ P
           quib = ⋈̂-sym (ᵇ∇ᵇ {a = a} {a′}) Δ blah
+          babble : ((ᴿ.swap ᴿ.ᴿ+ Δ) *) (((ᴿ.swap ᴿ.ᴿ+ Δ) *) P) ≡ P → ∀ Q →
+                   braiding (ᵇ∇ᵇ {a = a} {a′}) {Δ} quib Q ≅ ((swap ᴿ+ Δ) *̃) Q
+          babble = {!!}
       in ≅-to-≡ (
       begin
-         braiding (ᵇ∇ᵇ {a = a} {a′}) {Δ} quib (((swap ᴿ+ Δ) Proc.Ren.Lattice.*) P†)
+         braiding (ᵇ∇ᵇ {a = a} {a′}) {Δ} quib (((swap ᴿ+ Δ) *̃) P†)
       ≅⟨ {!!} ⟩
-         ((swap ᴿ+ Δ) Proc.Ren.Lattice.*) (((swap ᴿ+ Δ) Proc.Ren.Lattice.*) P†)
+         ((swap ᴿ+ Δ) *̃) (((swap ᴿ+ Δ) *̃) P†)
       ≅⟨ {!!} ⟩
          P†
       ∎
