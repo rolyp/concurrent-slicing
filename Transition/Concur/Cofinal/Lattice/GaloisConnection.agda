@@ -32,10 +32,10 @@ module Transition.Concur.Cofinal.Lattice.GaloisConnection where
    braidingᴹ ᶜ∇ᶜ refl = idᶠ
    braidingᴹ ᵛ∇ᵛ γ = braid̂ᴹ γ
 
-   babble : ∀ {Γ} Δ (P : Proc (Γ + 2 + Δ)) a a′ → ((ᴿ.swap ᴿ.ᴿ+ Δ) *) (((ᴿ.swap ᴿ.ᴿ+ Δ) *) P) ≡ P → ∀ Q →
-            (quib : ((ᴿ.swap ᴿ.ᴿ+ Δ) *) (((ᴿ.swap ᴿ.ᴿ+ Δ) *) P) ≡ P) →
+   babble : ∀ {Γ} Δ (P P′ : Proc (Γ + 2 + Δ)) a a′ → ∀ Q →
+            (quib : ((ᴿ.swap ᴿ.ᴿ+ Δ) *) P ≡ P′) →
             braiding (ᵇ∇ᵇ {a = a} {a′}) {Δ} quib Q ≅ ((swap ᴿ+ Δ) *̃) Q
-   babble = {!!}
+   babble Δ P ._ a a′ Q refl = ≅-refl
 
    «iso : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) {Δ : Cxt} {P P′} (γ : ⋈̂[ Γ , 𝑎 , Δ ] P P′) (P† : ↓ P) →
           braiding 𝑎 (⋈̂-sym 𝑎 Δ γ) (braiding 𝑎 γ P†) ≡ P†
