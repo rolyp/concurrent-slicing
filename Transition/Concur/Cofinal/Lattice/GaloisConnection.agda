@@ -15,7 +15,7 @@ module Transition.Concur.Cofinal.Lattice.GaloisConnection where
    import Proc.Lattice
    import Proc.Ren
    open import Proc.Ren.Lattice renaming (_* to _*̃) using (_*ᴹ)
-   open import Ren as ᴿ using (); open ᴿ.Renameable ⦃...⦄
+   open import Ren as ᴿ using (+-preserves-involutivity); open ᴿ.Renameable ⦃...⦄
    open import Ren.Lattice using (swap; _ᴿ+_)
    open import Ren.Properties
    open import Transition using (_—[_-_]→_)
@@ -32,9 +32,9 @@ module Transition.Concur.Cofinal.Lattice.GaloisConnection where
    braidingᴹ ᶜ∇ᶜ refl = idᶠ
    braidingᴹ ᵛ∇ᵛ γ = braid̂ᴹ γ
 
-   babble : ∀ {Γ} Δ (P P′ : Proc (Γ + 2 + Δ)) a a′ → ∀ Q →
+   babble : ∀ {Γ} Δ (P P′ : Proc (Γ + 2 + Δ)) a a′ → ∀ P† →
             (quib : ((ᴿ.swap ᴿ.ᴿ+ Δ) *) P ≡ P′) →
-            braiding (ᵇ∇ᵇ {a = a} {a′}) {Δ} quib Q ≅ ((swap ᴿ+ Δ) *̃) Q
+            braiding (ᵇ∇ᵇ {a = a} {a′}) {Δ} quib P† ≅ ((swap ᴿ+ Δ) *̃) P†
    babble Δ P ._ a a′ Q refl = ≅-refl
 
    «iso : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) {Δ : Cxt} {P P′} (γ : ⋈̂[ Γ , 𝑎 , Δ ] P P′) (P† : ↓ P) →
@@ -49,7 +49,7 @@ module Transition.Concur.Cofinal.Lattice.GaloisConnection where
       in ≅-to-≡ (
       begin
          braiding (ᵇ∇ᵇ {a = a} {a′}) {Δ} quib (((swap ᴿ+ Δ) *̃) P†)
-      ≅⟨ {!!} ⟩
+      ≅⟨ babble Δ (((ᴿ.swap ᴿ.ᴿ+ Δ) *) P) P a a′ (((swap ᴿ+ Δ) *̃) P†) {!!} ⟩
          ((swap ᴿ+ Δ) *̃) (((swap ᴿ+ Δ) *̃) P†)
       ≅⟨ {!!} ⟩
          P†
