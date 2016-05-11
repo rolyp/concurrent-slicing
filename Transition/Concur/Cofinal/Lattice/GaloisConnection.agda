@@ -33,18 +33,20 @@ module Transition.Concur.Cofinal.Lattice.GaloisConnection where
    braidingᴹ ᶜ∇ᶜ refl = idᶠ
    braidingᴹ ᵛ∇ᵛ γ = braid̂ᴹ γ
 
+   private
+      -- Helper to force 'braiding' to reduce in the ᵇ∇ᵇ case.
+      reduce : ∀ {Γ} Δ (P P′ : Proc (Γ + 2 + Δ)) a a′ → ∀ P† →
+               (γ : ((ᴿ.swap ᴿ.ᴿ+ Δ) *) P ≡ P′) → braiding (ᵇ∇ᵇ {a = a} {a′}) {Δ} γ P† ≅ ((swap ᴿ+ Δ) *̃) P†
+      reduce = λ { Δ P ._ _ _ _ refl → ≅-refl }
+
    «iso : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) {Δ : Cxt} {P P′} (γ : ⋈̂[ Γ , 𝑎 , Δ ] P P′) (P† : ↓ P) →
           braiding 𝑎 (⋈̂-sym 𝑎 Δ γ) (braiding 𝑎 γ P†) ≡ P†
    «iso ˣ∇ˣ refl _ = refl
    «iso {Γ} (ᵇ∇ᵇ {a} {a′}) {Δ} {P} {.(((ᴿ.swap ᴿ.ᴿ+ Δ) *) P)} refl P† =
-      let open ≅-Reasoning
-          reduce : ∀ (P P′ : Proc (Γ + 2 + Δ)) → ∀ P† →
-                   (γ : ((ᴿ.swap ᴿ.ᴿ+ Δ) *) P ≡ P′) → braiding (ᵇ∇ᵇ {a = a} {a′}) {Δ} γ P† ≅ ((swap ᴿ+ Δ) *̃) P†
-          reduce = λ { P ._ _ refl → ≅-refl }
-      in ≅-to-≡ (
+      let open ≅-Reasoning in ≅-to-≡ (
       begin
          braiding ᵇ∇ᵇ {Δ} (⋈̂-sym (ᵇ∇ᵇ {a = a} {a′}) Δ refl) (((swap ᴿ+ Δ) *̃) P†)
-      ≅⟨ reduce (((ᴿ.swap ᴿ.ᴿ+ Δ) *) P) P (((swap ᴿ+ Δ) *̃) P†) (⋈̂-sym (ᵇ∇ᵇ {a = a} {a′}) Δ refl) ⟩
+      ≅⟨ reduce Δ (((ᴿ.swap ᴿ.ᴿ+ Δ) *) P) P a a′ (((swap ᴿ+ Δ) *̃) P†) (⋈̂-sym (ᵇ∇ᵇ {a = a} {a′}) Δ refl) ⟩
          ((swap ᴿ+ Δ) *̃) (((swap ᴿ+ Δ) *̃) P†)
       ≅⟨ swap̃+-involutive Δ P† ⟩
          P†
@@ -57,12 +59,12 @@ module Transition.Concur.Cofinal.Lattice.GaloisConnection where
    iso» : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) {Δ : Cxt} {P P′} (γ : ⋈̂[ Γ , 𝑎 , Δ ] P P′) (P† : ↓ P′) →
           braiding 𝑎 γ (braiding 𝑎 (⋈̂-sym 𝑎 Δ γ) P†) ≡ P†
    iso» ˣ∇ˣ refl _ = refl
-   iso» (ᵇ∇ᵇ {a} {a′}) {Δ} refl P† =
-      let open ≅-Reasoning
-      in ≅-to-≡ (
+   iso» (ᵇ∇ᵇ {a} {a′}) {Δ} {P} refl P† =
+      let open ≅-Reasoning in ≅-to-≡ (
       begin
          ((swap ᴿ+ Δ) *̃) (braiding ᵇ∇ᵇ {Δ} (⋈̂-sym (ᵇ∇ᵇ {a = a} {a′}) Δ refl) P†)
-      ≅⟨ {!!} ⟩
+      ≅⟨ ≅-cong✴ ↓_ (sym (involutive (+-preserves-involutivity ᴿ.swap Δ swap-involutive) P))
+                     ((swap ᴿ+ Δ) *̃) (reduce Δ (((ᴿ.swap ᴿ.ᴿ+ Δ) *) P) P a a′ P† (⋈̂-sym (ᵇ∇ᵇ {a = a} {a′}) Δ refl)) ⟩
          ((swap ᴿ+ Δ) *̃) (((swap ᴿ+ Δ) *̃) P†)
       ≅⟨ swap̃+-involutive Δ P† ⟩
          P†
