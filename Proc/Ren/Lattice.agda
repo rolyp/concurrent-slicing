@@ -29,10 +29,10 @@ module Proc.Ren.Lattice where
 
    postulate
       *-preserves-≃ₑ : ∀ {Γ Γ′} {ρ₀ σ₀ : Ren Γ Γ′} {P : Proc Γ} {ρ : ↓ ρ₀} {σ : ↓ σ₀} →
-                       (∀ x → ρ x ≅ σ x) → ∀ (P′ : ↓ P) → (ρ *) P′ ≅ (σ *) P′
-      *-preserves-∘ : ∀ {Γ Δ Γ′} {ρ₀ : Ren Δ Γ′} {σ₀ : Ren Γ Δ} {P : Proc Γ} {ρ : ↓ ρ₀} {σ : ↓ σ₀} →
-                      ∀ (P′ : ↓ P) → (ρ *) ((σ *) P′) ≅ (((ρ ᴿ̃.*) ∘ᶠ σ ) *) P′
-      *-preserves-id : ∀ {Γ} {id′ : ↓ idᶠ} {P : Proc Γ} → ∀ (P′ : ↓ P) → (id′ *) P′ ≅ P′
+                       (∀ x → ρ x ≅ σ x) → (P′ : ↓ P) → (ρ *) P′ ≅ (σ *) P′
+      *-preserves-∘ : ∀ {Γ Δ Γ′} {ρ₀ : Ren Δ Γ′} {σ₀ : Ren Γ Δ} {P : Proc Γ} {ρ : ↓ ρ₀} {σ : ↓ σ₀}
+                      (P′ : ↓ P) → (ρ *) ((σ *) P′) ≅ (((ρ ᴿ̃.*) ∘ᶠ σ) *) P′
+      *-preserves-id : ∀ {Γ} {id′ : ↓ idᶠ} {P : Proc Γ} (P′ : ↓ P) → (id′ *) P′ ≅ P′
 
    infixr 8 _*⁻ᴹ _*ᴹ
    _*ᴹ : ∀ {Γ Γ′} {ρ₀ : Ren Γ Γ′} {P₀ : Proc Γ} {ρ ρ′ : ↓ ρ₀} {P P′ : ↓ P₀} → ρ ≤ ρ′ → P ≤ P′ → (ρ *) P ≤ (ρ′ *) P′

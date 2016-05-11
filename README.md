@@ -17,7 +17,7 @@ dynamic slicing_.
 * Commutative pentagon for concurrent transition-slices
 * Lattice iso for generalised bound braid
 * Galois connection for renamings of transition sequences
-* Commutative square for cofinality witnesses and traces
+* Commutative square for cofinality witness
 * Lattice iso relating targets of causally equivalent traces
 * `≃-sym` postulate in `proof-relevant-pi`
 

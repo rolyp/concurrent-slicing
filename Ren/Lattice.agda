@@ -116,7 +116,8 @@ module Ren.Lattice where
    ρ ᴿ+ ᴺ.zero = ρ
    ρ ᴿ+ (ᴺ.suc n) = suc (ρ ᴿ+ n)
 
-   postulate to-↓-preserves-+ : ∀ {Γ Γ′} Δ (ρ : Ren Γ Γ′) → to-↓ (ρ ᴿ.ᴿ+ Δ) ≃ₑ to-↓ ρ ᴿ+ Δ
+   postulate
+      to-↓-preserves-+ : ∀ {Γ Γ′} Δ (ρ : Ren Γ Γ′) → to-↓ (ρ ᴿ.ᴿ+ Δ) ≃ₑ to-↓ ρ ᴿ+ Δ
 
    infixr 6 _⊔_
    _⊔_ : ∀ {Γ Γ′} {ρ₀ : Ren Γ Γ′} (ρ ρ′ : ↓ ρ₀) → ↓ ρ₀
