@@ -33,24 +33,22 @@ module Transition.Concur.Cofinal.Lattice.GaloisConnection where
    braidingᴹ ᶜ∇ᶜ refl = idᶠ
    braidingᴹ ᵛ∇ᵛ γ = braid̂ᴹ γ
 
-   -- TODO: rename.
-   babble : ∀ {Γ} Δ (P P′ : Proc (Γ + 2 + Δ)) a a′ → ∀ P† →
-            (γ : ((ᴿ.swap ᴿ.ᴿ+ Δ) *) P ≡ P′) → braiding (ᵇ∇ᵇ {a = a} {a′}) {Δ} γ P† ≅ ((swap ᴿ+ Δ) *̃) P†
-   babble Δ P ._ a a′ Q refl = ≅-refl
-
    «iso : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) {Δ : Cxt} {P P′} (γ : ⋈̂[ Γ , 𝑎 , Δ ] P P′) (P† : ↓ P) →
           braiding 𝑎 (⋈̂-sym 𝑎 Δ γ) (braiding 𝑎 γ P†) ≡ P†
    «iso ˣ∇ˣ refl _ = refl
-   «iso (ᵇ∇ᵇ {a} {a′}) {Δ} {P} refl P† =
-      let open ≅-Reasoning in ≅-to-≡ (
+   «iso {Γ} (ᵇ∇ᵇ {a} {a′}) {Δ} {P} {.(((ᴿ.swap ᴿ.ᴿ+ Δ) *) P)} refl P† =
+      let open ≅-Reasoning
+          reduce : ∀ (P P′ : Proc (Γ + 2 + Δ)) → ∀ P† →
+                   (γ : ((ᴿ.swap ᴿ.ᴿ+ Δ) *) P ≡ P′) → braiding (ᵇ∇ᵇ {a = a} {a′}) {Δ} γ P† ≅ ((swap ᴿ+ Δ) *̃) P†
+          reduce = λ { P ._ _ refl → ≅-refl }
+      in ≅-to-≡ (
       begin
          braiding ᵇ∇ᵇ {Δ} (⋈̂-sym (ᵇ∇ᵇ {a = a} {a′}) Δ refl) (((swap ᴿ+ Δ) *̃) P†)
-      ≅⟨ babble Δ (((ᴿ.swap ᴿ.ᴿ+ Δ) *) P) P a a′ (((swap ᴿ+ Δ) *̃) P†) (⋈̂-sym (ᵇ∇ᵇ {a = a} {a′}) Δ refl) ⟩
+      ≅⟨ reduce (((ᴿ.swap ᴿ.ᴿ+ Δ) *) P) P (((swap ᴿ+ Δ) *̃) P†) (⋈̂-sym (ᵇ∇ᵇ {a = a} {a′}) Δ refl) ⟩
          ((swap ᴿ+ Δ) *̃) (((swap ᴿ+ Δ) *̃) P†)
       ≅⟨ swap̃+-involutive Δ P† ⟩
          P†
-      ∎
-      )
+      ∎)
    «iso ᵇ∇ᶜ refl _ = refl
    «iso ᶜ∇ᵇ refl _ = refl
    «iso ᶜ∇ᶜ refl _ = refl
@@ -59,7 +57,16 @@ module Transition.Concur.Cofinal.Lattice.GaloisConnection where
    iso» : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) {Δ : Cxt} {P P′} (γ : ⋈̂[ Γ , 𝑎 , Δ ] P P′) (P† : ↓ P′) →
           braiding 𝑎 γ (braiding 𝑎 (⋈̂-sym 𝑎 Δ γ) P†) ≡ P†
    iso» ˣ∇ˣ refl _ = refl
-   iso» ᵇ∇ᵇ refl P = {!!}
+   iso» (ᵇ∇ᵇ {a} {a′}) {Δ} refl P† =
+      let open ≅-Reasoning
+      in ≅-to-≡ (
+      begin
+         ((swap ᴿ+ Δ) *̃) (braiding ᵇ∇ᵇ {Δ} (⋈̂-sym (ᵇ∇ᵇ {a = a} {a′}) Δ refl) P†)
+      ≅⟨ {!!} ⟩
+         ((swap ᴿ+ Δ) *̃) (((swap ᴿ+ Δ) *̃) P†)
+      ≅⟨ swap̃+-involutive Δ P† ⟩
+         P†
+      ∎)
    iso» ᵇ∇ᶜ refl _ = refl
    iso» ᶜ∇ᵇ refl _ = refl
    iso» ᶜ∇ᶜ refl _ = refl
