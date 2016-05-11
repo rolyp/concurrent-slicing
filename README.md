@@ -12,18 +12,20 @@ dynamic slicing_.
 
 ## Tasks
 
-* _Example_
 * Functor-like postulates in `Proc.Ren.Lattice`
-* to-↓-preserves-+ postulate
-* Galois connection for generalised bound braid
+* `to-↓-preserves-+` postulate
+* Commutative pentagon for concurrent transition-slices
+* Lattice iso for generalised bound braid
 * Galois connection for renamings of transition sequences
-* Lattice iso for transition sequence slice and (generalised) bound braid
-* Lattice iso relating targets of causally equivalent transition
-  sequences (composite braiding?)
+* Commutative square for cofinality witnesses and traces
+* Lattice iso relating targets of causally equivalent traces
+* `≃-sym` postulate in `proof-relevant-pi`
 
 ### Minor
 
 * Better names in Galois connection for transition sequences
 * Easy postulates in `Transition.Lattice`
 * `target⋆ᴹ` for transition sequences
-* Low-hanging fruit aligning paper with Agda
+* Example
+* Low-hanging fruit aligning Agda names with paper
+* Bump revision numbers for `agda-stdlib-ext`, `proof-relevant-pi` and `concurrent-slicing`
