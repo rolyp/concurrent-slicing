@@ -13,6 +13,7 @@ dynamic slicing_.
 ## Tasks
 
 * Functor-like postulates in `Proc.Ren.Lattice`
+* `swap̃+-involutive` postulate
 * `to-↓-preserves-+` postulate
 * Commutative pentagon for concurrent transition-slices
 * Lattice iso for generalised bound braid

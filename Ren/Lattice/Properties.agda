@@ -30,14 +30,30 @@ module Ren.Lattice.Properties where
          P
       ∎
 
+   ∘-preserves-≃ₑ : ∀ {A B C : Set} {f f′ : B → C} {g g′ : A → B} → f ≃ₑ f′ → g ≃ₑ g′ → f ∘ᶠ g ≃ₑ f′ ∘ᶠ g′
+   ∘-preserves-≃ₑ f≃ₑf′ g≃ₑg′ x rewrite (g≃ₑg′ x) = f≃ₑf′ _
+
+   involutivẽ : ∀ {Γ} {ρ : Ren Γ Γ} (ρ′ : ↓ ρ) {P : Proc Γ} (P′ : ↓ P) → (ρ′ *̃) ((ρ′ *̃) P′) ≅ P′
+   involutivẽ ρ P =
+      let open ≅-Reasoning in
+      begin
+         (ρ *̃) ((ρ *̃) P)
+      ≅⟨ *̃-preserves-∘ P ⟩
+         (((ρ ᴿ̃.*) ∘ᶠ ρ) *̃) P
+      ≅⟨ {!!} ⟩
+         (ᴿ̃.id *̃) P
+      ≅⟨ *̃-preserves-id P ⟩
+         P
+      ∎
+
    swap̃+-involutive : ∀ {Γ} Δ {P : Proc (Γ + 2 + Δ)} (P′ : ↓ P) → ((ᴿ̃.swap ᴿ+ Δ) *̃) (((ᴿ̃.swap ᴿ+ Δ) *̃) P′) ≅ P′
    swap̃+-involutive Δ P =
       let open ≅-Reasoning in
       begin
          ((ᴿ̃.swap ᴿ+ Δ) *̃) (((ᴿ̃.swap ᴿ+ Δ) *̃) P)
       ≅⟨ *̃-preserves-∘ P ⟩
-         ((((ᴿ̃.swap ᴿ+ Δ) ᴿ̃.*) ∘ᶠ (ᴿ̃.swap ᴿ+ Δ)) *̃) P
-      ≅⟨ {!!} ⟩
+         ((((to-↓ swap ᴿ+ Δ) ᴿ̃.*) ∘ᶠ (to-↓ swap ᴿ+ Δ)) *̃) P
+      ≡⟨ {!!} ⟩
          ((((to-↓ (swap ᴿ.ᴿ+ Δ)) ᴿ̃.*) ∘ᶠ (to-↓ (swap ᴿ.ᴿ+ Δ))) *̃) P
       ≅⟨ {!!} ⟩
          ((to-↓ ((swap ᴿ.ᴿ+ Δ) ∘ᶠ (swap ᴿ.ᴿ+ Δ))) *̃) P
