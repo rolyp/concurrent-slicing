@@ -50,15 +50,15 @@ module Ren.Lattice.Properties where
    swap̃+-involutive Δ P =
       let open ≅-Reasoning in
       begin
-         ((ᴿ̃.swap ᴿ+ Δ) *̃) (((ᴿ̃.swap ᴿ+ Δ) *̃) P)
+         ((to-↓ swap ᴿ+ Δ) *̃) (((to-↓ swap ᴿ+ Δ) *̃) P)
+      ≅⟨ {!!} ⟩
+         ((to-↓ (swap ᴿ.ᴿ+ Δ)) *̃) (((to-↓ (swap ᴿ.ᴿ+ Δ)) *̃) P)
       ≅⟨ *̃-preserves-∘ P ⟩
-         ((((to-↓ swap ᴿ+ Δ) ᴿ̃.*) ∘ᶠ (to-↓ swap ᴿ+ Δ)) *̃) P
-      ≡⟨ {!!} ⟩
          ((((to-↓ (swap ᴿ.ᴿ+ Δ)) ᴿ̃.*) ∘ᶠ (to-↓ (swap ᴿ.ᴿ+ Δ))) *̃) P
       ≅⟨ *̃-preserves-≃ₑ (λ x → ≅-refl) P ⟩
          ((to-↓ ((swap ᴿ.ᴿ+ Δ) ∘ᶠ (swap ᴿ.ᴿ+ Δ))) *̃) P
-      ≅⟨ {!!} ⟩
-         (ᴿ̃.id *̃) P
+      ≅⟨ *̃-preserves-≃ₑ (to-↓-preserves-≃ₑ {!!}) P ⟩
+         (to-↓ idᶠ *̃) P
       ≅⟨ *̃-preserves-id P ⟩
          P
       ∎
