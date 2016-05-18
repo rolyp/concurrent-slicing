@@ -45,8 +45,12 @@ module Proc.Ren.Lattice where
       *-preserves-∘ : ∀ {Γ Δ Γ′} {ρ₀ : Ren Δ Γ′} {σ₀ : Ren Γ Δ} {P : Proc Γ} {ρ : ↓ ρ₀} {σ : ↓ σ₀}
                       (P′ : ↓ P) → (ρ *) ((σ *) P′) ≅ (((ρ ᴿ̃.*) ∘ᶠ σ) *) P′
 
-   wibble : ∀ {Γ} {P₀ P₁ : Proc Γ} → P₀ ≡ P₁ → _≅_ {A = ↓ P₀} (◻ {P = P₀}) {↓ P₁} (◻ {P = P₁})
+   wibble : ∀ {Γ} {P₀ P₀′ : Proc Γ} → P₀ ≡ P₀′ → _≅_ {A = ↓ P₀} (◻ {P = P₀}) {↓ P₀′} (◻ {P = P₀′})
    wibble {P₀ = P₀} {.P₀} refl = ≅-refl
+
+   jibble : ∀ {Γ} {P₀ P₀′ : Proc Γ} → P₀ ≡ P₀′ → {P : ↓ P₀} {P′ : ↓ P₀′} →
+            P ≅ P′ → _≅_ {A = ↓⁻_ {A = Proc Γ} (! P₀)} (! P) {↓⁻_ {A = Proc Γ} (! P₀′)} (! P′)
+   jibble refl ≅-refl = ≅-refl
 
    *-preserves-id : ∀ {Γ} {P : Proc Γ} (P′ : ↓ P) → (ᴿ̃.id *) P′ ≅ P′
    *-preserves-id {P = P₀} ◻ = wibble (*′-preserves-id P₀)
@@ -60,7 +64,7 @@ module Proc.Ren.Lattice where
       let q = (ᴿ̃.id *) P ≅ P
           q = *-preserves-id P
           r : _≅_ {A = ↓⁻_ {A = Proc Γ} (! (idᶠ *′) P₀)} (! (ᴿ̃.id *) P) {↓⁻_ {A = Proc Γ} (! P₀)} (! P)
-          r = {!!}
+          r = jibble (*′-preserves-id P₀) q
           s : _≅_ {A = ↓_ {A = Proc Γ} (! (idᶠ *′) P₀)} [ ! (ᴿ̃.id *) P ] {↓_ {A = Proc Γ} (! P₀)} [ ! P ]
           s = {!!}
       in s
