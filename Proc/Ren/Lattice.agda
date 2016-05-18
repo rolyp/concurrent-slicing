@@ -45,8 +45,17 @@ module Proc.Ren.Lattice where
       *-preserves-∘ : ∀ {Γ Δ Γ′} {ρ₀ : Ren Δ Γ′} {σ₀ : Ren Γ Δ} {P : Proc Γ} {ρ : ↓ ρ₀} {σ : ↓ σ₀}
                       (P′ : ↓ P) → (ρ *) ((σ *) P′) ≅ (((ρ ᴿ̃.*) ∘ᶠ σ) *) P′
 
+   wibble : ∀ {Γ} {P₀ P₁ : Proc Γ} → P₀ ≡ P₁ → _≅_ {A = ↓ P₀} (◻ {P = P₀}) {B = ↓ P₁} (◻ {P = P₁})
+   wibble {P₀ = P₀} {.P₀} refl = ≅-refl
+
    *-preserves-id : ∀ {Γ} {P : Proc Γ} (P′ : ↓ P) → (ᴿ̃.id *) P′ ≅ P′
-   *-preserves-id ◻ = {!≅-refl!}
+   *-preserves-id {P = P₀} ◻ =
+      let open ≅-Reasoning in
+      begin
+         ◻ {P = (idᶠ *′) P₀}
+      ≅⟨ wibble (*′-preserves-id P₀) ⟩
+         ◻ {P = P₀}
+      ∎
    *-preserves-id [ Ο ] = ≅-refl
    *-preserves-id [ x •∙ P ] = {!!}
    *-preserves-id [ • x 〈 y 〉∙ P ] = {!!}
