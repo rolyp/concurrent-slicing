@@ -16,6 +16,8 @@ module ConcurrentSlicing where
    open import Ren.Lattice
    open import Ren.Lattice.GaloisConnection
    open import Ren.Lattice.Properties
+   open import Transition.Concur.Cofinal.Lattice
+   open import Transition.Concur.Cofinal.Lattice.GaloisConnection
    open import Transition.Lattice
    open import Transition.Lattice.GaloisConnection
    open import Transition.Ren.Lattice
