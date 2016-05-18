@@ -56,7 +56,7 @@ module Proc.Ren.Lattice where
    nib ◻ = ≅-refl
    nib [ _ ] = ≅-refl
 
-   -- This gets tedious, because I wasn't able to usefully employ generic helpers.
+   -- Gets rather tedious as I wasn't able to usefully employ generic helpers.
    *-preserves-id : ∀ {Γ} {P : Proc Γ} (P′ : ↓ P) → (ᴿ̃.id *) P′ ≅ P′
    *-preserves-id {Γ} {P₀} ◻ = eq (*′-preserves-id P₀)
       where
@@ -71,11 +71,11 @@ module Proc.Ren.Lattice where
               x ≅ x′ → P₀ ≡ P₀′ → P ≅ P′ → _≅_ {A = ↓_ _} [ x •∙ P ] {↓_ _} [ x′ •∙ P′ ]
          eq  ≅-refl refl ≅-refl = ≅-refl
    *-preserves-id {Γ} {• x₀ 〈 y₀ 〉∙ P₀} [ • x 〈 y 〉∙ P ] =
-      eq (*′-preserves-id P₀) (nib x) (nib y) (*-preserves-id P)
+      eq (nib x) (nib y) (*′-preserves-id P₀) (*-preserves-id P)
       where
          eq : ∀ {P₀ P₀′ : Proc Γ} {x₀ y₀ : Name Γ} {x x′ : ↓ x₀} {y y′ : ↓ y₀} {P : ↓ P₀} {P′ : ↓ P₀′} →
-              P₀ ≡ P₀′ → x ≅ x′ → y ≅ y′ → P ≅ P′ → _≅_ {A = ↓_ _} [ • x 〈 y 〉∙ P ] {↓_ _} [ • x′ 〈 y′ 〉∙ P′ ]
-         eq refl ≅-refl ≅-refl ≅-refl = ≅-refl
+              x ≅ x′ → y ≅ y′ → P₀ ≡ P₀′ → P ≅ P′ → _≅_ {A = ↓_ _} [ • x 〈 y 〉∙ P ] {↓_ _} [ • x′ 〈 y′ 〉∙ P′ ]
+         eq ≅-refl ≅-refl refl ≅-refl = ≅-refl
    *-preserves-id {Γ} {P₀ ➕ Q₀} [ P ➕ Q ] =
       eq (*′-preserves-id P₀) (*′-preserves-id Q₀) (*-preserves-id P) (*-preserves-id Q)
       where
