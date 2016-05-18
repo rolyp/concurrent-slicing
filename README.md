@@ -13,9 +13,6 @@ slicing_. To typecheck the entire development, compile
 
 ## Tasks
 
-* Functor-like postulates in `Proc.Ren.Lattice`
-* `to-↓-preserves-+` postulate
-* `getᴹ` postulate in `Ren.Lattice`
 * Commutative pentagon for concurrent transition-slices
 * Lattice iso for generalised bound braid
 * Galois connection for renamings of transition sequences
@@ -25,6 +22,9 @@ slicing_. To typecheck the entire development, compile
 
 ### Minor
 
+* Functor-like postulates in `Proc.Ren.Lattice`
+* `to-↓-preserves-+` postulate
+* `getᴹ` postulate in `Ren.Lattice`
 * Better names in Galois connection for transition sequences
 * Easy postulates in `Transition.Lattice`
 * `target⋆ᴹ` for transition sequences
