@@ -35,7 +35,7 @@ module Ren.Lattice.Properties where
       let open ≅-Reasoning in
       begin
          ((to-↓ swap ᴿ+ Δ) *̃) (((to-↓ swap ᴿ+ Δ) *̃) P)
-      ≅⟨ {!!} ⟩
+      ≅⟨ ≅-cong ((to-↓ swap ᴿ+ Δ) *̃) (*̃-preserves-≃ₑ (≅-sym ∘ᶠ ≡-to-≅ ∘ᶠ to-↓-preserves-+ Δ swap) P) ⟩
          ((to-↓ swap ᴿ+ Δ) *̃) (((to-↓ (swap ᴿ.ᴿ+ Δ)) *̃) P)
       ≅⟨ *̃-preserves-≃ₑ (≅-sym ∘ᶠ ≡-to-≅ ∘ᶠ to-↓-preserves-+ Δ swap) _ ⟩
          ((to-↓ (swap ᴿ.ᴿ+ Δ)) *̃) (((to-↓ (swap ᴿ.ᴿ+ Δ)) *̃) P)

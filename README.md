@@ -13,7 +13,6 @@ slicing_.
 ## Tasks
 
 * Functor-like postulates in `Proc.Ren.Lattice`
-* _`swap̃+-involutive` postulate_
 * `to-↓-preserves-+` postulate
 * `getᴹ` postulate in `Ren.Lattice`
 * Commutative pentagon for concurrent transition-slices
