@@ -186,9 +186,10 @@ module Ren.Lattice where
    nib ᴺ̃.◻ = refl
    nib [ _ ] = refl
 
-   bib : ∀ {Γ} (x : Name (Γ + 1)) → (id ᴿ+ 1) x ≅ id x
-   bib ᴺ.zero = ≅-refl
-   bib (ᴺ.suc _) = ≅-refl
+   -- Not as general as the version in Ren, but sufficient for now.
+   +-preserves-id : ∀ {Γ} (x : Name (Γ + 1)) → (id ᴿ+ 1) x ≅ id x
+   +-preserves-id ᴺ.zero = ≅-refl
+   +-preserves-id (ᴺ.suc _) = ≅-refl
 
    push : ∀ {Γ} → ↓ (ᴿ.push {Γ})
    push = to-↓ ᴿ.push

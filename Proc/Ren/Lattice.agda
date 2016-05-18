@@ -13,7 +13,7 @@ module Proc.Ren.Lattice where
       open ᴿ.Renameable ⦃...⦄
         renaming (_* to _*′; *-preserves-≃ₑ to *′-preserves-≃ₑ; *-preserves-∘ to *′-preserves-∘; *-preserves-id to *′-preserves-id)
    open import Ren.Lattice as ᴿ̃
-      using (to-↓; to-↓-preserves-+; _ᴿ+_; suc; suc-preserves-≃ₑ; sucᴹ; pre; preᴹ; _↦_; _↦ᴹ_; _⁻¹[_]_; _⁻¹ᴹ[_]_; nib; bib)
+      using (to-↓; to-↓-preserves-+; _ᴿ+_; suc; suc-preserves-≃ₑ; sucᴹ; pre; preᴹ; _↦_; _↦ᴹ_; _⁻¹[_]_; _⁻¹ᴹ[_]_; nib)
 
    -- Functor-like, but not quite sure how to treat this as a functor in the usual sense.
    infixr 8 _*⁻ _*
@@ -58,7 +58,7 @@ module Proc.Ren.Lattice where
    *-preserves-id {Γ} {x₀ •∙ P₀} [ x •∙ P ] =
       eq (≡-to-≅ (nib x))
          (trans (*′-preserves-≃ₑ (+-preserves-id 1) P₀) (*′-preserves-id P₀))
-         (≅-trans (*-preserves-≃ₑ bib P) (*-preserves-id P))
+         (≅-trans (*-preserves-≃ₑ ᴿ̃.+-preserves-id P) (*-preserves-id P))
       where
          eq : ∀ {P₀ P₀′ : Proc (Γ + 1)} {x₀ : Name Γ} {x x′ : ↓ x₀} {P : ↓ P₀} {P′ : ↓ P₀′} →
               x ≅ x′ → P₀ ≡ P₀′ → P ≅ P′ → _≅_ {A = ↓_ _} [ x •∙ P ] {↓_ _} [ x′ •∙ P′ ]
@@ -83,7 +83,7 @@ module Proc.Ren.Lattice where
          eq refl refl ≅-refl ≅-refl = ≅-refl
    *-preserves-id {Γ} {ν P₀} [ ν P ] =
       eq (trans (*′-preserves-≃ₑ (+-preserves-id 1) P₀) (*′-preserves-id P₀))
-         (≅-trans (*-preserves-≃ₑ bib P) (*-preserves-id P))
+         (≅-trans (*-preserves-≃ₑ ᴿ̃.+-preserves-id P) (*-preserves-id P))
       where
          eq : ∀ {P₀ P₀′ : Proc (Γ + 1)} {P : ↓ P₀} {P′ : ↓ P₀′} →
               P₀ ≡ P₀′ → P ≅ P′ → _≅_ {A = ↓_ _} [ ν P ] {↓_ _} [ ν P′ ]
