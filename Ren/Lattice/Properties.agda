@@ -30,9 +30,6 @@ module Ren.Lattice.Properties where
          P
       ∎
 
-   ∘-preserves-≃ₑ : ∀ {A B C : Set} {f f′ : B → C} {g g′ : A → B} → f ≃ₑ f′ → g ≃ₑ g′ → f ∘ᶠ g ≃ₑ f′ ∘ᶠ g′
-   ∘-preserves-≃ₑ f≃ₑf′ g≃ₑg′ x rewrite (g≃ₑg′ x) = f≃ₑf′ _
-
    swap̃+-involutive : ∀ {Γ} Δ {P : Proc (Γ + 2 + Δ)} (P′ : ↓ P) → ((ᴿ̃.swap ᴿ+ Δ) *̃) (((ᴿ̃.swap ᴿ+ Δ) *̃) P′) ≅ P′
    swap̃+-involutive Δ P =
       let open ≅-Reasoning in
