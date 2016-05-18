@@ -72,10 +72,10 @@ module Ren.Lattice where
 
    -- Uncurried version of * convenient for the Galois connection.
    get : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {x : Name Γ} → ↓ ρ × ↓′ x → ↓′ (ρ *′) x
-   get {ρ = ρ} {x} = uncurry (_* {ρ = ρ} {x = x})
+   get = uncurry _*
 
-   postulate
-      getᴹ : ∀ {Γ Γ′} {ρ₀ : Ren Γ Γ′} {ρ ρ′ : ↓ ρ₀} {x₀ : Name Γ} {x x′ : ↓′ x₀} → ρ ≤ ρ′ × x ≤′ x′ → get (ρ , x) ≤′ get (ρ′ , x′)
+   getᴹ : ∀ {Γ Γ′} {ρ₀ : Ren Γ Γ′} {ρ ρ′ : ↓ ρ₀} {x₀ : Name Γ} {x x′ : ↓′ x₀} → ρ ≤ ρ′ × x ≤′ x′ → get (ρ , x) ≤′ get (ρ′ , x′)
+   getᴹ = uncurry _*ᴹ
 
    -- Lower adjoint of get.
    put : ∀ {Γ Γ′} (ρ : Ren Γ Γ′) (x : Name Γ) → ↓′ (ρ *′) x → ↓ ρ × ↓′ x
