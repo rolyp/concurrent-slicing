@@ -45,24 +45,25 @@ module Proc.Ren.Lattice where
       *-preserves-∘ : ∀ {Γ Δ Γ′} {ρ₀ : Ren Δ Γ′} {σ₀ : Ren Γ Δ} {P : Proc Γ} {ρ : ↓ ρ₀} {σ : ↓ σ₀}
                       (P′ : ↓ P) → (ρ *) ((σ *) P′) ≅ (((ρ ᴿ̃.*) ∘ᶠ σ) *) P′
 
-   wibble : ∀ {Γ} {P₀ P₁ : Proc Γ} → P₀ ≡ P₁ → _≅_ {A = ↓ P₀} (◻ {P = P₀}) {B = ↓ P₁} (◻ {P = P₁})
+   wibble : ∀ {Γ} {P₀ P₁ : Proc Γ} → P₀ ≡ P₁ → _≅_ {A = ↓ P₀} (◻ {P = P₀}) {↓ P₁} (◻ {P = P₁})
    wibble {P₀ = P₀} {.P₀} refl = ≅-refl
 
    *-preserves-id : ∀ {Γ} {P : Proc Γ} (P′ : ↓ P) → (ᴿ̃.id *) P′ ≅ P′
-   *-preserves-id {P = P₀} ◻ =
-      let open ≅-Reasoning in
-      begin
-         ◻ {P = (idᶠ *′) P₀}
-      ≅⟨ wibble (*′-preserves-id P₀) ⟩
-         ◻ {P = P₀}
-      ∎
+   *-preserves-id {P = P₀} ◻ = wibble (*′-preserves-id P₀)
    *-preserves-id [ Ο ] = ≅-refl
    *-preserves-id [ x •∙ P ] = {!!}
    *-preserves-id [ • x 〈 y 〉∙ P ] = {!!}
    *-preserves-id [ P ➕ Q ] = {!!}
    *-preserves-id [ P │ Q ] = {!!}
    *-preserves-id [ ν P ] = {!!}
-   *-preserves-id [ ! P ] = {!!}
+   *-preserves-id {Γ} {P = ! P₀} [ ! P ] =
+      let q = (ᴿ̃.id *) P ≅ P
+          q = *-preserves-id P
+          r : _≅_ {A = ↓⁻_ {A = Proc Γ} (! (idᶠ *′) P₀)} (! (ᴿ̃.id *) P) {↓⁻_ {A = Proc Γ} (! P₀)} (! P)
+          r = {!!}
+          s : _≅_ {A = ↓_ {A = Proc Γ} (! (idᶠ *′) P₀)} [ ! (ᴿ̃.id *) P ] {↓_ {A = Proc Γ} (! P₀)} [ ! P ]
+          s = {!!}
+      in s
 
    infixr 8 _*⁻ᴹ _*ᴹ
    _*ᴹ : ∀ {Γ Γ′} {ρ₀ : Ren Γ Γ′} {P₀ : Proc Γ} {ρ ρ′ : ↓ ρ₀} {P P′ : ↓ P₀} → ρ ≤ ρ′ → P ≤ P′ → (ρ *) P ≤ (ρ′ *) P′
