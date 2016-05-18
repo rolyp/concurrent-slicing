@@ -13,7 +13,7 @@ module Proc.Ren.Lattice where
       open ᴿ.Renameable ⦃...⦄
         renaming (_* to _*′; *-preserves-≃ₑ to *′-preserves-≃ₑ; *-preserves-∘ to *′-preserves-∘; *-preserves-id to *′-preserves-id)
    open import Ren.Lattice as ᴿ̃
-      using (to-↓; to-↓-preserves-+; _ᴿ+_; suc; suc-preserves-≃ₑ; sucᴹ; pre; preᴹ; _↦_; _↦ᴹ_; _⁻¹[_]_; _⁻¹ᴹ[_]_)
+      using (to-↓; to-↓-preserves-+; _ᴿ+_; suc; suc-preserves-≃ₑ; sucᴹ; pre; preᴹ; _↦_; _↦ᴹ_; _⁻¹[_]_; _⁻¹ᴹ[_]_; nib; bib)
 
    -- Functor-like, but not quite sure how to treat this as a functor in the usual sense.
    infixr 8 _*⁻ _*
@@ -48,14 +48,6 @@ module Proc.Ren.Lattice where
       *-preserves-∘ : ∀ {Γ Δ Γ′} {ρ₀ : Ren Δ Γ′} {σ₀ : Ren Γ Δ} {P : Proc Γ} {ρ : ↓ ρ₀} {σ : ↓ σ₀}
                       (P′ : ↓ P) → (ρ *) ((σ *) P′) ≅ (((ρ ᴿ̃.*) ∘ᶠ σ) *) P′
 
-   bib : ∀ {Γ} (x : Name (Γ + 1)) → ((to-↓ idᶠ) ᴿ+ 1) x ≅ to-↓ idᶠ x
-   bib ᴺ.zero = ≅-refl
-   bib (ᴺ.suc _) = ≅-refl
-
-   nib : ∀ {Γ} {x₀ : Name Γ} (x : ↓ x₀) → (ᴿ̃.id ᴿ̃.*) x ≅ x
-   nib ◻ = ≅-refl
-   nib [ _ ] = ≅-refl
-
    -- Gets rather tedious as I wasn't able to usefully employ generic helpers.
    *-preserves-id : ∀ {Γ} {P : Proc Γ} (P′ : ↓ P) → (ᴿ̃.id *) P′ ≅ P′
    *-preserves-id {Γ} {P₀} ◻ = eq (*′-preserves-id P₀)
@@ -64,14 +56,15 @@ module Proc.Ren.Lattice where
          eq {P₀ = P₀} {.P₀} refl = ≅-refl
    *-preserves-id [ Ο ] = ≅-refl
    *-preserves-id {Γ} {x₀ •∙ P₀} [ x •∙ P ] =
-      eq (nib x) (trans (*′-preserves-≃ₑ (+-preserves-id 1) P₀) (*′-preserves-id P₀))
-                 (≅-trans (*-preserves-≃ₑ bib P) (*-preserves-id P))
+      eq (≡-to-≅ (nib x))
+         (trans (*′-preserves-≃ₑ (+-preserves-id 1) P₀) (*′-preserves-id P₀))
+         (≅-trans (*-preserves-≃ₑ bib P) (*-preserves-id P))
       where
          eq : ∀ {P₀ P₀′ : Proc (Γ + 1)} {x₀ : Name Γ} {x x′ : ↓ x₀} {P : ↓ P₀} {P′ : ↓ P₀′} →
               x ≅ x′ → P₀ ≡ P₀′ → P ≅ P′ → _≅_ {A = ↓_ _} [ x •∙ P ] {↓_ _} [ x′ •∙ P′ ]
-         eq  ≅-refl refl ≅-refl = ≅-refl
+         eq ≅-refl refl ≅-refl = ≅-refl
    *-preserves-id {Γ} {• x₀ 〈 y₀ 〉∙ P₀} [ • x 〈 y 〉∙ P ] =
-      eq (nib x) (nib y) (*′-preserves-id P₀) (*-preserves-id P)
+      eq (≡-to-≅ (nib x)) (≡-to-≅ (nib y)) (*′-preserves-id P₀) (*-preserves-id P)
       where
          eq : ∀ {P₀ P₀′ : Proc Γ} {x₀ y₀ : Name Γ} {x x′ : ↓ x₀} {y y′ : ↓ y₀} {P : ↓ P₀} {P′ : ↓ P₀′} →
               x ≅ x′ → y ≅ y′ → P₀ ≡ P₀′ → P ≅ P′ → _≅_ {A = ↓_ _} [ • x 〈 y 〉∙ P ] {↓_ _} [ • x′ 〈 y′ 〉∙ P′ ]

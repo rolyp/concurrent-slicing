@@ -10,7 +10,7 @@ module Ren.Lattice where
       open Prefixes ⦃...⦄ using (ᴹ; poset) renaming (
             ↓_ to ↓′_; _≤_ to _≤′_; _⊔_ to _⊔′_; _⊓_ to _⊓′_; ≤ᴸ⇒≤ to ≤′ᴸ⇒≤′; ≤⇒≤ᴸ to ≤′⇒≤′ᴸ; isLattice to isLattice′
          )
-   open import Name as ᴺ using (Name; _≟_)
+   open import Name as ᴺ using (Name; _≟_; _+_)
    open import Name.Lattice as ᴺ̃ using ([_]; zero)
    open import Ren as ᴿ using (Ren); open ᴿ.Renameable ⦃...⦄ renaming (_* to _*′; *-preserves-≃ₑ to *′-preserves-≃ₑ)
 
@@ -181,6 +181,14 @@ module Ren.Lattice where
 
    id : ∀ {Γ} → ↓ (idᶠ {A = Name Γ})
    id = to-↓ idᶠ
+
+   nib : ∀ {Γ} {x₀ : Name Γ} (x : ↓′ x₀) → (id *) x ≡ x
+   nib ᴺ̃.◻ = refl
+   nib [ _ ] = refl
+
+   bib : ∀ {Γ} (x : Name (Γ + 1)) → (id ᴿ+ 1) x ≅ id x
+   bib ᴺ.zero = ≅-refl
+   bib (ᴺ.suc _) = ≅-refl
 
    push : ∀ {Γ} → ↓ (ᴿ.push {Γ})
    push = to-↓ ᴿ.push

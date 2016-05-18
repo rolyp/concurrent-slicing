@@ -23,6 +23,7 @@ module Transition.Seq.Lattice.GaloisConnection where
    eq : ∀ Δ {Γ} (a⋆ : Action⋆ (Γ + Δ)) → Γ + Δ + inc⋆ a⋆ ≡ Γ + (Δ + inc⋆ a⋆)
    eq Δ {Γ} = +-assoc Γ Δ ∘ᶠ inc⋆
 
+   -- TODO: give these some better or more local names!
    quib : ∀ Δ {Γ P} {a⋆ : Action⋆ (Γ + Δ)} {R} (_ : P —[ a⋆ ]→⋆ R) (R′ : ↓ R) → ↓ (Proc↱ (eq Δ a⋆) R)
    quib Δ {a⋆ = a⋆} {R} _ = ≅-subst✴ Proc ↓_ (eq Δ a⋆) (≅-sym (Proc↲ (eq Δ a⋆) R))
 
