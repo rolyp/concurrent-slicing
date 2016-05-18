@@ -28,10 +28,8 @@ module Proc.Ren.Lattice where
    (ρ *) ◻ = ◻
    (ρ *) [ P ] = [ (ρ *⁻) P ]
 
-   postulate
-     *-preserves-≃ₑ : ∀ {Γ Γ′} {ρ₀ σ₀ : Ren Γ Γ′} {P : Proc Γ} {ρ : ↓ ρ₀} {σ : ↓ σ₀} →
+   *-preserves-≃ₑ : ∀ {Γ Γ′} {ρ₀ σ₀ : Ren Γ Γ′} {P : Proc Γ} {ρ : ↓ ρ₀} {σ : ↓ σ₀} →
                       (∀ x → ρ x ≅ σ x) → (P′ : ↓ P) → (ρ *) P′ ≅ (σ *) P′
-{-
    *-preserves-≃ₑ ρ ◻ = {!!}
    *-preserves-≃ₑ {P = Ο} _ [ Ο ] = ≅-refl
    *-preserves-≃ₑ {P = _ •∙ _} ρ [ x •∙ P ] = {!!}
@@ -40,7 +38,7 @@ module Proc.Ren.Lattice where
    *-preserves-≃ₑ {P = _ │ _} ρ [ P │ Q ] = {!!}
    *-preserves-≃ₑ {P = ν _} ρ [ ν P ] = {!!}
    *-preserves-≃ₑ {P = ! _} ρ [ ! P ] = {!!}
--}
+
    postulate
       *-preserves-∘ : ∀ {Γ Δ Γ′} {ρ₀ : Ren Δ Γ′} {σ₀ : Ren Γ Δ} {P : Proc Γ} {ρ : ↓ ρ₀} {σ : ↓ σ₀}
                       (P′ : ↓ P) → (ρ *) ((σ *) P′) ≅ (((ρ ᴿ̃.*) ∘ᶠ σ) *) P′
