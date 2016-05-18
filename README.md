@@ -1,7 +1,8 @@
 # concurrent-slicing
 
 Agda development accompanying the paper _Causally consistent dynamic
-slicing_.
+slicing_. To typecheck the entire development, compile
+`ConcurrentSlicing.agda`.
 
 ## Required libraries:
 
