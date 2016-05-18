@@ -4,6 +4,7 @@ module Proc.Ren.Lattice where
 
    import Lattice; open Lattice.Prefixes ⦃...⦄
    import Lattice.Product
+   open import Name using (_+_)
    open import Proc as ᴾ using (Proc); open ᴾ.Proc
    import Proc.Ren
    import Proc.Lattice as ᴾ̃; open ᴾ̃.↓⁻_; open ᴾ̃.↓_; open ᴾ̃._≤⁻_; open ᴾ̃._≤_
@@ -45,26 +46,32 @@ module Proc.Ren.Lattice where
       *-preserves-∘ : ∀ {Γ Δ Γ′} {ρ₀ : Ren Δ Γ′} {σ₀ : Ren Γ Δ} {P : Proc Γ} {ρ : ↓ ρ₀} {σ : ↓ σ₀}
                       (P′ : ↓ P) → (ρ *) ((σ *) P′) ≅ (((ρ ᴿ̃.*) ∘ᶠ σ) *) P′
 
-   wibble : ∀ {Γ} {P₀ P₀′ : Proc Γ} → P₀ ≡ P₀′ → _≅_ {A = ↓ P₀} (◻ {P = P₀}) {↓ P₀′} (◻ {P = P₀′})
-   wibble {P₀ = P₀} {.P₀} refl = ≅-refl
-
-   jibble : ∀ {Γ} {P₀ P₀′ : Proc Γ} → P₀ ≡ P₀′ → {P : ↓ P₀} {P′ : ↓ P₀′} →
-            P ≅ P′ → _≅_ {A = ↓⁻_ {A = Proc Γ} (! P₀)} (! P) {↓⁻_ {A = Proc Γ} (! P₀′)} (! P′)
-   jibble refl ≅-refl = ≅-refl
-
-   jibble′ : ∀ {Γ} {P₀ P₀′ : Proc Γ} → P₀ ≡ P₀′ → {P : ↓ P₀} {P′ : ↓ P₀′} →
-            P ≅ P′ → _≅_ {A = ↓_ {A = Proc Γ} (! P₀)} [ ! P ] {↓_ {A = Proc Γ} (! P₀′)} [ ! P′ ]
-   jibble′ refl ≅-refl = ≅-refl
-
+   -- Wasn't able to make useful generic helpers here.
    *-preserves-id : ∀ {Γ} {P : Proc Γ} (P′ : ↓ P) → (ᴿ̃.id *) P′ ≅ P′
-   *-preserves-id {P = P₀} ◻ = wibble (*′-preserves-id P₀)
+   *-preserves-id {Γ} {P₀} ◻ = eq (*′-preserves-id P₀)
+      where
+         eq : ∀ {P₀ P₀′ : Proc Γ} → P₀ ≡ P₀′ → _≅_ {A = ↓ P₀} (◻ {P = P₀}) {↓ P₀′} (◻ {P = P₀′})
+         eq {P₀ = P₀} {.P₀} refl = ≅-refl
    *-preserves-id [ Ο ] = ≅-refl
    *-preserves-id [ x •∙ P ] = {!!}
    *-preserves-id [ • x 〈 y 〉∙ P ] = {!!}
-   *-preserves-id [ P ➕ Q ] = {!!}
-   *-preserves-id [ P │ Q ] = {!!}
-   *-preserves-id [ ν P ] = {!!}
-   *-preserves-id {P = ! P₀} [ ! P ] = jibble′ (*′-preserves-id P₀) (*-preserves-id P)
+   *-preserves-id {Γ} {P₀ ➕ Q₀} [ P ➕ Q ] =
+      eq (*′-preserves-id P₀) (*′-preserves-id Q₀) (*-preserves-id P) (*-preserves-id Q)
+      where
+         eq : ∀ {P₀ P₀′ Q₀ Q₀′ : Proc Γ} {P : ↓ P₀} {P′ : ↓ P₀′} {Q : ↓ Q₀} {Q′ : ↓ Q₀′} →
+              P₀ ≡ P₀′ → Q₀ ≡ Q₀′ → P ≅ P′ → Q ≅ Q′ → _≅_ {A = ↓_ _} [ P ➕ Q ] {↓_ _} [ P′ ➕ Q′ ]
+         eq refl refl ≅-refl ≅-refl = ≅-refl
+   *-preserves-id {Γ} {P₀ │ Q₀} [ P │ Q ] =
+      eq (*′-preserves-id P₀) (*′-preserves-id Q₀) (*-preserves-id P) (*-preserves-id Q)
+      where
+         eq : ∀ {P₀ P₀′ Q₀ Q₀′ : Proc Γ} {P : ↓ P₀} {P′ : ↓ P₀′} {Q : ↓ Q₀} {Q′ : ↓ Q₀′} →
+              P₀ ≡ P₀′ → Q₀ ≡ Q₀′ → P ≅ P′ → Q ≅ Q′ → _≅_ {A = ↓_ _} [ P │ Q ] {↓_ _} [ P′ │ Q′ ]
+         eq refl refl ≅-refl ≅-refl = ≅-refl
+   *-preserves-id {Γ} {ν P₀} [ ν P ] = {!!}
+   *-preserves-id {Γ} {! P₀} [ ! P ] = eq (*′-preserves-id P₀) (*-preserves-id P)
+      where
+         eq : ∀ {P₀ P₀′ : Proc Γ} {P : ↓ P₀} {P′ : ↓ P₀′} → P₀ ≡ P₀′ → P ≅ P′ → _≅_ {A = ↓_ _} [ ! P ] {↓_ _} [ ! P′ ]
+         eq refl ≅-refl = ≅-refl
 
    infixr 8 _*⁻ᴹ _*ᴹ
    _*ᴹ : ∀ {Γ Γ′} {ρ₀ : Ren Γ Γ′} {P₀ : Proc Γ} {ρ ρ′ : ↓ ρ₀} {P P′ : ↓ P₀} → ρ ≤ ρ′ → P ≤ P′ → (ρ *) P ≤ (ρ′ *) P′
