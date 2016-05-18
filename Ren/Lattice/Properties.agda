@@ -11,7 +11,7 @@ module Ren.Lattice.Properties where
          _* to _*̃; *-preserves-≃ₑ to *̃-preserves-≃ₑ; *-preserves-∘ to *̃-preserves-∘; *-preserves-id to *̃-preserves-id
       )
    open import Ren as ᴿ using (Ren; +-preserves-involutivity; swap); open ᴿ.Renameable ⦃...⦄
-   open import Ren.Lattice as ᴿ̃ using (_ᴿ+_; to-↓; to-↓-preserves-≃ₑ)
+   open import Ren.Lattice as ᴿ̃ using (_ᴿ+_; to-↓; to-↓-preserves-≃ₑ; to-↓-preserves-+)
    open import Ren.Properties
 
    -- Should be able to generalise along the lines of Ren.Properties, but tricky.
@@ -36,6 +36,8 @@ module Ren.Lattice.Properties where
       begin
          ((to-↓ swap ᴿ+ Δ) *̃) (((to-↓ swap ᴿ+ Δ) *̃) P)
       ≅⟨ {!!} ⟩
+         ((to-↓ swap ᴿ+ Δ) *̃) (((to-↓ (swap ᴿ.ᴿ+ Δ)) *̃) P)
+      ≅⟨ *̃-preserves-≃ₑ (≅-sym ∘ᶠ ≡-to-≅ ∘ᶠ to-↓-preserves-+ Δ swap) _ ⟩
          ((to-↓ (swap ᴿ.ᴿ+ Δ)) *̃) (((to-↓ (swap ᴿ.ᴿ+ Δ)) *̃) P)
       ≅⟨ *̃-preserves-∘ P ⟩
          ((((to-↓ (swap ᴿ.ᴿ+ Δ)) ᴿ̃.*) ∘ᶠ (to-↓ (swap ᴿ.ᴿ+ Δ))) *̃) P
