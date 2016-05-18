@@ -1,8 +1,8 @@
 # concurrent-slicing
 
 Agda development accompanying the paper _Causally consistent dynamic
-slicing_. To typecheck the entire development, compile
-`ConcurrentSlicing.agda`.
+slicing_, submitted to CONCUR 2016. To typecheck the entire development,
+compile `ConcurrentSlicing.agda`.
 
 ## Required libraries:
 
@@ -23,7 +23,6 @@ slicing_. To typecheck the entire development, compile
 ### Minor
 
 * Functor-like postulates in `Proc.Ren.Lattice`
-* `to-↓-preserves-+` postulate
 * `getᴹ` postulate in `Ren.Lattice`
 * Better names in Galois connection for transition sequences
 * Easy postulates in `Transition.Lattice`
