@@ -19,9 +19,9 @@ module Ren.Lattice.Properties where
    swap̃-involutive P =
       let open ≅-Reasoning in
       begin
-         (ᴿ̃.swap *̃) ((ᴿ̃.swap *̃) P)
+         (to-↓ swap *̃) ((to-↓ swap *̃) P)
       ≅⟨ *̃-preserves-∘ P ⟩
-         (((ᴿ̃.swap ᴿ̃.*) ∘ᶠ ᴿ̃.swap) *̃) P
+         (((to-↓ swap ᴿ̃.*) ∘ᶠ to-↓ swap) *̃) P
       ≅⟨ *̃-preserves-≃ₑ (λ _ → ≡-to-≅ refl) P ⟩
          ((to-↓ (swap ∘ᶠ swap)) *̃) P
       ≅⟨ *̃-preserves-≃ₑ (to-↓-preserves-≃ₑ swap-involutive) P ⟩

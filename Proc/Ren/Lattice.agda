@@ -28,8 +28,10 @@ module Proc.Ren.Lattice where
    (ρ *) ◻ = ◻
    (ρ *) [ P ] = [ (ρ *⁻) P ]
 
-   *-preserves-≃ₑ : ∀ {Γ Γ′} {ρ₀ σ₀ : Ren Γ Γ′} {P : Proc Γ} {ρ : ↓ ρ₀} {σ : ↓ σ₀} →
-                      (∀ x → ρ x ≅ σ x) → (P′ : ↓ P) → (ρ *) P′ ≅ (σ *) P′
+   postulate
+      *-preserves-≃ₑ : ∀ {Γ Γ′} {ρ₀ σ₀ : Ren Γ Γ′} {P : Proc Γ} {ρ : ↓ ρ₀} {σ : ↓ σ₀} →
+                       (∀ x → ρ x ≅ σ x) → (P′ : ↓ P) → (ρ *) P′ ≅ (σ *) P′
+{-
    *-preserves-≃ₑ ρ ◻ = {!!}
    *-preserves-≃ₑ {P = Ο} _ [ Ο ] = ≅-refl
    *-preserves-≃ₑ {P = _ •∙ _} ρ [ x •∙ P ] = {!!}
@@ -38,11 +40,21 @@ module Proc.Ren.Lattice where
    *-preserves-≃ₑ {P = _ │ _} ρ [ P │ Q ] = {!!}
    *-preserves-≃ₑ {P = ν _} ρ [ ν P ] = {!!}
    *-preserves-≃ₑ {P = ! _} ρ [ ! P ] = {!!}
-
+-}
    postulate
       *-preserves-∘ : ∀ {Γ Δ Γ′} {ρ₀ : Ren Δ Γ′} {σ₀ : Ren Γ Δ} {P : Proc Γ} {ρ : ↓ ρ₀} {σ : ↓ σ₀}
                       (P′ : ↓ P) → (ρ *) ((σ *) P′) ≅ (((ρ ᴿ̃.*) ∘ᶠ σ) *) P′
-      *-preserves-id : ∀ {Γ} {id′ : ↓ idᶠ} {P : Proc Γ} (P′ : ↓ P) → (id′ *) P′ ≅ P′
+
+   *-preserves-id : ∀ {Γ} {id′ : ↓ idᶠ} {P : Proc Γ} (P′ : ↓ P) → (id′ *) P′ ≅ P′
+   *-preserves-id ◻ = {!!}
+   *-preserves-id [ Ο ] = ≅-refl
+   *-preserves-id [ x •∙ P ] = ≅-cong₂ (λ y R → [ y •∙ R ]) {!!} (*-preserves-id P)
+   *-preserves-id [ • x₁ 〈 x₂ 〉∙ x₃ ] = {!!}
+   *-preserves-id [ x ➕ x₁ ] = {!!}
+   *-preserves-id [ x │ x₁ ] = {!!}
+   *-preserves-id [ ν x ] = {!!}
+   *-preserves-id {id′ = id′} {P = ! P₀} [ ! P ] = let q = *-preserves-id {id′ = id′} P in
+      ≅-cong (λ R → [ ! R ]) {!q!}
 
    infixr 8 _*⁻ᴹ _*ᴹ
    _*ᴹ : ∀ {Γ Γ′} {ρ₀ : Ren Γ Γ′} {P₀ : Proc Γ} {ρ ρ′ : ↓ ρ₀} {P P′ : ↓ P₀} → ρ ≤ ρ′ → P ≤ P′ → (ρ *) P ≤ (ρ′ *) P′
