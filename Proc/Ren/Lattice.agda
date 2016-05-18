@@ -4,14 +4,15 @@ module Proc.Ren.Lattice where
 
    import Lattice; open Lattice.Prefixes ⦃...⦄
    import Lattice.Product
-   open import Name using (_+_)
+   open import Name using (Name; _+_)
    open import Proc as ᴾ using (Proc); open ᴾ.Proc
    import Proc.Ren
    import Proc.Lattice as ᴾ̃; open ᴾ̃.↓⁻_; open ᴾ̃.↓_; open ᴾ̃._≤⁻_; open ᴾ̃._≤_
-   open import Ren as ᴿ using (Ren);
-     open ᴿ.Renameable ⦃...⦄
-       renaming (_* to _*′; *-preserves-≃ₑ to *′-preserves-≃ₑ; *-preserves-∘ to *′-preserves-∘; *-preserves-id to *′-preserves-id)
-   open import Ren.Lattice as ᴿ̃ using (suc; suc-preserves-≃ₑ; sucᴹ; pre; preᴹ; _↦_; _↦ᴹ_; _⁻¹[_]_; _⁻¹ᴹ[_]_)
+   open import Ren as ᴿ using (Ren; +-preserves-id);
+      open ᴿ.Renameable ⦃...⦄
+        renaming (_* to _*′; *-preserves-≃ₑ to *′-preserves-≃ₑ; *-preserves-∘ to *′-preserves-∘; *-preserves-id to *′-preserves-id)
+   open import Ren.Lattice as ᴿ̃
+      using (to-↓; to-↓-preserves-+; _ᴿ+_; suc; suc-preserves-≃ₑ; sucᴹ; pre; preᴹ; _↦_; _↦ᴹ_; _⁻¹[_]_; _⁻¹ᴹ[_]_)
 
    -- Functor-like, but not quite sure how to treat this as a functor in the usual sense.
    infixr 8 _*⁻ _*
@@ -46,6 +47,12 @@ module Proc.Ren.Lattice where
       *-preserves-∘ : ∀ {Γ Δ Γ′} {ρ₀ : Ren Δ Γ′} {σ₀ : Ren Γ Δ} {P : Proc Γ} {ρ : ↓ ρ₀} {σ : ↓ σ₀}
                       (P′ : ↓ P) → (ρ *) ((σ *) P′) ≅ (((ρ ᴿ̃.*) ∘ᶠ σ) *) P′
 
+   blah : ∀ {Γ} → to-↓ (idᶠ ᴿ.ᴿ+ 1) ≃ₑ (to-↓ (idᶠ {A = Name Γ})) ᴿ+ 1
+   blah = to-↓-preserves-+ 1 idᶠ
+
+   bib : ∀ {Γ} → ∀ x → to-↓ idᶠ x ≅ ((to-↓ (idᶠ {A = Name Γ})) ᴿ+ 1) x
+   bib = {!!}
+
    -- Wasn't able to make useful generic helpers here.
    *-preserves-id : ∀ {Γ} {P : Proc Γ} (P′ : ↓ P) → (ᴿ̃.id *) P′ ≅ P′
    *-preserves-id {Γ} {P₀} ◻ = eq (*′-preserves-id P₀)
@@ -67,12 +74,11 @@ module Proc.Ren.Lattice where
          eq : ∀ {P₀ P₀′ Q₀ Q₀′ : Proc Γ} {P : ↓ P₀} {P′ : ↓ P₀′} {Q : ↓ Q₀} {Q′ : ↓ Q₀′} →
               P₀ ≡ P₀′ → Q₀ ≡ Q₀′ → P ≅ P′ → Q ≅ Q′ → _≅_ {A = ↓_ _} [ P │ Q ] {↓_ _} [ P′ │ Q′ ]
          eq refl refl ≅-refl ≅-refl = ≅-refl
-   *-preserves-id {Γ} {ν P₀} [ ν P ] = eq r q
+   *-preserves-id {Γ} {ν P₀} [ ν P ] =
+      eq (trans (*′-preserves-≃ₑ (+-preserves-id 1) P₀) (*′-preserves-id P₀)) q
       where
          q : (suc ᴿ̃.id *) P ≅ P
-         q = ≅-trans (*-preserves-≃ₑ {!!} P) (*-preserves-id P)
-         r : (ᴿ.suc idᶠ *′) P₀ ≡ idᶠ P₀
-         r = trans {!!} (*′-preserves-id P₀)
+         q = ≅-trans (*-preserves-≃ₑ (≅-sym ∘ᶠ bib) P) (*-preserves-id P)
          eq : ∀ {P₀ P₀′ : Proc (Γ + 1)} {P : ↓ P₀} {P′ : ↓ P₀′} → P₀ ≡ P₀′ → P ≅ P′ → _≅_ {A = ↓_ _} [ ν P ] {↓_ _} [ ν P′ ]
          eq refl ≅-refl = ≅-refl
    *-preserves-id {Γ} { ! P₀} [ ! P ] = eq (*′-preserves-id P₀) (*-preserves-id P)
