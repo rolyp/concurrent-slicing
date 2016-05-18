@@ -13,8 +13,9 @@ slicing_.
 ## Tasks
 
 * Functor-like postulates in `Proc.Ren.Lattice`
-* `swap̃+-involutive` postulate
+* _`swap̃+-involutive` postulate_
 * `to-↓-preserves-+` postulate
+* `getᴹ` postulate in `Ren.Lattice`
 * Commutative pentagon for concurrent transition-slices
 * Lattice iso for generalised bound braid
 * Galois connection for renamings of transition sequences
