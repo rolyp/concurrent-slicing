@@ -6,7 +6,7 @@ module Proc.Ren.Lattice where
    import Lattice.Product
    open import Name as ᴺ using (Name; _+_)
    open import Proc as ᴾ using (Proc); open ᴾ.Proc
-   open import Name.Lattice using ([_])
+   open import Name.Lattice as ᴺ̃ using (); open ᴺ̃.↓_
    import Proc.Ren
    import Proc.Lattice as ᴾ̃; open ᴾ̃.↓⁻_; open ᴾ̃.↓_; open ᴾ̃._≤⁻_; open ᴾ̃._≤_
    open import Ren as ᴿ using (Ren; +-preserves-id);
@@ -50,18 +50,28 @@ module Proc.Ren.Lattice where
 
    bib : ∀ {Γ} (x : Name (Γ + 1)) → ((to-↓ idᶠ) ᴿ+ 1) x ≅ to-↓ idᶠ x
    bib ᴺ.zero = ≅-refl
-   bib (ᴺ.suc x) = ≅-refl
+   bib (ᴺ.suc _) = ≅-refl
 
-   -- Wasn't able to usefully employ generic helpers here.
+   nib : ∀ {Γ} {x₀ : Name Γ} (x : ↓ x₀) → (ᴿ̃.id ᴿ̃.*) x ≅ x
+   nib ◻ = ≅-refl
+   nib [ _ ] = ≅-refl
+
+   -- This gets tedious, because I wasn't able to usefully employ generic helpers.
    *-preserves-id : ∀ {Γ} {P : Proc Γ} (P′ : ↓ P) → (ᴿ̃.id *) P′ ≅ P′
    *-preserves-id {Γ} {P₀} ◻ = eq (*′-preserves-id P₀)
       where
          eq : ∀ {P₀ P₀′ : Proc Γ} → P₀ ≡ P₀′ → _≅_ {A = ↓ P₀} (◻ {P = P₀}) {↓ P₀′} (◻ {P = P₀′})
          eq {P₀ = P₀} {.P₀} refl = ≅-refl
    *-preserves-id [ Ο ] = ≅-refl
-   *-preserves-id {Γ} {x₀ •∙ P₀} [ x •∙ P ] = {!!}
+   *-preserves-id {Γ} {x₀ •∙ P₀} [ x •∙ P ] =
+      eq (nib x) (trans (*′-preserves-≃ₑ (+-preserves-id 1) P₀) (*′-preserves-id P₀))
+                 (≅-trans (*-preserves-≃ₑ bib P) (*-preserves-id P))
+      where
+         eq : ∀ {P₀ P₀′ : Proc (Γ + 1)} {x₀ : Name Γ} {x x′ : ↓ x₀} {P : ↓ P₀} {P′ : ↓ P₀′} →
+              x ≅ x′ → P₀ ≡ P₀′ → P ≅ P′ → _≅_ {A = ↓_ _} [ x •∙ P ] {↓_ _} [ x′ •∙ P′ ]
+         eq  ≅-refl refl ≅-refl = ≅-refl
    *-preserves-id {Γ} {• x₀ 〈 y₀ 〉∙ P₀} [ • x 〈 y 〉∙ P ] =
-      eq (*′-preserves-id P₀) {!!} {!!} (*-preserves-id P)
+      eq (*′-preserves-id P₀) (nib x) (nib y) (*-preserves-id P)
       where
          eq : ∀ {P₀ P₀′ : Proc Γ} {x₀ y₀ : Name Γ} {x x′ : ↓ x₀} {y y′ : ↓ y₀} {P : ↓ P₀} {P′ : ↓ P₀′} →
               P₀ ≡ P₀′ → x ≅ x′ → y ≅ y′ → P ≅ P′ → _≅_ {A = ↓_ _} [ • x 〈 y 〉∙ P ] {↓_ _} [ • x′ 〈 y′ 〉∙ P′ ]
@@ -82,7 +92,8 @@ module Proc.Ren.Lattice where
       eq (trans (*′-preserves-≃ₑ (+-preserves-id 1) P₀) (*′-preserves-id P₀))
          (≅-trans (*-preserves-≃ₑ bib P) (*-preserves-id P))
       where
-         eq : ∀ {P₀ P₀′ : Proc (Γ + 1)} {P : ↓ P₀} {P′ : ↓ P₀′} → P₀ ≡ P₀′ → P ≅ P′ → _≅_ {A = ↓_ _} [ ν P ] {↓_ _} [ ν P′ ]
+         eq : ∀ {P₀ P₀′ : Proc (Γ + 1)} {P : ↓ P₀} {P′ : ↓ P₀′} →
+              P₀ ≡ P₀′ → P ≅ P′ → _≅_ {A = ↓_ _} [ ν P ] {↓_ _} [ ν P′ ]
          eq refl ≅-refl = ≅-refl
    *-preserves-id {Γ} { ! P₀} [ ! P ] = eq (*′-preserves-id P₀) (*-preserves-id P)
       where
