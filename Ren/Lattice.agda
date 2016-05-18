@@ -12,7 +12,8 @@ module Ren.Lattice where
          )
    open import Name as ᴺ using (Name; _≟_; _+_)
    open import Name.Lattice as ᴺ̃ using ([_]; zero)
-   open import Ren as ᴿ using (Ren); open ᴿ.Renameable ⦃...⦄ renaming (_* to _*′; *-preserves-≃ₑ to *′-preserves-≃ₑ)
+   open import Ren as ᴿ using (Ren); open ᴿ.Renameable ⦃...⦄
+      renaming (_* to _*′; *-preserves-≃ₑ to *′-preserves-≃ₑ; *-preserves-id to *′-preserves-id)
 
    ↓_ : ∀ {Γ Γ′} → Ren Γ Γ′ → Set
    ↓_ {Γ} ρ = (x : Name Γ) → ↓′ (ρ x)
@@ -182,9 +183,9 @@ module Ren.Lattice where
    id : ∀ {Γ} → ↓ (idᶠ {A = Name Γ})
    id = to-↓ idᶠ
 
-   nib : ∀ {Γ} {x₀ : Name Γ} (x : ↓′ x₀) → (id *) x ≡ x
-   nib ᴺ̃.◻ = refl
-   nib [ _ ] = refl
+   *-preserves-id : ∀ {Γ} {x₀ : Name Γ} (x : ↓′ x₀) → (id *) x ≡ x
+   *-preserves-id ᴺ̃.◻ = refl
+   *-preserves-id [ _ ] = refl
 
    -- Not as general as the version in Ren, but sufficient for now.
    +-preserves-id : ∀ {Γ} (x : Name (Γ + 1)) → (id ᴿ+ 1) x ≅ id x
