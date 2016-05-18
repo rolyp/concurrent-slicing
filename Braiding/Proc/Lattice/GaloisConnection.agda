@@ -9,10 +9,9 @@ module Braiding.Proc.Lattice.GaloisConnection where
    open import Name using (_+_)
    open import Proc as ᴾ using (Proc); open ᴾ.Proc
    open import Proc.Lattice as ᴾ̃ using (_≤⁻_); open ᴾ̃.↓_; open ᴾ̃.↓⁻_; open ᴾ̃._≤_; open ᴾ̃._≤⁻_
-   open import Proc.Ren.Lattice using (_*ᴹ)
-      renaming (_* to _*̃; *-preserves-≃ₑ to *̃-preserves-≃ₑ; *-preserves-∘ to *̃-preserves-∘; *-preserves-id to *̃-preserves-id)
+   open import Proc.Ren.Lattice using (_*ᴹ) renaming (_* to _*̃)
    open import Ren as ᴿ using (swap); open ᴿ.Renameable ⦃...⦄
-   open import Ren.Lattice as ᴿ̃ using (to-↓; to-↓-preserves-≃ₑ)
+   open import Ren.Lattice as ᴿ̃ using (to-↓)
    open import Ren.Lattice.Properties
    open import Ren.Properties
    open import Braiding.Proc using (_⋉̂_; module _⋉̂_; ⋉̂-sym; ⋉̂-sym-involutive); open _⋉̂_

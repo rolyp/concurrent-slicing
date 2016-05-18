@@ -7,8 +7,9 @@ module Proc.Ren.Lattice where
    open import Proc as ᴾ using (Proc); open ᴾ.Proc
    import Proc.Ren
    import Proc.Lattice as ᴾ̃; open ᴾ̃.↓⁻_; open ᴾ̃.↓_; open ᴾ̃._≤⁻_; open ᴾ̃._≤_
-   open import Ren as ᴿ using (Ren); open ᴿ.Renameable ⦃...⦄
-     renaming (_* to _*′; *-preserves-≃ₑ to *′-preserves-≃ₑ; *-preserves-∘ to *′-preserves-∘; *-preserves-id to *′-preserves-id)
+   open import Ren as ᴿ using (Ren);
+     open ᴿ.Renameable ⦃...⦄
+       renaming (_* to _*′; *-preserves-≃ₑ to *′-preserves-≃ₑ; *-preserves-∘ to *′-preserves-∘; *-preserves-id to *′-preserves-id)
    open import Ren.Lattice as ᴿ̃ using (suc; suc-preserves-≃ₑ; sucᴹ; pre; preᴹ; _↦_; _↦ᴹ_; _⁻¹[_]_; _⁻¹ᴹ[_]_)
 
    -- Functor-like, but not quite sure how to treat this as a functor in the usual sense.
@@ -28,8 +29,19 @@ module Proc.Ren.Lattice where
    (ρ *) [ P ] = [ (ρ *⁻) P ]
 
    postulate
-      *-preserves-≃ₑ : ∀ {Γ Γ′} {ρ₀ σ₀ : Ren Γ Γ′} {P : Proc Γ} {ρ : ↓ ρ₀} {σ : ↓ σ₀} →
-                       (∀ x → ρ x ≅ σ x) → (P′ : ↓ P) → (ρ *) P′ ≅ (σ *) P′
+     *-preserves-≃ₑ : ∀ {Γ Γ′} {ρ₀ σ₀ : Ren Γ Γ′} {P : Proc Γ} {ρ : ↓ ρ₀} {σ : ↓ σ₀} →
+                      (∀ x → ρ x ≅ σ x) → (P′ : ↓ P) → (ρ *) P′ ≅ (σ *) P′
+{-
+   *-preserves-≃ₑ ρ ◻ = {!!}
+   *-preserves-≃ₑ {P = Ο} _ [ Ο ] = ≅-refl
+   *-preserves-≃ₑ {P = _ •∙ _} ρ [ x •∙ P ] = {!!}
+   *-preserves-≃ₑ {P = • _ 〈 _ 〉∙ _} ρ [ • x 〈 y 〉∙ P ] = {!!}
+   *-preserves-≃ₑ {P = _ ➕ _} ρ [ P ➕ Q ] = {!!}
+   *-preserves-≃ₑ {P = _ │ _} ρ [ P │ Q ] = {!!}
+   *-preserves-≃ₑ {P = ν _} ρ [ ν P ] = {!!}
+   *-preserves-≃ₑ {P = ! _} ρ [ ! P ] = {!!}
+-}
+   postulate
       *-preserves-∘ : ∀ {Γ Δ Γ′} {ρ₀ : Ren Δ Γ′} {σ₀ : Ren Γ Δ} {P : Proc Γ} {ρ : ↓ ρ₀} {σ : ↓ σ₀}
                       (P′ : ↓ P) → (ρ *) ((σ *) P′) ≅ (((ρ ᴿ̃.*) ∘ᶠ σ) *) P′
       *-preserves-id : ∀ {Γ} {id′ : ↓ idᶠ} {P : Proc Γ} (P′ : ↓ P) → (id′ *) P′ ≅ P′
