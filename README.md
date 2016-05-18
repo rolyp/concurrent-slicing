@@ -25,7 +25,6 @@ compile `ConcurrentSlicing.agda`.
 * Functor-like postulates in `Proc.Ren.Lattice`:
   * `*-preserves-≃ₑ`
   * `*-preserves-∘`
-  * `*-preserves-id`
 * Better names in Galois connection for transition sequences
 * Easy postulates in `Transition.Lattice`
 * `target⋆ᴹ` for transition sequences
