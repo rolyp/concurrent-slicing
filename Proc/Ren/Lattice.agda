@@ -67,8 +67,15 @@ module Proc.Ren.Lattice where
          eq : ∀ {P₀ P₀′ Q₀ Q₀′ : Proc Γ} {P : ↓ P₀} {P′ : ↓ P₀′} {Q : ↓ Q₀} {Q′ : ↓ Q₀′} →
               P₀ ≡ P₀′ → Q₀ ≡ Q₀′ → P ≅ P′ → Q ≅ Q′ → _≅_ {A = ↓_ _} [ P │ Q ] {↓_ _} [ P′ │ Q′ ]
          eq refl refl ≅-refl ≅-refl = ≅-refl
-   *-preserves-id {Γ} {ν P₀} [ ν P ] = {!!}
-   *-preserves-id {Γ} {! P₀} [ ! P ] = eq (*′-preserves-id P₀) (*-preserves-id P)
+   *-preserves-id {Γ} {ν P₀} [ ν P ] = eq r q
+      where
+         q : (suc ᴿ̃.id *) P ≅ P
+         q = {!!}
+         r : (ᴿ.suc idᶠ *′) P₀ ≡ idᶠ P₀
+         r = {!!}
+         eq : ∀ {P₀ P₀′ : Proc (Γ + 1)} {P : ↓ P₀} {P′ : ↓ P₀′} → P₀ ≡ P₀′ → P ≅ P′ → _≅_ {A = ↓_ _} [ ν P ] {↓_ _} [ ν P′ ]
+         eq refl ≅-refl = ≅-refl
+   *-preserves-id {Γ} { ! P₀} [ ! P ] = eq (*′-preserves-id P₀) (*-preserves-id P)
       where
          eq : ∀ {P₀ P₀′ : Proc Γ} {P : ↓ P₀} {P′ : ↓ P₀′} → P₀ ≡ P₀′ → P ≅ P′ → _≅_ {A = ↓_ _} [ ! P ] {↓_ _} [ ! P′ ]
          eq refl ≅-refl = ≅-refl
