@@ -46,15 +46,14 @@ module Proc.Ren.Lattice where
                       (P′ : ↓ P) → (ρ *) ((σ *) P′) ≅ (((ρ ᴿ̃.*) ∘ᶠ σ) *) P′
 
    *-preserves-id : ∀ {Γ} {P : Proc Γ} (P′ : ↓ P) → (ᴿ̃.id *) P′ ≅ P′
-   *-preserves-id ◻ = {!!}
+   *-preserves-id ◻ = {!≅-refl!}
    *-preserves-id [ Ο ] = ≅-refl
    *-preserves-id [ x •∙ P ] = {!!}
    *-preserves-id [ • x 〈 y 〉∙ P ] = {!!}
    *-preserves-id [ P ➕ Q ] = {!!}
    *-preserves-id [ P │ Q ] = {!!}
    *-preserves-id [ ν P ] = {!!}
-   *-preserves-id {P = ! P₀} [ ! P ] = let q = *-preserves-id P in
-      ≅-cong✴ ↓_ (*′-preserves-id P₀) (λ R → [ ! R ]) q
+   *-preserves-id [ ! P ] = {!!}
 
    infixr 8 _*⁻ᴹ _*ᴹ
    _*ᴹ : ∀ {Γ Γ′} {ρ₀ : Ren Γ Γ′} {P₀ : Proc Γ} {ρ ρ′ : ↓ ρ₀} {P P′ : ↓ P₀} → ρ ≤ ρ′ → P ≤ P′ → (ρ *) P ≤ (ρ′ *) P′
