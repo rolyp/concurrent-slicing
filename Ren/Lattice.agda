@@ -49,9 +49,6 @@ module Ren.Lattice where
    (ρ *ᴹ) ᴺ̃.◻ = ᴺ̃.◻
    (ρ *ᴹ) [ x ] = ρ x
 
-   postulate
-      bibble : ∀ {Γ Γ′ Δ} (ρ′ : Ren Γ Γ′) (ρ : Ren Γ′ Δ) → to-↓ (ρ ∘ᶠ ρ′) ≃ₑ (((to-↓ ρ) *) ∘ᶠ (to-↓ ρ′))
-
    -- TODO: fix the syntax here; ρ can no longer usefully be implicit.
    _↦_ : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} (x : Name Γ) → ↓′ (ρ *′) x → ↓ ρ
    _↦_ _ ᴺ̃.◻ = ◻

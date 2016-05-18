@@ -55,7 +55,7 @@ module Ren.Lattice.Properties where
          ((((to-↓ swap ᴿ+ Δ) ᴿ̃.*) ∘ᶠ (to-↓ swap ᴿ+ Δ)) *̃) P
       ≡⟨ {!!} ⟩
          ((((to-↓ (swap ᴿ.ᴿ+ Δ)) ᴿ̃.*) ∘ᶠ (to-↓ (swap ᴿ.ᴿ+ Δ))) *̃) P
-      ≅⟨ {!!} ⟩
+      ≅⟨ *̃-preserves-≃ₑ (λ x → ≅-refl) P ⟩
          ((to-↓ ((swap ᴿ.ᴿ+ Δ) ∘ᶠ (swap ᴿ.ᴿ+ Δ))) *̃) P
       ≅⟨ {!!} ⟩
          (ᴿ̃.id *̃) P
