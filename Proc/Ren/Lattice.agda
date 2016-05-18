@@ -48,7 +48,7 @@ module Proc.Ren.Lattice where
       *-preserves-∘ : ∀ {Γ Δ Γ′} {ρ₀ : Ren Δ Γ′} {σ₀ : Ren Γ Δ} {P : Proc Γ} {ρ : ↓ ρ₀} {σ : ↓ σ₀}
                       (P′ : ↓ P) → (ρ *) ((σ *) P′) ≅ (((ρ ᴿ̃.*) ∘ᶠ σ) *) P′
 
-   bib : ∀ {Γ} (x : Name (Γ + 1)) → to-↓ idᶠ x ≅ ((to-↓ idᶠ) ᴿ+ 1) x
+   bib : ∀ {Γ} (x : Name (Γ + 1)) → ((to-↓ idᶠ) ᴿ+ 1) x ≅ to-↓ idᶠ x
    bib ᴺ.zero = ≅-refl
    bib (ᴺ.suc x) = ≅-refl
 
@@ -59,14 +59,12 @@ module Proc.Ren.Lattice where
          eq : ∀ {P₀ P₀′ : Proc Γ} → P₀ ≡ P₀′ → _≅_ {A = ↓ P₀} (◻ {P = P₀}) {↓ P₀′} (◻ {P = P₀′})
          eq {P₀ = P₀} {.P₀} refl = ≅-refl
    *-preserves-id [ Ο ] = ≅-refl
-   *-preserves-id [ x •∙ P ] = {!!}
+   *-preserves-id {Γ} {x₀ •∙ P₀} [ x •∙ P ] = {!!}
    *-preserves-id {Γ} {• x₀ 〈 y₀ 〉∙ P₀} [ • x 〈 y 〉∙ P ] =
       eq (*′-preserves-id P₀) {!!} {!!} (*-preserves-id P)
       where
-         eq : ∀ {P₀ P₀′ : Proc Γ} {x₀ y₀ : Name Γ}
-              {x : ↓ x₀} {x′ : ↓ x₀} {y : ↓ y₀} {y′ : ↓ y₀} {P : ↓ P₀} {P′ : ↓ P₀′} →
-              P₀ ≡ P₀′ → x ≅ x′ → y ≅ y′ → P ≅ P′ →
-              _≅_ {A = ↓_ _} [ • x 〈 y 〉∙ P ] {↓_ _} [ • x′ 〈 y′ 〉∙ P′ ]
+         eq : ∀ {P₀ P₀′ : Proc Γ} {x₀ y₀ : Name Γ} {x x′ : ↓ x₀} {y y′ : ↓ y₀} {P : ↓ P₀} {P′ : ↓ P₀′} →
+              P₀ ≡ P₀′ → x ≅ x′ → y ≅ y′ → P ≅ P′ → _≅_ {A = ↓_ _} [ • x 〈 y 〉∙ P ] {↓_ _} [ • x′ 〈 y′ 〉∙ P′ ]
          eq refl ≅-refl ≅-refl ≅-refl = ≅-refl
    *-preserves-id {Γ} {P₀ ➕ Q₀} [ P ➕ Q ] =
       eq (*′-preserves-id P₀) (*′-preserves-id Q₀) (*-preserves-id P) (*-preserves-id Q)
@@ -82,7 +80,7 @@ module Proc.Ren.Lattice where
          eq refl refl ≅-refl ≅-refl = ≅-refl
    *-preserves-id {Γ} {ν P₀} [ ν P ] =
       eq (trans (*′-preserves-≃ₑ (+-preserves-id 1) P₀) (*′-preserves-id P₀))
-         (≅-trans (*-preserves-≃ₑ (≅-sym ∘ᶠ bib) P) (*-preserves-id P))
+         (≅-trans (*-preserves-≃ₑ bib P) (*-preserves-id P))
       where
          eq : ∀ {P₀ P₀′ : Proc (Γ + 1)} {P : ↓ P₀} {P′ : ↓ P₀′} → P₀ ≡ P₀′ → P ≅ P′ → _≅_ {A = ↓_ _} [ ν P ] {↓_ _} [ ν P′ ]
          eq refl ≅-refl = ≅-refl
