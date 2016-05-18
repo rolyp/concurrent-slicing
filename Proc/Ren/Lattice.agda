@@ -4,8 +4,9 @@ module Proc.Ren.Lattice where
 
    import Lattice; open Lattice.Prefixes ⦃...⦄
    import Lattice.Product
-   open import Name using (Name; _+_)
+   open import Name as ᴺ using (Name; _+_)
    open import Proc as ᴾ using (Proc); open ᴾ.Proc
+   open import Name.Lattice using ([_])
    import Proc.Ren
    import Proc.Lattice as ᴾ̃; open ᴾ̃.↓⁻_; open ᴾ̃.↓_; open ᴾ̃._≤⁻_; open ᴾ̃._≤_
    open import Ren as ᴿ using (Ren; +-preserves-id);
@@ -47,11 +48,9 @@ module Proc.Ren.Lattice where
       *-preserves-∘ : ∀ {Γ Δ Γ′} {ρ₀ : Ren Δ Γ′} {σ₀ : Ren Γ Δ} {P : Proc Γ} {ρ : ↓ ρ₀} {σ : ↓ σ₀}
                       (P′ : ↓ P) → (ρ *) ((σ *) P′) ≅ (((ρ ᴿ̃.*) ∘ᶠ σ) *) P′
 
-   blah : ∀ {Γ} → to-↓ (idᶠ ᴿ.ᴿ+ 1) ≃ₑ (to-↓ (idᶠ {A = Name Γ})) ᴿ+ 1
-   blah = to-↓-preserves-+ 1 idᶠ
-
    bib : ∀ {Γ} (x : Name (Γ + 1)) → to-↓ idᶠ x ≅ ((to-↓ idᶠ) ᴿ+ 1) x
-   bib = {!!}
+   bib ᴺ.zero = ≅-refl
+   bib (ᴺ.suc x) = ≅-refl
 
    -- Wasn't able to usefully employ generic helpers here.
    *-preserves-id : ∀ {Γ} {P : Proc Γ} (P′ : ↓ P) → (ᴿ̃.id *) P′ ≅ P′
