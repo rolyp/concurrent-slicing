@@ -50,7 +50,7 @@ module Proc.Ren.Lattice where
    blah : ∀ {Γ} → to-↓ (idᶠ ᴿ.ᴿ+ 1) ≃ₑ (to-↓ (idᶠ {A = Name Γ})) ᴿ+ 1
    blah = to-↓-preserves-+ 1 idᶠ
 
-   bib : ∀ {Γ} → ∀ x → to-↓ idᶠ x ≅ ((to-↓ (idᶠ {A = Name Γ})) ᴿ+ 1) x
+   bib : ∀ {Γ} (x : Name (Γ + 1)) → to-↓ idᶠ x ≅ ((to-↓ idᶠ) ᴿ+ 1) x
    bib = {!!}
 
    -- Wasn't able to usefully employ generic helpers here.
@@ -62,13 +62,13 @@ module Proc.Ren.Lattice where
    *-preserves-id [ Ο ] = ≅-refl
    *-preserves-id [ x •∙ P ] = {!!}
    *-preserves-id {Γ} {• x₀ 〈 y₀ 〉∙ P₀} [ • x 〈 y 〉∙ P ] =
-      eq refl refl (*′-preserves-id P₀) {!!} {!!} (*-preserves-id P)
+      eq (*′-preserves-id P₀) {!!} {!!} (*-preserves-id P)
       where
-         eq : ∀ {P₀ P₀′ : Proc Γ} {x₀ x₀′ y₀ y₀′ : Name Γ}
-              {x : ↓ x₀} {x′ : ↓ x₀′} {y : ↓ y₀} {y′ : ↓ y₀′} {P : ↓ P₀} {P′ : ↓ P₀′} →
-              x₀ ≡ x₀′ → y₀ ≡ y₀′ → P₀ ≡ P₀′ → x ≅ x′ → y ≅ y′ → P ≅ P′ →
+         eq : ∀ {P₀ P₀′ : Proc Γ} {x₀ y₀ : Name Γ}
+              {x : ↓ x₀} {x′ : ↓ x₀} {y : ↓ y₀} {y′ : ↓ y₀} {P : ↓ P₀} {P′ : ↓ P₀′} →
+              P₀ ≡ P₀′ → x ≅ x′ → y ≅ y′ → P ≅ P′ →
               _≅_ {A = ↓_ _} [ • x 〈 y 〉∙ P ] {↓_ _} [ • x′ 〈 y′ 〉∙ P′ ]
-         eq refl refl refl ≅-refl ≅-refl ≅-refl = ≅-refl
+         eq refl ≅-refl ≅-refl ≅-refl = ≅-refl
    *-preserves-id {Γ} {P₀ ➕ Q₀} [ P ➕ Q ] =
       eq (*′-preserves-id P₀) (*′-preserves-id Q₀) (*-preserves-id P) (*-preserves-id Q)
       where
@@ -82,10 +82,9 @@ module Proc.Ren.Lattice where
               P₀ ≡ P₀′ → Q₀ ≡ Q₀′ → P ≅ P′ → Q ≅ Q′ → _≅_ {A = ↓_ _} [ P │ Q ] {↓_ _} [ P′ │ Q′ ]
          eq refl refl ≅-refl ≅-refl = ≅-refl
    *-preserves-id {Γ} {ν P₀} [ ν P ] =
-      eq (trans (*′-preserves-≃ₑ (+-preserves-id 1) P₀) (*′-preserves-id P₀)) q
+      eq (trans (*′-preserves-≃ₑ (+-preserves-id 1) P₀) (*′-preserves-id P₀))
+         (≅-trans (*-preserves-≃ₑ (≅-sym ∘ᶠ bib) P) (*-preserves-id P))
       where
-         q : (suc ᴿ̃.id *) P ≅ P
-         q = ≅-trans (*-preserves-≃ₑ (≅-sym ∘ᶠ bib) P) (*-preserves-id P)
          eq : ∀ {P₀ P₀′ : Proc (Γ + 1)} {P : ↓ P₀} {P′ : ↓ P₀′} → P₀ ≡ P₀′ → P ≅ P′ → _≅_ {A = ↓_ _} [ ν P ] {↓_ _} [ ν P′ ]
          eq refl ≅-refl = ≅-refl
    *-preserves-id {Γ} { ! P₀} [ ! P ] = eq (*′-preserves-id P₀) (*-preserves-id P)
