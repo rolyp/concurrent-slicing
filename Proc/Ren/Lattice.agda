@@ -45,17 +45,17 @@ module Proc.Ren.Lattice where
       *-preserves-∘ : ∀ {Γ Δ Γ′} {ρ₀ : Ren Δ Γ′} {σ₀ : Ren Γ Δ} {P : Proc Γ} {ρ : ↓ ρ₀} {σ : ↓ σ₀}
                       (P′ : ↓ P) → (ρ *) ((σ *) P′) ≅ (((ρ ᴿ̃.*) ∘ᶠ σ) *) P′
 
-   *-preserves-id : ∀ {Γ} {id′ : ↓ idᶠ} {P : Proc Γ} (P′ : ↓ P) → (id′ *) P′ ≅ P′
+      *-preserves-id : ∀ {Γ} {P : Proc Γ} (P′ : ↓ P) → (ᴿ̃.id *) P′ ≅ P′
+{-
    *-preserves-id ◻ = {!!}
    *-preserves-id [ Ο ] = ≅-refl
-   *-preserves-id [ x •∙ P ] = ≅-cong₂ (λ y R → [ y •∙ R ]) {!!} (*-preserves-id P)
-   *-preserves-id [ • x₁ 〈 x₂ 〉∙ x₃ ] = {!!}
-   *-preserves-id [ x ➕ x₁ ] = {!!}
-   *-preserves-id [ x │ x₁ ] = {!!}
-   *-preserves-id [ ν x ] = {!!}
-   *-preserves-id {id′ = id′} {P = ! P₀} [ ! P ] = let q = *-preserves-id {id′ = id′} P in
-      ≅-cong (λ R → [ ! R ]) {!q!}
-
+   *-preserves-id [ x •∙ P ] = {!!}
+   *-preserves-id [ • x 〈 y 〉∙ P ] = {!!}
+   *-preserves-id [ P ➕ Q ] = {!!}
+   *-preserves-id [ P │ Q ] = {!!}
+   *-preserves-id [ ν P ] = {!!}
+   *-preserves-id [ ! P ] = {!!}
+-}
    infixr 8 _*⁻ᴹ _*ᴹ
    _*ᴹ : ∀ {Γ Γ′} {ρ₀ : Ren Γ Γ′} {P₀ : Proc Γ} {ρ ρ′ : ↓ ρ₀} {P P′ : ↓ P₀} → ρ ≤ ρ′ → P ≤ P′ → (ρ *) P ≤ (ρ′ *) P′
    _*⁻ᴹ : ∀ {Γ Γ′} {ρ₀ : Ren Γ Γ′} {P₀ : Proc Γ} {ρ ρ′ : ↓ ρ₀} {P P′ : ↓⁻ P₀} → ρ ≤ ρ′ → P ≤⁻ P′ → (ρ *⁻) P ≤⁻ (ρ′ *⁻) P′
