@@ -70,9 +70,9 @@ module Proc.Ren.Lattice where
    *-preserves-id {Γ} {ν P₀} [ ν P ] = eq r q
       where
          q : (suc ᴿ̃.id *) P ≅ P
-         q = {!!}
+         q = ≅-trans (*-preserves-≃ₑ {!!} P) (*-preserves-id P)
          r : (ᴿ.suc idᶠ *′) P₀ ≡ idᶠ P₀
-         r = {!!}
+         r = trans {!!} (*′-preserves-id P₀)
          eq : ∀ {P₀ P₀′ : Proc (Γ + 1)} {P : ↓ P₀} {P′ : ↓ P₀′} → P₀ ≡ P₀′ → P ≅ P′ → _≅_ {A = ↓_ _} [ ν P ] {↓_ _} [ ν P′ ]
          eq refl ≅-refl = ≅-refl
    *-preserves-id {Γ} { ! P₀} [ ! P ] = eq (*′-preserves-id P₀) (*-preserves-id P)
