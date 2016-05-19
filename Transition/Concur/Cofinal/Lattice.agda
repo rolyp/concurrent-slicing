@@ -47,10 +47,10 @@ module Transition.Concur.Cofinal.Lattice where
             braiding 𝑎 (γ₁ 𝐸) (π₂ (fwd (E′/E (⊖₁ 𝐸)) (π₂ (fwd E P′))))
    wibble _ ◻ = {!!}
    wibble {E = .E ᵇ│ ._} {E′ = ._ │ᵇ .F} (E ᵇ│ᵇ F) [ P │ Q ] = {!!}
-   wibble (E ᵇ│ᶜ F) [ P │ Q ] = cong [_] (cong₂ _│_ refl (ren-fwd-comm F push Q))
+   wibble (E ᵇ│ᶜ F) [ P │ Q ] = cong (λ Q′ → [ _ │ Q′ ]) (ren-fwd-comm F push Q)
+   wibble (E ᶜ│ᵇ F) [ P │ Q ] = cong (λ P′ → [ P′ │ _ ]) (sym (ren-fwd-comm E push P))
    wibble 𝐸 P = {!!}
 {-
-   wibble (E ᶜ│ᵇ F) P₁ = {!!}
    wibble (E ᶜ│ᶜ F) P₁ = {!!}
    wibble (𝐸 │•ᵇ F) P₁ = {!!}
    wibble (𝐸 │•ᶜ F) P₁ = {!!}
