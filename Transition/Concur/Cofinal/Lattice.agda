@@ -1,22 +1,24 @@
 module Transition.Concur.Cofinal.Lattice where
 
    open import ConcurrentSlicingCommon
+   import Relation.Binary.EqReasoning as EqReasoning
 
-   open import Action as ᴬ using (Action; inc)
+   open import Action as ᴬ using (Action; inc); open ᴬ.Action
    open import Action.Concur using (_ᴬ⌣_; module _ᴬ⌣_; ᴬ⊖; ᴬγ); open _ᴬ⌣_
    open import Braiding.Proc.Lattice using (braid̂)
    open import Name using (Cxt; _+_)
-   open import Proc using (Proc; Proc↱)
+   open import Proc as ᴾ using (Proc; Proc↱); open ᴾ.Proc
    open import Proc.Lattice as ᴾ̃ using (↓_); open ᴾ̃.↓_; open ᴾ̃.↓⁻_
    import Proc.Ren
    open import Proc.Ren.Lattice renaming (_* to _*̃)
    open import Ren as ᴿ using (); open ᴿ.Renameable ⦃...⦄
    open import Ren.Lattice using (_ᴿ+_; swap)
    open import Ren.Properties
-   open import Transition as ᵀ using (_—[_-_]→_)
+   open import Transition as ᵀ using (_—[_-_]→_); open ᵀ._—[_-_]→_
    open import Transition.Concur using (Concur₁; module Concur₁; module Delta′; ⊖₁); open Concur₁
    open import Transition.Concur.Cofinal using (⋈̂[_,_,_]; γ₁)
-   open import Transition.Lattice.GaloisConnection using (fwd)
+   open import Transition.Lattice.GaloisConnection using (fwd; step)
+   open import Transition.Ren using (_*ᵇ; _*ᶜ)
 
    braiding : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) {Δ : Cxt} {P P′} → ⋈̂[ Γ , 𝑎 , Δ ] P P′ → ↓ P → ↓ P′
    braiding ˣ∇ˣ refl = idᶠ
@@ -35,18 +37,49 @@ module Transition.Concur.Cofinal.Lattice where
 
    -- Not sure of the naming convention to use here.
    wibble : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
-            (𝐸 : E ⌣₁[ 𝑎 ] E′) →
-            coerceCxt 𝑎 ∘ᶠ π₂ ∘ᶠ fwd (E/E′ (⊖₁ 𝐸)) ∘ᶠ π₂ ∘ᶠ fwd E′ ≃ₑ
-            braiding 𝑎 (γ₁ 𝐸) ∘ᶠ π₂ ∘ᶠ fwd (E′/E (⊖₁ 𝐸)) ∘ᶠ π₂ ∘ᶠ fwd E
+            (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ →
+            coerceCxt 𝑎 (π₂ (fwd (E/E′ (⊖₁ 𝐸)) (π₂ (fwd E′ P′)))) ≡
+            braiding 𝑎 (γ₁ 𝐸) (π₂ (fwd (E′/E (⊖₁ 𝐸)) (π₂ (fwd E P′))))
    wibble _ ◻ = {!!}
-   wibble (𝐸 ➕₁ Q) [ P ➕ _ ] = wibble 𝐸 P
-   wibble {𝑎 = ˣ∇ˣ} (P │ᵇᵇ 𝐸) P₁ = {!!}
-   wibble {𝑎 = ˣ∇ˣ} (𝐸 ᵇᵇ│ Q) P₁ = {!!}
-   wibble {𝑎 = ˣ∇ˣ} (ν• 𝐸) P₁ = {!!}
-   wibble {𝑎 = ˣ∇ˣ} (νˣˣ 𝐸) P₁ = {!!}
-   wibble {𝑎 = ˣ∇ˣ} (! 𝐸) P₁ = {!!}
-   wibble {𝑎 = ᵇ∇ᵇ} 𝐸 P₁ = {!!}
-   wibble {𝑎 = ᵇ∇ᶜ} 𝐸 P₁ = {!!}
-   wibble {𝑎 = ᶜ∇ᵇ} 𝐸 P₁ = {!!}
-   wibble {𝑎 = ᶜ∇ᶜ} 𝐸 P₁ = {!!}
-   wibble {𝑎 = ᵛ∇ᵛ} 𝐸 P₁ = {!!}
+   wibble {P = P₀ │ Q₀} {E = .E ᵇ│ .Q₀} {E′ = .P₀ │ᵇ .F} (E ᵇ│ᵇ F) [ P │ Q ] = {!!}
+   wibble {a = a ᵇ} {a′ ᶜ} {P = P₀ │ Q₀} (E ᵇ│ᶜ F) [ P │ Q ] =
+      cong [_] (cong₂ _│_ refl {!!})
+   wibble 𝐸 P = {!!}
+{-
+   wibble (E ᶜ│ᵇ F) P₁ = {!!}
+   wibble (E ᶜ│ᶜ F) P₁ = {!!}
+   wibble (𝐸 │•ᵇ F) P₁ = {!!}
+   wibble (𝐸 │•ᶜ F) P₁ = {!!}
+   wibble (E ᵇ│• 𝐸) P₁ = {!!}
+   wibble (E ᶜ│• 𝐸) P₁ = {!!}
+   wibble (𝐸 │ᵥᵇ F) P₁ = {!!}
+   wibble (𝐸 │ᵥᶜ F) P₁ = {!!}
+   wibble (E ᵇ│ᵥ 𝐸) P₁ = {!!}
+   wibble (E ᶜ│ᵥ 𝐸) P₁ = {!!}
+   wibble (𝐸 ➕₁ Q) P₁ = {!!}
+   wibble (P │ᵇᵇ 𝐸) P₁ = {!!}
+   wibble (P │ᵇᶜ 𝐸) P₁ = {!!}
+   wibble (P │ᶜᵇ 𝐸) P₁ = {!!}
+   wibble (P │ᶜᶜ 𝐸) P₁ = {!!}
+   wibble (P │ᵛᵛ 𝐸) P₁ = {!!}
+   wibble (𝐸 ᵇᵇ│ Q) P₁ = {!!}
+   wibble (𝐸 ᵇᶜ│ Q) P₁ = {!!}
+   wibble (𝐸 ᶜᵇ│ Q) P₁ = {!!}
+   wibble (𝐸 ᶜᶜ│ Q) P₁ = {!!}
+   wibble (𝐸 ᵛᵛ│ Q) P₁ = {!!}
+   wibble (𝐸 │• 𝐸₁) P₁ = {!!}
+   wibble (𝐸 │•ᵥ 𝐸₁) P₁ = {!!}
+   wibble (𝐸 │ᵥ• 𝐸₁) P₁ = {!!}
+   wibble (𝐸 │ᵥ 𝐸₁) P₁ = {!!}
+   wibble (𝐸 │ᵥ′ 𝐸₁) P₁ = {!!}
+   wibble (ν• 𝐸) P₁ = {!!}
+   wibble (ν•ᵇ 𝐸) P₁ = {!!}
+   wibble (ν•ᶜ 𝐸) P₁ = {!!}
+   wibble (νᵇᵇ 𝐸) P₁ = {!!}
+   wibble (νˣˣ 𝐸) P₁ = {!!}
+   wibble (νᵇᶜ 𝐸) P₁ = {!!}
+   wibble (νᶜᵇ 𝐸) P₁ = {!!}
+   wibble (νᶜᶜ 𝐸) P₁ = {!!}
+   wibble (νᵛᵛ 𝐸) P₁ = {!!}
+   wibble (! 𝐸) P₁ = {!!}
+-}
