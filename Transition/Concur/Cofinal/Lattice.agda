@@ -6,18 +6,19 @@ module Transition.Concur.Cofinal.Lattice where
    open import Action as ᴬ using (Action; inc); open ᴬ.Action
    open import Action.Concur using (_ᴬ⌣_; module _ᴬ⌣_; ᴬ⊖; ᴬγ); open _ᴬ⌣_
    open import Braiding.Proc.Lattice using (braid̂)
+   open import Lattice using (Lattices); open Lattice.Prefixes ⦃...⦄
    open import Name using (Cxt; _+_)
    open import Proc as ᴾ using (Proc; Proc↱); open ᴾ.Proc
-   open import Proc.Lattice as ᴾ̃ using (↓_); open ᴾ̃.↓_; open ᴾ̃.↓⁻_
+   open import Proc.Lattice as ᴾ̃ using (); open ᴾ̃.↓_; open ᴾ̃.↓⁻_
    import Proc.Ren
    open import Proc.Ren.Lattice renaming (_* to _*̃)
-   open import Ren as ᴿ using (); open ᴿ.Renameable ⦃...⦄
-   open import Ren.Lattice using (_ᴿ+_; swap)
+   open import Ren as ᴿ using (Ren); open ᴿ.Renameable ⦃...⦄
+   open import Ren.Lattice using (_ᴿ+_; swap; push)
    open import Ren.Properties
    open import Transition as ᵀ using (_—[_-_]→_); open ᵀ._—[_-_]→_
    open import Transition.Concur using (Concur₁; module Concur₁; module Delta′; ⊖₁); open Concur₁
    open import Transition.Concur.Cofinal using (⋈̂[_,_,_]; γ₁)
-   open import Transition.Lattice.GaloisConnection using (fwd; step)
+   open import Transition.Lattice using (fwd; step)
    open import Transition.Ren using (_*ᵇ; _*ᶜ)
 
    braiding : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) {Δ : Cxt} {P P′} → ⋈̂[ Γ , 𝑎 , Δ ] P P′ → ↓ P → ↓ P′
@@ -27,6 +28,10 @@ module Transition.Concur.Cofinal.Lattice where
    braiding ᶜ∇ᵇ refl = idᶠ
    braiding ᶜ∇ᶜ refl = idᶠ
    braiding ᵛ∇ᵛ = braid̂
+
+   ren-fwd-comm : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {Q₀ a S₀} (F : Q₀ —[ a ᶜ - _ ]→ S₀) →
+          (ρ′ : ↓ ρ) (Q : ↓ Q₀) → (ρ′ *̃) (π₂ (fwd F Q)) ≡ π₂ (fwd ((ρ *ᶜ) F) ((ρ′ *̃) Q))
+   ren-fwd-comm = {!!}
 
    open Delta′
 
@@ -41,9 +46,8 @@ module Transition.Concur.Cofinal.Lattice where
             coerceCxt 𝑎 (π₂ (fwd (E/E′ (⊖₁ 𝐸)) (π₂ (fwd E′ P′)))) ≡
             braiding 𝑎 (γ₁ 𝐸) (π₂ (fwd (E′/E (⊖₁ 𝐸)) (π₂ (fwd E P′))))
    wibble _ ◻ = {!!}
-   wibble {P = P₀ │ Q₀} {E = .E ᵇ│ .Q₀} {E′ = .P₀ │ᵇ .F} (E ᵇ│ᵇ F) [ P │ Q ] = {!!}
-   wibble {a = a ᵇ} {a′ ᶜ} {P = P₀ │ Q₀} (E ᵇ│ᶜ F) [ P │ Q ] =
-      cong [_] (cong₂ _│_ refl {!!})
+   wibble {E = .E ᵇ│ ._} {E′ = ._ │ᵇ .F} (E ᵇ│ᵇ F) [ P │ Q ] = {!!}
+   wibble (E ᵇ│ᶜ F) [ P │ Q ] = cong [_] (cong₂ _│_ refl (ren-fwd-comm F push Q))
    wibble 𝐸 P = {!!}
 {-
    wibble (E ᶜ│ᵇ F) P₁ = {!!}

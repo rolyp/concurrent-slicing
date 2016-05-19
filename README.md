@@ -24,4 +24,5 @@ Appendix A of the paper.
 * Sync Agda names with paper:
   * `∘ᶠ` → `∘ᶠ`, `idᶠ` → `id`
   * `π₂ ∘ᶠ fwd` → `fwd`, etc?
+  * `†` → `unren`
 * Bump revision numbers for `agda-stdlib-ext`, `proof-relevant-pi` and `concurrent-slicing`
