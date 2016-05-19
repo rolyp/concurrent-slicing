@@ -30,6 +30,6 @@ module Transition.Concur.Cofinal.Lattice where
    -- Not sure of the naming convention to use here.
    wibble : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
             (𝐸 : E ⌣₁[ 𝑎 ] E′) →
-            let f = fwd (E/E′ (⊖₁ 𝐸)) ∘ᶠ π₂ ∘ᶠ fwd E′ in
+            let f = π₂ ∘ᶠ fwd (E/E′ (⊖₁ 𝐸)) ∘ᶠ π₂ ∘ᶠ fwd E′ in
             let g = braiding 𝑎 (γ₁ 𝐸) ∘ᶠ π₂ ∘ᶠ fwd (E′/E (⊖₁ 𝐸)) ∘ᶠ π₂ ∘ᶠ fwd E in ⊤
    wibble = {!!}

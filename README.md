@@ -24,4 +24,5 @@ Appendix A of the paper.
 * Sync Agda names with paper:
   * <s>`⊖₁-✓` → `γ`</s>
   * `∘ᶠ` → `∘ᶠ`, `idᶠ` → `id`
+  * `π₂ ∘ᶠ fwd` → `fwd`, etc?
 * Bump revision numbers for `agda-stdlib-ext`, `proof-relevant-pi` and `concurrent-slicing`
