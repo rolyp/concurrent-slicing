@@ -22,5 +22,5 @@ Appendix A of the paper.
 * `target⋆ᴹ` for transition sequences
 * Example
 * Agda names with paper:
-  * cofin
+  * <s>`⊖₁-✓` → `γ`</s>
 * Bump revision numbers for `agda-stdlib-ext`, `proof-relevant-pi` and `concurrent-slicing`
