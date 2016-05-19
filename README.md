@@ -21,6 +21,7 @@ Appendix A of the paper.
 * Easy postulates in `Transition.Lattice`
 * `target⋆ᴹ` for transition sequences
 * Example
-* Agda names with paper:
+* Sync Agda names with paper:
   * <s>`⊖₁-✓` → `γ`</s>
+  * `∘ᶠ` → `∘ᶠ`, `idᶠ` → `id`
 * Bump revision numbers for `agda-stdlib-ext`, `proof-relevant-pi` and `concurrent-slicing`
