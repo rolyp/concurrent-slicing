@@ -15,6 +15,7 @@ Appendix A of the paper.
 ### Minor todos:
 
 * `Ren.Lattice.Properties` postulate counterpart to `Ren.Properties`
+* `Transition.Ren.Lattice` postulates
 * Functor-like postulates in `Proc.Ren.Lattice`:
   * `*-preserves-≃ₑ`
   * `*-preserves-∘`

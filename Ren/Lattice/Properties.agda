@@ -51,3 +51,4 @@ module Ren.Lattice.Properties where
 
    postulate
       swap∘push∘push̃ : ∀ {Γ} {P : Proc Γ} (P′ : ↓ P) → (ᴿ̃.swap *̃) ((ᴿ̃.push *̃) ((ᴿ̃.push *̃) P′)) ≅ (ᴿ̃.push *̃) ((ᴿ̃.push *̃) P′)
+      swap∘suc-push̃ : ∀ {Γ} {P : Proc (Γ + 1)} (P′ : ↓ P) → (ᴿ̃.push *̃) P′ ≅ (ᴿ̃.swap *̃) ((ᴿ̃.suc ᴿ̃.push *̃) P′)

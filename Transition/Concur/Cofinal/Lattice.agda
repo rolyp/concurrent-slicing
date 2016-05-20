@@ -21,7 +21,7 @@ module Transition.Concur.Cofinal.Lattice where
    open import Transition.Concur.Cofinal using (⋈̂[_,_,_]; γ₁)
    open import Transition.Lattice using (fwd; step)
    open import Transition.Ren using (_*ᵇ; _*ᶜ)
-   open import Transition.Ren.Lattice using (ren-fwd-comm)
+   open import Transition.Ren.Lattice using (renᶜ-fwd-comm; renᵇ-fwd-comm)
 
    braiding : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) {Δ : Cxt} {P P′} → ⋈̂[ Γ , 𝑎 , Δ ] P P′ → ↓ P → ↓ P′
    braiding ˣ∇ˣ eq rewrite eq = idᶠ
@@ -128,17 +128,28 @@ module Transition.Concur.Cofinal.Lattice where
       ∎)
    wibble {𝑎 = ᵛ∇ᵛ} {E = E} {E′} 𝐸 ◻ = refl
    wibble {a = a ᵇ} {a′ ᵇ} {E = .E ᵇ│ Q₀} {E′ = P₀ │ᵇ .F} (E ᵇ│ᵇ F) [ P │ Q ] =
-      let open ≅-Reasoning in ≅-to-≡ (
+      let quib : (push *̃) (π₂ (fwd F Q)) ≅ (swap *̃) (π₂ (fwd ((ᴿ.push *ᵇ) F) ((push *̃) Q)))
+          quib = let open ≅-Reasoning in
+             begin
+                (push *̃) (π₂ (fwd F Q))
+             ≅⟨ swap∘suc-push̃ _ ⟩
+                (swap *̃) (((push ᴿ+ 1) *̃) (π₂ (fwd F Q)))
+             ≅⟨ ≅-cong (swap *̃) (≡-to-≅ (renᵇ-fwd-comm F push Q)) ⟩
+                (swap *̃) (π₂ (fwd ((ᴿ.push *ᵇ) F) ((push *̃) Q)))
+             ∎
+          bib : π₂ (fwd ((ᴿ.push *ᵇ) E) ((push *̃) P)) ≅ (swap *̃) ((push *̃) (π₂ (fwd E P)))
+          bib = {!!}
+          open ≅-Reasoning in ≅-to-≡ (
       begin
          [ π₂ (fwd ((ᴿ.push *ᵇ) E) ((push *̃) P)) │ (push *̃) (π₂ (fwd F Q)) ]
-      ≅⟨ [-│-]-cong (swap∘push (ᵀ.target E)) {!!} (swap∘suc-push (ᵀ.target F)) {!!} ⟩
+      ≅⟨ [-│-]-cong (swap∘push (ᵀ.target E)) bib (swap∘suc-push (ᵀ.target F)) quib ⟩
          [ (swap *̃) ((push *̃) (π₂ (fwd E P))) │ (swap *̃) (π₂ (fwd ((ᴿ.push *ᵇ) F) ((push *̃) Q))) ]
       ≅⟨ ≅-sym (reduce-ᵇ∇ᵇ (sym (cong₂ _│_ (swap∘push (ᵀ.target E)) (swap∘suc-push (ᵀ.target F)))) _) ⟩
          braiding (ᵇ∇ᵇ {a = a} {a′}) {0} (sym (cong₂ _│_ (swap∘push (ᵀ.target E)) (swap∘suc-push (ᵀ.target F))))
                                         [ (push *̃) (π₂ (fwd E P)) │ π₂ (fwd ((ᴿ.push *ᵇ) F) ((push *̃) Q)) ]
       ∎)
-   wibble (E ᵇ│ᶜ F) [ P │ Q ] = cong (λ Q′ → [ _ │ Q′ ]) (ren-fwd-comm F push Q)
-   wibble (E ᶜ│ᵇ F) [ P │ Q ] = cong (λ P′ → [ P′ │ _ ]) (sym (ren-fwd-comm E push P))
+   wibble (E ᵇ│ᶜ F) [ P │ Q ] = cong (λ Q′ → [ _ │ Q′ ]) (renᶜ-fwd-comm F push Q)
+   wibble (E ᶜ│ᵇ F) [ P │ Q ] = cong (λ P′ → [ P′ │ _ ]) (sym (renᶜ-fwd-comm E push P))
    wibble (E ᶜ│ᶜ F) [ P │ Q ] = refl
    wibble (𝐸 ➕₁ Q) [ P ➕ _ ] = wibble 𝐸 P
    wibble {𝑎 = ˣ∇ˣ {x = x} {u}} {E = _ │ᵇ F} {._ │ᵇ F′} (._ │ᵇᵇ 𝐹) [ P │ Q ] =
