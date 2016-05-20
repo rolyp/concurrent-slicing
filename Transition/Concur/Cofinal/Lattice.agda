@@ -3,11 +3,11 @@ module Transition.Concur.Cofinal.Lattice where
    open import ConcurrentSlicingCommon
    import Relation.Binary.EqReasoning as EqReasoning
 
-   open import Action as ᴬ using (Action; inc); open ᴬ.Action
+   open import Action as ᴬ using (Action; Actionᵇ; Actionᶜ; inc); open ᴬ.Action
    open import Action.Concur using (_ᴬ⌣_; module _ᴬ⌣_; ᴬ⊖; ᴬγ); open _ᴬ⌣_
    open import Braiding.Proc.Lattice using (braid̂)
    open import Lattice using (Lattices); open Lattice.Prefixes ⦃...⦄
-   open import Name using (Cxt; _+_)
+   open import Name as ᴺ using (Cxt; _+_)
    open import Proc as ᴾ using (Proc; Proc↱); open ᴾ.Proc
    open import Proc.Lattice as ᴾ̃ using (); open ᴾ̃.↓_; open ᴾ̃.↓⁻_
    import Proc.Ren
@@ -20,25 +20,27 @@ module Transition.Concur.Cofinal.Lattice where
    open import Transition.Concur.Cofinal using (⋈̂[_,_,_]; γ₁)
    open import Transition.Lattice using (fwd; step)
    open import Transition.Ren using (_*ᵇ; _*ᶜ)
+   open import Transition.Ren.Lattice using (ren-fwd-comm)
 
    braiding : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) {Δ : Cxt} {P P′} → ⋈̂[ Γ , 𝑎 , Δ ] P P′ → ↓ P → ↓ P′
-   braiding ˣ∇ˣ refl = idᶠ
+   braiding ˣ∇ˣ eq rewrite eq = idᶠ
    braiding ᵇ∇ᵇ {Δ} refl = (swap ᴿ+ Δ) *̃
    braiding ᵇ∇ᶜ refl = idᶠ
    braiding ᶜ∇ᵇ refl = idᶠ
    braiding ᶜ∇ᶜ refl = idᶠ
    braiding ᵛ∇ᵛ = braid̂
 
-   ren-fwd-comm : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {Q₀ a S₀} (F : Q₀ —[ a ᶜ - _ ]→ S₀) →
-          (ρ′ : ↓ ρ) (Q : ↓ Q₀) → (ρ′ *̃) (π₂ (fwd F Q)) ≡ π₂ (fwd ((ρ *ᶜ) F) ((ρ′ *̃) Q))
-   ren-fwd-comm = {!!}
-
    open Delta′
 
+   private
    -- Can't see a way to inline this into the proposition being proven.
-   coerceCxt : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) →
-               let Γ′ = Γ + inc a′ + inc (π₂ (ᴬ⊖ 𝑎)) in ∀ {P : Proc Γ′} → ↓ P → ↓ Proc↱ (sym (ᴬγ 𝑎)) P
-   coerceCxt 𝑎 rewrite sym (ᴬγ 𝑎) = idᶠ
+      coerceCxt : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) →
+                  let Γ′ = Γ + inc a′ + inc (π₂ (ᴬ⊖ 𝑎)) in ∀ {P : Proc Γ′} → ↓ P → ↓ Proc↱ (sym (ᴬγ 𝑎)) P
+      coerceCxt 𝑎 rewrite sym (ᴬγ 𝑎) = idᶠ
+
+      reduce : ∀ {Γ} Δ (P P′ : Proc (Γ + 1 + Δ)) (a : Actionᵇ Γ) (a′ : Actionᶜ Γ) (γ : P ≡ P′) (P† : ↓ P) →
+               braiding (ᵇ∇ᶜ {a = a} {a′}) {Δ} γ P† ≅ P†
+      reduce = {!!}
 
    -- Not sure of the naming convention to use here.
    wibble : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
@@ -62,10 +64,23 @@ module Transition.Concur.Cofinal.Lattice where
    wibble (E ᶜ│ᵥ 𝐸) P₁ = {!!}
 -}
    wibble (𝐸 ➕₁ Q) [ P ➕ _ ] = wibble 𝐸 P
+   wibble {𝑎 = ˣ∇ˣ} (_ │ᵇᵇ 𝐸) [ P │ Q ] = {!!}
+   wibble {𝑎 = ᵇ∇ᵇ} (_ │ᵇᵇ 𝐸) [ P │ Q ] = {!!}
+   wibble {a = a ᵇ} {a′ ᶜ} {E = P₀ │ᵇ F} {.P₀ │ᶜ F′} (._ │ᵇᶜ 𝐹) [ P │ Q ] with wibble 𝐹 Q
+   ... | q = let open ≅-Reasoning in ≅-to-≡ (
+      begin
+         [ (push *̃) P │ π₂ (fwd (E/E′ (⊖₁ 𝐹)) (π₂ (fwd F′ Q))) ]
+      ≅⟨ {!!} ⟩
+         [ (push *̃) P │ π₂ (fwd (E′/E (⊖₁ 𝐹)) (π₂ (fwd F Q))) ]
+      ≅⟨ ≅-sym (reduce 0 ((ᴿ.push *) P₀ │ S (⊖₁ 𝐹)) (Proc↱ refl ((ᴿ.push *) P₀ │ S′ (⊖₁ 𝐹))) a a′ (cong₂ _│_ refl (γ₁ 𝐹))
+         [ (push *̃) P │ π₂ (fwd (E′/E (⊖₁ 𝐹)) (π₂ (fwd F Q))) ]) ⟩
+         braiding ᵇ∇ᶜ (cong₂ _│_ refl (γ₁ 𝐹)) [ (push *̃) P │ π₂ (fwd (E′/E (⊖₁ 𝐹)) (π₂ (fwd F Q))) ]
+      ∎)
+{-
+
+-}
    wibble 𝐸 P = {!!}
 {-
-   wibble (P │ᵇᵇ 𝐸) P₁ = {!!}
-   wibble (P │ᵇᶜ 𝐸) P₁ = {!!}
    wibble (P │ᶜᵇ 𝐸) P₁ = {!!}
    wibble (P │ᶜᶜ 𝐸) P₁ = {!!}
    wibble (P │ᵛᵛ 𝐸) P₁ = {!!}
@@ -75,7 +90,7 @@ module Transition.Concur.Cofinal.Lattice where
    wibble (𝐸 ᶜᶜ│ Q) P₁ = {!!}
    wibble (𝐸 ᵛᵛ│ Q) P₁ = {!!}
    wibble (𝐸 │• 𝐸₁) P₁ = {!!}
-   wibble (𝐸 │•ᵥ 𝐸₁) P₁ = {!!}
+   wibble (𝐸 │•ᵥ 𝐸₁) P₁ = {!!}1
    wibble (𝐸 │ᵥ• 𝐸₁) P₁ = {!!}
    wibble (𝐸 │ᵥ 𝐸₁) P₁ = {!!}
    wibble (𝐸 │ᵥ′ 𝐸₁) P₁ = {!!}

@@ -10,7 +10,7 @@ module Transition.Ren.Lattice where
    open import Ren.Lattice using (_*; suc)
    open import Ren.Properties
    open import Transition using (_—[_-_]→_)
-   open import Transition.Lattice as ᵀ̃ using (step); open ᵀ̃.↓_; open ᵀ̃.↓⁻_
+   open import Transition.Lattice as ᵀ̃ using (step; fwd); open ᵀ̃.↓_; open ᵀ̃.↓⁻_
    open import Transition.Ren renaming (_*ᶜ to _*ᶜ′; _*ᵇ to _*ᵇ′)
 
    infixr 8 _*ᵇ _*ᶜ
@@ -42,3 +42,5 @@ module Transition.Ren.Lattice where
    postulate
       ren-step-comm : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {Q₀ a S₀} (F : Q₀ —[ a ᶜ - _ ]→ S₀) →
                       (ρ′ : ↓ ρ) (Q : ↓ Q₀) → (ρ′ *ᶜ) (step F Q) ≡ step ((ρ *ᶜ′) F) ((ρ′ *̃) Q)
+      ren-fwd-comm : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {Q₀ a S₀} (F : Q₀ —[ a ᶜ - _ ]→ S₀) →
+                     (ρ′ : ↓ ρ) (Q : ↓ Q₀) → (ρ′ *̃) (π₂ (fwd F Q)) ≡ π₂ (fwd ((ρ *ᶜ′) F) ((ρ′ *̃) Q))
