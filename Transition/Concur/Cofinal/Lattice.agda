@@ -38,9 +38,9 @@ module Transition.Concur.Cofinal.Lattice where
                   let Γ′ = Γ + inc a′ + inc (π₂ (ᴬ⊖ 𝑎)) in ∀ {P : Proc Γ′} → ↓ P → ↓ Proc↱ (sym (ᴬγ 𝑎)) P
       coerceCxt 𝑎 rewrite sym (ᴬγ 𝑎) = idᶠ
 
-      reduce : ∀ {Γ} Δ (P P′ : Proc (Γ + 1 + Δ)) (a : Actionᵇ Γ) (a′ : Actionᶜ Γ) (γ : P ≡ P′) (P† : ↓ P) →
-               braiding (ᵇ∇ᶜ {a = a} {a′}) {Δ} γ P† ≅ P†
-      reduce _ _ ._ _ _ refl _ = ≅-refl
+      reduce : ∀ {Γ} {P P′ : Proc (Γ + 1)} {a : Actionᵇ Γ} {a′ : Actionᶜ Γ} (γ : P ≡ P′) (P† : ↓ P) →
+               braiding (ᵇ∇ᶜ {a = a} {a′}) {0} γ P† ≅ P†
+      reduce refl _ = ≅-refl
 
       zib : ∀ {Γ} {P₀ Q₀ Q₁ : Proc Γ} (P : ↓ P₀) {Q′ : ↓ Q₀} {Q″ : ↓ Q₁} → Q₀ ≡ Q₁ → Q′ ≅ Q″ →
             _≅_ {A = ↓_ {A = Proc Γ} _} [ P │ Q′ ] {↓_ {A = Proc Γ} _} [ P │ Q″ ]
@@ -70,16 +70,16 @@ module Transition.Concur.Cofinal.Lattice where
    wibble (𝐸 ➕₁ Q) [ P ➕ _ ] = wibble 𝐸 P
    wibble {𝑎 = ˣ∇ˣ} (_ │ᵇᵇ 𝐸) [ P │ Q ] = {!!}
    wibble {𝑎 = ᵇ∇ᵇ} (_ │ᵇᵇ 𝐸) [ P │ Q ] = {!!}
-   wibble {Γ} {a = a ᵇ} {a′ ᶜ} {E = P₀ │ᵇ F} {.P₀ │ᶜ F′} (._ │ᵇᶜ 𝐹) [ P │ Q ] =
+   wibble {a = a ᵇ} {a′ ᶜ} {E = P₀ │ᵇ F} {.P₀ │ᶜ F′} (._ │ᵇᶜ 𝐹) [ P │ Q ] =
       let S† = π₂ (fwd (E/E′ (⊖₁ 𝐹)) (π₂ (fwd F′ Q)))
           S‡ = π₂ (fwd (E′/E (⊖₁ 𝐹)) (π₂ (fwd F Q)))
           open ≅-Reasoning in ≅-to-≡ (
       begin
          [ (push *̃) P │ S† ]
       ≅⟨ zib ((push *̃) P) (trans (sym (≅-to-≡ (Proc↲ refl (S′ (⊖₁ 𝐹))))) (sym (γ₁ 𝐹)))
-                           (≅-trans (≡-to-≅ (wibble 𝐹 Q)) (reduce 0 _ _ a a′ (γ₁ 𝐹) S‡)) ⟩
+                           (≅-trans (≡-to-≅ (wibble 𝐹 Q)) (reduce (γ₁ 𝐹) _)) ⟩
          [ (push *̃) P │ S‡ ]
-      ≅⟨ ≅-sym (reduce 0 _ _ a a′ (cong₂ _│_ refl (γ₁ 𝐹)) [ (push *̃) P │ S‡ ]) ⟩
+      ≅⟨ ≅-sym (reduce (cong₂ _│_ refl (γ₁ 𝐹)) _) ⟩
          braiding ᵇ∇ᶜ (cong₂ _│_ refl (γ₁ 𝐹)) [ (push *̃) P │ S‡ ]
       ∎)
    wibble 𝐸 P = {!!}
