@@ -33,7 +33,7 @@ module Transition.Concur.Cofinal.Lattice where
    open Delta′
 
    private
-   -- Can't see a way to inline this into the proposition being proven.
+      -- Helpers to force reduction for the heterogeneous types.
       coerceCxt : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) →
                   let Γ′ = Γ + inc a′ + inc (π₂ (ᴬ⊖ 𝑎)) in ∀ {P : Proc Γ′} → ↓ P → ↓ Proc↱ (sym (ᴬγ 𝑎)) P
       coerceCxt 𝑎 rewrite sym (ᴬγ 𝑎) = idᶠ
