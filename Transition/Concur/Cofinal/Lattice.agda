@@ -127,21 +127,19 @@ module Transition.Concur.Cofinal.Lattice where
          braiding ᶜ∇ᶜ {0} (γ₁ 𝐸) (◻ {P = S (⊖₁ 𝐸)})
       ∎)
    wibble {𝑎 = ᵛ∇ᵛ} {E = E} {E′} 𝐸 ◻ = refl
-   wibble {E = .E ᵇ│ ._} {E′ = ._ │ᵇ .F} (E ᵇ│ᵇ F) [ P │ Q ] = {!!}
+   wibble {a = a ᵇ} {a′ ᵇ} {E = .E ᵇ│ Q₀} {E′ = P₀ │ᵇ .F} (E ᵇ│ᵇ F) [ P │ Q ] =
+      let open ≅-Reasoning in ≅-to-≡ (
+      begin
+         [ π₂ (fwd ((ᴿ.push *ᵇ) E) ((push *̃) P)) │ (push *̃) (π₂ (fwd F Q)) ]
+      ≅⟨ {!!} ⟩
+         [ (swap *̃) ((push *̃) (π₂ (fwd E P))) │ (swap *̃) (π₂ (fwd ((ᴿ.push *ᵇ) F) ((push *̃) Q))) ]
+      ≅⟨ ≅-sym (reduce-ᵇ∇ᵇ (sym (cong₂ _│_ (swap∘push (ᵀ.target E)) (swap∘suc-push (ᵀ.target F)))) _) ⟩
+         braiding (ᵇ∇ᵇ {a = a} {a′}) {0} (sym (cong₂ _│_ (swap∘push (ᵀ.target E)) (swap∘suc-push (ᵀ.target F))))
+                                        [ (push *̃) (π₂ (fwd E P)) │ π₂ (fwd ((ᴿ.push *ᵇ) F) ((push *̃) Q)) ]
+      ∎)
    wibble (E ᵇ│ᶜ F) [ P │ Q ] = cong (λ Q′ → [ _ │ Q′ ]) (ren-fwd-comm F push Q)
    wibble (E ᶜ│ᵇ F) [ P │ Q ] = cong (λ P′ → [ P′ │ _ ]) (sym (ren-fwd-comm E push P))
    wibble (E ᶜ│ᶜ F) [ P │ Q ] = refl
-   wibble (_│•ᵇ_ {y = y} {a = a} 𝐸 F) [ P │ Q ] with (ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))
-   ... | pop-y*E/E′ rewrite pop∘push y a = {!!}
-{-
-   wibble (𝐸 │•ᶜ F) P₁ = {!!}
-   wibble (E ᵇ│• 𝐸) P₁ = {!!}
-   wibble (E ᶜ│• 𝐸) P₁ = {!!}
-   wibble (𝐸 │ᵥᵇ F) P₁ = {!!}
-   wibble (𝐸 │ᵥᶜ F) P₁ = {!!}
-   wibble (E ᵇ│ᵥ 𝐸) P₁ = {!!}
-   wibble (E ᶜ│ᵥ 𝐸) P₁ = {!!}
--}
    wibble (𝐸 ➕₁ Q) [ P ➕ _ ] = wibble 𝐸 P
    wibble {𝑎 = ˣ∇ˣ {x = x} {u}} {E = _ │ᵇ F} {._ │ᵇ F′} (._ │ᵇᵇ 𝐹) [ P │ Q ] =
       let S† = π₂ (fwd (E/E′ (⊖₁ 𝐹)) (π₂ (fwd F′ Q)))
@@ -203,9 +201,6 @@ module Transition.Concur.Cofinal.Lattice where
       ≅⟨ ≅-sym (reduce-ᶜ∇ᶜ (cong₂ _│_ refl (γ₁ 𝐹)) _) ⟩
          braiding ᶜ∇ᶜ (cong₂ _│_ refl (γ₁ 𝐹)) [ P │ S‡ ]
       ∎)
-{-
-   wibble (P │ᵛᵛ 𝐸) P₁ = {!!}
--}
    wibble {𝑎 = ᵇ∇ᵇ} {E = E ᵇ│ Q₀} {E′ ᵇ│ ._} (𝐸 ᵇᵇ│ ._) [ P │ Q ] =
       let S† = π₂ (fwd (E/E′ (⊖₁ 𝐸)) (π₂ (fwd E′ P)))
           S‡ = π₂ (fwd (E′/E (⊖₁ 𝐸)) (π₂ (fwd E P)))
@@ -256,7 +251,17 @@ module Transition.Concur.Cofinal.Lattice where
       ∎)
    wibble 𝐸 P = {!!}
 {-
+   wibble (P │ᵛᵛ 𝐸) P₁ = {!!}
    wibble (𝐸 ᵛᵛ│ Q) P₁ = {!!}
+   wibble (_│•ᵇ_ {y = y} {a = a} 𝐸 F) [ P │ Q ] with (ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))
+   ... | pop-y*E/E′ rewrite pop∘push y a = {!!}
+   wibble (𝐸 │•ᶜ F) P₁ = {!!}
+   wibble (E ᵇ│• 𝐸) P₁ = {!!}
+   wibble (E ᶜ│• 𝐸) P₁ = {!!}
+   wibble (𝐸 │ᵥᵇ F) P₁ = {!!}
+   wibble (𝐸 │ᵥᶜ F) P₁ = {!!}
+   wibble (E ᵇ│ᵥ 𝐸) P₁ = {!!}
+   wibble (E ᶜ│ᵥ 𝐸) P₁ = {!!}
    wibble (𝐸 │• 𝐸₁) P₁ = {!!}
    wibble (𝐸 │•ᵥ 𝐸₁) P₁ = {!!}1
    wibble (𝐸 │ᵥ• 𝐸₁) P₁ = {!!}
