@@ -156,8 +156,19 @@ module Transition.Concur.Cofinal.Lattice where
       ∎)
 {-
    wibble (P │ᵛᵛ 𝐸) P₁ = {!!}
-   wibble (𝐸 ᵇᵇ│ Q) P₁ = {!!}
 -}
+   wibble {𝑎 = ᵇ∇ᵇ} {E = E ᵇ│ Q₀} {E′ ᵇ│ ._} (𝐸 ᵇᵇ│ ._) [ P │ Q ] =
+      let S† = π₂ (fwd (E/E′ (⊖₁ 𝐸)) (π₂ (fwd E′ P)))
+          S‡ = π₂ (fwd (E′/E (⊖₁ 𝐸)) (π₂ (fwd E P)))
+          open ≅-Reasoning in ≅-to-≡ (
+      begin
+         [ S† │ (push *̃) ((push *̃) Q) ]
+      ≅⟨ [-│-]-cong (sym (γ₁ 𝐸)) (≅-trans (≡-to-≅ (wibble 𝐸 P)) (reduce-ᵇ∇ᵇ (γ₁ 𝐸) S‡))
+                    (sym (swap∘push∘push Q₀)) (≅-sym (swap∘push∘push̃ Q)) ⟩
+         [ (swap *̃) S‡ │ (swap *̃) ((push *̃) ((push *̃) Q)) ]
+      ≅⟨ ≅-sym (reduce-ᵇ∇ᵇ (cong₂ _│_ (γ₁ 𝐸) (swap∘push∘push Q₀)) _) ⟩
+         braiding ᵇ∇ᵇ {0} (cong₂ _│_ (γ₁ 𝐸) (swap∘push∘push Q₀)) [ S‡ │ (push *̃) ((push *̃) Q) ]
+      ∎)
    wibble {E = E ᵇ│ _} {E′ ᶜ│ ._} (𝐸 ᵇᶜ│ ._) [ P │ Q ] =
       let S† = π₂ (fwd (E/E′ (⊖₁ 𝐸)) (π₂ (fwd E′ P)))
           S‡ = π₂ (fwd (E′/E (⊖₁ 𝐸)) (π₂ (fwd E P)))
