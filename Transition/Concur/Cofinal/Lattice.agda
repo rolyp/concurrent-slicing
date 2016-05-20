@@ -98,7 +98,8 @@ module Transition.Concur.Cofinal.Lattice where
           open ≅-Reasoning in ≅-to-≡ (
       begin
          [ S† │ (push *̃) Q ]
-      ≅⟨ {!!} ⟩
+      ≅⟨ [-│-]-cong₁ _ (trans (sym (≅-to-≡ (Proc↲ refl (S′ (⊖₁ 𝐸))))) (sym (γ₁ 𝐸)))
+                          (≅-trans (≡-to-≅ (wibble 𝐸 P)) (reduce (γ₁ 𝐸) _)) ⟩
          [ S‡ │ (push *̃) Q ]
       ≅⟨ ≅-sym (reduce (cong₂ _│_ (γ₁ 𝐸) refl) _) ⟩
          braiding ᵇ∇ᶜ (cong₂ _│_ (γ₁ 𝐸) refl) [ S‡ │ (push *̃) Q ]
