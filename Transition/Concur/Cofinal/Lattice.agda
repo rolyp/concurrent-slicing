@@ -89,7 +89,8 @@ module Transition.Concur.Cofinal.Lattice where
           open ≅-Reasoning in ≅-to-≡ (
       begin
          [ (push *̃) ((push *̃) P) │ S† ]
-      ≅⟨ [-│-]-cong (sym (swap∘push∘push P₀)) (≅-sym (swap∘push∘push̃ P)) (sym (γ₁ 𝐹)) {!!}  ⟩
+      ≅⟨ [-│-]-cong (sym (swap∘push∘push P₀)) (≅-sym (swap∘push∘push̃ P))
+                    (sym (γ₁ 𝐹)) (≅-trans (≡-to-≅ (wibble 𝐹 Q)) (reduce-ᵇ∇ᵇ (γ₁ 𝐹) S‡)) ⟩
          [ (swap *̃) ((push *̃) ((push *̃) P)) │ (swap *̃) S‡ ]
       ≅⟨ ≅-sym (reduce-ᵇ∇ᵇ (cong₂ _│_ (swap∘push∘push P₀) (γ₁ 𝐹)) _) ⟩
          braiding (ᵇ∇ᵇ {a = a} {a′}) {0} (cong₂ _│_ (swap∘push∘push P₀) (γ₁ 𝐹)) [ (push *̃) ((push *̃) P) │ S‡ ]
