@@ -33,29 +33,29 @@ module Transition.Concur.Cofinal.Lattice where
 
    open Delta′
 
+   -- Most complexity arises from need to pattern-match on an equality to get braiding to reduce.
    private
-      -- Helpers to force reduction for the heterogeneous types.
       coerceCxt : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) →
                   let Γ′ = Γ + inc a′ + inc (π₂ (ᴬ⊖ 𝑎)) in ∀ {P : Proc Γ′} → ↓ P → ↓ Proc↱ (sym (ᴬγ 𝑎)) P
       coerceCxt 𝑎 rewrite sym (ᴬγ 𝑎) = idᶠ
 
-      reduce-ᶜ∇ᶜ : ∀ {Γ} {P P′ : Proc Γ} {a : Actionᶜ Γ} {a′ : Actionᶜ Γ} (γ : P ≡ P′) (P† : ↓ P) →
+      reduce-ᶜ∇ᶜ : ∀ {Γ P P′} {a : Actionᶜ Γ} {a′ : Actionᶜ Γ} (γ : P ≡ P′) (P† : ↓ P) →
                    braiding (ᶜ∇ᶜ {a = a} {a′}) {0} γ P† ≅ P†
       reduce-ᶜ∇ᶜ refl _ = ≅-refl
 
-      reduce-ᵇ∇ᶜ : ∀ {Γ} {P P′ : Proc (Γ + 1)} {a : Actionᵇ Γ} {a′ : Actionᶜ Γ} (γ : P ≡ P′) (P† : ↓ P) →
+      reduce-ᵇ∇ᶜ : ∀ {Γ P P′} {a : Actionᵇ Γ} {a′ : Actionᶜ Γ} (γ : P ≡ P′) (P† : ↓ P) →
                    braiding (ᵇ∇ᶜ {a = a} {a′}) {0} γ P† ≅ P†
       reduce-ᵇ∇ᶜ refl _ = ≅-refl
 
-      reduce-ᶜ∇ᵇ : ∀ {Γ} {P P′ : Proc (Γ + 1)} {a : Actionᶜ Γ} {a′ : Actionᵇ Γ} (γ : P ≡ P′) (P† : ↓ P) →
+      reduce-ᶜ∇ᵇ : ∀ {Γ P P′} {a : Actionᶜ Γ} {a′ : Actionᵇ Γ} (γ : P ≡ P′) (P† : ↓ P) →
                    braiding (ᶜ∇ᵇ {a = a} {a′}) {0} γ P† ≅ P†
       reduce-ᶜ∇ᵇ refl _ = ≅-refl
 
-      reduce-ᵇ∇ᵇ : ∀ {Γ} {P P′ : Proc (Γ + 2)} {a a′ : Actionᵇ Γ} (γ : ((ᴿ.swap ᴿ.ᴿ+ 0) *) P ≡ P′) (P† : ↓ P) →
+      reduce-ᵇ∇ᵇ : ∀ {Γ P P′} {a a′ : Actionᵇ Γ} (γ : ((ᴿ.swap ᴿ.ᴿ+ 0) *) P ≡ P′) (P† : ↓ P) →
                    braiding (ᵇ∇ᵇ {a = a} {a′}) {0} γ P† ≅ ((swap ᴿ+ 0) *̃) P†
       reduce-ᵇ∇ᵇ refl _ = ≅-refl
 
-      reduce-ˣ∇ˣ : ∀ {Γ} {P P′ : Proc (Γ + 1)} {x u : Name Γ} (γ : P ≡ P′) (P† : ↓ P) →
+      reduce-ˣ∇ˣ : ∀ {Γ P P′} {x u : Name Γ} (γ : P ≡ P′) (P† : ↓ P) →
                    braiding (ˣ∇ˣ {x = x} {u}) {0} γ P† ≅ P†
       reduce-ˣ∇ˣ refl _ = ≅-refl
 
@@ -205,6 +205,7 @@ module Transition.Concur.Cofinal.Lattice where
       ≅⟨ ≅-sym (reduce-ᶜ∇ᶜ (cong₂ _│_ refl (γ₁ 𝐹)) _) ⟩
          braiding ᶜ∇ᶜ (cong₂ _│_ refl (γ₁ 𝐹)) [ P │ S‡ ]
       ∎)
+   wibble {E = P₀ │ᶜ F} {._ │ᶜ F′} (._ │ᵛᵛ 𝐹) [ P │ Q ] = cong (λ Q → [ P │ Q ]) (wibble 𝐹 Q)
    wibble {𝑎 = ᵇ∇ᵇ} {E = E ᵇ│ Q₀} {E′ ᵇ│ ._} (𝐸 ᵇᵇ│ ._) [ P │ Q ] =
       let S† = π₂ (fwd (E/E′ (⊖₁ 𝐸)) (π₂ (fwd E′ P)))
           S‡ = π₂ (fwd (E′/E (⊖₁ 𝐸)) (π₂ (fwd E P)))
@@ -253,10 +254,9 @@ module Transition.Concur.Cofinal.Lattice where
       ≅⟨ ≅-sym (reduce-ᶜ∇ᶜ (cong₂ _│_ (γ₁ 𝐸) refl) _) ⟩
          braiding ᶜ∇ᶜ (cong₂ _│_ (γ₁ 𝐸) refl) [ S‡ │  Q ]
       ∎)
+   wibble {E = E ᶜ│ Q₀} {E′ ᶜ│ ._} (𝐸 ᵛᵛ│ ._) [ P │ Q ] = cong (λ P → [ P │ Q ]) (wibble 𝐸 P)
    wibble 𝐸 P = {!!}
 {-
-   wibble (P │ᵛᵛ 𝐸) P₁ = {!!}
-   wibble (𝐸 ᵛᵛ│ Q) P₁ = {!!}
    wibble (_│•ᵇ_ {y = y} {a = a} 𝐸 F) [ P │ Q ] with (ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))
    ... | pop-y*E/E′ rewrite pop∘push y a = {!!}
    wibble (𝐸 │•ᶜ F) P₁ = {!!}
