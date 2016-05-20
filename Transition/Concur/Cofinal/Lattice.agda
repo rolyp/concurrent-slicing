@@ -42,9 +42,13 @@ module Transition.Concur.Cofinal.Lattice where
                braiding (ᵇ∇ᶜ {a = a} {a′}) {0} γ P† ≅ P†
       reduce refl _ = ≅-refl
 
-      zib : ∀ {Γ} {P₀ Q₀ Q₁ : Proc Γ} (P : ↓ P₀) {Q′ : ↓ Q₀} {Q″ : ↓ Q₁} → Q₀ ≡ Q₁ → Q′ ≅ Q″ →
-            _≅_ {A = ↓_ {A = Proc Γ} _} [ P │ Q′ ] {↓_ {A = Proc Γ} _} [ P │ Q″ ]
-      zib _ refl ≅-refl = ≅-refl
+      [-│-]-cong₁ : ∀ {Γ} {P₀ P₁ Q₀ : Proc Γ} {P : ↓ P₀} {P′ : ↓ P₁} (Q : ↓ Q₀) → P₀ ≡ P₁ → P ≅ P′ →
+                   _≅_ {A = ↓_ {A = Proc Γ} _} [ P │ Q ] {↓_ {A = Proc Γ} _} [ P′ │ Q ]
+      [-│-]-cong₁ _ refl ≅-refl = ≅-refl
+
+      [-│-]-cong₂ : ∀ {Γ} {P₀ Q₀ Q₁ : Proc Γ} (P : ↓ P₀) {Q : ↓ Q₀} {Q′ : ↓ Q₁} → Q₀ ≡ Q₁ → Q ≅ Q′ →
+                   _≅_ {A = ↓_ {A = Proc Γ} _} [ P │ Q ] {↓_ {A = Proc Γ} _} [ P │ Q′ ]
+      [-│-]-cong₂ _ refl ≅-refl = ≅-refl
 
    -- Not sure of the naming convention to use here.
    wibble : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
@@ -70,25 +74,37 @@ module Transition.Concur.Cofinal.Lattice where
    wibble (𝐸 ➕₁ Q) [ P ➕ _ ] = wibble 𝐸 P
    wibble {𝑎 = ˣ∇ˣ} (_ │ᵇᵇ 𝐸) [ P │ Q ] = {!!}
    wibble {𝑎 = ᵇ∇ᵇ} (_ │ᵇᵇ 𝐸) [ P │ Q ] = {!!}
-   wibble {a = a ᵇ} {a′ ᶜ} {E = P₀ │ᵇ F} {.P₀ │ᶜ F′} (._ │ᵇᶜ 𝐹) [ P │ Q ] =
+   wibble {E = _ │ᵇ F} {._ │ᶜ F′} (._ │ᵇᶜ 𝐹) [ P │ Q ] =
       let S† = π₂ (fwd (E/E′ (⊖₁ 𝐹)) (π₂ (fwd F′ Q)))
           S‡ = π₂ (fwd (E′/E (⊖₁ 𝐹)) (π₂ (fwd F Q)))
           open ≅-Reasoning in ≅-to-≡ (
       begin
          [ (push *̃) P │ S† ]
-      ≅⟨ zib ((push *̃) P) (trans (sym (≅-to-≡ (Proc↲ refl (S′ (⊖₁ 𝐹))))) (sym (γ₁ 𝐹)))
-                           (≅-trans (≡-to-≅ (wibble 𝐹 Q)) (reduce (γ₁ 𝐹) _)) ⟩
+      ≅⟨ [-│-]-cong₂ _ (trans (sym (≅-to-≡ (Proc↲ refl (S′ (⊖₁ 𝐹))))) (sym (γ₁ 𝐹)))
+                       (≅-trans (≡-to-≅ (wibble 𝐹 Q)) (reduce (γ₁ 𝐹) _)) ⟩
          [ (push *̃) P │ S‡ ]
       ≅⟨ ≅-sym (reduce (cong₂ _│_ refl (γ₁ 𝐹)) _) ⟩
          braiding ᵇ∇ᶜ (cong₂ _│_ refl (γ₁ 𝐹)) [ (push *̃) P │ S‡ ]
       ∎)
-   wibble 𝐸 P = {!!}
 {-
    wibble (P │ᶜᵇ 𝐸) P₁ = {!!}
    wibble (P │ᶜᶜ 𝐸) P₁ = {!!}
    wibble (P │ᵛᵛ 𝐸) P₁ = {!!}
    wibble (𝐸 ᵇᵇ│ Q) P₁ = {!!}
-   wibble (𝐸 ᵇᶜ│ Q) P₁ = {!!}
+-}
+   wibble {E = E ᵇ│ _} {E′ ᶜ│ ._} (𝐸 ᵇᶜ│ ._) [ P │ Q ] =
+      let S† = π₂ (fwd (E/E′ (⊖₁ 𝐸)) (π₂ (fwd E′ P)))
+          S‡ = π₂ (fwd (E′/E (⊖₁ 𝐸)) (π₂ (fwd E P)))
+          open ≅-Reasoning in ≅-to-≡ (
+      begin
+         [ S† │ (push *̃) Q ]
+      ≅⟨ {!!} ⟩
+         [ S‡ │ (push *̃) Q ]
+      ≅⟨ ≅-sym (reduce (cong₂ _│_ (γ₁ 𝐸) refl) _) ⟩
+         braiding ᵇ∇ᶜ (cong₂ _│_ (γ₁ 𝐸) refl) [ S‡ │ (push *̃) Q ]
+      ∎)
+   wibble 𝐸 P = {!!}
+{-
    wibble (𝐸 ᶜᵇ│ Q) P₁ = {!!}
    wibble (𝐸 ᶜᶜ│ Q) P₁ = {!!}
    wibble (𝐸 ᵛᵛ│ Q) P₁ = {!!}
