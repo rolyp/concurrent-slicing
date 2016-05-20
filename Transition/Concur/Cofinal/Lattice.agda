@@ -128,21 +128,14 @@ module Transition.Concur.Cofinal.Lattice where
       ∎)
    wibble {𝑎 = ᵛ∇ᵛ} {E = E} {E′} 𝐸 ◻ = refl
    wibble {a = a ᵇ} {a′ ᵇ} {E = .E ᵇ│ Q₀} {E′ = P₀ │ᵇ .F} (E ᵇ│ᵇ F) [ P │ Q ] =
-      let quib : (push *̃) (π₂ (fwd F Q)) ≅ (swap *̃) (π₂ (fwd ((ᴿ.push *ᵇ) F) ((push *̃) Q)))
-          quib = let open ≅-Reasoning in
-             begin
-                (push *̃) (π₂ (fwd F Q))
-             ≅⟨ swap∘suc-push̃ _ ⟩
-                (swap *̃) (((push ᴿ+ 1) *̃) (π₂ (fwd F Q)))
-             ≅⟨ ≅-cong (swap *̃) (≡-to-≅ (renᵇ-fwd-comm F push Q)) ⟩
-                (swap *̃) (π₂ (fwd ((ᴿ.push *ᵇ) F) ((push *̃) Q)))
-             ∎
-          bib : π₂ (fwd ((ᴿ.push *ᵇ) E) ((push *̃) P)) ≅ (swap *̃) ((push *̃) (π₂ (fwd E P)))
-          bib = {!!}
+      let S† : π₂ (fwd ((ᴿ.push *ᵇ) E) ((push *̃) P)) ≅ (swap *̃) ((push *̃) (π₂ (fwd E P)))
+          S† = ≅-trans (≡-to-≅ (sym (renᵇ-fwd-comm E push P))) (swap∘push̃ _)
+          S‡ : (push *̃) (π₂ (fwd F Q)) ≅ (swap *̃) (π₂ (fwd ((ᴿ.push *ᵇ) F) ((push *̃) Q)))
+          S‡ = ≅-trans (swap∘suc-push̃ _) (≡-to-≅ (cong (swap *̃) (renᵇ-fwd-comm F push Q)))
           open ≅-Reasoning in ≅-to-≡ (
       begin
          [ π₂ (fwd ((ᴿ.push *ᵇ) E) ((push *̃) P)) │ (push *̃) (π₂ (fwd F Q)) ]
-      ≅⟨ [-│-]-cong (swap∘push (ᵀ.target E)) bib (swap∘suc-push (ᵀ.target F)) quib ⟩
+      ≅⟨ [-│-]-cong (swap∘push (ᵀ.target E)) S† (swap∘suc-push (ᵀ.target F)) S‡ ⟩
          [ (swap *̃) ((push *̃) (π₂ (fwd E P))) │ (swap *̃) (π₂ (fwd ((ᴿ.push *ᵇ) F) ((push *̃) Q))) ]
       ≅⟨ ≅-sym (reduce-ᵇ∇ᵇ (sym (cong₂ _│_ (swap∘push (ᵀ.target E)) (swap∘suc-push (ᵀ.target F)))) _) ⟩
          braiding (ᵇ∇ᵇ {a = a} {a′}) {0} (sym (cong₂ _│_ (swap∘push (ᵀ.target E)) (swap∘suc-push (ᵀ.target F))))
