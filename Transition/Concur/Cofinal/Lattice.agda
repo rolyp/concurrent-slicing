@@ -42,9 +42,9 @@ module Transition.Concur.Cofinal.Lattice where
                braiding (ᵇ∇ᶜ {a = a} {a′}) {Δ} γ P† ≅ P†
       reduce = {!!}
 
-      zib : ∀ {Γ} (P₀ : Proc Γ) (Q₀ Q₁ : Proc (Γ + 1)) (P : ↓ P₀) → {Q′ : ↓ Q₀} {Q″ : ↓ Q₁} → Q′ ≅ Q″ →
+      zib : ∀ {Γ} {P₀ : Proc Γ} (Q₀ Q₁ : Proc (Γ + 1)) (P : ↓ P₀) → {Q′ : ↓ Q₀} {Q″ : ↓ Q₁} → Q₀ ≡ Q₁ → Q′ ≅ Q″ →
             _≅_ {A = ↓_ {A = Proc (Γ + 1)} _} [ (push *̃) P │ Q′ ] {↓_ {A = Proc (Γ + 1)} _} [ (push *̃) P │ Q″ ]
-      zib = {!!}
+      zib _ ._ _ refl ≅-refl = {!!}
 
    -- Not sure of the naming convention to use here.
    wibble : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
@@ -89,13 +89,10 @@ module Transition.Concur.Cofinal.Lattice where
              ≡⟨ sym (γ₁ 𝐹) ⟩
                 S (⊖₁ 𝐹)
              ∎)
-          zib : {Q′ : ↓ S′ (⊖₁ 𝐹)} {Q″ : ↓ S (⊖₁ 𝐹)} → Q′ ≅ Q″ →
-                _≅_ {A = ↓_ {A = Proc (Γ + 1)} _} [ (push *̃) P │ Q′ ] [ (push *̃) P │ Q″ ]
-          zib = {!!}
           open ≅-Reasoning in ≅-to-≡ (
       begin
          [ (push *̃) P │ π₂ (fwd (E/E′ (⊖₁ 𝐹)) (π₂ (fwd F′ Q))) ]
-      ≅⟨ zib nib ⟩
+      ≅⟨ zib {!!} {!!} {!!} jib nib ⟩
          [ (push *̃) P │ π₂ (fwd (E′/E (⊖₁ 𝐹)) (π₂ (fwd F Q))) ]
       ≅⟨ ≅-sym (reduce 0 _ _ a a′ (cong₂ _│_ refl (γ₁ 𝐹))
          [ (push *̃) P │ π₂ (fwd (E′/E (⊖₁ 𝐹)) (π₂ (fwd F Q))) ]) ⟩
