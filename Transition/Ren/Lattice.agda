@@ -7,7 +7,7 @@ module Transition.Ren.Lattice where
    open import Proc.Ren
    open import Proc.Ren.Lattice renaming (_* to _*̃)
    open import Ren as ᴿ using (Ren; push)
-   open import Ren.Lattice using (_*; suc)
+   open import Ren.Lattice using (_*; suc; _ᴿ+_)
    open import Ren.Properties
    open import Transition using (_—[_-_]→_)
    open import Transition.Lattice as ᵀ̃ using (step; fwd); open ᵀ̃.↓_; open ᵀ̃.↓⁻_
@@ -40,7 +40,11 @@ module Transition.Ren.Lattice where
    ... | E₀′ | E′ rewrite ᴿ+-comm 1 ρ₀ a | sym (swap-suc-suc ρ₀ R) = [ νᵇ E′ ]
 
    postulate
-      ren-step-comm : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {Q₀ a S₀} (F : Q₀ —[ a ᶜ - _ ]→ S₀) →
+      renᶜ-step-comm : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {Q₀ a S₀} (F : Q₀ —[ a ᶜ - _ ]→ S₀) →
                       (ρ′ : ↓ ρ) (Q : ↓ Q₀) → (ρ′ *ᶜ) (step F Q) ≡ step ((ρ *ᶜ′) F) ((ρ′ *̃) Q)
-      ren-fwd-comm : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {Q₀ a S₀} (F : Q₀ —[ a ᶜ - _ ]→ S₀) →
+      renᵇ-step-comm : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {Q₀ a S₀} (F : Q₀ —[ a ᵇ - _ ]→ S₀) →
+                      (ρ′ : ↓ ρ) (Q : ↓ Q₀) → (ρ′ *ᵇ) (step F Q) ≡ step ((ρ *ᵇ′) F) ((ρ′ *̃) Q)
+      renᶜ-fwd-comm : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {Q₀ a S₀} (F : Q₀ —[ a ᶜ - _ ]→ S₀) →
                      (ρ′ : ↓ ρ) (Q : ↓ Q₀) → (ρ′ *̃) (π₂ (fwd F Q)) ≡ π₂ (fwd ((ρ *ᶜ′) F) ((ρ′ *̃) Q))
+      renᵇ-fwd-comm : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {Q₀ a S₀} (F : Q₀ —[ a ᵇ - _ ]→ S₀) →
+                     (ρ′ : ↓ ρ) (Q : ↓ Q₀) → ((ρ′ ᴿ+ 1) *̃) (π₂ (fwd F Q)) ≡ π₂ (fwd ((ρ *ᵇ′) F) ((ρ′ *̃) Q))

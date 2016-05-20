@@ -131,7 +131,7 @@ module Transition.Concur.Cofinal.Lattice where
       let open ≅-Reasoning in ≅-to-≡ (
       begin
          [ π₂ (fwd ((ᴿ.push *ᵇ) E) ((push *̃) P)) │ (push *̃) (π₂ (fwd F Q)) ]
-      ≅⟨ {!!} ⟩
+      ≅⟨ [-│-]-cong (swap∘push (ᵀ.target E)) {!!} (swap∘suc-push (ᵀ.target F)) {!!} ⟩
          [ (swap *̃) ((push *̃) (π₂ (fwd E P))) │ (swap *̃) (π₂ (fwd ((ᴿ.push *ᵇ) F) ((push *̃) Q))) ]
       ≅⟨ ≅-sym (reduce-ᵇ∇ᵇ (sym (cong₂ _│_ (swap∘push (ᵀ.target E)) (swap∘suc-push (ᵀ.target F)))) _) ⟩
          braiding (ᵇ∇ᵇ {a = a} {a′}) {0} (sym (cong₂ _│_ (swap∘push (ᵀ.target E)) (swap∘suc-push (ᵀ.target F))))
