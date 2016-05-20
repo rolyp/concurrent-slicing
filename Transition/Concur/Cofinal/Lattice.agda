@@ -40,7 +40,7 @@ module Transition.Concur.Cofinal.Lattice where
 
       reduce : ∀ {Γ} Δ (P P′ : Proc (Γ + 1 + Δ)) (a : Actionᵇ Γ) (a′ : Actionᶜ Γ) (γ : P ≡ P′) (P† : ↓ P) →
                braiding (ᵇ∇ᶜ {a = a} {a′}) {Δ} γ P† ≅ P†
-      reduce = {!!}
+      reduce _ _ ._ _ _ refl _ = ≅-refl
 
       zib : ∀ {Γ} {P₀ : Proc Γ} {Q₀ Q₁ : Proc (Γ + 1)} (P : ↓ P₀) → {Q′ : ↓ Q₀} {Q″ : ↓ Q₁} → Q₀ ≡ Q₁ → Q′ ≅ Q″ →
             _≅_ {A = ↓_ {A = Proc (Γ + 1)} _} [ (push *̃) P │ Q′ ] {↓_ {A = Proc (Γ + 1)} _} [ (push *̃) P │ Q″ ]
