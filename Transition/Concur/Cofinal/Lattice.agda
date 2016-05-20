@@ -42,8 +42,8 @@ module Transition.Concur.Cofinal.Lattice where
                braiding (ᵇ∇ᶜ {a = a} {a′}) {Δ} γ P† ≅ P†
       reduce _ _ ._ _ _ refl _ = ≅-refl
 
-      zib : ∀ {Γ} {P₀ Q₀ Q₁ : Proc (Γ + 1)} (P : ↓ P₀) {Q′ : ↓ Q₀} {Q″ : ↓ Q₁} → Q₀ ≡ Q₁ → Q′ ≅ Q″ →
-            _≅_ {A = ↓_ {A = Proc (Γ + 1)} _} [ P │ Q′ ] {↓_ {A = Proc (Γ + 1)} _} [ P │ Q″ ]
+      zib : ∀ {Γ} {P₀ Q₀ Q₁ : Proc Γ} (P : ↓ P₀) {Q′ : ↓ Q₀} {Q″ : ↓ Q₁} → Q₀ ≡ Q₁ → Q′ ≅ Q″ →
+            _≅_ {A = ↓_ {A = Proc Γ} _} [ P │ Q′ ] {↓_ {A = Proc Γ} _} [ P │ Q″ ]
       zib _ refl ≅-refl = ≅-refl
 
    -- Not sure of the naming convention to use here.
@@ -80,19 +80,10 @@ module Transition.Concur.Cofinal.Lattice where
              ≅⟨ reduce 0 _ _ a a′ (γ₁ 𝐹) (π₂ (fwd (E′/E (⊖₁ 𝐹)) (π₂ (fwd F Q)))) ⟩
                 π₂ (fwd (E′/E (⊖₁ 𝐹)) (π₂ (fwd F Q)))
              ∎
-          jib : S′ (⊖₁ 𝐹) ≡ S (⊖₁ 𝐹)
-          jib = let open ≅-Reasoning in ≅-to-≡ (
-             begin
-                S′ (⊖₁ 𝐹)
-             ≅⟨ ≅-sym (Proc↲ refl (S′ (⊖₁ 𝐹))) ⟩
-                Proc↱ refl (S′ (⊖₁ 𝐹))
-             ≡⟨ sym (γ₁ 𝐹) ⟩
-                S (⊖₁ 𝐹)
-             ∎)
           open ≅-Reasoning in ≅-to-≡ (
       begin
          [ (push *̃) P │ π₂ (fwd (E/E′ (⊖₁ 𝐹)) (π₂ (fwd F′ Q))) ]
-      ≅⟨ zib ((push *̃) P) jib nib ⟩
+      ≅⟨ zib ((push *̃) P) (trans (sym (≅-to-≡ (Proc↲ refl (S′ (⊖₁ 𝐹))))) (sym (γ₁ 𝐹))) nib ⟩
          [ (push *̃) P │ π₂ (fwd (E′/E (⊖₁ 𝐹)) (π₂ (fwd F Q))) ]
       ≅⟨ ≅-sym (reduce 0 _ _ a a′ (cong₂ _│_ refl (γ₁ 𝐹))
          [ (push *̃) P │ π₂ (fwd (E′/E (⊖₁ 𝐹)) (π₂ (fwd F Q))) ]) ⟩
