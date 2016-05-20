@@ -42,6 +42,10 @@ module Transition.Concur.Cofinal.Lattice where
                braiding (ᵇ∇ᶜ {a = a} {a′}) {Δ} γ P† ≅ P†
       reduce = {!!}
 
+      zib : ∀ {Γ} (P₀ : Proc Γ) (Q₀ Q₁ : Proc (Γ + 1)) (P : ↓ P₀) → {Q′ : ↓ Q₀} {Q″ : ↓ Q₁} → Q′ ≅ Q″ →
+            _≅_ {A = ↓_ {A = Proc (Γ + 1)} _} [ (push *̃) P │ Q′ ] {↓_ {A = Proc (Γ + 1)} _} [ (push *̃) P │ Q″ ]
+      zib = {!!}
+
    -- Not sure of the naming convention to use here.
    wibble : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
             (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ →
@@ -86,8 +90,7 @@ module Transition.Concur.Cofinal.Lattice where
                 S (⊖₁ 𝐹)
              ∎)
           zib : {Q′ : ↓ S′ (⊖₁ 𝐹)} {Q″ : ↓ S (⊖₁ 𝐹)} → Q′ ≅ Q″ →
-                _≅_ {A = ↓_ {A = Proc (Γ + 1)} ((ᴿ.push *) P₀ │ S′ (⊖₁ 𝐹))} [ (push *̃) P │ Q′ ]
-                    {↓_ {A = Proc (Γ + 1)} ((ᴿ.push *) P₀ │ S (⊖₁ 𝐹))} [ (push *̃) P │ Q″ ]
+                _≅_ {A = ↓_ {A = Proc (Γ + 1)} _} [ (push *̃) P │ Q′ ] [ (push *̃) P │ Q″ ]
           zib = {!!}
           open ≅-Reasoning in ≅-to-≡ (
       begin
