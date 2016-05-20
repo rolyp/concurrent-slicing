@@ -8,7 +8,7 @@ module Transition.Concur.Cofinal.Lattice where
    open import Braiding.Proc.Lattice using (braid̂)
    open import Lattice using (Lattices); open Lattice.Prefixes ⦃...⦄
    open import Name as ᴺ using (Cxt; _+_)
-   open import Proc as ᴾ using (Proc; Proc↱); open ᴾ.Proc
+   open import Proc as ᴾ using (Proc; Proc↱; Proc↲); open ᴾ.Proc
    open import Proc.Lattice as ᴾ̃ using (); open ᴾ̃.↓_; open ᴾ̃.↓⁻_
    import Proc.Ren
    open import Proc.Ren.Lattice renaming (_* to _*̃)
@@ -77,7 +77,14 @@ module Transition.Concur.Cofinal.Lattice where
                 π₂ (fwd (E′/E (⊖₁ 𝐹)) (π₂ (fwd F Q)))
              ∎
           jib : S′ (⊖₁ 𝐹) ≡ S (⊖₁ 𝐹)
-          jib = {!!}
+          jib = let open ≅-Reasoning in ≅-to-≡ (
+             begin
+                S′ (⊖₁ 𝐹)
+             ≅⟨ ≅-sym (Proc↲ refl (S′ (⊖₁ 𝐹))) ⟩
+                Proc↱ refl (S′ (⊖₁ 𝐹))
+             ≡⟨ sym (γ₁ 𝐹) ⟩
+                S (⊖₁ 𝐹)
+             ∎)
           open ≅-Reasoning in ≅-to-≡ (
       begin
          [ (push *̃) P │ π₂ (fwd (E/E′ (⊖₁ 𝐹)) (π₂ (fwd F′ Q))) ]
