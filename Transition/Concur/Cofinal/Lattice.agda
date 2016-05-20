@@ -77,7 +77,12 @@ module Transition.Concur.Cofinal.Lattice where
             (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ →
             coerceCxt 𝑎 (π₂ (fwd (E/E′ (⊖₁ 𝐸)) (π₂ (fwd E′ P′)))) ≡
             braiding 𝑎 (γ₁ 𝐸) (π₂ (fwd (E′/E (⊖₁ 𝐸)) (π₂ (fwd E P′))))
-   wibble _ ◻ = {!!}
+   wibble {𝑎 = ˣ∇ˣ} 𝐸 ◻ = {!!}
+   wibble {𝑎 = ᵇ∇ᵇ} 𝐸 ◻ = {!!}
+   wibble {𝑎 = ᵇ∇ᶜ} 𝐸 ◻ = {!!}
+   wibble {𝑎 = ᶜ∇ᵇ} 𝐸 ◻ = {!!}
+   wibble {𝑎 = ᶜ∇ᶜ} {E = E} {E′} 𝐸 ◻ = {!!}
+   wibble {𝑎 = ᵛ∇ᵛ} {E = E} {E′} 𝐸 ◻ = refl
    wibble {E = .E ᵇ│ ._} {E′ = ._ │ᵇ .F} (E ᵇ│ᵇ F) [ P │ Q ] = {!!}
    wibble (E ᵇ│ᶜ F) [ P │ Q ] = cong (λ Q′ → [ _ │ Q′ ]) (ren-fwd-comm F push Q)
    wibble (E ᶜ│ᵇ F) [ P │ Q ] = cong (λ P′ → [ P′ │ _ ]) (sym (ren-fwd-comm E push P))
@@ -207,7 +212,6 @@ module Transition.Concur.Cofinal.Lattice where
       ∎)
    wibble 𝐸 P = {!!}
 {-
-   wibble (𝐸 ᶜᶜ│ Q) P₁ = {!!}
    wibble (𝐸 ᵛᵛ│ Q) P₁ = {!!}
    wibble (𝐸 │• 𝐸₁) P₁ = {!!}
    wibble (𝐸 │•ᵥ 𝐸₁) P₁ = {!!}1
