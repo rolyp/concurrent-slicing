@@ -15,8 +15,8 @@ module Ren.Lattice.Properties where
    open import Ren.Properties
 
    -- Should be able to generalise along the lines of Ren.Properties, but tricky.
-   swap̃-involutive : ∀ {Γ} {P : Proc (Γ + 2)} (P′ : ↓ P) → (ᴿ̃.swap *̃) ((ᴿ̃.swap *̃) P′) ≅ P′
-   swap̃-involutive P =
+   swap-involutivẽ : ∀ {Γ} {P : Proc (Γ + 2)} (P′ : ↓ P) → (ᴿ̃.swap *̃) ((ᴿ̃.swap *̃) P′) ≅ P′
+   swap-involutivẽ P =
       let open ≅-Reasoning in
       begin
          (to-↓ swap *̃) ((to-↓ swap *̃) P)
@@ -30,8 +30,8 @@ module Ren.Lattice.Properties where
          P
       ∎
 
-   swap̃+-involutive : ∀ {Γ} Δ {P : Proc (Γ + 2 + Δ)} (P′ : ↓ P) → ((ᴿ̃.swap ᴿ+ Δ) *̃) (((ᴿ̃.swap ᴿ+ Δ) *̃) P′) ≅ P′
-   swap̃+-involutive Δ P =
+   swap+-involutivẽ : ∀ {Γ} Δ {P : Proc (Γ + 2 + Δ)} (P′ : ↓ P) → ((ᴿ̃.swap ᴿ+ Δ) *̃) (((ᴿ̃.swap ᴿ+ Δ) *̃) P′) ≅ P′
+   swap+-involutivẽ Δ P =
       let open ≅-Reasoning in
       begin
          ((to-↓ swap ᴿ+ Δ) *̃) (((to-↓ swap ᴿ+ Δ) *̃) P)
@@ -48,3 +48,6 @@ module Ren.Lattice.Properties where
       ≅⟨ *̃-preserves-id P ⟩
          P
       ∎
+
+   postulate
+      swap∘push∘push̃ : ∀ {Γ} {P : Proc Γ} (P′ : ↓ P) → (ᴿ̃.swap *̃) ((ᴿ̃.push *̃) ((ᴿ̃.push *̃) P′)) ≅ (ᴿ̃.push *̃) ((ᴿ̃.push *̃) P′)

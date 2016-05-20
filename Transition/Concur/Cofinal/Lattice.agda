@@ -14,6 +14,7 @@ module Transition.Concur.Cofinal.Lattice where
    open import Proc.Ren.Lattice renaming (_* to _*̃)
    open import Ren as ᴿ using (Ren); open ᴿ.Renameable ⦃...⦄
    open import Ren.Lattice using (_ᴿ+_; swap; push)
+   open import Ren.Lattice.Properties
    open import Ren.Properties
    open import Transition as ᵀ using (_—[_-_]→_); open ᵀ._—[_-_]→_
    open import Transition.Concur using (Concur₁; module Concur₁; module Delta′; ⊖₁); open Concur₁
@@ -38,9 +39,13 @@ module Transition.Concur.Cofinal.Lattice where
                   let Γ′ = Γ + inc a′ + inc (π₂ (ᴬ⊖ 𝑎)) in ∀ {P : Proc Γ′} → ↓ P → ↓ Proc↱ (sym (ᴬγ 𝑎)) P
       coerceCxt 𝑎 rewrite sym (ᴬγ 𝑎) = idᶠ
 
-      reduce : ∀ {Γ} {P P′ : Proc (Γ + 1)} {a : Actionᵇ Γ} {a′ : Actionᶜ Γ} (γ : P ≡ P′) (P† : ↓ P) →
-               braiding (ᵇ∇ᶜ {a = a} {a′}) {0} γ P† ≅ P†
-      reduce refl _ = ≅-refl
+      reduce-ᵇ∇ᶜ : ∀ {Γ} {P P′ : Proc (Γ + 1)} {a : Actionᵇ Γ} {a′ : Actionᶜ Γ} (γ : P ≡ P′) (P† : ↓ P) →
+                   braiding (ᵇ∇ᶜ {a = a} {a′}) {0} γ P† ≅ P†
+      reduce-ᵇ∇ᶜ refl _ = ≅-refl
+
+      reduce-ᵇ∇ᵇ : ∀ {Γ} {P P′ : Proc (Γ + 2)} {a : Actionᵇ Γ} {a′ : Actionᵇ Γ} (γ : ((ᴿ.swap ᴿ.ᴿ+ 0) *) P ≡ P′) (P† : ↓ P) →
+                   braiding (ᵇ∇ᵇ {a = a} {a′}) {0} γ P† ≅ ((swap ᴿ+ 0) *̃) P†
+      reduce-ᵇ∇ᵇ refl _ = ≅-refl
 
       [-│-]-cong₁ : ∀ {Γ} {P₀ P₁ Q₀ : Proc Γ} {P : ↓ P₀} {P′ : ↓ P₁} (Q : ↓ Q₀) → P₀ ≡ P₁ → P ≅ P′ →
                    _≅_ {A = ↓_ {A = Proc Γ} _} [ P │ Q ] {↓_ {A = Proc Γ} _} [ P′ │ Q ]
@@ -49,6 +54,11 @@ module Transition.Concur.Cofinal.Lattice where
       [-│-]-cong₂ : ∀ {Γ} {P₀ Q₀ Q₁ : Proc Γ} (P : ↓ P₀) {Q : ↓ Q₀} {Q′ : ↓ Q₁} → Q₀ ≡ Q₁ → Q ≅ Q′ →
                    _≅_ {A = ↓_ {A = Proc Γ} _} [ P │ Q ] {↓_ {A = Proc Γ} _} [ P │ Q′ ]
       [-│-]-cong₂ _ refl ≅-refl = ≅-refl
+
+      [-│-]-cong : ∀ {Γ} {P₀ P₁ Q₀ Q₁ : Proc Γ} {P : ↓ P₀} {P′ : ↓ P₁} {Q : ↓ Q₀} {Q′ : ↓ Q₁} →
+                   P₀ ≡ P₁ → P ≅ P′ → Q₀ ≡ Q₁ → Q ≅ Q′ →
+                   _≅_ {A = ↓_ {A = Proc Γ} _} [ P │ Q ] {↓_ {A = Proc Γ} _} [ P′ │ Q′ ]
+      [-│-]-cong refl ≅-refl refl ≅-refl = ≅-refl
 
    -- Not sure of the naming convention to use here.
    wibble : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
@@ -73,7 +83,17 @@ module Transition.Concur.Cofinal.Lattice where
 -}
    wibble (𝐸 ➕₁ Q) [ P ➕ _ ] = wibble 𝐸 P
    wibble {𝑎 = ˣ∇ˣ} (_ │ᵇᵇ 𝐸) [ P │ Q ] = {!!}
-   wibble {𝑎 = ᵇ∇ᵇ} (_ │ᵇᵇ 𝐸) [ P │ Q ] = {!!}
+   wibble {a = a ᵇ} {a′ ᵇ} {𝑎 = ᵇ∇ᵇ} {E = P₀ │ᵇ F} {._ │ᵇ F′} (._ │ᵇᵇ 𝐹) [ P │ Q ] =
+      let S† = π₂ (fwd (E/E′ (⊖₁ 𝐹)) (π₂ (fwd F′ Q)))
+          S‡ = π₂ (fwd (E′/E (⊖₁ 𝐹)) (π₂ (fwd F Q)))
+          open ≅-Reasoning in ≅-to-≡ (
+      begin
+         [ (push *̃) ((push *̃) P) │ S† ]
+      ≅⟨ [-│-]-cong (sym (swap∘push∘push P₀)) (≅-sym (swap∘push∘push̃ P)) (sym (γ₁ 𝐹)) {!!}  ⟩
+         [ (swap *̃) ((push *̃) ((push *̃) P)) │ (swap *̃) S‡ ]
+      ≅⟨ ≅-sym (reduce-ᵇ∇ᵇ (cong₂ _│_ (swap∘push∘push P₀) (γ₁ 𝐹)) _) ⟩
+         braiding (ᵇ∇ᵇ {a = a} {a′}) {0} (cong₂ _│_ (swap∘push∘push P₀) (γ₁ 𝐹)) [ (push *̃) ((push *̃) P) │ S‡ ]
+      ∎)
    wibble {E = _ │ᵇ F} {._ │ᶜ F′} (._ │ᵇᶜ 𝐹) [ P │ Q ] =
       let S† = π₂ (fwd (E/E′ (⊖₁ 𝐹)) (π₂ (fwd F′ Q)))
           S‡ = π₂ (fwd (E′/E (⊖₁ 𝐹)) (π₂ (fwd F Q)))
@@ -81,9 +101,9 @@ module Transition.Concur.Cofinal.Lattice where
       begin
          [ (push *̃) P │ S† ]
       ≅⟨ [-│-]-cong₂ _ (trans (sym (≅-to-≡ (Proc↲ refl (S′ (⊖₁ 𝐹))))) (sym (γ₁ 𝐹)))
-                       (≅-trans (≡-to-≅ (wibble 𝐹 Q)) (reduce (γ₁ 𝐹) _)) ⟩
+                       (≅-trans (≡-to-≅ (wibble 𝐹 Q)) (reduce-ᵇ∇ᶜ (γ₁ 𝐹) _)) ⟩
          [ (push *̃) P │ S‡ ]
-      ≅⟨ ≅-sym (reduce (cong₂ _│_ refl (γ₁ 𝐹)) _) ⟩
+      ≅⟨ ≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ refl (γ₁ 𝐹)) _) ⟩
          braiding ᵇ∇ᶜ (cong₂ _│_ refl (γ₁ 𝐹)) [ (push *̃) P │ S‡ ]
       ∎)
 {-
@@ -99,9 +119,9 @@ module Transition.Concur.Cofinal.Lattice where
       begin
          [ S† │ (push *̃) Q ]
       ≅⟨ [-│-]-cong₁ _ (trans (sym (≅-to-≡ (Proc↲ refl (S′ (⊖₁ 𝐸))))) (sym (γ₁ 𝐸)))
-                          (≅-trans (≡-to-≅ (wibble 𝐸 P)) (reduce (γ₁ 𝐸) _)) ⟩
+                          (≅-trans (≡-to-≅ (wibble 𝐸 P)) (reduce-ᵇ∇ᶜ (γ₁ 𝐸) _)) ⟩
          [ S‡ │ (push *̃) Q ]
-      ≅⟨ ≅-sym (reduce (cong₂ _│_ (γ₁ 𝐸) refl) _) ⟩
+      ≅⟨ ≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (γ₁ 𝐸) refl) _) ⟩
          braiding ᵇ∇ᶜ (cong₂ _│_ (γ₁ 𝐸) refl) [ S‡ │ (push *̃) Q ]
       ∎)
    wibble 𝐸 P = {!!}
