@@ -66,7 +66,7 @@ module Transition.Concur.Cofinal.Lattice where
    wibble (𝐸 ➕₁ Q) [ P ➕ _ ] = wibble 𝐸 P
    wibble {𝑎 = ˣ∇ˣ} (_ │ᵇᵇ 𝐸) [ P │ Q ] = {!!}
    wibble {𝑎 = ᵇ∇ᵇ} (_ │ᵇᵇ 𝐸) [ P │ Q ] = {!!}
-   wibble {a = a ᵇ} {a′ ᶜ} {E = P₀ │ᵇ F} {.P₀ │ᶜ F′} (._ │ᵇᶜ 𝐹) [ P │ Q ] =
+   wibble {Γ} {a = a ᵇ} {a′ ᶜ} {E = P₀ │ᵇ F} {.P₀ │ᶜ F′} (._ │ᵇᶜ 𝐹) [ P │ Q ] =
       let nib : π₂ (fwd (E/E′ (⊖₁ 𝐹)) (π₂ (fwd F′ Q))) ≅ π₂ (fwd (E′/E (⊖₁ 𝐹)) (π₂ (fwd F Q)))
           nib = let open ≅-Reasoning in
              begin
@@ -85,6 +85,12 @@ module Transition.Concur.Cofinal.Lattice where
              ≡⟨ sym (γ₁ 𝐹) ⟩
                 S (⊖₁ 𝐹)
              ∎)
+          spib : Proc (Γ + 1)
+          spib = (ᴿ.push *) P₀ │ S′ (⊖₁ 𝐹)
+          blah : ↓ spib
+          blah = [ (push *̃) P │ π₂ (fwd (E/E′ (⊖₁ 𝐹)) (π₂ (fwd F′ Q))) ]
+          zib : {Q′ : ↓ S′ (⊖₁ 𝐹)} {Q″ : ↓ S (⊖₁ 𝐹)} → Q′ ≅ Q″ → _≅_ {A = ↓ spib} [ (push *̃) P │ Q′ ] {{!!}} [ (push *̃) P │ Q″ ]
+          zib = {!!}
           open ≅-Reasoning in ≅-to-≡ (
       begin
          [ (push *̃) P │ π₂ (fwd (E/E′ (⊖₁ 𝐹)) (π₂ (fwd F′ Q))) ]
