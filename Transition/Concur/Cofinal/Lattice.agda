@@ -263,18 +263,18 @@ module Transition.Concur.Cofinal.Lattice where
    ... | _ rewrite pop∘push y a = {!!}
    gamma₁ {a = a ᵇ} (_ᵇ│•_ {y = y} {F = F} {F′} E 𝐹) [ P │ Q ]
       with π₁ (fwd E P) | π₁ (fwd F′ Q) | π₁ (fwd ((ᴿ.push *ᵇ) E) ((push *̃) P)) | π₁ (fwd  (E′/E (⊖₁ 𝐹)) (π₂ (fwd F Q)))
-   ... | ◻ | _ | ◻ | _ =
-      let open ≅-Reasoning in ≅-to-≡ (
-      begin
-         ◻
-      ≅⟨ ◻-cong (cong₂ _│_ (pop∘suc-push y (target E)) (sym (γ₁ 𝐹))) ⟩
-         ◻
-      ≅⟨ ≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym (pop∘suc-push y (target E))) (γ₁ 𝐹)) _)  ⟩
-         braiding ᵇ∇ᶜ (cong₂ _│_ (sym (pop∘suc-push y (target E))) (γ₁ 𝐹)) ◻
-      ∎)
-   ... | ◻ | _ | [ (◻ •) ᵇ ] | _ = {!!}
-   ... | ◻ | _ | [ ([ ._ ] •) ᵇ ] | ◻ = {!!}
-   ... | ◻ | _ | [ ([ ._ ] •) ᵇ ] | [ • ◻ 〈 _ 〉 ᶜ ] = {!!}
+   ... | ◻ | _ | ◻ | _ = ≅-to-≡ (≅-trans
+      (◻-cong (cong₂ _│_ (pop∘suc-push y (target E)) (sym (γ₁ 𝐹))))
+      (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym (pop∘suc-push y (target E))) (γ₁ 𝐹)) _)))
+   ... | ◻ | _ | [ (◻ •) ᵇ ] | _ = ≅-to-≡ (≅-trans
+      (◻-cong (cong₂ _│_ (pop∘suc-push y (target E)) (sym (γ₁ 𝐹))))
+      (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym (pop∘suc-push y (target E))) (γ₁ 𝐹)) _)))
+   ... | ◻ | _ | [ ([ ._ ] •) ᵇ ] | ◻ = ≅-to-≡ (≅-trans
+      (◻-cong (cong₂ _│_ (pop∘suc-push y (target E)) (sym (γ₁ 𝐹))))
+      (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym (pop∘suc-push y (target E))) (γ₁ 𝐹)) _)))
+   ... | ◻ | _ | [ ([ ._ ] •) ᵇ ] | [ • ◻ 〈 _ 〉 ᶜ ] = ≅-to-≡ (≅-trans
+      (◻-cong (cong₂ _│_ (pop∘suc-push y (target E)) (sym (γ₁ 𝐹))))
+      (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym (pop∘suc-push y (target E))) (γ₁ 𝐹)) _)))
    ... | ◻ | _ | [ ([ ._ ] •) ᵇ ] | [ • [ ._ ] 〈 y′ 〉 ᶜ ] = {!!}
    ... | [ x₁ ] | b | c | d = {!!}
    gamma₁ 𝐸 P = {!!}
