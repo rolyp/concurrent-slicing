@@ -290,13 +290,8 @@ module Transition.Concur.Cofinal.Lattice where
       with fwd ((ᴿ.push *ᵇ) E) ((push *̃) P) | fwd (E′/E (⊖₁ 𝐹)) (π₂ (fwd F Q))
    gamma₁ {a = a ᵇ} (_ᵇ│•_ {y = y} {F = F} {F′} E 𝐹) [ P │ Q ] | [ ([ x ] •) ᵇ ] | [ • [ .x ] 〈 x₂ 〉 ᶜ ] | [ ([ ._ ] •) ᵇ ] | [ • [ ._ ] 〈 x₃ 〉 ᶜ ] | ◻ , ◻ | ◻ , ◻ with fwd E P | fwd F′ Q
    ... | _ , ◻ | ◻ , ◻ =
-      let open EqReasoning (setoid _) in
-      begin
-         [ (push *̃) ((pop ◻ *̃) ◻) │ π₂ (fwd (E/E′ (⊖₁ 𝐹)) ◻) ]
-      ≡⟨ {!!} ⟩
-         braiding ᵇ∇ᶜ (cong₂ _│_ (sym ((pop∘suc-push y) (target E))) (γ₁ 𝐹))
-      [ ◻ │ ◻ ]
-      ∎
+      let S† = (pop∘suc-push y (target E)); S‡ = (sym (trans (γ₁ 𝐹) (≅-to-≡ (Proc↲ refl _)))) in ≅-to-≡
+         (≅-trans ([-│-]-cong S† (◻-cong S†) S‡ (◻-cong S‡)) (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym S†) (γ₁ 𝐹)) _)))
    ... | ◻ , ◻ | ◻ , [ x₁ ] = {!!}
    ... | ◻ , ◻ | [ • _ 〈 _ 〉 ᶜ ] , ◻ =
       let S† = (pop∘suc-push y (target E)); S‡ = (sym (trans (γ₁ 𝐹) (≅-to-≡ (Proc↲ refl _)))) in ≅-to-≡
