@@ -105,7 +105,7 @@ module Transition.Concur.Cofinal.Lattice where
       let open ≅-Reasoning in ≅-to-≡ (
       begin
          ◻ {P = S′ (⊖₁ 𝐸)}
-      ≅⟨ ◻-cong (≅-to-≡ (≅-trans (≅-sym (Proc↲ refl _)) (≡-to-≅ (sym (γ₁ 𝐸))))) ⟩
+      ≅⟨ ◻-cong (sym (trans (γ₁ 𝐸) (≅-to-≡ (Proc↲ refl _)))) ⟩
          ◻ {P = S (⊖₁ 𝐸)}
       ≅⟨ ≅-sym (reduce-ᵇ∇ᶜ (γ₁ 𝐸) _) ⟩
          braiding ᵇ∇ᶜ {0} (γ₁ 𝐸) (◻ {P = S (⊖₁ 𝐸)})
@@ -114,7 +114,7 @@ module Transition.Concur.Cofinal.Lattice where
       let open ≅-Reasoning in ≅-to-≡ (
       begin
          ◻ {P = S′ (⊖₁ 𝐸)}
-      ≅⟨ ◻-cong (≅-to-≡ (≅-trans (≅-sym (Proc↲ refl _)) (≡-to-≅ (sym (γ₁ 𝐸))))) ⟩
+      ≅⟨ ◻-cong (sym (trans (γ₁ 𝐸) (≅-to-≡ (Proc↲ refl _)))) ⟩
          ◻ {P = S (⊖₁ 𝐸)}
       ≅⟨ ≅-sym (reduce-ᶜ∇ᵇ (γ₁ 𝐸) _) ⟩
          braiding ᶜ∇ᵇ {0} (γ₁ 𝐸) (◻ {P = S (⊖₁ 𝐸)})
