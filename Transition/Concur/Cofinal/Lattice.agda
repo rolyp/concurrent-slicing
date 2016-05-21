@@ -230,57 +230,57 @@ module Transition.Concur.Cofinal.Lattice where
    ... | _ rewrite pop∘push y a = {!!}
    gamma₁ {a = a ᵇ} (_ᵇ│•_ {y = y} {F = F} {F′} E 𝐹) [ P │ Q ]
       with π₁ (fwd E P) | π₁ (fwd F′ Q) | π₁ (fwd ((ᴿ.push *ᵇ) E) ((push *̃) P)) | π₁ (fwd (E′/E (⊖₁ 𝐹)) (π₂ (fwd F Q)))
-   ... | ◻ | _ | ◻ | _ = ≅-to-≡ (≅-trans
-      (◻-cong (cong₂ _│_ (pop∘suc-push y (target E)) (sym (γ₁ 𝐹))))
-      (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym (pop∘suc-push y (target E))) (γ₁ 𝐹)) _)))
-   ... | ◻ | _ | [ (◻ •) ᵇ ] | _ = ≅-to-≡ (≅-trans
-      (◻-cong (cong₂ _│_ (pop∘suc-push y (target E)) (sym (γ₁ 𝐹))))
-      (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym (pop∘suc-push y (target E))) (γ₁ 𝐹)) _)))
-   ... | ◻ | _ | [ ([ ._ ] •) ᵇ ] | ◻ = ≅-to-≡ (≅-trans
-      (◻-cong (cong₂ _│_ (pop∘suc-push y (target E)) (sym (γ₁ 𝐹))))
-      (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym (pop∘suc-push y (target E))) (γ₁ 𝐹)) _)))
-   ... | ◻ | _ | [ ([ ._ ] •) ᵇ ] | [ • ◻ 〈 _ 〉 ᶜ ] = ≅-to-≡ (≅-trans
-      (◻-cong (cong₂ _│_ (pop∘suc-push y (target E)) (sym (γ₁ 𝐹))))
-      (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym (pop∘suc-push y (target E))) (γ₁ 𝐹)) _)))
+   ... | ◻ | _ | ◻ | _ =
+      let S† = pop∘suc-push y (target E) in ≅-to-≡
+         (≅-trans (◻-cong (cong₂ _│_ S† (sym (γ₁ 𝐹)))) (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym S†) (γ₁ 𝐹)) _)))
+   ... | ◻ | _ | [ (◻ •) ᵇ ] | _ =
+      let S† = pop∘suc-push y (target E) in ≅-to-≡
+         (≅-trans (◻-cong (cong₂ _│_ S† (sym (γ₁ 𝐹)))) (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym S†) (γ₁ 𝐹)) _)))
+   ... | ◻ | _ | [ ([ ._ ] •) ᵇ ] | ◻ =
+      let S† = pop∘suc-push y (target E) in ≅-to-≡
+         (≅-trans (◻-cong (cong₂ _│_ S† (sym (γ₁ 𝐹)))) (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym S†) (γ₁ 𝐹)) _)))
+   ... | ◻ | _ | [ ([ ._ ] •) ᵇ ] | [ • ◻ 〈 _ 〉 ᶜ ] =
+      let S† = pop∘suc-push y (target E) in ≅-to-≡
+         (≅-trans (◻-cong (cong₂ _│_ S† (sym (γ₁ 𝐹)))) (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym S†) (γ₁ 𝐹)) _)))
    ... | ◻ | _ | [ ([ ._ ] •) ᵇ ] | [ • [ ._ ] 〈 _ 〉 ᶜ ] = {!!}
-   ... | [ (◻ •) ᵇ ] | _ | ◻ | _ = ≅-to-≡ (≅-trans
-      (◻-cong (cong₂ _│_ (pop∘suc-push y (target E)) (sym (γ₁ 𝐹))))
-      (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym (pop∘suc-push y (target E))) (γ₁ 𝐹)) _)))
-   ... | [ (◻ •) ᵇ ] | _ | [ (◻ •) ᵇ ] | _ = ≅-to-≡ (≅-trans
-      (◻-cong (cong₂ _│_ (pop∘suc-push y (target E)) (sym (γ₁ 𝐹))))
-      (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym (pop∘suc-push y (target E))) (γ₁ 𝐹)) _)))
-   ... | [ (◻ •) ᵇ ] | _ | [ ([ ._ ] •) ᵇ ] | ◻ = ≅-to-≡ (≅-trans
-      (◻-cong (cong₂ _│_ (pop∘suc-push y (target E)) (sym (γ₁ 𝐹))))
-      (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym (pop∘suc-push y (target E))) (γ₁ 𝐹)) _)))
-   ... | [ (◻ •) ᵇ ] | _ | [ ([ ._ ] •) ᵇ ] | [ • ◻ 〈 _ 〉 ᶜ ] = ≅-to-≡ (≅-trans
-      (◻-cong (cong₂ _│_ (pop∘suc-push y (target E)) (sym (γ₁ 𝐹))))
-      (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym (pop∘suc-push y (target E))) (γ₁ 𝐹)) _)))
+   ... | [ (◻ •) ᵇ ] | _ | ◻ | _ =
+      let S† = pop∘suc-push y (target E) in ≅-to-≡
+         (≅-trans (◻-cong (cong₂ _│_ S† (sym (γ₁ 𝐹)))) (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym S†) (γ₁ 𝐹)) _)))
+   ... | [ (◻ •) ᵇ ] | _ | [ (◻ •) ᵇ ] | _ =
+      let S† = pop∘suc-push y (target E) in ≅-to-≡
+         (≅-trans (◻-cong (cong₂ _│_ S† (sym (γ₁ 𝐹)))) (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym S†) (γ₁ 𝐹)) _)))
+   ... | [ (◻ •) ᵇ ] | _ | [ ([ ._ ] •) ᵇ ] | ◻ =
+      let S† = pop∘suc-push y (target E) in ≅-to-≡
+         (≅-trans (◻-cong (cong₂ _│_ S† (sym (γ₁ 𝐹)))) (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym S†) (γ₁ 𝐹)) _)))
+   ... | [ (◻ •) ᵇ ] | _ | [ ([ ._ ] •) ᵇ ] | [ • ◻ 〈 _ 〉 ᶜ ] =
+      let S† = pop∘suc-push y (target E) in ≅-to-≡
+         (≅-trans (◻-cong (cong₂ _│_ S† (sym (γ₁ 𝐹)))) (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym S†) (γ₁ 𝐹)) _)))
    ... | [ (◻ •) ᵇ ] | _ | [ ([ ._ ] •) ᵇ ] | [ • [ ._ ] 〈 _ 〉 ᶜ ] = {!!}
-   ... | [ ([ _ ] •) ᵇ ] | ◻ | ◻ | _ = ≅-to-≡ (≅-trans
-      (◻-cong (cong₂ _│_ (pop∘suc-push y (target E)) (sym (γ₁ 𝐹))))
-      (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym (pop∘suc-push y (target E))) (γ₁ 𝐹)) _)))
-   ... | [ ([ _ ] •) ᵇ ] | ◻ | [ (◻ •) ᵇ ] | _ = ≅-to-≡ (≅-trans
-      (◻-cong (cong₂ _│_ (pop∘suc-push y (target E)) (sym (γ₁ 𝐹))))
-      (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym (pop∘suc-push y (target E))) (γ₁ 𝐹)) _)))
-   ... | [ ([ x ] •) ᵇ ] | ◻ | [ ([ .(ᴺ.suc x) ] •) ᵇ ] | ◻ = ≅-to-≡ (≅-trans
-      (◻-cong (cong₂ _│_ (pop∘suc-push y (target E)) (sym (γ₁ 𝐹))))
-      (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym (pop∘suc-push y (target E))) (γ₁ 𝐹)) _)))
-   ... | [ ([ x ] •) ᵇ ] | ◻ | [ ([ .(ᴺ.suc x) ] •) ᵇ ] | [ • ◻ 〈 x₂ 〉 ᶜ ] = ≅-to-≡ (≅-trans
-      (◻-cong (cong₂ _│_ (pop∘suc-push y (target E)) (sym (γ₁ 𝐹))))
-      (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym (pop∘suc-push y (target E))) (γ₁ 𝐹)) _)))
+   ... | [ ([ _ ] •) ᵇ ] | ◻ | ◻ | _ =
+      let S† = pop∘suc-push y (target E) in ≅-to-≡
+         (≅-trans (◻-cong (cong₂ _│_ S† (sym (γ₁ 𝐹)))) (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym S†) (γ₁ 𝐹)) _)))
+   ... | [ ([ _ ] •) ᵇ ] | ◻ | [ (◻ •) ᵇ ] | _ =
+      let S† = pop∘suc-push y (target E) in ≅-to-≡
+         (≅-trans (◻-cong (cong₂ _│_ S† (sym (γ₁ 𝐹)))) (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym S†) (γ₁ 𝐹)) _)))
+   ... | [ ([ x ] •) ᵇ ] | ◻ | [ ([ .(ᴺ.suc x) ] •) ᵇ ] | ◻ =
+      let S† = pop∘suc-push y (target E) in ≅-to-≡
+         (≅-trans (◻-cong (cong₂ _│_ S† (sym (γ₁ 𝐹)))) (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym S†) (γ₁ 𝐹)) _)))
+   ... | [ ([ x ] •) ᵇ ] | ◻ | [ ([ .(ᴺ.suc x) ] •) ᵇ ] | [ • ◻ 〈 x₂ 〉 ᶜ ] =
+      let S† = pop∘suc-push y (target E) in ≅-to-≡
+         (≅-trans (◻-cong (cong₂ _│_ S† (sym (γ₁ 𝐹)))) (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym S†) (γ₁ 𝐹)) _)))
    ... | [ ([ x ] •) ᵇ ] | ◻ | [ ([ .(ᴺ.suc x) ] •) ᵇ ] | [ • [ .(ᴺ.suc x) ] 〈 x₂ 〉 ᶜ ] = {!!}
-   ... | [ ([ _ ] •) ᵇ ] | [ • ◻ 〈 _ 〉 ᶜ ] | ◻ | _ = ≅-to-≡ (≅-trans
-      (◻-cong (cong₂ _│_ (pop∘suc-push y (target E)) (sym (γ₁ 𝐹))))
-      (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym (pop∘suc-push y (target E))) (γ₁ 𝐹)) _)))
-   ... | [ ([ _ ] •) ᵇ ] | [ • ◻ 〈 x₂ 〉 ᶜ ] | [ (◻ •) ᵇ ] | d = ≅-to-≡ (≅-trans
-      (◻-cong (cong₂ _│_ (pop∘suc-push y (target E)) (sym (γ₁ 𝐹))))
-      (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym (pop∘suc-push y (target E))) (γ₁ 𝐹)) _)))
-   ... | [ ([ _ ] •) ᵇ ] | [ • ◻ 〈 x₂ 〉 ᶜ ] | [ ([ ._ ] •) ᵇ ] | ◻ = ≅-to-≡ (≅-trans
-      (◻-cong (cong₂ _│_ (pop∘suc-push y (target E)) (sym (γ₁ 𝐹))))
-      (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym (pop∘suc-push y (target E))) (γ₁ 𝐹)) _)))
-   ... | [ ([ _ ] •) ᵇ ] | [ • ◻ 〈 x₂ 〉 ᶜ ] | [ ([ ._ ] •) ᵇ ] | [ • ◻ 〈 x₃ 〉 ᶜ ] = ≅-to-≡ (≅-trans
-      (◻-cong (cong₂ _│_ (pop∘suc-push y (target E)) (sym (γ₁ 𝐹))))
-      (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym (pop∘suc-push y (target E))) (γ₁ 𝐹)) _)))
+   ... | [ ([ _ ] •) ᵇ ] | [ • ◻ 〈 _ 〉 ᶜ ] | ◻ | _ =
+      let S† = pop∘suc-push y (target E) in ≅-to-≡
+         (≅-trans (◻-cong (cong₂ _│_ S† (sym (γ₁ 𝐹)))) (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym S†) (γ₁ 𝐹)) _)))
+   ... | [ ([ _ ] •) ᵇ ] | [ • ◻ 〈 x₂ 〉 ᶜ ] | [ (◻ •) ᵇ ] | d =
+      let S† = pop∘suc-push y (target E) in ≅-to-≡
+         (≅-trans (◻-cong (cong₂ _│_ S† (sym (γ₁ 𝐹)))) (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym S†) (γ₁ 𝐹)) _)))
+   ... | [ ([ _ ] •) ᵇ ] | [ • ◻ 〈 x₂ 〉 ᶜ ] | [ ([ ._ ] •) ᵇ ] | ◻ =
+      let S† = pop∘suc-push y (target E) in ≅-to-≡
+         (≅-trans (◻-cong (cong₂ _│_ S† (sym (γ₁ 𝐹)))) (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym S†) (γ₁ 𝐹)) _)))
+   ... | [ ([ _ ] •) ᵇ ] | [ • ◻ 〈 x₂ 〉 ᶜ ] | [ ([ ._ ] •) ᵇ ] | [ • ◻ 〈 x₃ 〉 ᶜ ] =
+      let S† = pop∘suc-push y (target E) in ≅-to-≡
+         (≅-trans (◻-cong (cong₂ _│_ S† (sym (γ₁ 𝐹)))) (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym S†) (γ₁ 𝐹)) _)))
    ... | [ ([ x ] •) ᵇ ] | [ • ◻ 〈 x₂ 〉 ᶜ ] | [ ([ ._ ] •) ᵇ ] | [ • [ ._ ] 〈 x₃ 〉 ᶜ ] = {!!}
    ... | [ ([ x ] •) ᵇ ] | [ • [ .x ] 〈 x₂ 〉 ᶜ ] | ◻ | d = {!!}
    ... | [ ([ x ] •) ᵇ ] | [ • [ .x ] 〈 x₂ 〉 ᶜ ] | [ (◻ •) ᵇ ] | d = {!!}
