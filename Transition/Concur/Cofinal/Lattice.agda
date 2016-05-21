@@ -83,6 +83,7 @@ module Transition.Concur.Cofinal.Lattice where
             (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ →
             coerceCxt 𝑎 (π₂ (fwd (E/E′ (⊖₁ 𝐸)) (π₂ (fwd E′ P′)))) ≡
             braiding 𝑎 (γ₁ 𝐸) (π₂ (fwd (E′/E (⊖₁ 𝐸)) (π₂ (fwd E P′))))
+{-
    gamma₁ {𝑎 = ˣ∇ˣ {x = x} {u}} 𝐸 ◻ =
       ≅-to-≡ (≅-trans (◻-cong (sym (trans (γ₁ 𝐸) (≅-to-≡ (Proc↲ refl _))))) (≅-sym (reduce-ˣ∇ˣ {x = x} {u} (γ₁ 𝐸) _)))
    gamma₁ {𝑎 = ᵇ∇ᵇ} 𝐸 ◻ =
@@ -222,6 +223,7 @@ module Transition.Concur.Cofinal.Lattice where
          braiding ᶜ∇ᶜ (cong₂ _│_ (γ₁ 𝐸) refl) [ S‡ │  Q ]
       ∎)
    gamma₁ {E = E ᶜ│ Q₀} {E′ ᶜ│ ._} (𝐸 ᵛᵛ│ ._) [ P │ Q ] = cong (λ P → [ P │ Q ]) (gamma₁ 𝐸 P)
+-}
    gamma₁ (_│•ᵇ_ {y = y} {a = a} 𝐸 F) [ P │ Q ] with (ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))
    ... | _ rewrite pop∘push y a = {!!}
    gamma₁ (_│•ᶜ_ {y = y} {a = a} 𝐸 F) [ P │ Q ] with (ᴿ.pop y *ᶜ) (E/E′ (⊖₁ 𝐸))
@@ -240,8 +242,11 @@ module Transition.Concur.Cofinal.Lattice where
    ... | ◻ | _ | [ ([ ._ ] •) ᵇ ] | [ • ◻ 〈 _ 〉 ᶜ ] = ≅-to-≡ (≅-trans
       (◻-cong (cong₂ _│_ (pop∘suc-push y (target E)) (sym (γ₁ 𝐹))))
       (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym (pop∘suc-push y (target E))) (γ₁ 𝐹)) _)))
-   ... | ◻ | _ | [ ([ ._ ] •) ᵇ ] | [ • [ ._ ] 〈 y′ 〉 ᶜ ] = {!!}
-   ... | [ (◻ •) ᵇ ] | _ | _ | _ = {!!}
+   ... | ◻ | _ | [ ([ ._ ] •) ᵇ ] | [ • [ ._ ] 〈 _ 〉 ᶜ ] = {!!}
+   ... | [ (◻ •) ᵇ ] | _ | ◻ | _ = ≅-to-≡ (≅-trans
+      (◻-cong (cong₂ _│_ (pop∘suc-push y (target E)) (sym (γ₁ 𝐹))))
+      (≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym (pop∘suc-push y (target E))) (γ₁ 𝐹)) _)))
+   gamma₁ {Γ} {a ᵇ} (E ᵇ│• 𝐹) [ P₁ │ Q₁ ] | [ (◻ •) ᵇ ] | w | [ x₁ ᵇ ] | d = ?
    ... | [ ([ x ] •) ᵇ ] | ◻ | _ | _ = {!!}
    ... | [ ([ x ] •) ᵇ ] | [ • ◻ 〈 x₂ 〉 ᶜ ] | _ | _ = {!!}
    ... | [ ([ x ] •) ᵇ ] | [ • [ .x ] 〈 x₂ 〉 ᶜ ] | c | d = {!!}
