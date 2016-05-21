@@ -13,12 +13,12 @@ module Transition.Concur.Cofinal.Lattice where
    open import Proc as ᴾ using (Proc; Proc↱; Proc↲); open ᴾ.Proc
    open import Proc.Lattice as ᴾ̃ using (); open ᴾ̃.↓_; open ᴾ̃.↓⁻_
    import Proc.Ren
-   open import Proc.Ren.Lattice renaming (_* to _*̃)
+   open import Proc.Ren.Lattice using () renaming (_* to _*̃)
    open import Ren as ᴿ using (Ren); open ᴿ.Renameable ⦃...⦄
    open import Ren.Lattice using (_ᴿ+_; swap; push)
    open import Ren.Lattice.Properties
    open import Ren.Properties
-   open import Transition as ᵀ using (_—[_-_]→_); open ᵀ._—[_-_]→_
+   open import Transition as ᵀ using (_—[_-_]→_; target); open ᵀ._—[_-_]→_
    open import Transition.Concur using (Concur₁; module Concur₁; module Delta′; ⊖₁); open Concur₁
    open import Transition.Concur.Cofinal using (⋈̂[_,_,_]; γ₁)
    open import Transition.Lattice using (fwd; step)
@@ -87,7 +87,7 @@ module Transition.Concur.Cofinal.Lattice where
       let open ≅-Reasoning in ≅-to-≡ (
       begin
          ◻ {P = S′ (⊖₁ 𝐸)}
-      ≅⟨ ◻-cong (≅-to-≡ (≅-trans (≅-sym (Proc↲ refl _)) (≡-to-≅ (sym (γ₁ 𝐸))))) ⟩
+      ≅⟨ ◻-cong (sym (trans (γ₁ 𝐸) (≅-to-≡ (Proc↲ refl _)))) ⟩
          ◻ {P = S (⊖₁ 𝐸)}
       ≅⟨ ≅-sym (reduce-ˣ∇ˣ {x = x} {u} (γ₁ 𝐸) _) ⟩
          braiding (ˣ∇ˣ {x = x} {u}) {0} (γ₁ 𝐸) (◻ {P = S (⊖₁ 𝐸)})
@@ -96,7 +96,7 @@ module Transition.Concur.Cofinal.Lattice where
       let open ≅-Reasoning in ≅-to-≡ (
       begin
          ◻ {P = S′ (⊖₁ 𝐸)}
-      ≅⟨ ◻-cong (≅-to-≡ (≅-trans (≅-sym (Proc↲ refl _)) (≡-to-≅ (sym (γ₁ 𝐸))))) ⟩
+      ≅⟨ ◻-cong (sym (trans (γ₁ 𝐸) (≅-to-≡ (Proc↲ refl _)))) ⟩
          ◻ {P = ((ᴿ.swap ᴿ.ᴿ+ 0) *) (S (⊖₁ 𝐸))}
       ≅⟨ ≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _) ⟩
          braiding ᵇ∇ᵇ {0} (γ₁ 𝐸) (◻ {P = S (⊖₁ 𝐸)})
@@ -137,10 +137,10 @@ module Transition.Concur.Cofinal.Lattice where
           open ≅-Reasoning in ≅-to-≡ (
       begin
          [ π₂ (fwd ((ᴿ.push *ᵇ) E) ((push *̃) P)) │ (push *̃) (π₂ (fwd F Q)) ]
-      ≅⟨ [-│-]-cong (swap∘push (ᵀ.target E)) S† (swap∘suc-push (ᵀ.target F)) S‡ ⟩
+      ≅⟨ [-│-]-cong (swap∘push (target E)) S† (swap∘suc-push (target F)) S‡ ⟩
          [ (swap *̃) ((push *̃) (π₂ (fwd E P))) │ (swap *̃) (π₂ (fwd ((ᴿ.push *ᵇ) F) ((push *̃) Q))) ]
-      ≅⟨ ≅-sym (reduce-ᵇ∇ᵇ (sym (cong₂ _│_ (swap∘push (ᵀ.target E)) (swap∘suc-push (ᵀ.target F)))) _) ⟩
-         braiding (ᵇ∇ᵇ {a = a} {a′}) {0} (sym (cong₂ _│_ (swap∘push (ᵀ.target E)) (swap∘suc-push (ᵀ.target F))))
+      ≅⟨ ≅-sym (reduce-ᵇ∇ᵇ (sym (cong₂ _│_ (swap∘push (target E)) (swap∘suc-push (target F)))) _) ⟩
+         braiding (ᵇ∇ᵇ {a = a} {a′}) {0} (sym (cong₂ _│_ (swap∘push (target E)) (swap∘suc-push (target F))))
                                         [ (push *̃) (π₂ (fwd E P)) │ π₂ (fwd ((ᴿ.push *ᵇ) F) ((push *̃) Q)) ]
       ∎)
    gamma₁ (E ᵇ│ᶜ F) [ P │ Q ] = cong (λ Q′ → [ _ │ Q′ ]) (renᶜ-fwd-comm F push Q)
@@ -261,11 +261,19 @@ module Transition.Concur.Cofinal.Lattice where
    ... | _ rewrite pop∘push y a = {!!}
    gamma₁ (_│•ᶜ_ {y = y} {a = a} 𝐸 F) [ P │ Q ] with (ᴿ.pop y *ᶜ) (E/E′ (⊖₁ 𝐸))
    ... | _ rewrite pop∘push y a = {!!}
-   gamma₁ (_ᵇ│•_ {y = y} {F = F} {F′} E 𝐹) [ P │ Q ]
+   gamma₁ {a = a ᵇ} (_ᵇ│•_ {y = y} {F = F} {F′} E 𝐹) [ P │ Q ]
       with π₁ (fwd E P) | π₁ (fwd F′ Q) | π₁ (fwd ((ᴿ.push *ᵇ) E) ((push *̃) P)) | π₁ (fwd  (E′/E (⊖₁ 𝐹)) (π₂ (fwd F Q)))
-   gamma₁ (E ᵇ│• 𝐹) [ P₁ │ Q₁ ] | ◻ | _ | ◻ | _ = {!!}
-   gamma₁ (E ᵇ│• 𝐹) [ P₁ │ Q₁ ] | ◻ | b | [ x₁ ] | d = {!!}
-   gamma₁ (E ᵇ│• 𝐹) [ P₁ │ Q₁ ] | [ x₁ ] | b | c | d = {!!}
+   ... | ◻ | _ | ◻ | _ =
+      let open ≅-Reasoning in ≅-to-≡ (
+      begin
+         ◻ {P = (ᴿ.push *) (((ᴿ.pop y) *) (target E)) │ Proc↱ refl (S′ (⊖₁ 𝐹))}
+      ≅⟨ ◻-cong (cong₂ _│_ (pop∘suc-push y (target E)) (sym (γ₁ 𝐹))) ⟩
+         ◻ {P = ((ᴿ.pop (ᴿ.push y)) *) (((ᴿ.suc ᴿ.push) *) (target E)) │ S (⊖₁ 𝐹)}
+      ≅⟨ ≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym (pop∘suc-push y (target E))) (γ₁ 𝐹)) _)  ⟩
+         braiding ᵇ∇ᶜ (cong₂ _│_ (sym (pop∘suc-push y (target E))) (γ₁ 𝐹)) ◻
+      ∎)
+   ... | ◻ | b | [ x₁ ] | d = {!!}
+   ... | [ x₁ ] | b | c | d = {!!}
    gamma₁ 𝐸 P = {!!}
 {-
    gamma₁ (E ᶜ│• 𝐸) P₁ = {!!}
