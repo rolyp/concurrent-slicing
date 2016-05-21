@@ -86,45 +86,45 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ {𝑎 = ˣ∇ˣ {x = x} {u}} 𝐸 ◻ =
       let open ≅-Reasoning in ≅-to-≡ (
       begin
-         ◻ {P = S′ (⊖₁ 𝐸)}
+         ◻
       ≅⟨ ◻-cong (sym (trans (γ₁ 𝐸) (≅-to-≡ (Proc↲ refl _)))) ⟩
-         ◻ {P = S (⊖₁ 𝐸)}
+         ◻
       ≅⟨ ≅-sym (reduce-ˣ∇ˣ {x = x} {u} (γ₁ 𝐸) _) ⟩
          braiding (ˣ∇ˣ {x = x} {u}) {0} (γ₁ 𝐸) (◻ {P = S (⊖₁ 𝐸)})
       ∎)
    gamma₁ {𝑎 = ᵇ∇ᵇ} 𝐸 ◻ =
       let open ≅-Reasoning in ≅-to-≡ (
       begin
-         ◻ {P = S′ (⊖₁ 𝐸)}
+         ◻
       ≅⟨ ◻-cong (sym (trans (γ₁ 𝐸) (≅-to-≡ (Proc↲ refl _)))) ⟩
-         ◻ {P = ((ᴿ.swap ᴿ.ᴿ+ 0) *) (S (⊖₁ 𝐸))}
+         ◻
       ≅⟨ ≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _) ⟩
          braiding ᵇ∇ᵇ {0} (γ₁ 𝐸) (◻ {P = S (⊖₁ 𝐸)})
       ∎)
    gamma₁ {𝑎 = ᵇ∇ᶜ} 𝐸 ◻ =
       let open ≅-Reasoning in ≅-to-≡ (
       begin
-         ◻ {P = S′ (⊖₁ 𝐸)}
+         ◻
       ≅⟨ ◻-cong (sym (trans (γ₁ 𝐸) (≅-to-≡ (Proc↲ refl _)))) ⟩
-         ◻ {P = S (⊖₁ 𝐸)}
+         ◻
       ≅⟨ ≅-sym (reduce-ᵇ∇ᶜ (γ₁ 𝐸) _) ⟩
          braiding ᵇ∇ᶜ {0} (γ₁ 𝐸) (◻ {P = S (⊖₁ 𝐸)})
       ∎)
    gamma₁ {𝑎 = ᶜ∇ᵇ} 𝐸 ◻ =
       let open ≅-Reasoning in ≅-to-≡ (
       begin
-         ◻ {P = S′ (⊖₁ 𝐸)}
+         ◻
       ≅⟨ ◻-cong (sym (trans (γ₁ 𝐸) (≅-to-≡ (Proc↲ refl _)))) ⟩
-         ◻ {P = S (⊖₁ 𝐸)}
+         ◻
       ≅⟨ ≅-sym (reduce-ᶜ∇ᵇ (γ₁ 𝐸) _) ⟩
          braiding ᶜ∇ᵇ {0} (γ₁ 𝐸) (◻ {P = S (⊖₁ 𝐸)})
       ∎)
    gamma₁ {𝑎 = ᶜ∇ᶜ} 𝐸 ◻ =
       let open ≅-Reasoning in ≅-to-≡ (
       begin
-         ◻ {P = S′ (⊖₁ 𝐸)}
-      ≅⟨ ◻-cong (≅-to-≡ (≅-trans (≅-sym (Proc↲ refl _)) (≡-to-≅ (sym (γ₁ 𝐸))))) ⟩
-         ◻ {P = S (⊖₁ 𝐸)}
+         ◻
+      ≅⟨ ◻-cong (sym (trans (γ₁ 𝐸) (≅-to-≡ (Proc↲ refl _)))) ⟩
+         ◻
       ≅⟨ ≅-sym (reduce-ᶜ∇ᶜ (γ₁ 𝐸) _) ⟩
          braiding ᶜ∇ᶜ {0} (γ₁ 𝐸) (◻ {P = S (⊖₁ 𝐸)})
       ∎)
@@ -266,9 +266,9 @@ module Transition.Concur.Cofinal.Lattice where
    ... | ◻ | _ | ◻ | _ =
       let open ≅-Reasoning in ≅-to-≡ (
       begin
-         ◻ {P = (ᴿ.push *) (((ᴿ.pop y) *) (target E)) │ Proc↱ refl (S′ (⊖₁ 𝐹))}
+         ◻
       ≅⟨ ◻-cong (cong₂ _│_ (pop∘suc-push y (target E)) (sym (γ₁ 𝐹))) ⟩
-         ◻ {P = ((ᴿ.pop (ᴿ.push y)) *) (((ᴿ.suc ᴿ.push) *) (target E)) │ S (⊖₁ 𝐹)}
+         ◻
       ≅⟨ ≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (sym (pop∘suc-push y (target E))) (γ₁ 𝐹)) _)  ⟩
          braiding ᵇ∇ᶜ (cong₂ _│_ (sym (pop∘suc-push y (target E))) (γ₁ 𝐹)) ◻
       ∎)
