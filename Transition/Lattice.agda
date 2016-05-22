@@ -306,6 +306,15 @@ module Transition.Lattice where
    targetᴹ : ∀ {Γ P} {a : Action Γ} {R} {E₀ : P —[ a - _ ]→ R} {E E′ : ↓ E₀} → E ≤ E′ → target E ≤′ target E′
    targetᴹ = π₂ ∘ᶠ outᴹ
 
+   step2 : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓′ P → ↓′ ᵀ.out E
+   step2⁻ : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓⁻′ P → ↓′ ᵀ.out E
+
+   step2 E [ P ] = step2⁻ E P
+   step2 E ◻ = ◻ , ◻
+
+   step2⁻ (_ •∙ _) (x •∙ P) = [ (x •) ᵇ ] , P
+   step2⁻ E P = {!!}
+
    step : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓′ P → ↓ E
    step⁻ : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓⁻′ P → ↓ E
 

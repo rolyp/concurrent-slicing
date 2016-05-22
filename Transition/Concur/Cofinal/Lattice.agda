@@ -62,9 +62,6 @@ module Transition.Concur.Cofinal.Lattice where
                    braiding (ᶜ∇ᶜ {a = a} {a′}) {0} γ P† ≅ P†
       reduce-ᶜ∇ᶜ refl _ = ≅-refl
 
-      reduce-ᵛ∇ᵛ : ∀ {Γ} {P P′ : Proc Γ} (γ : P ⋉̂ P′) (P† : ↓ P) → braiding ᵛ∇ᵛ {0} γ P† ≡ braid̂ γ P†
-      reduce-ᵛ∇ᵛ _ _ = refl
-
       ◻-cong : ∀ {Γ} {P₀ P₁ : Proc Γ} → P₀ ≡ P₁ →
                _≅_ {A = ↓_ {A = Proc Γ} _} (◻ {P = P₀}) {↓_ {A = Proc Γ} _} (◻ {P = P₁})
       ◻-cong refl = ≅-refl
