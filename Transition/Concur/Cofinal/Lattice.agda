@@ -6,6 +6,7 @@ module Transition.Concur.Cofinal.Lattice where
    open import Action as ᴬ using (Action; Actionᵇ; Actionᶜ; inc); open ᴬ.Action
    open import Action.Concur using (_ᴬ⌣_; module _ᴬ⌣_; ᴬ⊖; ᴬγ); open _ᴬ⌣_
    open import Action.Lattice as ᴬ̃ using (); open ᴬ̃.↓_; open ᴬ̃.↓⁻_; open ᴬ̃.↓ᵇ⁻_; open ᴬ̃.↓ᶜ⁻_
+   open import Braiding.Proc using (_⋉̂_)
    open import Braiding.Proc.Lattice using (braid̂)
    open import Lattice using (Lattices); open Lattice.Prefixes ⦃...⦄
    open import Name as ᴺ using (Name; Cxt; _+_)
@@ -41,9 +42,13 @@ module Transition.Concur.Cofinal.Lattice where
                   let Γ′ = Γ + inc a′ + inc (π₂ (ᴬ⊖ 𝑎)) in ∀ {P : Proc Γ′} → ↓ P → ↓ Proc↱ (sym (ᴬγ 𝑎)) P
       coerceCxt 𝑎 rewrite sym (ᴬγ 𝑎) = idᶠ
 
-      reduce-ᶜ∇ᶜ : ∀ {Γ P P′} {a : Actionᶜ Γ} {a′ : Actionᶜ Γ} (γ : P ≡ P′) (P† : ↓ P) →
-                   braiding (ᶜ∇ᶜ {a = a} {a′}) {0} γ P† ≅ P†
-      reduce-ᶜ∇ᶜ refl _ = ≅-refl
+      reduce-ˣ∇ˣ : ∀ {Γ P P′} {x u : Name Γ} (γ : P ≡ P′) (P† : ↓ P) →
+                   braiding (ˣ∇ˣ {x = x} {u}) {0} γ P† ≅ P†
+      reduce-ˣ∇ˣ refl _ = ≅-refl
+
+      reduce-ᵇ∇ᵇ : ∀ {Γ P P′} {a a′ : Actionᵇ Γ} (γ : ((ᴿ.swap ᴿ.ᴿ+ 0) *) P ≡ P′) (P† : ↓ P) →
+                   braiding (ᵇ∇ᵇ {a = a} {a′}) {0} γ P† ≅ ((swap ᴿ+ 0) *̃) P†
+      reduce-ᵇ∇ᵇ refl _ = ≅-refl
 
       reduce-ᵇ∇ᶜ : ∀ {Γ P P′} {a : Actionᵇ Γ} {a′ : Actionᶜ Γ} (γ : P ≡ P′) (P† : ↓ P) →
                    braiding (ᵇ∇ᶜ {a = a} {a′}) {0} γ P† ≅ P†
@@ -53,13 +58,12 @@ module Transition.Concur.Cofinal.Lattice where
                    braiding (ᶜ∇ᵇ {a = a} {a′}) {0} γ P† ≅ P†
       reduce-ᶜ∇ᵇ refl _ = ≅-refl
 
-      reduce-ᵇ∇ᵇ : ∀ {Γ P P′} {a a′ : Actionᵇ Γ} (γ : ((ᴿ.swap ᴿ.ᴿ+ 0) *) P ≡ P′) (P† : ↓ P) →
-                   braiding (ᵇ∇ᵇ {a = a} {a′}) {0} γ P† ≅ ((swap ᴿ+ 0) *̃) P†
-      reduce-ᵇ∇ᵇ refl _ = ≅-refl
+      reduce-ᶜ∇ᶜ : ∀ {Γ P P′} {a : Actionᶜ Γ} {a′ : Actionᶜ Γ} (γ : P ≡ P′) (P† : ↓ P) →
+                   braiding (ᶜ∇ᶜ {a = a} {a′}) {0} γ P† ≅ P†
+      reduce-ᶜ∇ᶜ refl _ = ≅-refl
 
-      reduce-ˣ∇ˣ : ∀ {Γ P P′} {x u : Name Γ} (γ : P ≡ P′) (P† : ↓ P) →
-                   braiding (ˣ∇ˣ {x = x} {u}) {0} γ P† ≅ P†
-      reduce-ˣ∇ˣ refl _ = ≅-refl
+      reduce-ᵛ∇ᵛ : ∀ {Γ} {P P′ : Proc Γ} (γ : P ⋉̂ P′) (P† : ↓ P) → braiding ᵛ∇ᵛ {0} γ P† ≡ braid̂ γ P†
+      reduce-ᵛ∇ᵛ _ _ = refl
 
       ◻-cong : ∀ {Γ} {P₀ P₁ : Proc Γ} → P₀ ≡ P₁ →
                _≅_ {A = ↓_ {A = Proc Γ} _} (◻ {P = P₀}) {↓_ {A = Proc Γ} _} (◻ {P = P₁})
@@ -236,7 +240,7 @@ module Transition.Concur.Cofinal.Lattice where
       ∎)
    gamma₁ {E = E ᶜ│ Q₀} {E′ ᶜ│ ._} (𝐸 ᵛᵛ│ ._) [ P │ Q ] = cong (λ P → [ P │ Q ]) (gamma₁ 𝐸 P)
 -}
-   gamma₁ {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] with π₁ (fwd E′ P)
+   gamma₁ {𝑎 = ᵛ∇ᵛ} {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] with π₁ (fwd E′ P)
    ... | ◻ = {!!}
    ... | [ τ ᶜ ] with fwd E′ P
    ... | ◻ , R = {!!}
@@ -252,8 +256,7 @@ module Transition.Concur.Cofinal.Lattice where
    ... | ◻ = {!!}
    ... | [ τ ᶜ ] with fwd (E′/E (⊖₁ 𝐸)) R′
    ... | ◻ , _ = {!!} -- impossible
-   ... | [ τ ᶜ ] , S′ = cong [_] (cong ν_ {!!})
-   -- let q = gamma₁ 𝐸 P in {!!}
+   ... | [ τ ᶜ ] , S′ = let q = gamma₁ 𝐸 P in cong [_] (cong ν_ {!!})
    gamma₁ (! 𝐸) [ ! P ] = gamma₁ 𝐸 [ P │ [ ! P ] ]
    gamma₁ _ _ = {!!}
 {-
