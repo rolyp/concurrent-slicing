@@ -10,8 +10,8 @@ module Proc.Ren.Lattice where
    import Proc.Ren
    import Proc.Lattice as ᴾ̃; open ᴾ̃.↓⁻_; open ᴾ̃.↓_; open ᴾ̃._≤⁻_; open ᴾ̃._≤_
    open import Ren as ᴿ using (Ren; +-preserves-id);
-      open ᴿ.Renameable ⦃...⦄
-        renaming (_* to _*′; *-preserves-≃ₑ to *′-preserves-≃ₑ; *-preserves-∘ to *′-preserves-∘; *-preserves-id to *′-preserves-id)
+      open ᴿ.Renameable ⦃...⦄ renaming
+         (_* to _*′; *-preserves-≃ₑ to *′-preserves-≃ₑ; *-preserves-∘ to *′-preserves-∘; *-preserves-id to *′-preserves-id)
    open import Ren.Lattice as ᴿ̃
       using (to-↓; to-↓-preserves-+; _ᴿ+_; suc; suc-preserves-≃ₑ; sucᴹ; pre; preᴹ; _↦_; _↦ᴹ_; _⁻¹[_]_; _⁻¹ᴹ[_]_)
 

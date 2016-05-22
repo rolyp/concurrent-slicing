@@ -13,8 +13,7 @@ module Action.Concur.Lattice where
    residual : ∀ {Γ} {a a′ : Action Γ} (a⌣a′ : a ᴬ⌣ a′) → ↓ a′ → ↓ π₁ (ᴬ⊖ a⌣a′)
    residual _ ◻ = ◻
    residual ˣ∇ˣ [ (• x) ᵇ ] = [ • suc x 〈 zero 〉 ᶜ ]
-   residual ᵇ∇ᵇ [ (x •) ᵇ ] = [ ({!!} •) ᵇ ]
-   residual ᵇ∇ᵇ [ (• x) ᵇ ] = [ (• {!!}) ᵇ ]
+   residual ᵇ∇ᵇ [ a ᵇ ] = [ {!!} ᵇ ]
    residual ᵇ∇ᶜ [ a ᶜ ] = [ {!!} ]
    residual ᶜ∇ᵇ [ a ᵇ ] = [ a ᵇ ]
    residual ᶜ∇ᶜ [ a ] = [ a ]
