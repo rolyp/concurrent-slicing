@@ -331,16 +331,17 @@ module Transition.Lattice where
    step2⁻ {a = x • ᵇ} (νᵇ E) (ν P) with step2 E P
    ... | [ [ ._ ] • ᵇ ] , R = [ [ x ] • ᵇ ] , [ ν (swap *̃) R ]
    ... | _ = ◻ , ◻
-   step2⁻ E P = {!!}
+   step2⁻ {a = (• x) ᵇ} (νᵇ E) (ν P) with step2 E P
+   ... | [ (• [ ._ ]) ᵇ ] , R = [ (• [ x ]) ᵇ ] ,  [ ν (swap *̃) R ]
+   ... | _ = ◻ , ◻
+   step2⁻ {a = • x 〈 y 〉 ᶜ} (νᶜ E) (ν P) with step2 E P
+   ... | [ • [ ._ ] 〈 [ ._ ] 〉 ᶜ ] , R = [ • [ x ] 〈 [ y ] 〉 ᶜ ] , [ ν R ]
+   ... | _ = ◻ , ◻
+   step2⁻ {a = τ ᶜ} (νᶜ E) (ν P) with step2 E P
+   ... | [ τ ᶜ ] , R = [ τ ᶜ ] , [ ν R ]
+   ... | _ = ◻ , ◻
+   step2⁻ (! E) (! P) = step2 E [ P │ [ ! P ] ]
 {-
-   step⁻ {a = • _ 〈 _ 〉 ᶜ} (νᶜ E) (ν P) with action (step E P)
-   ... | [ • [ ._ ] 〈 [ ._ ] 〉 ᶜ ] = [ νᶜ (step E P) ]
-   ... | _ = ◻
-   step⁻ {a = τ ᶜ} (νᶜ E) (ν P) with action (step E P)
-   ... | [ τ ᶜ ] = [ νᶜ (step E P) ]
-   ... | _ = ◻
-   step⁻ (! E) (! P) = [ ! (step E [ P │ [ ! P ] ]) ]
-
    stepᴹ : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) {R R′ : ↓′ P} → R ≤′ R′ → step E R ≤ step E R′
    step⁻ᴹ : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) {R R′ : ↓⁻′ P} → R ≤⁻′ R′ → step⁻ E R ≤ step⁻ E R′
 
