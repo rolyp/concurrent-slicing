@@ -21,7 +21,7 @@ module Transition.Concur.Cofinal.Lattice where
    open import Transition as ᵀ using (_—[_-_]→_; target); open ᵀ._—[_-_]→_
    open import Transition.Concur using (Concur₁; module Concur₁; module Delta′; ⊖₁); open Concur₁
    open import Transition.Concur.Cofinal using (⋈̂[_,_,_]; γ₁)
-   open import Transition.Lattice using (fwd; fwd⁻; step)
+   open import Transition.Lattice as ᵀ̃ using (fwd; fwd⁻; step)
    open import Transition.Ren using (_*ᵇ; _*ᶜ)
    open import Transition.Ren.Lattice using (renᶜ-fwd-comm; renᵇ-fwd-comm)
 
@@ -236,6 +236,24 @@ module Transition.Concur.Cofinal.Lattice where
       ∎)
    gamma₁ {E = E ᶜ│ Q₀} {E′ ᶜ│ ._} (𝐸 ᵛᵛ│ ._) [ P │ Q ] = cong (λ P → [ P │ Q ]) (gamma₁ 𝐸 P)
 -}
+   gamma₁ {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] with π₁ (fwd E′ P)
+   ... | ◻ = {!!}
+   ... | [ τ ᶜ ] with fwd E′ P
+   ... | ◻ , R = {!!}
+   ... | [ τ ᶜ ] , R with π₁ (fwd (E/E′ (⊖₁ 𝐸)) R)
+   ... | ◻ = {!!}
+   ... | [ τ ᶜ ] with fwd (E/E′ (⊖₁ 𝐸)) R
+   ... | ◻ , _ = {!!} -- impossible
+   ... | [ τ ᶜ ] , S with π₁ (fwd E P)
+   ... | ◻ = {!!}
+   ... | [ τ ᶜ ] with fwd E P
+   ... | ◻ , _ = {!!} -- impossible
+   ... | [ τ ᶜ ] , R′ with π₁ (fwd (E′/E (⊖₁ 𝐸)) R′)
+   ... | ◻ = {!!}
+   ... | [ τ ᶜ ] with fwd (E′/E (⊖₁ 𝐸)) R′
+   ... | ◻ , _ = {!!} -- impossible
+   ... | [ τ ᶜ ] , S′ = cong [_] (cong ν_ {!!})
+   -- let q = gamma₁ 𝐸 P in {!!}
    gamma₁ (! 𝐸) [ ! P ] = gamma₁ 𝐸 [ P │ [ ! P ] ]
    gamma₁ _ _ = {!!}
 {-
@@ -260,5 +278,4 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ (νᵇᶜ 𝐸) P₁ = {!!}
    gamma₁ (νᶜᵇ 𝐸) P₁ = {!!}
    gamma₁ (νᶜᶜ 𝐸) P₁ = {!!}
-   gamma₁ (νᵛᵛ 𝐸) P₁ = {!!}
 -}
