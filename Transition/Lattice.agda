@@ -325,20 +325,14 @@ module Transition.Lattice where
    step2⁻ (E │ᵥ F) (P │ Q) with step2 E P | step2 F Q
    ... | [ [ x ] • ᵇ ] , R | [ (• [ .x ]) ᵇ ] , S = [ τ ᶜ ] , [ ν [ R │ S ] ]
    ... | _ | _ = ◻ , ◻
+   step2⁻ (ν•_ {x = x} E) (ν P) with step2 E P
+   ... | [ • [ ._ ] 〈 [ ._ ] 〉 ᶜ ] , R = [ (• [ x ]) ᵇ ] , R
+   ... | _ = ◻ , ◻
+   step2⁻ {a = x • ᵇ} (νᵇ E) (ν P) with step2 E P
+   ... | [ [ ._ ] • ᵇ ] , R = [ [ x ] • ᵇ ] , [ ν (swap *̃) R ]
+   ... | _ = ◻ , ◻
    step2⁻ E P = {!!}
 {-
-   step⁻ (E │• F) (P │ Q) with action (step E P) | action (step F Q)
-   ... | [ [ x ] • ᵇ ] | [ • [ .x ] 〈 y 〉 ᶜ ] = [ step E P │• step F Q ]
-   ... | _ | _ = ◻
-   step⁻ (ν• E) (ν P) with action (step E P)
-   ... | [ • [ ._ ] 〈 [ ._ ] 〉 ᶜ ] = [ ν• (step E P) ]
-   ... | _ = ◻
-   step⁻ {a = _ • ᵇ} (νᵇ E) (ν P) with action (step E P)
-   ... | [ [ ._ ] • ᵇ ] = [ νᵇ (step E P) ]
-   ... | _ = ◻
-   step⁻ {a = (• _) ᵇ} (νᵇ E) (ν P) with action (step E P)
-   ... | [ (• [ ._ ]) ᵇ ] = [ νᵇ (step E P) ]
-   ... | _ = ◻
    step⁻ {a = • _ 〈 _ 〉 ᶜ} (νᶜ E) (ν P) with action (step E P)
    ... | [ • [ ._ ] 〈 [ ._ ] 〉 ᶜ ] = [ νᶜ (step E P) ]
    ... | _ = ◻
