@@ -21,7 +21,7 @@ module Transition.Concur.Cofinal.Lattice where
    open import Transition as ᵀ using (_—[_-_]→_; target); open ᵀ._—[_-_]→_
    open import Transition.Concur using (Concur₁; module Concur₁; module Delta′; ⊖₁); open Concur₁
    open import Transition.Concur.Cofinal using (⋈̂[_,_,_]; γ₁)
-   open import Transition.Lattice using (fwd; step)
+   open import Transition.Lattice using (fwd; fwd⁻; step)
    open import Transition.Ren using (_*ᵇ; _*ᶜ)
    open import Transition.Ren.Lattice using (renᶜ-fwd-comm; renᵇ-fwd-comm)
 
@@ -83,6 +83,7 @@ module Transition.Concur.Cofinal.Lattice where
             (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ →
             coerceCxt 𝑎 (π₂ (fwd (E/E′ (⊖₁ 𝐸)) (π₂ (fwd E′ P′)))) ≡
             braiding 𝑎 (γ₁ 𝐸) (π₂ (fwd (E′/E (⊖₁ 𝐸)) (π₂ (fwd E P′))))
+{-
    gamma₁ {𝑎 = ˣ∇ˣ {x = x} {u}} 𝐸 ◻ =
       ≅-to-≡ (≅-trans (◻-cong (sym (trans (γ₁ 𝐸) (≅-to-≡ (Proc↲ refl _))))) (≅-sym (reduce-ˣ∇ˣ {x = x} {u} (γ₁ 𝐸) _)))
    gamma₁ {𝑎 = ᵇ∇ᵇ} 𝐸 ◻ =
@@ -234,6 +235,23 @@ module Transition.Concur.Cofinal.Lattice where
          braiding ᶜ∇ᶜ (cong₂ _│_ (γ₁ 𝐸) refl) [ S‡ │  Q ]
       ∎)
    gamma₁ {E = E ᶜ│ Q₀} {E′ ᶜ│ ._} (𝐸 ᵛᵛ│ ._) [ P │ Q ] = cong (λ P → [ P │ Q ]) (gamma₁ 𝐸 P)
+-}
+   gamma₁ {𝑎 = ˣ∇ˣ} (! 𝐸) [ ! P ] = {!!}
+   gamma₁ {𝑎 = ᵇ∇ᵇ} (! 𝐸) [ ! P ] = {!!}
+   gamma₁ {𝑎 = ᵇ∇ᶜ} (! 𝐸) [ ! P ] = {!!}
+   gamma₁ {𝑎 = ᶜ∇ᵇ} (! 𝐸) [ ! P ] = {!!}
+   gamma₁ {𝑎 = ᶜ∇ᶜ} (! 𝐸) [ ! P ] = {!!}
+   gamma₁ {𝑎 = ᵛ∇ᵛ} {E = ! E} {E′ = ! E′} (! 𝐸) [ ! P ] =
+      let S† = π₂ (fwd (E/E′ (⊖₁ 𝐸)) (π₂ (fwd⁻ E′ (P │ [ ! P ]))))
+          S‡ = π₂ (fwd (E′/E (⊖₁ 𝐸)) (π₂ (fwd⁻ E (P │ [ ! P ]))))
+          open ≅-Reasoning in ≅-to-≡ (
+      begin
+         S†
+      ≅⟨ {!!} ⟩
+        braid̂ (γ₁ 𝐸) S‡
+      ∎)
+   gamma₁ _ _ = {!!}
+{-
    gamma₁ (_│•ᵇ_ {y = y} {a = a} 𝐸 F) [ P │ Q ] = {!!}
    gamma₁ (_│•ᶜ_ {y = y} {a = a} 𝐸 F) [ P │ Q ] = {!!}
    gamma₁ {a = a ᵇ} (_ᵇ│•_ {y = y} {F = F} {F′} E 𝐹) [ P │ Q ] = {!!}
@@ -256,4 +274,4 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ (νᶜᵇ 𝐸) P₁ = {!!}
    gamma₁ (νᶜᶜ 𝐸) P₁ = {!!}
    gamma₁ (νᵛᵛ 𝐸) P₁ = {!!}
-   gamma₁ (! 𝐸) P₁ = {!!}
+-}
