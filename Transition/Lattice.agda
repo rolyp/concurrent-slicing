@@ -313,6 +313,9 @@ module Transition.Lattice where
    step2 E ◻ = ◻ , ◻
 
    step2⁻ (_ •∙ _) (x •∙ P) = [ (x •) ᵇ ] , P
+   step2⁻ (• _ 〈 _ 〉∙ _) (• x 〈 y 〉∙ P) = [ • x 〈 y 〉 ᶜ ] , P
+   step2⁻ (E ➕₁ _) (P ➕ Q) = step2 E P
+   step2⁻ {a = _ ᵇ} (E ᵇ│ _) (P │ Q) = let a , R = step2 E P in a , [ R │ (push *̃) Q ]
    step2⁻ E P = {!!}
 
    step : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓′ P → ↓ E
