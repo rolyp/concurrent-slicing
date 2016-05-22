@@ -22,9 +22,9 @@ module Transition.Concur.Cofinal.Lattice where
    open import Transition as ᵀ using (_—[_-_]→_; target); open ᵀ._—[_-_]→_
    open import Transition.Concur using (Concur₁; module Concur₁; module Delta′; ⊖₁); open Concur₁
    open import Transition.Concur.Cofinal using (⋈̂[_,_,_]; γ₁)
-   open import Transition.Lattice as ᵀ̃ using (fwd; fwd⁻; step)
+   open import Transition.Lattice as ᵀ̃ using (step; step⁻)
    open import Transition.Ren using (_*ᵇ; _*ᶜ)
-   open import Transition.Ren.Lattice using (renᶜ-fwd-comm; renᵇ-fwd-comm)
+   open import Transition.Ren.Lattice using (renᶜ-step-comm; renᵇ-step-comm)
 
    braiding : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) {Δ : Cxt} {P P′} → ⋈̂[ Γ , 𝑎 , Δ ] P P′ → ↓ P → ↓ P′
    braiding ˣ∇ˣ eq rewrite eq = idᶠ
@@ -82,8 +82,8 @@ module Transition.Concur.Cofinal.Lattice where
    -- Not sure of the naming convention to use here. This is essentially γ₁ lifted to the lattice setting.
    gamma₁ : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
             (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ →
-            coerceCxt 𝑎 (π₂ (fwd (E/E′ (⊖₁ 𝐸)) (π₂ (fwd E′ P′)))) ≡
-            braiding 𝑎 (γ₁ 𝐸) (π₂ (fwd (E′/E (⊖₁ 𝐸)) (π₂ (fwd E P′))))
+            coerceCxt 𝑎 (π₂ (step (E/E′ (⊖₁ 𝐸)) (π₂ (step E′ P′)))) ≡
+            braiding 𝑎 (γ₁ 𝐸) (π₂ (step (E′/E (⊖₁ 𝐸)) (π₂ (step E P′))))
 {-
    gamma₁ {𝑎 = ˣ∇ˣ {x = x} {u}} 𝐸 ◻ =
       ≅-to-≡ (≅-trans (◻-cong (sym (trans (γ₁ 𝐸) (≅-to-≡ (Proc↲ refl _))))) (≅-sym (reduce-ˣ∇ˣ {x = x} {u} (γ₁ 𝐸) _)))
@@ -97,26 +97,26 @@ module Transition.Concur.Cofinal.Lattice where
       ≅-to-≡ (≅-trans (◻-cong (sym (trans (γ₁ 𝐸) (≅-to-≡ (Proc↲ refl _))))) (≅-sym (reduce-ᶜ∇ᶜ (γ₁ 𝐸) _)))
    gamma₁ {𝑎 = ᵛ∇ᵛ} 𝐸 ◻ = refl
    gamma₁ {a = a ᵇ} {a′ ᵇ} {E = .E ᵇ│ Q₀} {E′ = P₀ │ᵇ .F} (E ᵇ│ᵇ F) [ P │ Q ] =
-      let S† : π₂ (fwd ((ᴿ.push *ᵇ) E) ((push *̃) P)) ≅ (swap *̃) ((push *̃) (π₂ (fwd E P)))
-          S† = ≅-trans (≡-to-≅ (sym (renᵇ-fwd-comm E push P))) (swap∘push̃ _)
-          S‡ : (push *̃) (π₂ (fwd F Q)) ≅ (swap *̃) (π₂ (fwd ((ᴿ.push *ᵇ) F) ((push *̃) Q)))
-          S‡ = ≅-trans (swap∘suc-push̃ _) (≡-to-≅ (cong (swap *̃) (renᵇ-fwd-comm F push Q)))
+      let S† : π₂ (step ((ᴿ.push *ᵇ) E) ((push *̃) P)) ≅ (swap *̃) ((push *̃) (π₂ (step E P)))
+          S† = ≅-trans (≡-to-≅ (sym (renᵇ-step-comm E push P))) (swap∘push̃ _)
+          S‡ : (push *̃) (π₂ (step F Q)) ≅ (swap *̃) (π₂ (step ((ᴿ.push *ᵇ) F) ((push *̃) Q)))
+          S‡ = ≅-trans (swap∘suc-push̃ _) (≡-to-≅ (cong (swap *̃) (renᵇ-step-comm F push Q)))
           open ≅-Reasoning in ≅-to-≡ (
       begin
-         [ π₂ (fwd ((ᴿ.push *ᵇ) E) ((push *̃) P)) │ (push *̃) (π₂ (fwd F Q)) ]
+         [ π₂ (step ((ᴿ.push *ᵇ) E) ((push *̃) P)) │ (push *̃) (π₂ (step F Q)) ]
       ≅⟨ [-│-]-cong (swap∘push (target E)) S† (swap∘suc-push (target F)) S‡ ⟩
-         [ (swap *̃) ((push *̃) (π₂ (fwd E P))) │ (swap *̃) (π₂ (fwd ((ᴿ.push *ᵇ) F) ((push *̃) Q))) ]
+         [ (swap *̃) ((push *̃) (π₂ (step E P))) │ (swap *̃) (π₂ (step ((ᴿ.push *ᵇ) F) ((push *̃) Q))) ]
       ≅⟨ ≅-sym (reduce-ᵇ∇ᵇ (sym (cong₂ _│_ (swap∘push (target E)) (swap∘suc-push (target F)))) _) ⟩
          braiding (ᵇ∇ᵇ {a = a} {a′}) {0} (sym (cong₂ _│_ (swap∘push (target E)) (swap∘suc-push (target F))))
-                                        [ (push *̃) (π₂ (fwd E P)) │ π₂ (fwd ((ᴿ.push *ᵇ) F) ((push *̃) Q)) ]
+                                        [ (push *̃) (π₂ (step E P)) │ π₂ (step ((ᴿ.push *ᵇ) F) ((push *̃) Q)) ]
       ∎)
-   gamma₁ (E ᵇ│ᶜ F) [ P │ Q ] = cong (λ Q′ → [ _ │ Q′ ]) (renᶜ-fwd-comm F push Q)
-   gamma₁ (E ᶜ│ᵇ F) [ P │ Q ] = cong (λ P′ → [ P′ │ _ ]) (sym (renᶜ-fwd-comm E push P))
+   gamma₁ (E ᵇ│ᶜ F) [ P │ Q ] = cong (λ Q′ → [ _ │ Q′ ]) (renᶜ-step-comm F push Q)
+   gamma₁ (E ᶜ│ᵇ F) [ P │ Q ] = cong (λ P′ → [ P′ │ _ ]) (sym (renᶜ-step-comm E push P))
    gamma₁ (E ᶜ│ᶜ F) [ P │ Q ] = refl
    gamma₁ (𝐸 ➕₁ Q) [ P ➕ _ ] = gamma₁ 𝐸 P
    gamma₁ {𝑎 = ˣ∇ˣ {x = x} {u}} {E = _ │ᵇ F} {._ │ᵇ F′} (._ │ᵇᵇ 𝐹) [ P │ Q ] =
-      let S† = π₂ (fwd (E/E′ (⊖₁ 𝐹)) (π₂ (fwd F′ Q)))
-          S‡ = π₂ (fwd (E′/E (⊖₁ 𝐹)) (π₂ (fwd F Q)))
+      let S† = π₂ (step (E/E′ (⊖₁ 𝐹)) (π₂ (step F′ Q)))
+          S‡ = π₂ (step (E′/E (⊖₁ 𝐹)) (π₂ (step F Q)))
           open ≅-Reasoning in ≅-to-≡ (
       begin
          [ (push *̃) P │ S† ]
@@ -127,8 +127,8 @@ module Transition.Concur.Cofinal.Lattice where
          braiding (ˣ∇ˣ {x = x} {u}) {0} (cong₂ _│_ refl (γ₁ 𝐹)) [ (push *̃) P │ S‡ ]
       ∎)
    gamma₁ {𝑎 = ᵇ∇ᵇ} {E = P₀ │ᵇ F} {._ │ᵇ F′} (._ │ᵇᵇ 𝐹) [ P │ Q ] =
-      let S† = π₂ (fwd (E/E′ (⊖₁ 𝐹)) (π₂ (fwd F′ Q)))
-          S‡ = π₂ (fwd (E′/E (⊖₁ 𝐹)) (π₂ (fwd F Q)))
+      let S† = π₂ (step (E/E′ (⊖₁ 𝐹)) (π₂ (step F′ Q)))
+          S‡ = π₂ (step (E′/E (⊖₁ 𝐹)) (π₂ (step F Q)))
           open ≅-Reasoning in ≅-to-≡ (
       begin
          [ (push *̃) ((push *̃) P) │ S† ]
@@ -139,8 +139,8 @@ module Transition.Concur.Cofinal.Lattice where
          braiding ᵇ∇ᵇ {0} (cong₂ _│_ (swap∘push∘push P₀) (γ₁ 𝐹)) [ (push *̃) ((push *̃) P) │ S‡ ]
       ∎)
    gamma₁ {E = _ │ᵇ F} {._ │ᶜ F′} (._ │ᵇᶜ 𝐹) [ P │ Q ] =
-      let S† = π₂ (fwd (E/E′ (⊖₁ 𝐹)) (π₂ (fwd F′ Q)))
-          S‡ = π₂ (fwd (E′/E (⊖₁ 𝐹)) (π₂ (fwd F Q)))
+      let S† = π₂ (step (E/E′ (⊖₁ 𝐹)) (π₂ (step F′ Q)))
+          S‡ = π₂ (step (E′/E (⊖₁ 𝐹)) (π₂ (step F Q)))
           open ≅-Reasoning in ≅-to-≡ (
       begin
          [ (push *̃) P │ S† ]
@@ -151,8 +151,8 @@ module Transition.Concur.Cofinal.Lattice where
          braiding ᵇ∇ᶜ (cong₂ _│_ refl (γ₁ 𝐹)) [ (push *̃) P │ S‡ ]
       ∎)
    gamma₁ {E = _ │ᶜ F} {._ │ᵇ F′} (._ │ᶜᵇ 𝐹) [ P │ Q ] =
-      let S† = π₂ (fwd (E/E′ (⊖₁ 𝐹)) (π₂ (fwd F′ Q)))
-          S‡ = π₂ (fwd (E′/E (⊖₁ 𝐹)) (π₂ (fwd F Q)))
+      let S† = π₂ (step (E/E′ (⊖₁ 𝐹)) (π₂ (step F′ Q)))
+          S‡ = π₂ (step (E′/E (⊖₁ 𝐹)) (π₂ (step F Q)))
           open ≅-Reasoning in ≅-to-≡ (
       begin
          [ (push *̃) P │ S† ]
@@ -163,8 +163,8 @@ module Transition.Concur.Cofinal.Lattice where
          braiding ᶜ∇ᵇ (cong₂ _│_ refl (γ₁ 𝐹)) [ (push *̃) P │ S‡ ]
       ∎)
    gamma₁ {E = _ │ᶜ F} {._ │ᶜ F′} (._ │ᶜᶜ 𝐹) [ P │ Q ] =
-      let S† = π₂ (fwd (E/E′ (⊖₁ 𝐹)) (π₂ (fwd F′ Q)))
-          S‡ = π₂ (fwd (E′/E (⊖₁ 𝐹)) (π₂ (fwd F Q)))
+      let S† = π₂ (step (E/E′ (⊖₁ 𝐹)) (π₂ (step F′ Q)))
+          S‡ = π₂ (step (E′/E (⊖₁ 𝐹)) (π₂ (step F Q)))
           open ≅-Reasoning in ≅-to-≡ (
       begin
          [ P │ S† ]
@@ -176,8 +176,8 @@ module Transition.Concur.Cofinal.Lattice where
       ∎)
    gamma₁ {E = P₀ │ᶜ F} {._ │ᶜ F′} (._ │ᵛᵛ 𝐹) [ P │ Q ] = cong (λ Q → [ P │ Q ]) (gamma₁ 𝐹 Q)
    gamma₁ {𝑎 = ˣ∇ˣ {x = x} {u}} {E = E ᵇ│ Q₀} {E′ ᵇ│ ._} (𝐸 ᵇᵇ│ ._) [ P │ Q ] =
-      let S† = π₂ (fwd (E/E′ (⊖₁ 𝐸)) (π₂ (fwd E′ P)))
-          S‡ = π₂ (fwd (E′/E (⊖₁ 𝐸)) (π₂ (fwd E P)))
+      let S† = π₂ (step (E/E′ (⊖₁ 𝐸)) (π₂ (step E′ P)))
+          S‡ = π₂ (step (E′/E (⊖₁ 𝐸)) (π₂ (step E P)))
           open ≅-Reasoning in ≅-to-≡ (
       begin
          [ S† │ (push *̃) Q ]
@@ -188,8 +188,8 @@ module Transition.Concur.Cofinal.Lattice where
          braiding (ˣ∇ˣ {x = x} {u}) {0} (cong₂ _│_ (γ₁ 𝐸) refl) [ S‡ │ (push *̃) Q ]
       ∎)
    gamma₁ {𝑎 = ᵇ∇ᵇ} {E = E ᵇ│ Q₀} {E′ ᵇ│ ._} (𝐸 ᵇᵇ│ ._) [ P │ Q ] =
-      let S† = π₂ (fwd (E/E′ (⊖₁ 𝐸)) (π₂ (fwd E′ P)))
-          S‡ = π₂ (fwd (E′/E (⊖₁ 𝐸)) (π₂ (fwd E P)))
+      let S† = π₂ (step (E/E′ (⊖₁ 𝐸)) (π₂ (step E′ P)))
+          S‡ = π₂ (step (E′/E (⊖₁ 𝐸)) (π₂ (step E P)))
           open ≅-Reasoning in ≅-to-≡ (
       begin
          [ S† │ (push *̃) ((push *̃) Q) ]
@@ -200,8 +200,8 @@ module Transition.Concur.Cofinal.Lattice where
          braiding ᵇ∇ᵇ {0} (cong₂ _│_ (γ₁ 𝐸) (swap∘push∘push Q₀)) [ S‡ │ (push *̃) ((push *̃) Q) ]
       ∎)
    gamma₁ {E = E ᵇ│ _} {E′ ᶜ│ ._} (𝐸 ᵇᶜ│ ._) [ P │ Q ] =
-      let S† = π₂ (fwd (E/E′ (⊖₁ 𝐸)) (π₂ (fwd E′ P)))
-          S‡ = π₂ (fwd (E′/E (⊖₁ 𝐸)) (π₂ (fwd E P)))
+      let S† = π₂ (step (E/E′ (⊖₁ 𝐸)) (π₂ (step E′ P)))
+          S‡ = π₂ (step (E′/E (⊖₁ 𝐸)) (π₂ (step E P)))
           open ≅-Reasoning in ≅-to-≡ (
       begin
          [ S† │ (push *̃) Q ]
@@ -212,8 +212,8 @@ module Transition.Concur.Cofinal.Lattice where
          braiding ᵇ∇ᶜ (cong₂ _│_ (γ₁ 𝐸) refl) [ S‡ │ (push *̃) Q ]
       ∎)
    gamma₁ {E = E ᶜ│ _} {E′ ᵇ│ ._} (𝐸 ᶜᵇ│ ._) [ P │ Q ] =
-      let S† = π₂ (fwd (E/E′ (⊖₁ 𝐸)) (π₂ (fwd E′ P)))
-          S‡ = π₂ (fwd (E′/E (⊖₁ 𝐸)) (π₂ (fwd E P)))
+      let S† = π₂ (step (E/E′ (⊖₁ 𝐸)) (π₂ (step E′ P)))
+          S‡ = π₂ (step (E′/E (⊖₁ 𝐸)) (π₂ (step E P)))
           open ≅-Reasoning in ≅-to-≡ (
       begin
          [ S† │ (push *̃) Q ]
@@ -224,8 +224,8 @@ module Transition.Concur.Cofinal.Lattice where
          braiding ᶜ∇ᵇ (cong₂ _│_ (γ₁ 𝐸) refl) [ S‡ │ (push *̃) Q ]
       ∎)
    gamma₁ {E = E ᶜ│ _} {E′ ᶜ│ ._} (𝐸 ᶜᶜ│ ._) [ P │ Q ] =
-      let S† = π₂ (fwd (E/E′ (⊖₁ 𝐸)) (π₂ (fwd E′ P)))
-          S‡ = π₂ (fwd (E′/E (⊖₁ 𝐸)) (π₂ (fwd E P)))
+      let S† = π₂ (step (E/E′ (⊖₁ 𝐸)) (π₂ (step E′ P)))
+          S‡ = π₂ (step (E′/E (⊖₁ 𝐸)) (π₂ (step E P)))
           open ≅-Reasoning in ≅-to-≡ (
       begin
          [ S† │ Q ]
@@ -237,21 +237,21 @@ module Transition.Concur.Cofinal.Lattice where
       ∎)
    gamma₁ {E = E ᶜ│ Q₀} {E′ ᶜ│ ._} (𝐸 ᵛᵛ│ ._) [ P │ Q ] = cong (λ P → [ P │ Q ]) (gamma₁ 𝐸 P)
 -}
-   gamma₁ {𝑎 = ᵛ∇ᵛ} {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] with π₁ (fwd E′ P)
+   gamma₁ {𝑎 = ᵛ∇ᵛ} {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] with π₁ (step E′ P)
    ... | ◻ = {!!}
-   ... | [ τ ᶜ ] with fwd E′ P
+   ... | [ τ ᶜ ] with step E′ P
    ... | ◻ , R = {!!}
-   ... | [ τ ᶜ ] , R with π₁ (fwd (E/E′ (⊖₁ 𝐸)) R)
+   ... | [ τ ᶜ ] , R with π₁ (step (E/E′ (⊖₁ 𝐸)) R)
    ... | ◻ = {!!}
-   ... | [ τ ᶜ ] with fwd (E/E′ (⊖₁ 𝐸)) R
+   ... | [ τ ᶜ ] with step (E/E′ (⊖₁ 𝐸)) R
    ... | ◻ , _ = {!!} -- impossible
-   ... | [ τ ᶜ ] , S with π₁ (fwd E P)
+   ... | [ τ ᶜ ] , S with π₁ (step E P)
    ... | ◻ = {!!}
-   ... | [ τ ᶜ ] with fwd E P
+   ... | [ τ ᶜ ] with step E P
    ... | ◻ , _ = {!!} -- impossible
-   ... | [ τ ᶜ ] , R′ with π₁ (fwd (E′/E (⊖₁ 𝐸)) R′)
+   ... | [ τ ᶜ ] , R′ with π₁ (step (E′/E (⊖₁ 𝐸)) R′)
    ... | ◻ = {!!}
-   ... | [ τ ᶜ ] with fwd (E′/E (⊖₁ 𝐸)) R′
+   ... | [ τ ᶜ ] with step (E′/E (⊖₁ 𝐸)) R′
    ... | ◻ , _ = {!!} -- impossible
    ... | [ τ ᶜ ] , S′ = let q = gamma₁ 𝐸 P in cong [_] (cong ν_ {!!})
    gamma₁ (! 𝐸) [ ! P ] = gamma₁ 𝐸 [ P │ [ ! P ] ]

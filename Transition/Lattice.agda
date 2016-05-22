@@ -306,41 +306,41 @@ module Transition.Lattice where
    targetᴹ : ∀ {Γ P} {a : Action Γ} {R} {E₀ : P —[ a - _ ]→ R} {E E′ : ↓ E₀} → E ≤ E′ → target E ≤′ target E′
    targetᴹ = π₂ ∘ᶠ outᴹ
 
-   step2 : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓′ P → ↓′ ᵀ.out E
-   step2⁻ : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓⁻′ P → ↓′ ᵀ.out E
+   step : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓′ P → ↓′ ᵀ.out E
+   step⁻ : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓⁻′ P → ↓′ ᵀ.out E
 
-   step2 E [ P ] = step2⁻ E P
-   step2 E ◻ = ◻ , ◻
+   step E [ P ] = step⁻ E P
+   step E ◻ = ◻ , ◻
 
-   step2⁻ (_ •∙ _) (x •∙ P) = [ (x •) ᵇ ] , P
-   step2⁻ (• _ 〈 _ 〉∙ _) (• x 〈 y 〉∙ P) = [ • x 〈 y 〉 ᶜ ] , P
-   step2⁻ (E ➕₁ _) (P ➕ Q) = step2 E P
-   step2⁻ {a = _ ᵇ} (E ᵇ│ _) (P │ Q) = let a , R = step2 E P in a , [ R │ (push *̃) Q ]
-   step2⁻ {a = _ ᶜ} (E ᶜ│ _) (P │ Q) = let a , R = step2 E P in a , [ R │ Q ]
-   step2⁻ {a = _ ᵇ} (_ │ᵇ F) (P │ Q) = let a , S = step2 F Q in a , [ (push *̃) P │ S ]
-   step2⁻ {a = _ ᶜ} (_ │ᶜ F) (P │ Q) = let a , S = step2 F Q in a , [ P │ S ]
-   step2⁻ (E │• F) (P │ Q) with step2 E P | step2 F Q
+   step⁻ (_ •∙ _) (x •∙ P) = [ (x •) ᵇ ] , P
+   step⁻ (• _ 〈 _ 〉∙ _) (• x 〈 y 〉∙ P) = [ • x 〈 y 〉 ᶜ ] , P
+   step⁻ (E ➕₁ _) (P ➕ Q) = step E P
+   step⁻ {a = _ ᵇ} (E ᵇ│ _) (P │ Q) = let a , R = step E P in a , [ R │ (push *̃) Q ]
+   step⁻ {a = _ ᶜ} (E ᶜ│ _) (P │ Q) = let a , R = step E P in a , [ R │ Q ]
+   step⁻ {a = _ ᵇ} (_ │ᵇ F) (P │ Q) = let a , S = step F Q in a , [ (push *̃) P │ S ]
+   step⁻ {a = _ ᶜ} (_ │ᶜ F) (P │ Q) = let a , S = step F Q in a , [ P │ S ]
+   step⁻ (E │• F) (P │ Q) with step E P | step F Q
    ... | [ [ x ] • ᵇ ] , R | [ • _ 〈 y 〉 ᶜ ] , S = [ τ ᶜ ] , [ (pop y *̃) R │ S ]
    ... | _ | _ = ◻ , ◻
-   step2⁻ (E │ᵥ F) (P │ Q) with step2 E P | step2 F Q
+   step⁻ (E │ᵥ F) (P │ Q) with step E P | step F Q
    ... | [ [ x ] • ᵇ ] , R | [ (• [ .x ]) ᵇ ] , S = [ τ ᶜ ] , [ ν [ R │ S ] ]
    ... | _ | _ = ◻ , ◻
-   step2⁻ (ν•_ {x = x} E) (ν P) with step2 E P
+   step⁻ (ν•_ {x = x} E) (ν P) with step E P
    ... | [ • [ ._ ] 〈 [ ._ ] 〉 ᶜ ] , R = [ (• [ x ]) ᵇ ] , R
    ... | _ = ◻ , ◻
-   step2⁻ {a = x • ᵇ} (νᵇ E) (ν P) with step2 E P
+   step⁻ {a = x • ᵇ} (νᵇ E) (ν P) with step E P
    ... | [ [ ._ ] • ᵇ ] , R = [ [ x ] • ᵇ ] , [ ν (swap *̃) R ]
    ... | _ = ◻ , ◻
-   step2⁻ {a = (• x) ᵇ} (νᵇ E) (ν P) with step2 E P
+   step⁻ {a = (• x) ᵇ} (νᵇ E) (ν P) with step E P
    ... | [ (• [ ._ ]) ᵇ ] , R = [ (• [ x ]) ᵇ ] ,  [ ν (swap *̃) R ]
    ... | _ = ◻ , ◻
-   step2⁻ {a = • x 〈 y 〉 ᶜ} (νᶜ E) (ν P) with step2 E P
+   step⁻ {a = • x 〈 y 〉 ᶜ} (νᶜ E) (ν P) with step E P
    ... | [ • [ ._ ] 〈 [ ._ ] 〉 ᶜ ] , R = [ • [ x ] 〈 [ y ] 〉 ᶜ ] , [ ν R ]
    ... | _ = ◻ , ◻
-   step2⁻ {a = τ ᶜ} (νᶜ E) (ν P) with step2 E P
+   step⁻ {a = τ ᶜ} (νᶜ E) (ν P) with step E P
    ... | [ τ ᶜ ] , R = [ τ ᶜ ] , [ ν R ]
    ... | _ = ◻ , ◻
-   step2⁻ (! E) (! P) = step2 E [ P │ [ ! P ] ]
+   step⁻ (! E) (! P) = step E [ P │ [ ! P ] ]
 {-
    stepᴹ : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) {R R′ : ↓′ P} → R ≤′ R′ → step E R ≤ step E R′
    step⁻ᴹ : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) {R R′ : ↓⁻′ P} → R ≤⁻′ R′ → step⁻ E R ≤ step⁻ E R′
