@@ -316,26 +316,19 @@ module Transition.Lattice where
    step2⁻ (• _ 〈 _ 〉∙ _) (• x 〈 y 〉∙ P) = [ • x 〈 y 〉 ᶜ ] , P
    step2⁻ (E ➕₁ _) (P ➕ Q) = step2 E P
    step2⁻ {a = _ ᵇ} (E ᵇ│ _) (P │ Q) = let a , R = step2 E P in a , [ R │ (push *̃) Q ]
+   step2⁻ {a = _ ᶜ} (E ᶜ│ _) (P │ Q) = let a , R = step2 E P in a , [ R │ Q ]
+   step2⁻ {a = _ ᵇ} (_ │ᵇ F) (P │ Q) = let a , S = step2 F Q in a , [ (push *̃) P │ S ]
+   step2⁻ {a = _ ᶜ} (_ │ᶜ F) (P │ Q) = let a , S = step2 F Q in a , [ P │ S ]
+   step2⁻ (E │• F) (P │ Q) with step2 E P | step2 F Q
+   ... | [ [ x ] • ᵇ ] , R | [ • _ 〈 y 〉 ᶜ ] , S = [ τ ᶜ ] , [ (pop y *̃) R │ S ]
+   ... | _ | _ = ◻ , ◻
+   step2⁻ (E │ᵥ F) (P │ Q) with step2 E P | step2 F Q
+   ... | [ [ x ] • ᵇ ] , R | [ (• [ .x ]) ᵇ ] , S = [ τ ᶜ ] , [ ν [ R │ S ] ]
+   ... | _ | _ = ◻ , ◻
    step2⁻ E P = {!!}
-
-   step : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓′ P → ↓ E
-   step⁻ : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓⁻′ P → ↓ E
-
-   step E [ P ] = step⁻ E P
-   step E ◻ = ◻
-
-   step⁻ (_ •∙ _) (x •∙ P) = [ x •∙ P ]
-   step⁻ (• _ 〈 _ 〉∙ _) (• x 〈 y 〉∙ P) = [ • x 〈 y 〉∙ P ]
-   step⁻ (E ➕₁ _) (P ➕ Q) = [ step E P ➕₁ Q ]
-   step⁻ {a = _ ᵇ} (E ᵇ│ _) (P │ Q) = [ step E P ᵇ│ Q ]
-   step⁻ {a = _ ᶜ} (E ᶜ│ _) (P │ Q) = [ step E P ᶜ│ Q ]
-   step⁻ {a = _ ᵇ} (_ │ᵇ E) (P │ Q) = [ P │ᵇ step E Q ]
-   step⁻ {a = _ ᶜ} (_ │ᶜ E) (P │ Q) = [ P │ᶜ step E Q ]
+{-
    step⁻ (E │• F) (P │ Q) with action (step E P) | action (step F Q)
    ... | [ [ x ] • ᵇ ] | [ • [ .x ] 〈 y 〉 ᶜ ] = [ step E P │• step F Q ]
-   ... | _ | _ = ◻
-   step⁻ (E │ᵥ F) (P │ Q) with action (step E P) | action (step F Q)
-   ... | [ [ x ] • ᵇ ] | [ (• [ .x ]) ᵇ ] = [ step E P │ᵥ step F Q ]
    ... | _ | _ = ◻
    step⁻ (ν• E) (ν P) with action (step E P)
    ... | [ • [ ._ ] 〈 [ ._ ] 〉 ᶜ ] = [ ν• (step E P) ]
@@ -563,3 +556,4 @@ module Transition.Lattice where
    bwd⁻ᴹ : ∀ {Γ P} {a₀ : Action Γ} {R₀} (E : P —[ a₀ - _ ]→ R₀) {a a′ : ↓′ a₀} {R R′ : ↓⁻′ R₀} →
            a ≤′ a′ → R ≤⁻′ R′ → bwd⁻ E a R ≤⁻′ bwd⁻ E a′ R′
    bwd⁻ᴹ E a R = source⁻ᴹ (unstep⁻ᴹ E a R)
+-}
