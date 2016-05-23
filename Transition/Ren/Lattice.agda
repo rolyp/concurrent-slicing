@@ -3,6 +3,7 @@ module Transition.Ren.Lattice where
 
    open import ConcurrentSlicingCommon
    open import Action using (Actionᵇ; Actionᶜ; _ᵇ; _ᶜ)
+   open import Action.Ren.Lattice renaming (_* to _ᴬ*̃)
    import Lattice; open Lattice.Prefixes ⦃...⦄ using (↓_)
    open import Proc.Ren
    open import Proc.Ren.Lattice renaming (_* to _*̃)
@@ -40,7 +41,7 @@ module Transition.Ren.Lattice where
    ... | E₀′ | E′ rewrite ᴿ+-comm 1 ρ₀ a | sym (swap-suc-suc ρ₀ R) = [ νᵇ E′ ]
 
    postulate
-      renᶜ-step-comm : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {Q₀ a S₀} (F : Q₀ —[ a ᶜ - _ ]→ S₀) →
-                      (ρ′ : ↓ ρ) (Q : ↓ Q₀) → (ρ′ *̃) (π₂ (step F Q)) ≡ π₂ (step ((ρ *ᶜ′) F) ((ρ′ *̃) Q))
-      renᵇ-step-comm : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {Q₀ a S₀} (F : Q₀ —[ a ᵇ - _ ]→ S₀) →
-                      (ρ′ : ↓ ρ) (Q : ↓ Q₀) → ((ρ′ ᴿ+ 1) *̃) (π₂ (step F Q)) ≡ π₂ (step ((ρ *ᵇ′) F) ((ρ′ *̃) Q))
+      renᶜ-step-comm : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {P₀ a R₀} (E : P₀ —[ a ᶜ - _ ]→ R₀) →
+                      (ρ′ : ↓ ρ) (P : ↓ P₀) → (λ aR → (ρ′ ᴬ*̃) (π₁ aR) , (ρ′ *̃) (π₂ aR)) (step E P) ≡ step ((ρ *ᶜ′) E) ((ρ′ *̃) P)
+      renᵇ-step-comm : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {P₀ a R₀} (E : P₀ —[ a ᵇ - _ ]→ R₀) →
+                      (ρ′ : ↓ ρ) (P : ↓ P₀) → ((ρ′ ᴿ+ 1) *̃) (π₂ (step E P)) ≡ π₂ (step ((ρ *ᵇ′) E) ((ρ′ *̃) P))

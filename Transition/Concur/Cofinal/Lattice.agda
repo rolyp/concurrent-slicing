@@ -4,7 +4,8 @@ module Transition.Concur.Cofinal.Lattice where
    import Relation.Binary.EqReasoning as EqReasoning
 
    open import Action as ᴬ using (Action; Actionᵇ; Actionᶜ; inc); open ᴬ.Action
-   open import Action.Concur using (_ᴬ⌣_; module _ᴬ⌣_; ᴬ⊖; ᴬγ); open _ᴬ⌣_
+   open import Action.Concur using (_ᴬ⌣_; ᴬ⌣-sym; module _ᴬ⌣_; ᴬ⊖; ᴬγ); open _ᴬ⌣_
+   open import Action.Concur.Lattice using (residual)
    open import Action.Lattice as ᴬ̃ using (); open ᴬ̃.↓_; open ᴬ̃.↓⁻_; open ᴬ̃.↓ᵇ⁻_; open ᴬ̃.↓ᶜ⁻_
    open import Braiding.Proc using (_⋉̂_)
    open import Braiding.Proc.Lattice using (braid̂)
@@ -26,6 +27,57 @@ module Transition.Concur.Cofinal.Lattice where
    open import Transition.Ren using (_*ᵇ; _*ᶜ)
    open import Transition.Ren.Lattice using (renᶜ-step-comm; renᵇ-step-comm)
 
+   open Delta′
+
+   blah : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
+          (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ → π₁ (step (E/E′ (⊖₁ 𝐸)) (π₂ (step E′ P′))) ≡ residual (ᴬ⌣-sym 𝑎) (π₁ (step E P′))
+   blah 𝐸 ◻ = refl
+   blah (E ᵇ│ᵇ F) [ P │ Q ] with π₁ (step E P)
+   blah (E ᵇ│ᵇ F) [ P │ Q ] | ◻ = {!!}
+   blah (E ᵇ│ᵇ F) [ P │ Q ] | [ a ᵇ ] = {!!}
+   blah (E ᵇ│ᶜ F) [ P │ Q ] with π₁ (step E P)
+   ... | ◻ = refl
+   ... | [ _ ] = refl
+   blah 𝐸 P = {!!}
+{-
+   blah (E ᶜ│ᵇ F) [ P │ Q ] = {!!}
+   blah (E ᶜ│ᶜ F) [ x │ x₁ ] = {!!}
+   blah (𝐸 │•ᵇ F) [ x₁ │ x₂ ] = {!!}
+   blah (𝐸 │•ᶜ F) [ x₁ │ x₂ ] = {!!}
+   blah (E ᵇ│• 𝐸) [ x₁ │ x₂ ] = {!!}
+   blah (E ᶜ│• 𝐸) [ x₁ │ x₂ ] = {!!}
+   blah (𝐸 │ᵥᵇ F) [ x₁ │ x₂ ] = {!!}
+   blah (𝐸 │ᵥᶜ F) [ x₁ │ x₂ ] = {!!}
+   blah (E ᵇ│ᵥ 𝐸) [ x₁ │ x₂ ] = {!!}
+   blah (E ᶜ│ᵥ 𝐸) [ x₁ │ x₂ ] = {!!}
+   blah (𝐸 ➕₁ Q) [ x ➕ x₁ ] = {!!}
+   blah (P │ᵇᵇ 𝐸) [ x │ x₁ ] = {!!}
+   blah (P │ᵇᶜ 𝐸) [ x │ x₁ ] = {!!}
+   blah (P │ᶜᵇ 𝐸) [ x │ x₁ ] = {!!}
+   blah (P │ᶜᶜ 𝐸) [ x │ x₁ ] = {!!}
+   blah (P │ᵛᵛ 𝐸) [ x │ x₁ ] = {!!}
+   blah (𝐸 ᵇᵇ│ Q) [ x │ x₁ ] = {!!}
+   blah (𝐸 ᵇᶜ│ Q) [ x │ x₁ ] = {!!}
+   blah (𝐸 ᶜᵇ│ Q) [ x │ x₁ ] = {!!}
+   blah (𝐸 ᶜᶜ│ Q) [ x │ x₁ ] = {!!}
+   blah (𝐸 ᵛᵛ│ Q) [ x │ x₁ ] = {!!}
+   blah (𝐸 │• 𝐸₁) [ x₁ │ x₂ ] = {!!}
+   blah (𝐸 │•ᵥ 𝐸₁) [ x₁ │ x₂ ] = {!!}
+   blah (𝐸 │ᵥ• 𝐸₁) [ x₁ │ x₂ ] = {!!}
+   blah (𝐸 │ᵥ 𝐸₁) [ x₁ │ x₂ ] = {!!}
+   blah (𝐸 │ᵥ′ 𝐸₁) [ x₁ │ x₂ ] = {!!}
+   blah (ν• 𝐸) [ ν x₁ ] = {!!}
+   blah (ν•ᵇ 𝐸) [ ν x₁ ] = {!!}
+   blah (ν•ᶜ 𝐸) [ ν x₁ ] = {!!}
+   blah (νᵇᵇ 𝐸) [ ν x ] = {!!}
+   blah (νˣˣ 𝐸) [ ν x₁ ] = {!!}
+   blah (νᵇᶜ 𝐸) [ ν x ] = {!!}
+   blah (νᶜᵇ 𝐸) [ ν x ] = {!!}
+   blah (νᶜᶜ 𝐸) [ ν x ] = {!!}
+   blah (νᵛᵛ 𝐸) [ ν x ] = {!!}
+   blah (! 𝐸) [ ! x ] = {!!}
+-}
+{-
    braiding : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) {Δ : Cxt} {P P′} → ⋈̂[ Γ , 𝑎 , Δ ] P P′ → ↓ P → ↓ P′
    braiding ˣ∇ˣ eq rewrite eq = idᶠ
    braiding ᵇ∇ᵇ {Δ} refl = (swap ᴿ+ Δ) *̃
@@ -33,8 +85,6 @@ module Transition.Concur.Cofinal.Lattice where
    braiding ᶜ∇ᵇ refl = idᶠ
    braiding ᶜ∇ᶜ refl = idᶠ
    braiding ᵛ∇ᵛ = braid̂
-
-   open Delta′
 
    -- Most complexity arises from need to pattern-match on an equality to get braiding to reduce.
    private
@@ -245,30 +295,12 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ {𝑎 = ᵛ∇ᵛ} {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | [ τ ᶜ ] , R′ | ◻ , _ with step (E/E′ (⊖₁ 𝐸)) R′
    ... | ◻ , _ = {!!}
    ... | [ τ ᶜ ] , S′ = {!!}
-   gamma₁ {𝑎 = ᵛ∇ᵛ} {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | [ τ ᶜ ] , R′ | [ τ ᶜ ] , R with step (E/E′ (⊖₁ 𝐸)) R′ | step (E′/E (⊖₁ 𝐸)) R
+   gamma₁ {𝑎 = ᵛ∇ᵛ} {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | [ τ ᶜ ] , R′ | [ τ ᶜ ] , R
+      with step (E/E′ (⊖₁ 𝐸)) R′ | step (E′/E (⊖₁ 𝐸)) R
    ... | ◻ , _ | ◻ , _ = {!!}
    ... | ◻ , _ | [ τ ᶜ ] , S = {!!}
    ... | [ τ ᶜ ] , S′ | ◻ , _ = {!!}
    ... | [ τ ᶜ ] , S′ | [ τ ᶜ ] , S = {!!}
-{-
-   gamma₁ {𝑎 = ᵛ∇ᵛ} {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] with step E′ P
-   ... | ◻ , _ with step E P
-   ... | ◻ , _ = {!!}
-   ... | [ τ ᶜ ] , R with step (E′/E (⊖₁ 𝐸)) R
-   ... | ◻ , _ = {!!}
-   ... | [ τ ᶜ ] , S = {!!}
-   gamma₁ {𝑎 = ᵛ∇ᵛ} {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | [ τ ᶜ ] , R′ with step (E/E′ (⊖₁ 𝐸)) R′
-   ... | ◻ , S′ with step E P
-   ... | ◻ , _ = {!!}
-   ... | [ τ ᶜ ] , R with step (E′/E (⊖₁ 𝐸)) R
-   ... | ◻ , _ = {!!}
-   ... | [ τ ᶜ ] , S = {!!}
-   gamma₁ {𝑎 = ᵛ∇ᵛ} {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | [ τ ᶜ ] , R′ | [ τ ᶜ ] , S′ with step E P
-   ... | ◻ , _ = {!!}
-   ... | [ τ ᶜ ] , R with step (E′/E (⊖₁ 𝐸)) R
-   ... | ◻ , _ = {!!}
-   ... | [ τ ᶜ ] , S = {!!}
--}
    gamma₁ (! 𝐸) [ ! P ] = gamma₁ 𝐸 [ P │ [ ! P ] ]
    gamma₁ _ _ = {!!}
 {-
@@ -293,4 +325,5 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ (νᵇᶜ 𝐸) P₁ = {!!}
    gamma₁ (νᶜᵇ 𝐸) P₁ = {!!}
    gamma₁ (νᶜᶜ 𝐸) P₁ = {!!}
+-}
 -}

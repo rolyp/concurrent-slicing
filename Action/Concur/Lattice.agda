@@ -16,6 +16,6 @@ module Action.Concur.Lattice where
    residual ˣ∇ˣ [ (• x) ᵇ ] = [ • suc x 〈 zero 〉 ᶜ ]
    residual ᵇ∇ᵇ [ a ᵇ ] = [ (push *ᵇ⁻) a ᵇ ]
    residual ᵇ∇ᶜ [ a ᶜ ] = [ (push *ᶜ⁻) a ᶜ ]
-   residual ᶜ∇ᵇ [ a ᵇ ] = [ a ᵇ ]
+   residual ᶜ∇ᵇ [ a ] = [ a ]
    residual ᶜ∇ᶜ [ a ] = [ a ]
    residual ᵛ∇ᵛ [ τ ᶜ ] = [ τ ᶜ ]
