@@ -25,24 +25,27 @@ module Transition.Concur.Cofinal.Lattice where
    open import Transition.Concur.Cofinal using (⋈̂[_,_,_]; γ₁)
    open import Transition.Lattice as ᵀ̃ using (step; step⁻)
    open import Transition.Ren using (_*ᵇ; _*ᶜ)
-   open import Transition.Ren.Lattice using (renᶜ-step-comm; renᵇ-step-comm)
+   open import Transition.Ren.Lattice using (renᶜ-step-comm; ᴬrenᶜ-step-comm; renᵇ-step-comm; ᴬrenᵇ-step-comm)
 
    open Delta′
 
    blah : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
           (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ → π₁ (step (E/E′ (⊖₁ 𝐸)) (π₂ (step E′ P′))) ≡ residual (ᴬ⌣-sym 𝑎) (π₁ (step E P′))
-   blah 𝐸 ◻ = refl
-   blah (E ᵇ│ᵇ F) [ P │ Q ] with π₁ (step E P)
-   blah (E ᵇ│ᵇ F) [ P │ Q ] | ◻ = {!!}
-   blah (E ᵇ│ᵇ F) [ P │ Q ] | [ a ] = {!!}
-   blah (E ᵇ│ᶜ F) [ P │ Q ] with π₁ (step E P)
-   ... | ◻ = refl
-   ... | [ _ ] = refl
+   blah {𝑎 = ˣ∇ˣ} 𝐸 ◻ = refl
+   blah {𝑎 = ᵇ∇ᵇ} 𝐸 ◻ = refl
+   blah {𝑎 = ᵇ∇ᶜ} 𝐸 ◻ = refl
+   blah {𝑎 = ᶜ∇ᵇ} 𝐸 ◻ = refl
+   blah {𝑎 = ᶜ∇ᶜ} 𝐸 ◻ = refl
+   blah {𝑎 = ᵛ∇ᵛ} 𝐸 ◻ = refl
+   blah (E ᵇ│ᵇ F) [ P │ Q ] = sym (ᴬrenᵇ-step-comm E push P)
+   blah (E ᵇ│ᶜ F) [ P │ Q ] = refl
+   blah (E ᶜ│ᵇ F) [ P │ Q ] = sym (ᴬrenᶜ-step-comm E push P)
+   blah (E ᶜ│ᶜ F) [ P │ Q ] = refl
+   blah (𝐸 │•ᵇ F) [ P │ Q ] = {!!}
+
+   blah (! 𝐸) [ ! P ] = blah 𝐸 [ P │ [ ! P ] ]
    blah 𝐸 P = {!!}
 {-
-   blah (E ᶜ│ᵇ F) [ P │ Q ] = {!!}
-   blah (E ᶜ│ᶜ F) [ x │ x₁ ] = {!!}
-   blah (𝐸 │•ᵇ F) [ x₁ │ x₂ ] = {!!}
    blah (𝐸 │•ᶜ F) [ x₁ │ x₂ ] = {!!}
    blah (E ᵇ│• 𝐸) [ x₁ │ x₂ ] = {!!}
    blah (E ᶜ│• 𝐸) [ x₁ │ x₂ ] = {!!}
@@ -75,7 +78,6 @@ module Transition.Concur.Cofinal.Lattice where
    blah (νᶜᵇ 𝐸) [ ν x ] = {!!}
    blah (νᶜᶜ 𝐸) [ ν x ] = {!!}
    blah (νᵛᵛ 𝐸) [ ν x ] = {!!}
-   blah (! 𝐸) [ ! x ] = {!!}
 -}
 {-
    braiding : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) {Δ : Cxt} {P P′} → ⋈̂[ Γ , 𝑎 , Δ ] P P′ → ↓ P → ↓ P′

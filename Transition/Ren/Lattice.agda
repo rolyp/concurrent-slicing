@@ -41,7 +41,12 @@ module Transition.Ren.Lattice where
    ... | E₀′ | E′ rewrite ᴿ+-comm 1 ρ₀ a | sym (swap-suc-suc ρ₀ R) = [ νᵇ E′ ]
 
    postulate
+      -- Convenient to have separate lemmas for the actions and the target processes.
       renᶜ-step-comm : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {P₀ a R₀} (E : P₀ —[ a ᶜ - _ ]→ R₀) →
-                       (ρ′ : ↓ ρ) (P : ↓ P₀) → map (_ᴬ*̃ ρ′) (_*̃ ρ′) (step E P) ≡ step ((ρ *ᶜ′) E) ((ρ′ *̃) P)
+                       (ρ′ : ↓ ρ) (P : ↓ P₀) → (ρ′ *̃) (π₂ (step E P)) ≡ π₂ (step ((ρ *ᶜ′) E) ((ρ′ *̃) P))
+      ᴬrenᶜ-step-comm : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {P₀ a R₀} (E : P₀ —[ a ᶜ - _ ]→ R₀) →
+                       (ρ′ : ↓ ρ) (P : ↓ P₀) → (ρ′ ᴬ*̃) (π₁ (step E P)) ≡ π₁ (step ((ρ *ᶜ′) E) ((ρ′ *̃) P))
       renᵇ-step-comm : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {P₀ a R₀} (E : P₀ —[ a ᵇ - _ ]→ R₀) →
-                       (ρ′ : ↓ ρ) (P : ↓ P₀) → map (_ᴬ*̃ ρ′) (_*̃ (ρ′ ᴿ+ 1)) (step E P) ≡ step ((ρ *ᵇ′) E) ((ρ′ *̃) P)
+                       (ρ′ : ↓ ρ) (P : ↓ P₀) → ((ρ′ ᴿ+ 1) *̃) (π₂ (step E P)) ≡ π₂ (step ((ρ *ᵇ′) E) ((ρ′ *̃) P))
+      ᴬrenᵇ-step-comm : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {P₀ a R₀} (E : P₀ —[ a ᵇ - _ ]→ R₀) →
+                       (ρ′ : ↓ ρ) (P : ↓ P₀) → (ρ′ ᴬ*̃) (π₁ (step E P)) ≡ π₁ (step ((ρ *ᵇ′) E) ((ρ′ *̃) P))
