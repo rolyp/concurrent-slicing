@@ -52,19 +52,18 @@ module Transition.Concur.Cofinal.Lattice where
       with step (E/E′ (⊖₁ 𝐸)) R′ | inspect (step (E/E′ (⊖₁ 𝐸))) R′
    ... | ◻ , _ | _ = {!!}
    ... | [ τ ᶜ ] , S′ | [ eq† ] =
-      let r₀ : Action (Γ + 1)
-          r₀ = ᴬ.τ ᶜ
-          r : _≡_ {A = ↓ r₀} ◻ [ τ ᶜ ] → ⊥
+      let r : ◻ ≡ [ τ ᶜ ] → ⊥
           r = λ () in ⊥-elim (r (
-          let open EqReasoning (setoid _) in
+          let step′ = π₁ ∘ᶠ step (E/E′ (⊖₁ 𝐸))
+              open EqReasoning (setoid _) in
           begin
              ◻
           ≡⟨ sym (,-injective₁ eq′) ⟩
              π₁ (step E P)
           ≡⟨ sym (blah 𝐸 P) ⟩
-             π₁ (step (E/E′ (⊖₁ 𝐸)) (π₂ (step E′ P)))
-          ≡⟨ cong (π₁ ∘ᶠ step (E/E′ (⊖₁ 𝐸))) (,-injective₂ eq) ⟩
-             π₁ (step (E/E′ (⊖₁ 𝐸)) R′)
+             step′ (π₂ (step E′ P))
+          ≡⟨ cong step′ (,-injective₂ eq) ⟩
+             step′ R′
           ≡⟨ ,-injective₁ eq† ⟩
              [ τ ᶜ ]
           ∎))
