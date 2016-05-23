@@ -83,8 +83,7 @@ module Transition.Concur.Cofinal.Lattice where
          [ τ ᶜ ]
       ∎
       ))
-   ... | [ τ ᶜ ] , S′ | ◻ , _ | [ eq† ] | [ eq‡ ] = {!!}
-   ... | [ τ ᶜ ] , S′ | [ τ ᶜ ] , S | [ eq† ] | [ eq‡ ] = {!!}
+   ... | [ τ ᶜ ] , _ | _ | _ | _ = refl
    blah (! 𝐸) [ ! P ] = blah 𝐸 [ P │ [ ! P ] ]
    blah 𝐸 P = {!!}
 {-
