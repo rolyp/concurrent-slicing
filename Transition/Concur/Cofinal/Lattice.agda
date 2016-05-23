@@ -33,7 +33,7 @@ module Transition.Concur.Cofinal.Lattice where
    r = {!!}
 
    blah : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
-          (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ → action (E/E′ (⊖₁ 𝐸)) (target E′ P′) ≡ residual (ᴬ⌣-sym 𝑎) (action E P′)
+          (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ → action (E/E′ (⊖₁ 𝐸)) (target E′ P′) ≡ residual 𝑎 (action E P′)
    blah {𝑎 = ˣ∇ˣ} 𝐸 ◻ = refl
    blah {𝑎 = ᵇ∇ᵇ} 𝐸 ◻ = refl
    blah {𝑎 = ᵇ∇ᶜ} 𝐸 ◻ = refl
@@ -46,9 +46,13 @@ module Transition.Concur.Cofinal.Lattice where
    blah (E ᶜ│ᶜ F) [ P │ Q ] = refl
    blah (𝐸 │•ᵇ F) [ P │ Q ] = {!!}
 
+   blah {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] with step E′ P
+   ... | ◻ , proj₂ = {!!}
+   ... | [ x ] , proj₂ = {!!}
+{-
    blah {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
    ... | ◻ , _ | ◻ , _ | _ | _ = refl
-   ... | ◻ , R | [ τ ᶜ ] , R′ | _ | _ = {!!}
+   ... | ◻ , _ | [ τ ᶜ ] , R′ | _ | _ = {!!}
    blah {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | [ τ ᶜ ] , R′ | ◻ , _ | [ eq ] | [ eq′ ]
       with step (E/E′ (⊖₁ 𝐸)) R′ | inspect (step (E/E′ (⊖₁ 𝐸))) R′
    ... | ◻ , _ | _ = refl
@@ -81,6 +85,7 @@ module Transition.Concur.Cofinal.Lattice where
          [ τ ᶜ ]
       ∎))
    ... | [ τ ᶜ ] , _ | _ = refl
+-}
    blah (! 𝐸) [ ! P ] = blah 𝐸 [ P │ [ ! P ] ]
    blah 𝐸 P = {!!}
 {-

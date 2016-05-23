@@ -10,12 +10,12 @@ module Action.Concur.Lattice where
    open import Name.Lattice as ᴺ̃ using (suc; zero)
    open import Ren.Lattice using (push)
 
-   -- Need more consistent naming here. Lattice counterpart of ᴬ/.
-   residual : ∀ {Γ} {a a′ : Action Γ} (a⌣a′ : a ᴬ⌣ a′) → ↓ a′ → ↓ π₁ (ᴬ⊖ a⌣a′)
+   -- Need more consistent naming here. Lattice counterpart of ᴬ/, although this produces a/a'.
+   residual : ∀ {Γ} {a a′ : Action Γ} (a⌣a′ : a ᴬ⌣ a′) → ↓ a → ↓ π₂ (ᴬ⊖ a⌣a′)
    residual ˣ∇ˣ ◻ = ◻
    residual ˣ∇ˣ [ (• x) ᵇ ] = [ • suc x 〈 zero 〉 ᶜ ]
    residual ᵇ∇ᵇ = push *
-   residual ᵇ∇ᶜ = push *
-   residual ᶜ∇ᵇ = idᶠ
+   residual ᵇ∇ᶜ = idᶠ
+   residual ᶜ∇ᵇ = push *
    residual ᶜ∇ᶜ = idᶠ
    residual ᵛ∇ᵛ = idᶠ
