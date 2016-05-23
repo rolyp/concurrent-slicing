@@ -34,7 +34,7 @@ module Transition.Concur.Cofinal.Lattice where
    blah 𝐸 ◻ = refl
    blah (E ᵇ│ᵇ F) [ P │ Q ] with π₁ (step E P)
    blah (E ᵇ│ᵇ F) [ P │ Q ] | ◻ = {!!}
-   blah (E ᵇ│ᵇ F) [ P │ Q ] | [ a ᵇ ] = {!!}
+   blah (E ᵇ│ᵇ F) [ P │ Q ] | [ a ] = {!!}
    blah (E ᵇ│ᶜ F) [ P │ Q ] with π₁ (step E P)
    ... | ◻ = refl
    ... | [ _ ] = refl
