@@ -296,7 +296,7 @@ module Transition.Lattice where
    ... | _ = ◻ , ◻
    step⁻ {a = τ ᶜ} (νᶜ E) (ν P) with step E P
    ... | [ τ ᶜ ] , R = [ τ ᶜ ] , [ ν R ]
-   ... | ◻ , _ = ◻ , ◻
+   ... | ◻ , R = ◻ , [ ν R ]
    step⁻ (! E) (! P) = step E [ P │ [ ! P ] ]
 
    action : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓′ P → ↓′ a
