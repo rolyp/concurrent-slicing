@@ -69,8 +69,7 @@ module Transition.Concur.Cofinal.Lattice where
        ∎))
    blah {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | [ τ ᶜ ] , R′ | [ τ ᶜ ] , R | [ eq ] | [ eq′ ]
       with step (E/E′ (⊖₁ 𝐸)) R′ | step (E′/E (⊖₁ 𝐸)) R | inspect (step (E/E′ (⊖₁ 𝐸))) R′ | inspect (step (E′/E (⊖₁ 𝐸))) R
-   ... | ◻ , _ | ◻ , _ | _ | _ = {!!}
-   ... | ◻ , _ | [ τ ᶜ ] , S | [ eq† ] | [ eq‡ ] = ⊥-elim (r (
+   ... | ◻ , _ | _ | [ eq† ] | [ eq‡ ] = ⊥-elim (r (
       let open EqReasoning (setoid _) in
       begin
          ◻
