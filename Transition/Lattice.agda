@@ -203,38 +203,7 @@ module Transition.Lattice where
       ᴬᴾ-prefixes : ∀ {Γ} → Lattice.Prefixes (Σ[ a ∈ Action Γ ] Proc (ᴬ.target a))
       ᴬᴾ-prefixes = ×-prefixes
 
-   out : ∀ {Γ P} {a : Action Γ} {R} {E : P —[ a - _ ]→ R} → ↓ E → ↓′ ᵀ.out E
-   out ◻ = ◻ , ◻
-   out [ x •∙ P ] = [ x • ᵇ ] , P
-   out [ • x 〈 y 〉∙ P ] = [ • x 〈 y 〉 ᶜ ] , P
-   out [ E ➕₁ Q ] = out E
-   out [ E ᵇ│ Q ] with out E; ... | a , P = a , [ P │ (push *̃) Q ]
-   out [ E ᶜ│ Q ] with out E; ... | a , P = a , [ P │ Q ]
-   out [ P │ᵇ F ] with out F; ... | a , Q = a , [ (push *̃) P │ Q ]
-   out [ P │ᶜ F ] with out F; ... | a , Q = a , [ P │ Q ]
-   out [ E │• F ] with out E | out F
-   ... | _ , P | ◻ , Q = [ τ ᶜ ] , [ (pop ◻ *̃) P │ Q ]
-   ... | _ , P | [ • _ 〈 y 〉 ᶜ ] , Q = [ τ ᶜ ] , [ (pop y *̃) P │ Q ]
-   out [ E │ᵥ F ] with out E | out F
-   ... | _ , P | _ , Q = [ τ ᶜ ] , [ ν [ P │ Q ] ]
-   out [ ν•_ {x = x} E ] with out E
-   ... | [ • [ ._ ] 〈 [ ._ ] 〉 ᶜ ] , P = [ (• [ x ]) ᵇ ] , P
-   ... | _ , P = ◻ , P
-   out {a = x • ᵇ} [ νᵇ E ] with out E
-   ... | [ ([ ._ ] •) ᵇ ] , P = [ [ x ] • ᵇ ] , [ ν (swap *̃) P ]
-   ... | _ , P = ◻ , [ ν (swap *̃) P ]
-   out {a = (• x) ᵇ} [ νᵇ E ] with out E
-   ... | [ (• [ ._ ]) ᵇ ] , P = [ (• [ x ]) ᵇ ] ,  [ ν (swap *̃) P ]
-   ... | _ , P = ◻ , [ ν (swap *̃) P ]
-   out {a = • x 〈 y 〉 ᶜ} [ νᶜ E ] with out E
-   ... | [ • [ ._ ] 〈 [ ._ ] 〉 ᶜ ] , P = [ • [ x ] 〈 [ y ] 〉 ᶜ ] , [ ν P ]
-   ... | _ , P = ◻ , [ ν P ]
-   out {a = τ ᶜ} [ νᶜ E ] with out E
-   ... | [ τ ᶜ ] , P = [ τ ᶜ ] , [ ν P ]
-   ... | _ , P = ◻ , [ ν P ]
-   out [ ! E ] = out E
-
-   -- See Transition module for why we bundle these properties together. The case-explosion is a consequence.
+   {-
    outᴹ : ∀ {Γ P} {a : Action Γ} {R} {E₀ : P —[ a - _ ]→ R} {E E′ : ↓ E₀} → E ≤ E′ → out E ≤′ out E′
    outᴹ ◻ = ◻ , ◻
    outᴹ [ x •∙ P ] = [ (x •) ᵇ ] , P
@@ -293,19 +262,7 @@ module Transition.Lattice where
    ... | ◻ , _ | [ τ ᶜ ] , _ | _ , P = ◻ , [ ν P ]
    ... | [ τ ᶜ ] , _ | [ τ ᶜ ] , _ | [ τ ᶜ ] , P = [ τ ᶜ ] , [ ν P ]
    outᴹ [ ! E ] = outᴹ E
-
-   action : ∀ {Γ P} {a : Action Γ} {R} {E : P —[ a - _ ]→ R} → ↓ E → ↓′ ᵀ.action E
-   action = π₁ ∘ᶠ out
-
-   actionᴹ : ∀ {Γ P} {a : Action Γ} {R} {E₀ : P —[ a - _ ]→ R} {E E′ : ↓ E₀} → E ≤ E′ → action E ≤′ action E′
-   actionᴹ = π₁ ∘ᶠ outᴹ
-
-   target : ∀ {Γ P} {a : Action Γ} {R} {E : P —[ a - _ ]→ R} → ↓ E → ↓′ ᵀ.target E
-   target = π₂ ∘ᶠ out
-
-   targetᴹ : ∀ {Γ P} {a : Action Γ} {R} {E₀ : P —[ a - _ ]→ R} {E E′ : ↓ E₀} → E ≤ E′ → target E ≤′ target E′
-   targetᴹ = π₂ ∘ᶠ outᴹ
-
+-}
    step : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓′ P → ↓′ ᵀ.out E
    step⁻ : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓⁻′ P → ↓′ ᵀ.out E
 
@@ -342,10 +299,19 @@ module Transition.Lattice where
    ... | _ = ◻ , ◻
    step⁻ (! E) (! P) = step E [ P │ [ ! P ] ]
 
-   fwd : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓′ P → ↓′ R
-   fwd E = π₂ ∘ᶠ step E
-
+   action : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓′ P → ↓′ a
+   action E = π₁ ∘ᶠ step E
 {-
+   actionᴹ : ∀ {Γ P} {a : Action Γ} {R} {E₀ : P —[ a - _ ]→ R} {E E′ : ↓ E₀} → E ≤ E′ → action E ≤′ action E′
+   actionᴹ E = π₁ ∘ᶠ stepᴹ
+-}
+   -- Called 'fwd' in the paper.
+   target : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓′ P → ↓′ R
+   target E = π₂ ∘ᶠ step E
+{-
+   targetᴹ : ∀ {Γ P} {a : Action Γ} {R} {E₀ : P —[ a - _ ]→ R} {E E′ : ↓ E₀} → E ≤ E′ → target E ≤′ target E′
+   targetᴹ = π₂ ∘ᶠ outᴹ
+
    stepᴹ : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) {R R′ : ↓′ P} → R ≤′ R′ → step E R ≤ step E R′
    step⁻ᴹ : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) {R R′ : ↓⁻′ P} → R ≤⁻′ R′ → step⁻ E R ≤ step⁻ E R′
 

@@ -49,10 +49,11 @@ module Transition.Concur.Cofinal.Lattice where
    blah {E = νᶜ E} {E′ = νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
    ... | ◻ , _ | ◻ , _ | _ | _ = {!!}
    ... | ◻ , _ | [ τ ᶜ ] , R | _ | _ with step (E′/E (⊖₁ 𝐸)) R
-   ... | _ , _ = {!!}
+   ... | ◻ , _ = {!!}
+   ... | [ τ ᶜ ] , _ = {!!}
    blah {Γ} {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | [ τ ᶜ ] , R′ | ◻ , _ | [ eq ] | [ eq′ ]
       with step (E/E′ (⊖₁ 𝐸)) R′ | inspect (step (E/E′ (⊖₁ 𝐸))) R′
-   ... | ◻ , _ | _ = {!!}
+   ... | ◻ , _ | _ = refl
    ... | [ τ ᶜ ] , _ | [ eq† ] = ⊥-elim (r (
        let step′ = π₁ ∘ᶠ step (E/E′ (⊖₁ 𝐸)); open EqReasoning (setoid _) in
        begin
@@ -67,8 +68,8 @@ module Transition.Concur.Cofinal.Lattice where
           [ τ ᶜ ]
        ∎))
    blah {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | [ τ ᶜ ] , R′ | [ τ ᶜ ] , R | [ eq ] | [ eq′ ]
-      with step (E/E′ (⊖₁ 𝐸)) R′ | step (E′/E (⊖₁ 𝐸)) R | inspect (step (E/E′ (⊖₁ 𝐸))) R′ | inspect (step (E′/E (⊖₁ 𝐸))) R
-   ... | ◻ , _ | _ | [ eq† ] | [ eq‡ ] = ⊥-elim (r (
+      with step (E/E′ (⊖₁ 𝐸)) R′ | inspect (step (E/E′ (⊖₁ 𝐸))) R′
+   ... | ◻ , _ | [ eq† ] = ⊥-elim (r (
       let open EqReasoning (setoid _) in
       begin
          ◻
@@ -80,9 +81,8 @@ module Transition.Concur.Cofinal.Lattice where
          π₁ (step E P)
       ≡⟨ ,-injective₁ eq′ ⟩
          [ τ ᶜ ]
-      ∎
-      ))
-   ... | [ τ ᶜ ] , _ | _ | _ | _ = refl
+      ∎))
+   ... | [ τ ᶜ ] , _ | _ = refl
    blah (! 𝐸) [ ! P ] = blah 𝐸 [ P │ [ ! P ] ]
    blah 𝐸 P = {!!}
 {-
