@@ -20,10 +20,10 @@ module Transition.Concur.Cofinal.Lattice where
    open import Ren.Lattice using (_ᴿ+_; swap; push; pop)
    open import Ren.Lattice.Properties
    open import Ren.Properties
-   open import Transition as ᵀ using (_—[_-_]→_; target); open ᵀ._—[_-_]→_
+   open import Transition as ᵀ using (_—[_-_]→_); open ᵀ._—[_-_]→_
    open import Transition.Concur using (Concur₁; module Concur₁; module Delta′; ⊖₁); open Concur₁
    open import Transition.Concur.Cofinal using (⋈̂[_,_,_]; γ₁)
-   open import Transition.Lattice as ᵀ̃ using (step; step⁻)
+   open import Transition.Lattice as ᵀ̃ using (step; step⁻; action; target)
    open import Transition.Ren using (_*ᵇ; _*ᶜ)
    open import Transition.Ren.Lattice using (renᶜ-step-comm; ᴬrenᶜ-step-comm; renᵇ-step-comm; ᴬrenᵇ-step-comm)
 
@@ -33,7 +33,7 @@ module Transition.Concur.Cofinal.Lattice where
    r = {!!}
 
    blah : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
-          (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ → π₁ (step (E/E′ (⊖₁ 𝐸)) (π₂ (step E′ P′))) ≡ residual (ᴬ⌣-sym 𝑎) (π₁ (step E P′))
+          (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ → action (E/E′ (⊖₁ 𝐸)) (target E′ P′) ≡ residual (ᴬ⌣-sym 𝑎) (action E P′)
    blah {𝑎 = ˣ∇ˣ} 𝐸 ◻ = refl
    blah {𝑎 = ᵇ∇ᵇ} 𝐸 ◻ = refl
    blah {𝑎 = ᵇ∇ᶜ} 𝐸 ◻ = refl
@@ -47,38 +47,36 @@ module Transition.Concur.Cofinal.Lattice where
    blah (𝐸 │•ᵇ F) [ P │ Q ] = {!!}
 
    blah {E = νᶜ E} {E′ = νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
-   ... | ◻ , _ | ◻ , _ | _ | _ = {!!}
-   ... | ◻ , _ | [ τ ᶜ ] , R | _ | _ with step (E′/E (⊖₁ 𝐸)) R
-   ... | ◻ , _ = {!!}
-   ... | [ τ ᶜ ] , _ = {!!}
+   ... | ◻ , _ | ◻ , _ | _ | _ = refl
+   ... | ◻ , _ | [ τ ᶜ ] , R | _ | _ = {!!}
    blah {Γ} {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | [ τ ᶜ ] , R′ | ◻ , _ | [ eq ] | [ eq′ ]
       with step (E/E′ (⊖₁ 𝐸)) R′ | inspect (step (E/E′ (⊖₁ 𝐸))) R′
    ... | ◻ , _ | _ = refl
    ... | [ τ ᶜ ] , _ | [ eq† ] = ⊥-elim (r (
-       let step′ = π₁ ∘ᶠ step (E/E′ (⊖₁ 𝐸)); open EqReasoning (setoid _) in
+       let action′ = action (E/E′ (⊖₁ 𝐸)); open EqReasoning (setoid _) in
        begin
           ◻
        ≡⟨ sym (,-injective₁ eq′) ⟩
-          π₁ (step E P)
+          action E P
        ≡⟨ sym (blah 𝐸 P) ⟩
-          step′ (π₂ (step E′ P))
-       ≡⟨ cong step′ (,-injective₂ eq) ⟩
-          step′ R′
+          action′ (target E′ P)
+       ≡⟨ cong action′ (,-injective₂ eq) ⟩
+          action′ R′
        ≡⟨ ,-injective₁ eq† ⟩
           [ τ ᶜ ]
        ∎))
    blah {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | [ τ ᶜ ] , R′ | [ τ ᶜ ] , R | [ eq ] | [ eq′ ]
       with step (E/E′ (⊖₁ 𝐸)) R′ | inspect (step (E/E′ (⊖₁ 𝐸))) R′
    ... | ◻ , _ | [ eq† ] = ⊥-elim (r (
-      let open EqReasoning (setoid _) in
+      let action′ = action (E/E′ (⊖₁ 𝐸)); open EqReasoning (setoid _) in
       begin
          ◻
       ≡⟨ sym (,-injective₁ eq†) ⟩
-         π₁ (step (E/E′ (⊖₁ 𝐸)) R′)
-      ≡⟨ cong (π₁ ∘ᶠ step (E/E′ (⊖₁ 𝐸))) (sym (,-injective₂ eq)) ⟩
-         π₁ (step (E/E′ (⊖₁ 𝐸)) (π₂ (step E′ P)))
+         action′ R′
+      ≡⟨ cong action′ (sym (,-injective₂ eq)) ⟩
+         action′ (target E′ P)
       ≡⟨ blah 𝐸 P ⟩
-         π₁ (step E P)
+         action E P
       ≡⟨ ,-injective₁ eq′ ⟩
          [ τ ᶜ ]
       ∎))
