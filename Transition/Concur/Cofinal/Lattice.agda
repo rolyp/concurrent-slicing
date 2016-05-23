@@ -49,12 +49,11 @@ module Transition.Concur.Cofinal.Lattice where
    blah {E = νᶜ E} {E′ = νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
    ... | ◻ , _ | ◻ , _ | _ | _ = {!!}
    ... | ◻ , _ | [ τ ᶜ ] , R | _ | _ with step (E′/E (⊖₁ 𝐸)) R
-   ... | ◻ , _ = {!!}
-   ... | [ τ ᶜ ] , S = {!!}
+   ... | _ , _ = {!!}
    blah {Γ} {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | [ τ ᶜ ] , R′ | ◻ , _ | [ eq ] | [ eq′ ]
       with step (E/E′ (⊖₁ 𝐸)) R′ | inspect (step (E/E′ (⊖₁ 𝐸))) R′
    ... | ◻ , _ | _ = {!!}
-   ... | [ τ ᶜ ] , S′ | [ eq† ] = ⊥-elim (r (
+   ... | [ τ ᶜ ] , _ | [ eq† ] = ⊥-elim (r (
        let step′ = π₁ ∘ᶠ step (E/E′ (⊖₁ 𝐸)); open EqReasoning (setoid _) in
        begin
           ◻
