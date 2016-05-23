@@ -6,7 +6,7 @@ module Transition.Concur.Cofinal.Lattice where
    open import Action as ᴬ using (Action; Actionᵇ; Actionᶜ; inc); open ᴬ.Action
    open import Action.Concur using (_ᴬ⌣_; ᴬ⌣-sym; module _ᴬ⌣_; ᴬ⊖; ᴬγ); open _ᴬ⌣_
    open import Action.Concur.Lattice using (residual)
-   open import Action.Lattice as ᴬ̃ using (); open ᴬ̃.↓_; open ᴬ̃.↓⁻_; open ᴬ̃.↓ᵇ⁻_; open ᴬ̃.↓ᶜ⁻_
+   open import Action.Lattice as ᴬ̃ using (↓ᵇ⁻_; ↓ᶜ⁻_); open ᴬ̃.↓_; open ᴬ̃.↓⁻_; open ᴬ̃.↓ᵇ⁻_; open ᴬ̃.↓ᶜ⁻_
    open import Braiding.Proc using (_⋉̂_)
    open import Braiding.Proc.Lattice using (braid̂)
    open import Lattice using (Lattices); open Lattice.Prefixes ⦃...⦄
@@ -28,6 +28,9 @@ module Transition.Concur.Cofinal.Lattice where
    open import Transition.Ren.Lattice using (renᶜ-step-comm; ᴬrenᶜ-step-comm; renᵇ-step-comm; ᴬrenᵇ-step-comm)
 
    open Delta′
+
+   r : ∀ {Γ} {a : Actionᶜ Γ} {a′ : ↓ᶜ⁻ a} → _≡_ {A = ↓_ {A = Action Γ} (a ᶜ)} ◻ [ a′ ᶜ ] → ⊥
+   r = {!!}
 
    blah : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
           (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ → π₁ (step (E/E′ (⊖₁ 𝐸)) (π₂ (step E′ P′))) ≡ residual (ᴬ⌣-sym 𝑎) (π₁ (step E P′))
@@ -51,9 +54,7 @@ module Transition.Concur.Cofinal.Lattice where
    blah {Γ} {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | [ τ ᶜ ] , R′ | ◻ , _ | [ eq ] | [ eq′ ]
       with step (E/E′ (⊖₁ 𝐸)) R′ | inspect (step (E/E′ (⊖₁ 𝐸))) R′
    ... | ◻ , _ | _ = {!!}
-   ... | [ τ ᶜ ] , S′ | [ eq† ] =
-      let r : ◻ ≡ [ τ ᶜ ] → ⊥
-          r = λ () in ⊥-elim (r (
+   ... | [ τ ᶜ ] , S′ | [ eq† ] = ⊥-elim (r (
           let step′ = π₁ ∘ᶠ step (E/E′ (⊖₁ 𝐸))
               open EqReasoning (setoid _) in
           begin
