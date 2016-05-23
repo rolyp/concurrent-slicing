@@ -341,6 +341,10 @@ module Transition.Lattice where
    ... | [ τ ᶜ ] , R = [ τ ᶜ ] , [ ν R ]
    ... | _ = ◻ , ◻
    step⁻ (! E) (! P) = step E [ P │ [ ! P ] ]
+
+   fwd : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓′ P → ↓′ R
+   fwd E = π₂ ∘ᶠ step E
+
 {-
    stepᴹ : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) {R R′ : ↓′ P} → R ≤′ R′ → step E R ≤ step E R′
    step⁻ᴹ : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) {R R′ : ↓⁻′ P} → R ≤⁻′ R′ → step⁻ E R ≤ step⁻ E R′

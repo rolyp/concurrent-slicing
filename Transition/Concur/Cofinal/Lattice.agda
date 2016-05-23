@@ -55,25 +55,37 @@ module Transition.Concur.Cofinal.Lattice where
       with step (E/E′ (⊖₁ 𝐸)) R′ | inspect (step (E/E′ (⊖₁ 𝐸))) R′
    ... | ◻ , _ | _ = {!!}
    ... | [ τ ᶜ ] , S′ | [ eq† ] = ⊥-elim (r (
-          let step′ = π₁ ∘ᶠ step (E/E′ (⊖₁ 𝐸))
-              open EqReasoning (setoid _) in
-          begin
-             ◻
-          ≡⟨ sym (,-injective₁ eq′) ⟩
-             π₁ (step E P)
-          ≡⟨ sym (blah 𝐸 P) ⟩
-             step′ (π₂ (step E′ P))
-          ≡⟨ cong step′ (,-injective₂ eq) ⟩
-             step′ R′
-          ≡⟨ ,-injective₁ eq† ⟩
-             [ τ ᶜ ]
-          ∎))
-   blah {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | [ τ ᶜ ] , R′ | [ τ ᶜ ] , R | _ | _
-      with step (E/E′ (⊖₁ 𝐸)) R′ | step (E′/E (⊖₁ 𝐸)) R
-   ... | ◻ , _ | ◻ , _ = {!!}
-   ... | ◻ , _ | [ τ ᶜ ] , S = {!!}
-   ... | [ τ ᶜ ] , S′ | ◻ , _ = {!!}
-   ... | [ τ ᶜ ] , S′ | [ τ ᶜ ] , S = {!!}
+       let step′ = π₁ ∘ᶠ step (E/E′ (⊖₁ 𝐸)); open EqReasoning (setoid _) in
+       begin
+          ◻
+       ≡⟨ sym (,-injective₁ eq′) ⟩
+          π₁ (step E P)
+       ≡⟨ sym (blah 𝐸 P) ⟩
+          step′ (π₂ (step E′ P))
+       ≡⟨ cong step′ (,-injective₂ eq) ⟩
+          step′ R′
+       ≡⟨ ,-injective₁ eq† ⟩
+          [ τ ᶜ ]
+       ∎))
+   blah {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | [ τ ᶜ ] , R′ | [ τ ᶜ ] , R | [ eq ] | [ eq′ ]
+      with step (E/E′ (⊖₁ 𝐸)) R′ | step (E′/E (⊖₁ 𝐸)) R | inspect (step (E/E′ (⊖₁ 𝐸))) R′ | inspect (step (E′/E (⊖₁ 𝐸))) R
+   ... | ◻ , _ | ◻ , _ | _ | _ = {!!}
+   ... | ◻ , _ | [ τ ᶜ ] , S | [ eq† ] | [ eq‡ ] = ⊥-elim (r (
+      let open EqReasoning (setoid _) in
+      begin
+         ◻
+      ≡⟨ sym (,-injective₁ eq†) ⟩
+         π₁ (step (E/E′ (⊖₁ 𝐸)) R′)
+      ≡⟨ cong (π₁ ∘ᶠ step (E/E′ (⊖₁ 𝐸))) (sym (,-injective₂ eq)) ⟩
+         π₁ (step (E/E′ (⊖₁ 𝐸)) (π₂ (step E′ P)))
+      ≡⟨ blah 𝐸 P ⟩
+         π₁ (step E P)
+      ≡⟨ ,-injective₁ eq′ ⟩
+         [ τ ᶜ ]
+      ∎
+      ))
+   ... | [ τ ᶜ ] , S′ | ◻ , _ | [ eq† ] | [ eq‡ ] = {!!}
+   ... | [ τ ᶜ ] , S′ | [ τ ᶜ ] , S | [ eq† ] | [ eq‡ ] = {!!}
    blah (! 𝐸) [ ! P ] = blah 𝐸 [ P │ [ ! P ] ]
    blah 𝐸 P = {!!}
 {-
