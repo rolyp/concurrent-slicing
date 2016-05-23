@@ -46,13 +46,10 @@ module Transition.Concur.Cofinal.Lattice where
    blah (E ᶜ│ᶜ F) [ P │ Q ] = refl
    blah (𝐸 │•ᵇ F) [ P │ Q ] = {!!}
 
-   blah {E = νᶜ E} {E′ = νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
+   blah {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
    ... | ◻ , _ | ◻ , _ | _ | _ = refl
-   ... | ◻ , _ | [ τ ᶜ ] , R | [ eq ] | [ eq′ ]
-      with step (E′/E (⊖₁ 𝐸)) R | inspect (step (E′/E (⊖₁ 𝐸))) R
-   ... | ◻ , _ | _ = {!!}
-   ... | [ τ ᶜ ] , _ | [ eq† ] = {!!}
-   blah {Γ} {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | [ τ ᶜ ] , R′ | ◻ , _ | [ eq ] | [ eq′ ]
+   ... | ◻ , R | [ τ ᶜ ] , R′ | _ | _ = {!!}
+   blah {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | [ τ ᶜ ] , R′ | ◻ , _ | [ eq ] | [ eq′ ]
       with step (E/E′ (⊖₁ 𝐸)) R′ | inspect (step (E/E′ (⊖₁ 𝐸))) R′
    ... | ◻ , _ | _ = refl
    ... | [ τ ᶜ ] , _ | [ eq† ] = ⊥-elim (r (
