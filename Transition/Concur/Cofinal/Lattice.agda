@@ -338,10 +338,28 @@ module Transition.Concur.Cofinal.Lattice where
             (trans (cong (target (E/E′ (⊖₁ 𝐸))) (sym (,-inj₂ eq)))
                    (trans (gamma₁ 𝐸 P)
                           (cong (braid̂ (γ₁ 𝐸)) (trans (cong (target (E′/E (⊖₁ 𝐸))) (,-inj₂ eq′)) (,-inj₂ eq‡)))))))
-   gamma₁ {𝑎 = ᵛ∇ᵛ} {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | ◻ , _ | [ τ ᶜ ] , R | [ eq ] | [ eq′ ]
-      with step (E′/E (⊖₁ 𝐸)) R
-   ... | ◻ , _ = {!!}
-   ... | [ τ ᶜ ] , S = {!!}
+   gamma₁ {𝑎 = ᵛ∇ᵛ} {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | ◻ , R′ | [ τ ᶜ ] , R | [ eq ] | [ eq′ ]
+      with step (E/E′ (⊖₁ 𝐸)) R′ | step (E′/E (⊖₁ 𝐸)) R | inspect (step (E/E′ (⊖₁ 𝐸))) R′ | inspect (step (E′/E (⊖₁ 𝐸))) R
+   ... | ◻ , S′ | ◻ , S | [ eq† ] | [ eq‡ ] = cong [_] (cong ν_ (
+      trans (sym (,-inj₂ eq†))
+            (trans (cong (target (E/E′ (⊖₁ 𝐸))) (sym (,-inj₂ eq)))
+                   (trans (gamma₁ 𝐸 P)
+                          (cong (braid̂ (γ₁ 𝐸)) (trans (cong (target (E′/E (⊖₁ 𝐸))) (,-inj₂ eq′)) (,-inj₂ eq‡)))))))
+   ... | ◻ , S′ | [ τ ᶜ ] , S | [ eq† ] | [ eq‡ ] = cong [_] (cong ν_ (
+      trans (sym (,-inj₂ eq†))
+            (trans (cong (target (E/E′ (⊖₁ 𝐸))) (sym (,-inj₂ eq)))
+                   (trans (gamma₁ 𝐸 P)
+                          (cong (braid̂ (γ₁ 𝐸)) (trans (cong (target (E′/E (⊖₁ 𝐸))) (,-inj₂ eq′)) (,-inj₂ eq‡)))))))
+   ... | [ τ ᶜ ] , S′ | ◻ , S | [ eq† ] | [ eq‡ ] = cong [_] (cong ν_ (
+      trans (sym (,-inj₂ eq†))
+            (trans (cong (target (E/E′ (⊖₁ 𝐸))) (sym (,-inj₂ eq)))
+                   (trans (gamma₁ 𝐸 P)
+                          (cong (braid̂ (γ₁ 𝐸)) (trans (cong (target (E′/E (⊖₁ 𝐸))) (,-inj₂ eq′)) (,-inj₂ eq‡)))))))
+   ... | [ τ ᶜ ] , S′ | [ τ ᶜ ] , S | [ eq† ] | [ eq‡ ] = cong [_] (cong ν_ (
+      trans (sym (,-inj₂ eq†))
+            (trans (cong (target (E/E′ (⊖₁ 𝐸))) (sym (,-inj₂ eq)))
+                   (trans (gamma₁ 𝐸 P)
+                          (cong (braid̂ (γ₁ 𝐸)) (trans (cong (target (E′/E (⊖₁ 𝐸))) (,-inj₂ eq′)) (,-inj₂ eq‡)))))))
    gamma₁ {𝑎 = ᵛ∇ᵛ} {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | [ τ ᶜ ] , R′ | ◻ , _ | [ eq ] | [ eq′ ]
       with step (E/E′ (⊖₁ 𝐸)) R′
    ... | ◻ , _ = {!!}
