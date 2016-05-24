@@ -294,6 +294,7 @@ module Transition.Lattice where
    step⁻ {a = • x 〈 y 〉 ᶜ} (νᶜ E) (ν P) with step E P
    ... | [ • [ ._ ] 〈 [ ._ ] 〉 ᶜ ] , R = [ • [ x ] 〈 [ y ] 〉 ᶜ ] , [ ν R ]
    ... | _ = ◻ , ◻
+   -- Explicitly match the action, so we can translate it from Γ + 1 to Γ.
    step⁻ {a = τ ᶜ} (νᶜ E) (ν P) with step E P
    ... | [ τ ᶜ ] , R = [ τ ᶜ ] , [ ν R ]
    ... | ◻ , R = ◻ , [ ν R ]

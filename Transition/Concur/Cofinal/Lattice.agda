@@ -28,7 +28,7 @@ module Transition.Concur.Cofinal.Lattice where
    open import Transition.Ren.Lattice using (renᶜ-step-comm; ᴬrenᶜ-step-comm; renᵇ-step-comm; ᴬrenᵇ-step-comm)
 
    open Delta′
-
+{-
    ◻≢[-] : ∀ {Γ} {a : Actionᶜ Γ} {a′ : ↓ᶜ⁻ a} → _≡_ {A = ↓_ {A = Action Γ} (a ᶜ)} ◻ [ a′ ᶜ ] → ⊥
    ◻≢[-] ()
 
@@ -73,7 +73,7 @@ module Transition.Concur.Cofinal.Lattice where
    ... | [ τ ᶜ ] , _ | _ = refl
    blah (! 𝐸) [ ! P ] = blah 𝐸 [ P │ [ ! P ] ]
    blah 𝐸 P = {!!}
-{-
+
    blah (𝐸 │•ᶜ F) [ x₁ │ x₂ ] = {!!}
    blah (E ᵇ│• 𝐸) [ x₁ │ x₂ ] = {!!}
    blah (E ᶜ│• 𝐸) [ x₁ │ x₂ ] = {!!}
@@ -161,6 +161,7 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
             (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ →
             coerceCxt 𝑎 (target (E/E′ (⊖₁ 𝐸)) (target E′ P′)) ≡ braiding 𝑎 (γ₁ 𝐸) (target (E′/E (⊖₁ 𝐸)) (target E P′))
+{-
    gamma₁ {𝑎 = ˣ∇ˣ {x = x} {u}} 𝐸 ◻ =
       ≅-to-≡ (≅-trans (◻-cong (sym (trans (γ₁ 𝐸) (≅-to-≡ (Proc↲ refl _))))) (≅-sym (reduce-ˣ∇ˣ {x = x} {u} (γ₁ 𝐸) _)))
    gamma₁ {𝑎 = ᵇ∇ᵇ} 𝐸 ◻ =
@@ -312,6 +313,11 @@ module Transition.Concur.Cofinal.Lattice where
          braiding ᶜ∇ᶜ (cong₂ _│_ (γ₁ 𝐸) refl) [ S‡ │  Q ]
       ∎)
    gamma₁ {E = E ᶜ│ Q₀} {E′ ᶜ│ ._} (𝐸 ᵛᵛ│ ._) [ P │ Q ] = cong (λ P → [ P │ Q ]) (gamma₁ 𝐸 P)
+-}
+   gamma₁ (_│•ᵇ_ {y = y} {a = a} 𝐸 F) [ P │ Q ] with (ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))
+   ... | _ = ? -- with (ᴿ.pop y *) ((ᴿ.push *) a)
+--   ... | _ = ?
+{-
    gamma₁ {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ]
       with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
    ... | ◻ , R′ | ◻ , R | [ eq ] | [ eq′ ]
@@ -403,9 +409,9 @@ module Transition.Concur.Cofinal.Lattice where
                    (trans (gamma₁ 𝐸 P)
                           (cong (braid̂ (γ₁ 𝐸)) (trans (cong (target (E′/E (⊖₁ 𝐸))) (,-inj₂ eq′)) (,-inj₂ eq‡)))))))
    gamma₁ (! 𝐸) [ ! P ] = gamma₁ 𝐸 [ P │ [ ! P ] ]
+-}
    gamma₁ _ _ = {!!}
 {-
-   gamma₁ (_│•ᵇ_ {y = y} {a = a} 𝐸 F) [ P │ Q ] = {!!}
    gamma₁ (_│•ᶜ_ {y = y} {a = a} 𝐸 F) [ P │ Q ] = {!!}
    gamma₁ {a = a ᵇ} (_ᵇ│•_ {y = y} {F = F} {F′} E 𝐹) [ P │ Q ] = {!!}
    gamma₁ (E ᶜ│• 𝐸) P₁ = {!!}
