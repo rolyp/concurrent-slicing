@@ -277,8 +277,8 @@ module Transition.Lattice where
    step⁻ {a = _ ᵇ} (_ │ᵇ F) (P │ Q) = let a , S = step F Q in a , [ (push *̃) P │ S ]
    step⁻ {a = _ ᶜ} (_ │ᶜ F) (P │ Q) = let a , S = step F Q in a , [ P │ S ]
    step⁻ (E │• F) (P │ Q) with step E P | step F Q
-   ... | [ [ x ] • ᵇ ] , R | [ • _ 〈 y 〉 ᶜ ] , S = [ τ ᶜ ] , [ (pop y *̃) R │ S ]
-   ... | _ | _ = ◻ , ◻
+   ... | [ [ x ] • ᵇ ] , R | [ • [ .x ] 〈 y 〉 ᶜ ] , S = [ τ ᶜ ] , [ (pop y *̃) R │ S ]
+   ... | _ , R | _ , S = ◻ , [ (pop ◻ *̃) R │ S ]
    step⁻ (E │ᵥ F) (P │ Q) with step E P | step F Q
    ... | [ [ x ] • ᵇ ] , R | [ (• [ .x ]) ᵇ ] , S = [ τ ᶜ ] , [ ν [ R │ S ] ]
    ... | _ | _ = ◻ , ◻
