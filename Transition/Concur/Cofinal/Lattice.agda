@@ -318,36 +318,28 @@ module Transition.Concur.Cofinal.Lattice where
    ... | pop-y*E/E′ rewrite pop∘push y a
       with step E′ P | step F Q | inspect (step E′) P | inspect (step F) Q
    ... | ◻ , R | _ , R′ | [ eq ] | [ eq′ ]
-      with step (E′/E (⊖₁ 𝐸)) (target E P) | step ((ᴿ.push *ᶜ) F) ((push *̃) Q)
-   ... | ◻ , S† | _ , S‡ =
+      with step (E′/E (⊖₁ 𝐸)) (target E P) | step ((ᴿ.push *ᶜ) F) ((push *̃) Q) |
+           inspect (step (E′/E (⊖₁ 𝐸))) (target E P) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
+   ... | ◻ , S† | _ , S‡ | [ eq† ] | [ eq‡ ] =
       let blah = cong₂ _│_ (
             let open EqReasoning (setoid _); S = S (⊖₁ 𝐸); S′ = S′ (⊖₁ 𝐸) in
             begin _ ≡⟨ cong (ᴿ.pop (ᴿ.push y) *) (swap-swap (γ₁ 𝐸)) ⟩ _ ≡⟨ sym (pop∘swap y S′) ⟩ _ ∎
             ) refl
-          quib : (push *̃) R′ ≅ S‡
-          quib = let open ≅-Reasoning in
-             begin
-                (push *̃) R′
-             ≡⟨ cong (push *̃) (sym (,-inj₂ eq′)) ⟩
-                (push *̃) (target F Q)
-             ≡⟨ renᶜ-target-comm F push Q ⟩
-                target ((ᴿ.push *ᶜ) F) ((push *̃) Q)
-             ≅⟨ {!!} ⟩
-                S‡
-             ∎
+          quib : (push *̃) R′ ≡ S‡
+          quib = trans (cong (push *̃) (sym (,-inj₂ eq′))) (trans (renᶜ-target-comm F push Q) (,-inj₂ eq‡))
           open ≅-Reasoning in ≅-to-≡ (
       begin
          [ target pop-y*E/E′ ((pop ◻ *̃) R) │ (push *̃) R′ ]
-      ≅⟨ [-│-]-cong {!!} {!!} refl quib ⟩
+      ≅⟨ [-│-]-cong {!!} {!!} refl (≡-to-≅ quib) ⟩
          [ (pop ◻ *̃) S† │ S‡ ]
       ≅⟨ {!!} ⟩
          braiding ᵇ∇ᶜ blah [ (pop ◻ *̃) S† │ S‡ ]
       ∎)
-   ... | [ (◻ •) ᵇ ] , _ | ◻ , _ = {!!}
-   ... | [ ([ ._ ] •) ᵇ ] , _ | ◻ , _ = {!!}
-   ... | [ (◻ •) ᵇ ] , _ | _ , _ = {!!}
-   ... | [ ([ ._ ] •) ᵇ ] , _ | [ • ◻ 〈 _ 〉 ᶜ ] , _ = {!!}
-   ... | [ ([ ._ ] •) ᵇ ] , _ | [ • [ ._ ] 〈 _ 〉 ᶜ ] , _ = {!!}
+   ... | [ (◻ •) ᵇ ] , _ | ◻ , _ | [ eq† ] | [ eq‡ ]  = {!!}
+   ... | [ ([ ._ ] •) ᵇ ] , _ | ◻ , _ | [ eq† ] | [ eq‡ ]  = {!!}
+   ... | [ (◻ •) ᵇ ] , _ | _ , _ | [ eq† ] | [ eq‡ ]  = {!!}
+   ... | [ ([ ._ ] •) ᵇ ] , _ | [ • ◻ 〈 _ 〉 ᶜ ] , _ | [ eq† ] | [ eq‡ ]  = {!!}
+   ... | [ ([ ._ ] •) ᵇ ] , _ | [ • [ ._ ] 〈 _ 〉 ᶜ ] , _ | [ eq† ] | [ eq‡ ]  = {!!}
    gamma₁ {E = E ᵇ│ Q₀} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] | _ | [ (◻ •) ᵇ ] , _ | _ , _ | [ eq ] | [ eq′ ] = {!!}
 {-
       with step (E′/E (⊖₁ 𝐸)) (target E P) | step ((ᴿ.push *ᶜ) F) ((push *̃) Q)
