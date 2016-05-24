@@ -327,10 +327,12 @@ module Transition.Concur.Cofinal.Lattice where
             ) refl
           quib : (push *̃) R′ ≡ S‡
           quib = trans (cong (push *̃) (sym (,-inj₂ eq′))) (trans (renᶜ-target-comm F push Q) (,-inj₂ eq‡))
+          gib : target pop-y*E/E′ ((pop ◻ *̃) R) ≅ (pop {x₀ = (ᴿ.push *) y} ◻ *̃) S†
+          gib = {!!}
           open ≅-Reasoning in ≅-to-≡ (
       begin
          [ target pop-y*E/E′ ((pop ◻ *̃) R) │ (push *̃) R′ ]
-      ≅⟨ [-│-]-cong {!!} {!!} refl (≡-to-≅ quib) ⟩
+      ≅⟨ [-│-]-cong {!!} gib refl (≡-to-≅ quib) ⟩
          [ (pop ◻ *̃) S† │ S‡ ]
       ≅⟨ {!!} ⟩
          braiding ᵇ∇ᶜ blah [ (pop ◻ *̃) S† │ S‡ ]
