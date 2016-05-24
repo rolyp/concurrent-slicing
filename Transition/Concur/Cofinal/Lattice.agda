@@ -106,7 +106,6 @@ module Transition.Concur.Cofinal.Lattice where
    blah (νᶜᵇ 𝐸) [ ν x ] = {!!}
    blah (νᶜᶜ 𝐸) [ ν x ] = {!!}
 -}
-{-
    braiding : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) {Δ : Cxt} {P P′} → ⋈̂[ Γ , 𝑎 , Δ ] P P′ → ↓ P → ↓ P′
    braiding ˣ∇ˣ eq rewrite eq = idᶠ
    braiding ᵇ∇ᵇ {Δ} refl = (swap ᴿ+ Δ) *̃
@@ -354,5 +353,4 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ (νᵇᶜ 𝐸) P₁ = {!!}
    gamma₁ (νᶜᵇ 𝐸) P₁ = {!!}
    gamma₁ (νᶜᶜ 𝐸) P₁ = {!!}
--}
 -}
