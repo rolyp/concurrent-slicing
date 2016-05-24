@@ -3,7 +3,7 @@ module Transition.Concur.Cofinal.Lattice where
    open import ConcurrentSlicingCommon
    import Relation.Binary.EqReasoning as EqReasoning
 
-   open import Action as ᴬ using (Action; Actionᵇ; Actionᶜ; inc); open ᴬ.Action
+   open import Action as ᴬ using (Action; Actionᵇ; Actionᶜ; inc); open ᴬ.Action; open ᴬ.Actionᵇ; open ᴬ.Actionᶜ
    open import Action.Concur using (_ᴬ⌣_; ᴬ⌣-sym; module _ᴬ⌣_; ᴬ⊖; ᴬγ); open _ᴬ⌣_
    open import Action.Concur.Lattice using (residual)
    open import Action.Lattice as ᴬ̃ using (↓ᵇ⁻_; ↓ᶜ⁻_); open ᴬ̃.↓_; open ᴬ̃.↓⁻_; open ᴬ̃.↓ᵇ⁻_; open ᴬ̃.↓ᶜ⁻_
@@ -29,8 +29,8 @@ module Transition.Concur.Cofinal.Lattice where
 
    open Delta′
 
-   r : ∀ {Γ} {a : Actionᶜ Γ} {a′ : ↓ᶜ⁻ a} → _≡_ {A = ↓_ {A = Action Γ} (a ᶜ)} ◻ [ a′ ᶜ ] → ⊥
-   r = {!!}
+   ◻≢[-] : ∀ {Γ} {a : Actionᶜ Γ} {a′ : ↓ᶜ⁻ a} → _≡_ {A = ↓_ {A = Action Γ} (a ᶜ)} ◻ [ a′ ᶜ ] → ⊥
+   ◻≢[-] ()
 
    blah : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
           (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ → action (E/E′ (⊖₁ 𝐸)) (target E′ P′) ≡ residual 𝑎 (action E P′)
@@ -50,66 +50,26 @@ module Transition.Concur.Cofinal.Lattice where
    ... | ◻ , R′ | ◻ , _ | [ eq ] | [ eq′ ]
       with step (E/E′ (⊖₁ 𝐸)) R′ | inspect (step (E/E′ (⊖₁ 𝐸))) R′
    ... | ◻ , _ | _ = refl
-   ... | [ τ ᶜ ] , _ | [ eq† ] = ⊥-elim (r (
-       let action′ = action (E/E′ (⊖₁ 𝐸)); open EqReasoning (setoid _) in
-       begin
-          ◻
-       ≡⟨ sym (,-injective₁ eq′) ⟩
-          action E P
-       ≡⟨ sym (blah 𝐸 P) ⟩
-          action′ (target E′ P)
-       ≡⟨ cong action′ (,-injective₂ eq) ⟩
-          action′ R′
-       ≡⟨ ,-injective₁ eq† ⟩
-          [ τ ᶜ ]
-       ∎))
+   ... | [ τ ᶜ ] , _ | [ eq† ] = ⊥-elim (◻≢[-] (
+      let action′ = action (E/E′ (⊖₁ 𝐸)) in
+      trans (sym (,-inj₁ eq′)) (trans (sym (blah 𝐸 P)) (trans (cong action′ (,-inj₂ eq)) (,-inj₁ eq†)))))
    blah {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | ◻ , R′ | [ τ ᶜ ] , _ | [ eq ] | [ eq′ ]
       with step (E/E′ (⊖₁ 𝐸)) R′ | inspect (step (E/E′ (⊖₁ 𝐸))) R′
-   ... | ◻ , _ | [ eq† ] = ⊥-elim (r (
-      let action′ = action (E/E′ (⊖₁ 𝐸)); open EqReasoning (setoid _) in
-      begin
-         ◻
-      ≡⟨ sym (,-injective₁ eq†) ⟩
-         action′ R′
-      ≡⟨ cong action′ (sym (,-injective₂ eq)) ⟩
-         action′ (target E′ P)
-      ≡⟨ blah 𝐸 P ⟩
-         action E P
-      ≡⟨ ,-injective₁ eq′ ⟩
-         [ τ ᶜ ]
-      ∎))
+   ... | ◻ , _ | [ eq† ] = ⊥-elim (◻≢[-] (sym (
+      let action′ = action (E/E′ (⊖₁ 𝐸)) in
+      trans (sym (,-inj₁ eq′)) (trans (sym (blah 𝐸 P)) (trans (cong action′ (,-inj₂ eq)) (,-inj₁ eq†))))))
    ... | [ τ ᶜ ] , _ | [ eq† ] = refl
    blah {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | [ τ ᶜ ] , R′ | ◻ , _ | [ eq ] | [ eq′ ]
       with step (E/E′ (⊖₁ 𝐸)) R′ | inspect (step (E/E′ (⊖₁ 𝐸))) R′
    ... | ◻ , _ | _ = refl
-   ... | [ τ ᶜ ] , _ | [ eq† ] = ⊥-elim (r (
-       let action′ = action (E/E′ (⊖₁ 𝐸)); open EqReasoning (setoid _) in
-       begin
-          ◻
-       ≡⟨ sym (,-injective₁ eq′) ⟩
-          action E P
-       ≡⟨ sym (blah 𝐸 P) ⟩
-          action′ (target E′ P)
-       ≡⟨ cong action′ (,-injective₂ eq) ⟩
-          action′ R′
-       ≡⟨ ,-injective₁ eq† ⟩
-          [ τ ᶜ ]
-       ∎))
+   ... | [ τ ᶜ ] , _ | [ eq† ] = ⊥-elim (◻≢[-] (
+      let action′ = action (E/E′ (⊖₁ 𝐸)) in
+      trans (sym (,-inj₁ eq′)) (trans (sym (blah 𝐸 P)) (trans (cong action′ (,-inj₂ eq)) (,-inj₁ eq†)))))
    blah {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | [ τ ᶜ ] , R′ | [ τ ᶜ ] , R | [ eq ] | [ eq′ ]
       with step (E/E′ (⊖₁ 𝐸)) R′ | inspect (step (E/E′ (⊖₁ 𝐸))) R′
-   ... | ◻ , _ | [ eq† ] = ⊥-elim (r (
-      let action′ = action (E/E′ (⊖₁ 𝐸)); open EqReasoning (setoid _) in
-      begin
-         ◻
-      ≡⟨ sym (,-injective₁ eq†) ⟩
-         action′ R′
-      ≡⟨ cong action′ (sym (,-injective₂ eq)) ⟩
-         action′ (target E′ P)
-      ≡⟨ blah 𝐸 P ⟩
-         action E P
-      ≡⟨ ,-injective₁ eq′ ⟩
-         [ τ ᶜ ]
-      ∎))
+   ... | ◻ , _ | [ eq† ] = ⊥-elim (◻≢[-] (sym (
+      let action′ = action (E/E′ (⊖₁ 𝐸)) in
+      trans (sym (,-inj₁ eq′)) (trans (sym (blah 𝐸 P)) (trans (cong action′ (,-inj₂ eq)) (,-inj₁ eq†))))))
    ... | [ τ ᶜ ] , _ | _ = refl
    blah (! 𝐸) [ ! P ] = blah 𝐸 [ P │ [ ! P ] ]
    blah 𝐸 P = {!!}
