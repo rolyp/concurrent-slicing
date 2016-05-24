@@ -314,7 +314,7 @@ module Transition.Concur.Cofinal.Lattice where
       ∎)
    gamma₁ {E = E ᶜ│ Q₀} {E′ ᶜ│ ._} (𝐸 ᵛᵛ│ ._) [ P │ Q ] = cong (λ P → [ P │ Q ]) (gamma₁ 𝐸 P)
 -}
-   gamma₁ {𝑎 = ᵛ∇ᵛ} {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ]
+   gamma₁ {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ]
       with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
    ... | ◻ , R′ | ◻ , R | [ eq ] | [ eq′ ]
       with step (E/E′ (⊖₁ 𝐸)) R′ | step (E′/E (⊖₁ 𝐸)) R | inspect (step (E/E′ (⊖₁ 𝐸))) R′ | inspect (step (E′/E (⊖₁ 𝐸))) R
@@ -338,7 +338,7 @@ module Transition.Concur.Cofinal.Lattice where
             (trans (cong (target (E/E′ (⊖₁ 𝐸))) (sym (,-inj₂ eq)))
                    (trans (gamma₁ 𝐸 P)
                           (cong (braid̂ (γ₁ 𝐸)) (trans (cong (target (E′/E (⊖₁ 𝐸))) (,-inj₂ eq′)) (,-inj₂ eq‡)))))))
-   gamma₁ {𝑎 = ᵛ∇ᵛ} {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | ◻ , R′ | [ τ ᶜ ] , R | [ eq ] | [ eq′ ]
+   gamma₁ {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | ◻ , R′ | [ τ ᶜ ] , R | [ eq ] | [ eq′ ]
       with step (E/E′ (⊖₁ 𝐸)) R′ | step (E′/E (⊖₁ 𝐸)) R | inspect (step (E/E′ (⊖₁ 𝐸))) R′ | inspect (step (E′/E (⊖₁ 𝐸))) R
    ... | ◻ , S′ | ◻ , S | [ eq† ] | [ eq‡ ] = cong [_] (cong ν_ (
       trans (sym (,-inj₂ eq†))
@@ -360,11 +360,29 @@ module Transition.Concur.Cofinal.Lattice where
             (trans (cong (target (E/E′ (⊖₁ 𝐸))) (sym (,-inj₂ eq)))
                    (trans (gamma₁ 𝐸 P)
                           (cong (braid̂ (γ₁ 𝐸)) (trans (cong (target (E′/E (⊖₁ 𝐸))) (,-inj₂ eq′)) (,-inj₂ eq‡)))))))
-   gamma₁ {𝑎 = ᵛ∇ᵛ} {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | [ τ ᶜ ] , R′ | ◻ , _ | [ eq ] | [ eq′ ]
-      with step (E/E′ (⊖₁ 𝐸)) R′
-   ... | ◻ , _ = {!!}
-   ... | [ τ ᶜ ] , S′ = {!!}
-   gamma₁ {𝑎 = ᵛ∇ᵛ} {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | [ τ ᶜ ] , R′ | [ τ ᶜ ] , R | [ eq ] | [ eq′ ]
+   gamma₁ {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | [ τ ᶜ ] , R′ | ◻ , R | [ eq ] | [ eq′ ]
+      with step (E/E′ (⊖₁ 𝐸)) R′ | step (E′/E (⊖₁ 𝐸)) R | inspect (step (E/E′ (⊖₁ 𝐸))) R′ | inspect (step (E′/E (⊖₁ 𝐸))) R
+   ... | ◻ , _ | ◻ , _ | [ eq† ] | [ eq‡ ] = cong [_] (cong ν_ (
+      trans (sym (,-inj₂ eq†))
+            (trans (cong (target (E/E′ (⊖₁ 𝐸))) (sym (,-inj₂ eq)))
+                   (trans (gamma₁ 𝐸 P)
+                          (cong (braid̂ (γ₁ 𝐸)) (trans (cong (target (E′/E (⊖₁ 𝐸))) (,-inj₂ eq′)) (,-inj₂ eq‡)))))))
+   ... | ◻ , _ | [ τ ᶜ ] , S | [ eq† ] | [ eq‡ ] = cong [_] (cong ν_ (
+      trans (sym (,-inj₂ eq†))
+            (trans (cong (target (E/E′ (⊖₁ 𝐸))) (sym (,-inj₂ eq)))
+                   (trans (gamma₁ 𝐸 P)
+                          (cong (braid̂ (γ₁ 𝐸)) (trans (cong (target (E′/E (⊖₁ 𝐸))) (,-inj₂ eq′)) (,-inj₂ eq‡)))))))
+   ... | [ τ ᶜ ] , S′ | ◻ , _ | [ eq† ] | [ eq‡ ] = cong [_] (cong ν_ (
+      trans (sym (,-inj₂ eq†))
+            (trans (cong (target (E/E′ (⊖₁ 𝐸))) (sym (,-inj₂ eq)))
+                   (trans (gamma₁ 𝐸 P)
+                          (cong (braid̂ (γ₁ 𝐸)) (trans (cong (target (E′/E (⊖₁ 𝐸))) (,-inj₂ eq′)) (,-inj₂ eq‡)))))))
+   ... | [ τ ᶜ ] , S′ | [ τ ᶜ ] , S | [ eq† ] | [ eq‡ ] = cong [_] (cong ν_ (
+      trans (sym (,-inj₂ eq†))
+            (trans (cong (target (E/E′ (⊖₁ 𝐸))) (sym (,-inj₂ eq)))
+                   (trans (gamma₁ 𝐸 P)
+                          (cong (braid̂ (γ₁ 𝐸)) (trans (cong (target (E′/E (⊖₁ 𝐸))) (,-inj₂ eq′)) (,-inj₂ eq‡)))))))
+   gamma₁ {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | [ τ ᶜ ] , R′ | [ τ ᶜ ] , R | [ eq ] | [ eq′ ]
       with step (E/E′ (⊖₁ 𝐸)) R′ | step (E′/E (⊖₁ 𝐸)) R | inspect (step (E/E′ (⊖₁ 𝐸))) R′ | inspect (step (E′/E (⊖₁ 𝐸))) R
    ... | ◻ , _ | ◻ , _ | [ eq† ] | [ eq‡ ] = cong [_] (cong ν_ (
       trans (sym (,-inj₂ eq†))
