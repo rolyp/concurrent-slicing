@@ -161,7 +161,6 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
             (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ →
             coerceCxt 𝑎 (target (E/E′ (⊖₁ 𝐸)) (target E′ P′)) ≡ braiding 𝑎 (γ₁ 𝐸) (target (E′/E (⊖₁ 𝐸)) (target E P′))
-{-
    gamma₁ {𝑎 = ˣ∇ˣ {x = x} {u}} 𝐸 ◻ =
       ≅-to-≡ (≅-trans (◻-cong (sym (trans (γ₁ 𝐸) (≅-to-≡ (Proc↲ refl _))))) (≅-sym (reduce-ˣ∇ˣ {x = x} {u} (γ₁ 𝐸) _)))
    gamma₁ {𝑎 = ᵇ∇ᵇ} 𝐸 ◻ =
@@ -181,10 +180,10 @@ module Transition.Concur.Cofinal.Lattice where
           open ≅-Reasoning in ≅-to-≡ (
       begin
          [ π₂ (step ((ᴿ.push *ᵇ) E) ((push *̃) P)) │ (push *̃) (π₂ (step F Q)) ]
-      ≅⟨ [-│-]-cong (swap∘push (target E)) S† (swap∘suc-push (target F)) S‡ ⟩
+      ≅⟨ [-│-]-cong (swap∘push (ᵀ.target E)) S† (swap∘suc-push (ᵀ.target F)) S‡ ⟩
          [ (swap *̃) ((push *̃) (π₂ (step E P))) │ (swap *̃) (π₂ (step ((ᴿ.push *ᵇ) F) ((push *̃) Q))) ]
-      ≅⟨ ≅-sym (reduce-ᵇ∇ᵇ (sym (cong₂ _│_ (swap∘push (target E)) (swap∘suc-push (target F)))) _) ⟩
-         braiding (ᵇ∇ᵇ {a = a} {a′}) {0} (sym (cong₂ _│_ (swap∘push (target E)) (swap∘suc-push (target F))))
+      ≅⟨ ≅-sym (reduce-ᵇ∇ᵇ (sym (cong₂ _│_ (swap∘push (ᵀ.target E)) (swap∘suc-push (ᵀ.target F)))) _) ⟩
+         braiding (ᵇ∇ᵇ {a = a} {a′}) {0} (sym (cong₂ _│_ (swap∘push (ᵀ.target E)) (swap∘suc-push (ᵀ.target F))))
                                         [ (push *̃) (π₂ (step E P)) │ π₂ (step ((ᴿ.push *ᵇ) F) ((push *̃) Q)) ]
       ∎)
    gamma₁ (E ᵇ│ᶜ F) [ P │ Q ] = cong (λ Q′ → [ _ │ Q′ ]) (renᶜ-step-comm F push Q)
@@ -313,7 +312,6 @@ module Transition.Concur.Cofinal.Lattice where
          braiding ᶜ∇ᶜ (cong₂ _│_ (γ₁ 𝐸) refl) [ S‡ │  Q ]
       ∎)
    gamma₁ {E = E ᶜ│ Q₀} {E′ ᶜ│ ._} (𝐸 ᵛᵛ│ ._) [ P │ Q ] = cong (λ P → [ P │ Q ]) (gamma₁ 𝐸 P)
--}
    gamma₁ {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ]
       with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
    ... | ◻ , R′ | ◻ , R | [ eq ] | [ eq′ ]
