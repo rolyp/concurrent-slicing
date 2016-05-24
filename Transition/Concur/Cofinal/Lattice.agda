@@ -314,9 +314,18 @@ module Transition.Concur.Cofinal.Lattice where
       ∎)
    gamma₁ {E = E ᶜ│ Q₀} {E′ ᶜ│ ._} (𝐸 ᵛᵛ│ ._) [ P │ Q ] = cong (λ P → [ P │ Q ]) (gamma₁ 𝐸 P)
 -}
-   gamma₁ (_│•ᵇ_ {y = y} {a = a} 𝐸 F) [ P │ Q ] with (ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))
-   ... | _ = ? -- with (ᴿ.pop y *) ((ᴿ.push *) a)
---   ... | _ = ?
+   gamma₁ {E = E ᵇ│ Q₀} {E′ = E′ │• .F} (_│•ᵇ_ {y = y} {a = a} 𝐸 F) [ P │ Q ] with (ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))
+   ... | _ rewrite pop∘push y a with step E′ P | step F Q
+   ... | ◻ , proj₂ | ◻ , proj₄
+      with step (E′/E (⊖₁ 𝐸)) (π₂ (step E P)) | step ((ᴿ.push *ᶜ) F) ((push *̃) Q)
+   ... | ◻ , _ | ◻ , _ = {!!}
+   ... | ◻ , _ | [ x₁ ᶜ ] , _ = {!!}
+   ... | [ (◻ •) ᵇ ] , _ | ◻ , _ = {!!}
+   ... | [ ([ ._ ] •) ᵇ ] , _ | ◻ , _ = {!!}
+   ... | [ (x₁ •) ᵇ ] , _ | [ x₂ ] , _ = ?
+   gamma₁ {E = E ᵇ│ Q₀} {E′ = E′ │• .F} (_│•ᵇ_ {y = y} {a = a} 𝐸 F) [ P │ Q ] | _ | ◻ , proj₂ | [ x₁ ] , proj₄ = {!!}
+   gamma₁ {E = E ᵇ│ Q₀} {E′ = E′ │• .F} (_│•ᵇ_ {y = y} {a = a} 𝐸 F) [ P │ Q ] | _ | [ x₁ ] , proj₂ | ◻ , proj₄ = {!!}
+   gamma₁ {E = E ᵇ│ Q₀} {E′ = E′ │• .F} (_│•ᵇ_ {y = y} {a = a} 𝐸 F) [ P │ Q ] | _ | [ x₁ ] , proj₂ | [ x₂ ] , proj₄ = {!!}
 {-
    gamma₁ {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ]
       with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
