@@ -156,11 +156,19 @@ module Transition.Concur.Cofinal.Lattice where
                    P₀ ≡ P₁ → P ≅ P′ → Q₀ ≡ Q₁ → Q ≅ Q′ →
                    _≅_ {A = ↓_ {A = Proc Γ} _} [ P │ Q ] {↓_ {A = Proc Γ} _} [ P′ │ Q′ ]
       [-│-]-cong refl ≅-refl refl ≅-refl = ≅-refl
-
+{-
    quib : ∀ {Γ} {P R R′ : Proc (Γ + 1)} {E : P —[ τ ᶜ - _ ]→ R} {E′ : P —[ τ ᶜ - _ ]→ R′} (𝐸 : E ⌣₁[ ᵛ∇ᵛ ] E′) →
-          (P† : ↓ P) (S† : ↓ S (⊖₁ 𝐸)) (S‡ : ↓ S′ (⊖₁ 𝐸)) → S‡ ≡ braid̂ (γ₁ 𝐸) S†
-   quib = {!!}
-
+          (P† : ↓ P) (step (E/E′ (⊖₁ 𝐸)) R′ ≡ ) (S† : ↓ S (⊖₁ 𝐸)) (S‡ : ↓ S′ (⊖₁ 𝐸)) → S‡ ≡ braid̂ (γ₁ 𝐸) S†
+   quib 𝐸 P S† S‡ =
+      let open EqReasoning (setoid _) in
+      begin
+         S‡
+      ≡⟨ sym (,-inj₂ eq†) ⟩
+         target (E/E′ (⊖₁ 𝐸)) R′
+      ≡⟨ {!!} ⟩
+         braid̂ (γ₁ 𝐸) S†
+      ∎
+-}
    -- Not sure of the naming convention to use here. This is essentially γ₁ lifted to the lattice setting.
    gamma₁ : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
             (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ →
@@ -323,22 +331,12 @@ module Transition.Concur.Cofinal.Lattice where
    ... | ◻ , R′ | ◻ , R | [ eq ] | [ eq′ ]
       with step (E/E′ (⊖₁ 𝐸)) R′ | step (E′/E (⊖₁ 𝐸)) R | inspect (step (E/E′ (⊖₁ 𝐸))) R′ | inspect (step (E′/E (⊖₁ 𝐸))) R
    ... | ◻ , S′ | ◻ , S | [ eq† ] | [ eq‡ ] = cong [_] (cong ν_ (
-      let open EqReasoning (setoid _) in
-      begin
-         S′
-      ≡⟨ sym (,-inj₂ eq†) ⟩
-         target (E/E′ (⊖₁ 𝐸)) R′
-      ≡⟨ cong (target (E/E′ (⊖₁ 𝐸))) (sym (,-inj₂ eq)) ⟩
-         target (E/E′ (⊖₁ 𝐸)) (target E′ P)
-      ≡⟨ gamma₁ 𝐸 P ⟩
-         braid̂ (γ₁ 𝐸) (target (E′/E (⊖₁ 𝐸)) (target E P))
-      ≡⟨ cong (braid̂ (γ₁ 𝐸) ∘ᶠ target (E′/E (⊖₁ 𝐸))) (,-inj₂ eq′) ⟩
-         braid̂ (γ₁ 𝐸) (target (E′/E (⊖₁ 𝐸)) R)
-      ≡⟨ cong (braid̂ (γ₁ 𝐸)) (,-inj₂ eq‡) ⟩
-         braid̂ (γ₁ 𝐸) S
-      ∎))
-   ... | ◻ , S′ | [ τ ᶜ ] , S | [ eq† ] | [ eq‡ ] = cong [_] (cong ν_ (quib 𝐸 P S S′))
-   ... | [ τ ᶜ ] , S′ | ◻ , S | [ eq† ] | [ eq‡ ] = {!!}
+      trans (sym (,-inj₂ eq†))
+            (trans (cong (target (E/E′ (⊖₁ 𝐸))) (sym (,-inj₂ eq)))
+                   (trans (gamma₁ 𝐸 P)
+                          (cong (braid̂ (γ₁ 𝐸)) (trans (cong (target (E′/E (⊖₁ 𝐸))) (,-inj₂ eq′)) (,-inj₂ eq‡)))))))
+   ... | ◻ , S′ | [ τ ᶜ ] , S | [ eq† ] | [ eq‡ ] = {!!} -- cong [_] (cong ν_ (quib 𝐸 P S S′))
+   ... | [ τ ᶜ ] , S′ | ◻ , S | [ eq† ] | [ eq‡ ] = {!!} -- cong [_] (cong ν_ (quib 𝐸 P S S′))
    ... | [ τ ᶜ ] , S′ | [ τ ᶜ ] , S | [ eq† ] | [ eq‡ ] = {!!}
    gamma₁ {𝑎 = ᵛ∇ᵛ} {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | ◻ , _ | [ τ ᶜ ] , R | [ eq ] | [ eq′ ]
       with step (E′/E (⊖₁ 𝐸)) R
