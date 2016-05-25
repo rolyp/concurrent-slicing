@@ -328,8 +328,6 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ {E = E ᶜ│ Q₀} {E′ ᶜ│ ._} (𝐸 ᵛᵛ│ ._) [ P │ Q ] = cong (λ P → [ P │ Q ]) (gamma₁ 𝐸 P)
 -}
    gamma₁ {Γ} {E = E ᵇ│ Q₀} {E′ = E′ │• .F} (_│•ᵇ_ {x = x} {y} {a = a} 𝐸 F) [ P │ Q ]
-      with (ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))
-   ... | pop-y*E/E′ rewrite pop∘push y a
       with step E′ P | step F Q | inspect (step E′) P | inspect (step F) Q
    ... | ◻ , R | _ , R′ | [ eq ] | [ eq′ ]
       with step (E′/E (⊖₁ 𝐸)) (target E P) | step ((ᴿ.push *ᶜ) F) ((push *̃) Q) |
@@ -338,16 +336,21 @@ module Transition.Concur.Cofinal.Lattice where
       let
           S₁ = target (E′/E (⊖₁ 𝐸)) (target E P)
           S₂ = target (E/E′ (⊖₁ 𝐸)) (target E′ P)
+          pop-y*E/E′ = (ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))
           IH : S₂ ≅ (swap *̃) S′₁
           IH = ≅-trans (≡-to-≅ (gamma₁ 𝐸 P)) (≅-trans (reduce-ᵇ∇ᵇ (γ₁ 𝐸) S₁) (≡-to-≅ (cong (swap *̃) (,-inj₂ eq†))))
-          gib : target pop-y*E/E′ ((pop ◻ *̃) R) ≅ (pop {x₀ = (ᴿ.push *) y} ◻ *̃) S′₁
+          gib : target (subst (λ a′ → (ᴿ.pop y *) (ᵀ.target E′) —[ a′ ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸)))
+                              (pop∘push y a) pop-y*E/E′) ((pop ◻ *̃) R) ≅ (pop {x₀ = ᴺ.suc y} ◻ *̃) S′₁
           gib = let open ≅-Reasoning in
              begin
+                target (subst (λ a′ → (ᴿ.pop y *) (ᵀ.target E′) —[ a′ ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸)))
+                              (pop∘push y a) pop-y*E/E′) ((pop ◻ *̃) R)
+             ≅⟨ ≅-cong✴ (λ a′ → (ᴿ.pop y *) (ᵀ.target E′) —[ a′ ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))) (sym (pop∘push y a)) (λ E† → target E† ((pop ◻ *̃) R))
+                        (≡-subst-removable (λ a′ → (ᴿ.pop y *) (ᵀ.target E′) —[ a′ ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸)))
+                                           (pop∘push y a) pop-y*E/E′) ⟩
                 target pop-y*E/E′ ((pop ◻ *̃) R)
-             ≡⟨ {!!} ⟩
-                target ((ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))) ((pop ◻ *̃) R)
-             ≡⟨ cong (target ((ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))) ∘ᶠ (pop ◻ *̃)) (sym (,-inj₂ eq)) ⟩
-                target ((ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))) ((pop ◻ *̃) (target E′ P))
+             ≡⟨ cong (target (pop-y*E/E′) ∘ᶠ (pop ◻ *̃)) (sym (,-inj₂ eq)) ⟩
+                target pop-y*E/E′ ((pop ◻ *̃) (target E′ P))
              ≡⟨ sym (renᵇ-target-comm (E/E′ (⊖₁ 𝐸)) (pop ◻) (target E′ P)) ⟩
                 (suc (pop {x₀ = y} ◻) *̃) S₂
              ≅⟨ pop∘swap̃ ◻ S₂ ⟩
@@ -362,7 +365,8 @@ module Transition.Concur.Cofinal.Lattice where
              ) refl
           open ≅-Reasoning in ≅-to-≡ (
       begin
-         [ target pop-y*E/E′ ((pop ◻ *̃) R) │ (push *̃) R′ ]
+         [ target (subst (λ a′ → (ᴿ.pop y *) (ᵀ.target E′) —[ a′ ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸)))
+                         (pop∘push y a) pop-y*E/E′) ((pop ◻ *̃) R) │ (push *̃) R′ ]
       ≅⟨ [-│-]-cong (sym (trans (cong (ᴿ.pop (ᴿ.push y) *) (swap-swap (γ₁ 𝐸))) (sym (pop∘swap y _)))) gib
                     refl (≡-to-≅ (trans (cong (push *̃) (sym (,-inj₂ eq′)))
                                         (trans (renᶜ-target-comm F push Q) (,-inj₂ eq‡)))) ⟩
@@ -375,7 +379,7 @@ module Transition.Concur.Cofinal.Lattice where
    ... | [ (◻ •) ᵇ ] , _ | _ , _ | [ eq† ] | [ eq‡ ]  = {!!}
    ... | [ ([ ._ ] •) ᵇ ] , _ | [ • ◻ 〈 _ 〉 ᶜ ] , _ | [ eq† ] | [ eq‡ ]  = {!!}
    ... | [ ([ ._ ] •) ᵇ ] , _ | [ • [ ._ ] 〈 _ 〉 ᶜ ] , _ | [ eq† ] | [ eq‡ ]  = {!!}
-   gamma₁ {E = E ᵇ│ Q₀} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] | _ | [ (◻ •) ᵇ ] , _ | _ , _ | [ eq ] | [ eq′ ] = {!!}
+   gamma₁ {E = E ᵇ│ Q₀} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] | [ (◻ •) ᵇ ] , _ | _ , _ | [ eq ] | [ eq′ ] = {!!}
 {-
       with step (E′/E (⊖₁ 𝐸)) (target E P) | step ((ᴿ.push *ᶜ) F) ((push *̃) Q)
    ... | ◻ , _ | _ , _ = {!!}
@@ -385,7 +389,7 @@ module Transition.Concur.Cofinal.Lattice where
    ... | [ ([ ._ ] •) ᵇ ] , _ | [ • ◻ 〈 _ 〉 ᶜ ] , _ = {!!}
    ... | [ ([ ._ ] •) ᵇ ] , _ | [ • [ ._ ] 〈 _ 〉 ᶜ ] , _ = {!!}
 -}
-   gamma₁ {E = E ᵇ│ Q₀} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] | _ | [ ([ x ] •) ᵇ ] , _ | ◻ , _ | [ eq ] | [ eq′ ] = {!!}
+   gamma₁ {E = E ᵇ│ Q₀} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] | [ ([ x ] •) ᵇ ] , _ | ◻ , _ | [ eq ] | [ eq′ ] = {!!}
 {-
       with step (E′/E (⊖₁ 𝐸)) (target E P) | step ((ᴿ.push *ᶜ) F) ((push *̃) Q)
    ... | ◻ , _ | _ , _ = {!!}
@@ -395,7 +399,7 @@ module Transition.Concur.Cofinal.Lattice where
    ... | [ ([ ._ ] •) ᵇ ] , _ | [ • ◻ 〈 _ 〉 ᶜ ] , _ = {!!}
    ... | [ ([ ._ ] •) ᵇ ] , _ | [ • [ ._ ] 〈 _ 〉 ᶜ ] , _ = {!!}
 -}
-   gamma₁ {E = E ᵇ│ Q₀} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] | _ | [ ([ x ] •) ᵇ ] , _ | [ • ◻ 〈 _ 〉 ᶜ ] , _ | [ eq ] | [ eq′ ] = {!!}
+   gamma₁ {E = E ᵇ│ Q₀} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] | [ ([ x ] •) ᵇ ] , _ | [ • ◻ 〈 _ 〉 ᶜ ] , _ | [ eq ] | [ eq′ ] = {!!}
 {-
       with step (E′/E (⊖₁ 𝐸)) (target E P) | step ((ᴿ.push *ᶜ) F) ((push *̃) Q)
    ... | ◻ , _ | _ , _ = {!!}
@@ -405,7 +409,7 @@ module Transition.Concur.Cofinal.Lattice where
    ... | [ ([ ._ ] •) ᵇ ] , _ | [ • ◻ 〈 _ 〉 ᶜ ] , _ = {!!}
    ... | [ ([ ._ ] •) ᵇ ] , _ | [ • [ ._ ] 〈 _ 〉 ᶜ ] , _ = {!!}
 -}
-   gamma₁ {E = E ᵇ│ Q₀} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] | _ | [ ([ x ] •) ᵇ ] , _ | [ • [ .x ] 〈 _ 〉 ᶜ ] , _ | [ eq ] | [ eq′ ] = {!!}
+   gamma₁ {E = E ᵇ│ Q₀} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] | [ ([ x ] •) ᵇ ] , _ | [ • [ .x ] 〈 _ 〉 ᶜ ] , _ | [ eq ] | [ eq′ ] = {!!}
 {-
       with step (E′/E (⊖₁ 𝐸)) (target E P) | step ((ᴿ.push *ᶜ) F) ((push *̃) Q)
    ... | ◻ , _ | _ , _ = {!!}
