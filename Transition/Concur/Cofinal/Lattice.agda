@@ -346,8 +346,10 @@ module Transition.Concur.Cofinal.Lattice where
              begin
                 target pop-y*E/E′ ((pop ◻ *̃) R)
              ≅⟨ {!!} ⟩
-                (target ((ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))) ((pop {x₀ = y} ◻ *̃) (target E′ P)))
-             ≡⟨ sym (renᵇ-target-comm (E/E′ (⊖₁ 𝐸)) (pop {x₀ = y} ◻) (target E′ P)) ⟩
+                target ((ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))) ((pop ◻ *̃) R)
+             ≡⟨ cong (target ((ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))) ∘ᶠ (pop ◻ *̃)) (sym (,-inj₂ eq)) ⟩
+                target ((ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))) ((pop ◻ *̃) (target E′ P))
+             ≡⟨ sym (renᵇ-target-comm (E/E′ (⊖₁ 𝐸)) (pop ◻) (target E′ P)) ⟩
                 (suc (pop {x₀ = y} ◻) *̃) S₂
              ≅⟨ pop∘swap̃ ◻ S₂ ⟩
                 (pop {x₀ = ᴺ.suc y} ◻ *̃) ((swap *̃) S₂)
