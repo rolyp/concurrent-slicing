@@ -17,7 +17,7 @@ module Transition.Concur.Cofinal.Lattice where
    import Proc.Ren
    open import Proc.Ren.Lattice using () renaming (_* to _*̃)
    open import Ren as ᴿ using (Ren); open ᴿ.Renameable ⦃...⦄
-   open import Ren.Lattice using (_ᴿ+_; swap; push; pop)
+   open import Ren.Lattice using (_ᴿ+_; swap; push; pop; suc)
    open import Ren.Lattice.Properties
    open import Ren.Properties
    open import Transition as ᵀ using (_—[_-_]→_); open ᵀ._—[_-_]→_
@@ -314,7 +314,7 @@ module Transition.Concur.Cofinal.Lattice where
       ∎)
    gamma₁ {E = E ᶜ│ Q₀} {E′ ᶜ│ ._} (𝐸 ᵛᵛ│ ._) [ P │ Q ] = cong (λ P → [ P │ Q ]) (gamma₁ 𝐸 P)
 -}
-   gamma₁ {E = E ᵇ│ Q₀} {E′ = E′ │• .F} (_│•ᵇ_ {y = y} {a = a} 𝐸 F) [ P │ Q ] with (ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))
+   gamma₁ {E = E ᵇ│ Q₀} {E′ = E′ │• .F} (_│•ᵇ_ {x = x} {y} {a = a} 𝐸 F) [ P │ Q ] with (ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))
    ... | pop-y*E/E′ rewrite pop∘push y a
       with step E′ P | step F Q | inspect (step E′) P | inspect (step F) Q
    ... | ◻ , R | _ , R′ | [ eq ] | [ eq′ ]
@@ -328,7 +328,29 @@ module Transition.Concur.Cofinal.Lattice where
           quib : (push *̃) R′ ≡ S‡
           quib = trans (cong (push *̃) (sym (,-inj₂ eq′))) (trans (renᶜ-target-comm F push Q) (,-inj₂ eq‡))
           gib : target pop-y*E/E′ ((pop ◻ *̃) R) ≅ (pop {x₀ = (ᴿ.push *) y} ◻ *̃) S†
-          gib = {!!}
+          gib = let open ≅-Reasoning in
+             begin
+                target pop-y*E/E′ ((pop ◻ *̃) R)
+             ≅⟨ {!!} ⟩
+                (target ((ᴿ.pop y *ᵇ) (E′/E (⊖₁ 𝐸))) ((pop {x₀ = y} ◻ *̃) (target E P)))
+             ≡⟨ sym (renᵇ-target-comm (E′/E (⊖₁ 𝐸)) (pop ◻) (target E P)) ⟩
+                (suc (pop {x₀ = y} ◻) *̃) (target (E′/E (⊖₁ 𝐸)) (target E P))
+             ≅⟨ {!!} ⟩
+                (pop {x₀ = ᴺ.suc y} ◻ *̃) (target (E′/E (⊖₁ 𝐸)) (target E P))
+             ≡⟨ cong (pop ◻ *̃) (,-inj₂ eq†) ⟩
+                (pop ◻ *̃) S†
+             ∎
+          IH : coerceCxt (ᵇ∇ᵇ {a = a} {x •}) (target (E/E′ (⊖₁ 𝐸)) (target E′ P)) ≅ ((swap ᴿ+ 0) *̃) S†
+          IH = let open ≅-Reasoning in
+             begin
+                coerceCxt (ᵇ∇ᵇ {a = a} {x •}) (target (E/E′ (⊖₁ 𝐸)) (target E′ P))
+             ≡⟨ gamma₁ 𝐸 P ⟩
+                braiding (ᵇ∇ᵇ {a = a} {x •}) {0} (γ₁ 𝐸) (target (E′/E (⊖₁ 𝐸)) (target E P))
+             ≅⟨ reduce-ᵇ∇ᵇ (γ₁ 𝐸) _ ⟩
+                ((swap ᴿ+ 0) *̃) (target (E′/E (⊖₁ 𝐸)) (target E P))
+             ≡⟨ cong ((swap ᴿ+ 0) *̃) (,-inj₂ eq†) ⟩
+                ((swap ᴿ+ 0) *̃) S†
+             ∎
           open ≅-Reasoning in ≅-to-≡ (
       begin
          [ target pop-y*E/E′ ((pop ◻ *̃) R) │ (push *̃) R′ ]
