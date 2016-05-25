@@ -350,6 +350,8 @@ module Transition.Concur.Cofinal.Lattice where
              ≡⟨ sym (renᵇ-target-comm (E′/E (⊖₁ 𝐸)) (pop ◻) (target E P)) ⟩
                 (suc (pop {x₀ = y} ◻) *̃) S₁
              ≅⟨ {!!} ⟩
+                (suc (pop {x₀ = y} ◻) *̃) S₂
+             ≅⟨ pop∘swap̃ {!◻!} S₂ ⟩
                 (pop {x₀ = ᴺ.suc y} ◻ *̃) ((swap *̃) S₂)
              ≅⟨ ≅-cong✴ ↓_ (sym (swap-swap (γ₁ 𝐸))) (pop {x₀ = ᴺ.suc y} ◻ *̃) (≅-sym (swap-swap̃ (≅-sym IH))) ⟩
                 (pop {x₀ = ᴺ.suc y} ◻ *̃) S′₁
