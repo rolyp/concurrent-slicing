@@ -314,7 +314,7 @@ module Transition.Concur.Cofinal.Lattice where
       ∎)
    gamma₁ {E = E ᶜ│ Q₀} {E′ ᶜ│ ._} (𝐸 ᵛᵛ│ ._) [ P │ Q ] = cong (λ P → [ P │ Q ]) (gamma₁ 𝐸 P)
 -}
-   gamma₁ {E = E ᵇ│ Q₀} {E′ = E′ │• .F} (_│•ᵇ_ {x = x} {y} {a = a} 𝐸 F) [ P │ Q ] with (ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))
+   gamma₁ {Γ} {E = E ᵇ│ Q₀} {E′ = E′ │• .F} (_│•ᵇ_ {x = x} {y} {a = a} 𝐸 F) [ P │ Q ] with (ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))
    ... | pop-y*E/E′ rewrite pop∘push y a
       with step E′ P | step F Q | inspect (step E′) P | inspect (step F) Q
    ... | ◻ , R | _ , R′ | [ eq ] | [ eq′ ]
@@ -324,10 +324,6 @@ module Transition.Concur.Cofinal.Lattice where
       let
           S₁ = target (E′/E (⊖₁ 𝐸)) (target E P)
           S₂ = target (E/E′ (⊖₁ 𝐸)) (target E′ P)
-          blah = cong₂ _│_ (
-            let open EqReasoning (setoid _) in
-            begin _ ≡⟨ cong (ᴿ.pop (ᴿ.push y) *) (swap-swap (γ₁ 𝐸)) ⟩ _ ≡⟨ sym (pop∘swap y (S′ (⊖₁ 𝐸))) ⟩ _ ∎
-            ) refl
           quib : (push *̃) R′ ≡ S′₂
           quib = trans (cong (push *̃) (sym (,-inj₂ eq′))) (trans (renᶜ-target-comm F push Q) (,-inj₂ eq‡))
           IH : S₂ ≅ (swap *̃) S′₁
@@ -356,15 +352,24 @@ module Transition.Concur.Cofinal.Lattice where
              ≅⟨ ≅-cong✴ ↓_ (sym (swap-swap (γ₁ 𝐸))) (pop {x₀ = ᴺ.suc y} ◻ *̃) (≅-sym (swap-swap̃ (≅-sym IH))) ⟩
                 (pop {x₀ = ᴺ.suc y} ◻ *̃) S′₁
              ∎
+          chip : ((ᴿ.pop (ᴺ.suc y)) *) (S (⊖₁ 𝐸)) ≡ ((ᴿ.pop (ᴺ.suc y)) *) ((ᴿ.swap *) (S′ (⊖₁ 𝐸)))
+          chip = cong (ᴿ.pop (ᴿ.push y) *) (swap-swap (γ₁ 𝐸))
           open ≅-Reasoning in ≅-to-≡ (
       begin
          [ target pop-y*E/E′ ((pop ◻ *̃) R) │ (push *̃) R′ ]
       ≅⟨ [-│-]-cong (sym (trans (cong (ᴿ.pop (ᴿ.push y) *) (swap-swap (γ₁ 𝐸))) (sym (pop∘swap y _)))) gib
                     refl (≡-to-≅ quib) ⟩
          [ (pop ◻ *̃) S′₁ │ S′₂ ]
-      ≅⟨ ≅-sym (reduce-ᵇ∇ᶜ blah _) ⟩
-         braiding ᵇ∇ᶜ {0} blah [ (pop ◻ *̃) S′₁ │ S′₂ ]
+      ≅⟨ ≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (trans {!!} (sym (pop∘swap y (S′ (⊖₁ 𝐸))))) refl) _) ⟩
+         braiding ᵇ∇ᶜ {0} (cong₂ _│_ (trans (cong (ᴿ.pop (ᴿ.push y) *) nip) (sym (pop∘swap y (S′ (⊖₁ 𝐸))))) refl) [ (pop ◻ *̃) S′₁ │ S′₂ ]
       ∎)
+{-
+swap-swap (γ₁ 𝐸) :
+S (⊖₁ 𝐸) ≡ (ᴿ.swap *) (Proc↱ refl (S′ (⊖₁ 𝐸)))
+
+goal:
+S (⊖₁ 𝐸) ≡ (ᴿ.swap *) (S′ (⊖₁ 𝐸))
+-}
    ... | [ (◻ •) ᵇ ] , _ | ◻ , _ | [ eq† ] | [ eq‡ ]  = {!!}
    ... | [ ([ ._ ] •) ᵇ ] , _ | ◻ , _ | [ eq† ] | [ eq‡ ]  = {!!}
    ... | [ (◻ •) ᵇ ] , _ | _ , _ | [ eq† ] | [ eq‡ ]  = {!!}
