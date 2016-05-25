@@ -157,8 +157,12 @@ module Transition.Concur.Cofinal.Lattice where
                    _≅_ {A = ↓_ {A = Proc Γ} _} [ P │ Q ] {↓_ {A = Proc Γ} _} [ P′ │ Q′ ]
       [-│-]-cong refl ≅-refl refl ≅-refl = ≅-refl
 
-   gamma₁-│•ᵇ : ∀ {R R′} (pop-y*E/E′ : _) → [ target (pop-y*E/E′ ((pop ◻ *̃) R)) │ (push *̃) R′ ] ≡
-                braiding ᵇ∇ᶜ ?
+{-
+   gamma₁-│•ᵇ : ∀ {P₀ R₀ R′₀} {E : P₀ —[ a ᵇ - _ ]→ R₀} {E′ : P₀ —[ (x •) ᵇ - _ ]→ R′₀} (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′)
+               (pop-y*E/E′ : (ᴿ.pop y *) R₀ —[ a ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))) →
+               [ target (pop-y*E/E′ ((pop ◻ *̃) R)) │ (push *̃) R′ ] ≡
+               braiding ᵇ∇ᶜ ?
+-}
 {-
       (cong₂ _│_
        (trans
@@ -190,7 +194,7 @@ module Transition.Concur.Cofinal.Lattice where
        refl)
       [ (pop ◻ *̃) S′₁ │ S′₂ ]
 -}
-   gamma₁-│•ᵇ = ?
+   gamma₁-│•ᵇ = {!!}
 
    -- Not sure of the naming convention to use here. This is essentially γ₁ lifted to the lattice setting.
    -- One should do anything to avoid inspect-on-steroids, but here I haven't be able to. Yuk.
