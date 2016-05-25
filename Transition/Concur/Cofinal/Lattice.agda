@@ -157,7 +157,43 @@ module Transition.Concur.Cofinal.Lattice where
                    _≅_ {A = ↓_ {A = Proc Γ} _} [ P │ Q ] {↓_ {A = Proc Γ} _} [ P′ │ Q′ ]
       [-│-]-cong refl ≅-refl refl ≅-refl = ≅-refl
 
+   gamma₁-│•ᵇ : ∀ {R R′} (pop-y*E/E′ : _) → [ target (pop-y*E/E′ ((pop ◻ *̃) R)) │ (push *̃) R′ ] ≡
+                braiding ᵇ∇ᶜ ?
+{-
+      (cong₂ _│_
+       (trans
+        (IsEquivalence.reflexive
+         (record { refl = λ {.x} → refl ; sym = sym ; trans = trans })
+         (cong (ᴿ.pop (ᴺ.suc y) .Proc.Ren._.*)
+          (trans
+           (IsEquivalence.reflexive
+            (record { refl = λ {.x} → refl ; sym = sym ; trans = trans })
+            (sym
+             (trans
+              (trans (.Proc.Ren._.*-preserves-∘ (S (⊖₁ 𝐸)))
+               (.Proc.Ren._.*-preserves-≃ₑ ᴿ.swap-involutive (S (⊖₁ 𝐸))))
+              (.Proc.Ren._.*-preserves-id (S (⊖₁ 𝐸))))))
+           (trans
+            (IsEquivalence.reflexive
+             (record { refl = λ {.x} → refl ; sym = sym ; trans = trans })
+             (cong (ᴿ.swap .Proc.Ren._.*) (γ₁ 𝐸)))
+            refl))))
+        (trans
+         (IsEquivalence.reflexive
+          (record { refl = λ {.x} → refl ; sym = sym ; trans = trans })
+          (sym
+           (sym
+            (trans (.Proc.Ren._.*-preserves-∘ (S′ (⊖₁ 𝐸)))
+             (.Proc.Ren._.*-preserves-≃ₑ (λ x₁ → sym (ᴿ.pop∘swap y x₁))
+              (S′ (⊖₁ 𝐸)))))))
+         refl))
+       refl)
+      [ (pop ◻ *̃) S′₁ │ S′₂ ]
+-}
+   gamma₁-│•ᵇ = ?
+
    -- Not sure of the naming convention to use here. This is essentially γ₁ lifted to the lattice setting.
+   -- One should do anything to avoid inspect-on-steroids, but here I haven't be able to. Yuk.
    gamma₁ : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
             (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ →
             coerceCxt 𝑎 (target (E/E′ (⊖₁ 𝐸)) (target E′ P′)) ≡ braiding 𝑎 (γ₁ 𝐸) (target (E′/E (⊖₁ 𝐸)) (target E P′))
@@ -314,29 +350,20 @@ module Transition.Concur.Cofinal.Lattice where
       ∎)
    gamma₁ {E = E ᶜ│ Q₀} {E′ ᶜ│ ._} (𝐸 ᵛᵛ│ ._) [ P │ Q ] = cong (λ P → [ P │ Q ]) (gamma₁ 𝐸 P)
 -}
-   gamma₁ {Γ} {E = E ᵇ│ Q₀} {E′ = E′ │• .F} (_│•ᵇ_ {x = x} {y} {a = a} 𝐸 F) [ P │ Q ] with (ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))
+   gamma₁ {Γ} {E = E ᵇ│ Q₀} {E′ = E′ │• .F} (_│•ᵇ_ {x = x} {y} {a = a} 𝐸 F) [ P │ Q ]
+      with (ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))
    ... | pop-y*E/E′ rewrite pop∘push y a
       with step E′ P | step F Q | inspect (step E′) P | inspect (step F) Q
    ... | ◻ , R | _ , R′ | [ eq ] | [ eq′ ]
       with step (E′/E (⊖₁ 𝐸)) (target E P) | step ((ᴿ.push *ᶜ) F) ((push *̃) Q) |
            inspect (step (E′/E (⊖₁ 𝐸))) (target E P) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
-   ... | ◻ , S′₁ | _ , S′₂ | [ eq† ] | [ eq‡ ] =
+   ... | ◻ , S′₁ | _ , S′₂ | [ eq† ] | [ eq‡ ] = {!!}
+{-
       let
           S₁ = target (E′/E (⊖₁ 𝐸)) (target E P)
           S₂ = target (E/E′ (⊖₁ 𝐸)) (target E′ P)
-          quib : (push *̃) R′ ≡ S′₂
-          quib = trans (cong (push *̃) (sym (,-inj₂ eq′))) (trans (renᶜ-target-comm F push Q) (,-inj₂ eq‡))
           IH : S₂ ≅ (swap *̃) S′₁
-          IH = let open ≅-Reasoning in
-             begin
-                S₂
-             ≡⟨ gamma₁ 𝐸 P ⟩
-                braiding (ᵇ∇ᵇ {a = a} {x •}) {0} (γ₁ 𝐸) S₁
-             ≅⟨ reduce-ᵇ∇ᵇ (γ₁ 𝐸) _ ⟩
-                (swap *̃) S₁
-             ≡⟨ cong (swap *̃) (,-inj₂ eq†) ⟩
-                (swap *̃) S′₁
-             ∎
+          IH = ≅-trans (≡-to-≅ (gamma₁ 𝐸 P)) (≅-trans (reduce-ᵇ∇ᵇ (γ₁ 𝐸) S₁) (≡-to-≅ (cong (swap *̃) (,-inj₂ eq†))))
           gib : target pop-y*E/E′ ((pop ◻ *̃) R) ≅ (pop {x₀ = (ᴿ.push *) y} ◻ *̃) S′₁
           gib = let open ≅-Reasoning in
              begin
@@ -352,23 +379,21 @@ module Transition.Concur.Cofinal.Lattice where
              ≅⟨ ≅-cong✴ ↓_ (sym (swap-swap (γ₁ 𝐸))) (pop {x₀ = ᴺ.suc y} ◻ *̃) (≅-sym (swap-swap̃ (≅-sym IH))) ⟩
                 (pop {x₀ = ᴺ.suc y} ◻ *̃) S′₁
              ∎
-          chip : ((ᴿ.pop (ᴺ.suc y)) *) (S (⊖₁ 𝐸)) ≡ ((ᴿ.pop (ᴺ.suc y)) *) ((ᴿ.swap *) (S′ (⊖₁ 𝐸)))
-          chip = cong (ᴿ.pop (ᴿ.push y) *) (swap-swap (γ₁ 𝐸))
+          -- If I try to drop the equational reasoning, things go haywire. Confused.
+          blah = cong₂ _│_ (
+             let open EqReasoning (setoid _) in
+             begin _ ≡⟨ cong (ᴿ.pop (ᴿ.push y) *) (swap-swap (γ₁ 𝐸)) ⟩ _ ≡⟨ sym (pop∘swap y (S′ (⊖₁ 𝐸))) ⟩ _ ∎
+             ) refl
           open ≅-Reasoning in ≅-to-≡ (
       begin
          [ target pop-y*E/E′ ((pop ◻ *̃) R) │ (push *̃) R′ ]
       ≅⟨ [-│-]-cong (sym (trans (cong (ᴿ.pop (ᴿ.push y) *) (swap-swap (γ₁ 𝐸))) (sym (pop∘swap y _)))) gib
-                    refl (≡-to-≅ quib) ⟩
+                    refl (≡-to-≅ (trans (cong (push *̃) (sym (,-inj₂ eq′)))
+                                        (trans (renᶜ-target-comm F push Q) (,-inj₂ eq‡)))) ⟩
          [ (pop ◻ *̃) S′₁ │ S′₂ ]
-      ≅⟨ ≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ (trans {!!} (sym (pop∘swap y (S′ (⊖₁ 𝐸))))) refl) _) ⟩
-         braiding ᵇ∇ᶜ {0} (cong₂ _│_ (trans (cong (ᴿ.pop (ᴿ.push y) *) nip) (sym (pop∘swap y (S′ (⊖₁ 𝐸))))) refl) [ (pop ◻ *̃) S′₁ │ S′₂ ]
+      ≅⟨ ≅-sym (reduce-ᵇ∇ᶜ blah _) ⟩
+         braiding ᵇ∇ᶜ {0} blah [ (pop ◻ *̃) S′₁ │ S′₂ ]
       ∎)
-{-
-swap-swap (γ₁ 𝐸) :
-S (⊖₁ 𝐸) ≡ (ᴿ.swap *) (Proc↱ refl (S′ (⊖₁ 𝐸)))
-
-goal:
-S (⊖₁ 𝐸) ≡ (ᴿ.swap *) (S′ (⊖₁ 𝐸))
 -}
    ... | [ (◻ •) ᵇ ] , _ | ◻ , _ | [ eq† ] | [ eq‡ ]  = {!!}
    ... | [ ([ ._ ] •) ᵇ ] , _ | ◻ , _ | [ eq† ] | [ eq‡ ]  = {!!}
