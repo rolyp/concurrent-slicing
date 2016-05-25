@@ -159,9 +159,13 @@ module Transition.Concur.Cofinal.Lattice where
 
    gamma₁-│•ᵇ : ∀ {Γ x y P₀ R₀ R′₀ S₀ Q₀} {a : Actionᵇ Γ} {E : P₀ —[ a ᵇ - _ ]→ R₀} {E′ : P₀ —[ (x •) ᵇ - _ ]→ R′₀}
                (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (F : Q₀ —[ • x 〈 y 〉 ᶜ - _ ]→ S₀)
-               (pop-y*E/E′ : (ᴿ.pop y *) R₀ —[ a ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))) (R : ↓ R₀) (R′ : ↓ S₀) →
-               [ target pop-y*E/E′ ((pop ◻ *̃) R) │ (push *̃) R′ ] ≡
-               braiding ᵇ∇ᶜ ? ?
+               (pop-y*E/E′ : (ᴿ.pop y *) R₀ —[ a ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))) (R : ↓ R₀) (S₁ : ↓ S₀)
+               (P′ : ↓ S (⊖₁ 𝐸)) (S₀′ : ↓ (ᴿ.push *) S₀) →
+               _≅_ {A = ↓_ {A = Proc (Γ + 1)} ((ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸)) │ (ᴿ.push *) S₀)}
+                   [ target pop-y*E/E′ ((pop ◻ *̃) R) │ (push *̃) S₁ ]
+                   (braiding (ᵇ∇ᶜ {a = a} {τ}) {0}
+                             (cong₂ _│_ (≅-to-≡ (≅-cong (ᴿ.pop (ᴿ.push y) *) (≡-to-≅ (swap-swap (γ₁ 𝐸))))) refl)
+                             [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ S₀′ ])
 {-
       (cong₂ _│_
        (trans
@@ -196,7 +200,8 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁-│•ᵇ = {!!}
 
    -- Not sure of the naming convention to use here. This is essentially γ₁ lifted to the lattice setting.
-   -- One should do anything to avoid inspect-on-steroids, but here I haven't be able to. Yuk.
+   -- One should do shirk inspect-on-steroids, but can't seem to avoid it here. Yuk.
+   -- TODO: swap the direction of the output.
    gamma₁ : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
             (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ →
             coerceCxt 𝑎 (target (E/E′ (⊖₁ 𝐸)) (target E′ P′)) ≡ braiding 𝑎 (γ₁ 𝐸) (target (E′/E (⊖₁ 𝐸)) (target E P′))
