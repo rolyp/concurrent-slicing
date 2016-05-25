@@ -345,7 +345,7 @@ module Transition.Concur.Cofinal.Lattice where
           gib = let open ≅-Reasoning in
              begin
                 target pop-y*E/E′ ((pop ◻ *̃) R)
-             ≅⟨ {!!} ⟩
+             ≡⟨ {!!} ⟩
                 target ((ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))) ((pop ◻ *̃) R)
              ≡⟨ cong (target ((ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))) ∘ᶠ (pop ◻ *̃)) (sym (,-inj₂ eq)) ⟩
                 target ((ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))) ((pop ◻ *̃) (target E′ P))
@@ -359,10 +359,11 @@ module Transition.Concur.Cofinal.Lattice where
           open ≅-Reasoning in ≅-to-≡ (
       begin
          [ target pop-y*E/E′ ((pop ◻ *̃) R) │ (push *̃) R′ ]
-      ≅⟨ [-│-]-cong {!!} gib refl (≡-to-≅ quib) ⟩
+      ≅⟨ [-│-]-cong (sym (trans (cong (ᴿ.pop (ᴿ.push y) *) (swap-swap (γ₁ 𝐸))) (sym (pop∘swap y _)))) gib
+                    refl (≡-to-≅ quib) ⟩
          [ (pop ◻ *̃) S′₁ │ S′₂ ]
-      ≅⟨ {!!} ⟩
-         braiding ᵇ∇ᶜ blah [ (pop ◻ *̃) S′₁ │ S′₂ ]
+      ≅⟨ ≅-sym (reduce-ᵇ∇ᶜ blah _) ⟩
+         braiding ᵇ∇ᶜ {0} blah [ (pop ◻ *̃) S′₁ │ S′₂ ]
       ∎)
    ... | [ (◻ •) ᵇ ] , _ | ◻ , _ | [ eq† ] | [ eq‡ ]  = {!!}
    ... | [ ([ ._ ] •) ᵇ ] , _ | ◻ , _ | [ eq† ] | [ eq‡ ]  = {!!}
