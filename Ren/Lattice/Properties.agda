@@ -53,4 +53,4 @@ module Ren.Lattice.Properties where
       swap∘push∘push̃ : ∀ {Γ} {P : Proc Γ} (P′ : ↓ P) → (ᴿ̃.swap *̃) ((ᴿ̃.push *̃) ((ᴿ̃.push *̃) P′)) ≅ (ᴿ̃.push *̃) ((ᴿ̃.push *̃) P′)
       swap∘suc-push̃ : ∀ {Γ} {P : Proc (Γ + 1)} (P′ : ↓ P) → (ᴿ̃.push *̃) P′ ≅ (ᴿ̃.swap *̃) ((ᴿ̃.suc ᴿ̃.push *̃) P′)
       swap∘push̃ : ∀ {Γ} {P : Proc (Γ + 1)} (P′ : ↓ P) → (ᴿ̃.suc ᴿ̃.push *̃) P′ ≅ (ᴿ̃.swap *̃) ((ᴿ̃.push *̃) P′)
-      swap-swap̃ : ∀ {Γ} {P P′ : Proc (Γ + 2)} (P† : ↓ P) (P‡ : ↓ P′) → (ᴿ̃.swap *̃) P† ≅ P‡ → P† ≅ (ᴿ̃.swap *̃) P‡
+      swap-swap̃ : ∀ {Γ} {P P′ : Proc (Γ + 2)} {P† : ↓ P} {P‡ : ↓ P′} → (ᴿ̃.swap *̃) P† ≅ P‡ → P† ≅ (ᴿ̃.swap *̃) P‡

@@ -330,19 +330,6 @@ module Transition.Concur.Cofinal.Lattice where
             ) refl
           quib : (push *̃) R′ ≡ S′₂
           quib = trans (cong (push *̃) (sym (,-inj₂ eq′))) (trans (renᶜ-target-comm F push Q) (,-inj₂ eq‡))
-          gib : target pop-y*E/E′ ((pop ◻ *̃) R) ≅ (pop {x₀ = (ᴿ.push *) y} ◻ *̃) S′₁
-          gib = let open ≅-Reasoning in
-             begin
-                target pop-y*E/E′ ((pop ◻ *̃) R)
-             ≅⟨ {!!} ⟩
-                (target ((ᴿ.pop y *ᵇ) (E′/E (⊖₁ 𝐸))) ((pop {x₀ = y} ◻ *̃) (target E P)))
-             ≡⟨ sym (renᵇ-target-comm (E′/E (⊖₁ 𝐸)) (pop ◻) (target E P)) ⟩
-                (suc (pop {x₀ = y} ◻) *̃) S₁
-             ≅⟨ {!!} ⟩
-                (pop {x₀ = ᴺ.suc y} ◻ *̃) ((swap *̃) S₂)
-             ≅⟨ ≅-cong✴ ↓_ {!!} (pop {x₀ = ᴺ.suc y} ◻ *̃) {!!} ⟩
-                (pop {x₀ = ᴺ.suc y} ◻ *̃) S′₁
-             ∎
           IH : S₂ ≅ (swap *̃) S′₁
           IH = let open ≅-Reasoning in
              begin
@@ -353,6 +340,19 @@ module Transition.Concur.Cofinal.Lattice where
                 (swap *̃) S₁
              ≡⟨ cong (swap *̃) (,-inj₂ eq†) ⟩
                 (swap *̃) S′₁
+             ∎
+          gib : target pop-y*E/E′ ((pop ◻ *̃) R) ≅ (pop {x₀ = (ᴿ.push *) y} ◻ *̃) S′₁
+          gib = let open ≅-Reasoning in
+             begin
+                target pop-y*E/E′ ((pop ◻ *̃) R)
+             ≅⟨ {!!} ⟩
+                (target ((ᴿ.pop y *ᵇ) (E′/E (⊖₁ 𝐸))) ((pop {x₀ = y} ◻ *̃) (target E P)))
+             ≡⟨ sym (renᵇ-target-comm (E′/E (⊖₁ 𝐸)) (pop ◻) (target E P)) ⟩
+                (suc (pop {x₀ = y} ◻) *̃) S₁
+             ≅⟨ {!!} ⟩
+                (pop {x₀ = ᴺ.suc y} ◻ *̃) ((swap *̃) S₂)
+             ≅⟨ ≅-cong✴ ↓_ {!!} (pop {x₀ = ᴺ.suc y} ◻ *̃) (≅-sym (swap-swap̃ (≅-sym IH))) ⟩
+                (pop {x₀ = ᴺ.suc y} ◻ *̃) S′₁
              ∎
           open ≅-Reasoning in ≅-to-≡ (
       begin
