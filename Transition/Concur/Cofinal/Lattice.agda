@@ -320,44 +320,47 @@ module Transition.Concur.Cofinal.Lattice where
    ... | ◻ , R | _ , R′ | [ eq ] | [ eq′ ]
       with step (E′/E (⊖₁ 𝐸)) (target E P) | step ((ᴿ.push *ᶜ) F) ((push *̃) Q) |
            inspect (step (E′/E (⊖₁ 𝐸))) (target E P) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
-   ... | ◻ , S† | _ , S‡ | [ eq† ] | [ eq‡ ] =
-      let blah = cong₂ _│_ (
-            let open EqReasoning (setoid _); S = S (⊖₁ 𝐸); S′ = S′ (⊖₁ 𝐸) in
-            begin _ ≡⟨ cong (ᴿ.pop (ᴿ.push y) *) (swap-swap (γ₁ 𝐸)) ⟩ _ ≡⟨ sym (pop∘swap y S′) ⟩ _ ∎
+   ... | ◻ , S′₁ | _ , S′₂ | [ eq† ] | [ eq‡ ] =
+      let
+          S₁ = target (E′/E (⊖₁ 𝐸)) (target E P)
+          S₂ = target (E/E′ (⊖₁ 𝐸)) (target E′ P)
+          blah = cong₂ _│_ (
+            let open EqReasoning (setoid _) in
+            begin _ ≡⟨ cong (ᴿ.pop (ᴿ.push y) *) (swap-swap (γ₁ 𝐸)) ⟩ _ ≡⟨ sym (pop∘swap y (S′ (⊖₁ 𝐸))) ⟩ _ ∎
             ) refl
-          quib : (push *̃) R′ ≡ S‡
+          quib : (push *̃) R′ ≡ S′₂
           quib = trans (cong (push *̃) (sym (,-inj₂ eq′))) (trans (renᶜ-target-comm F push Q) (,-inj₂ eq‡))
-          gib : target pop-y*E/E′ ((pop ◻ *̃) R) ≅ (pop {x₀ = (ᴿ.push *) y} ◻ *̃) S†
+          gib : target pop-y*E/E′ ((pop ◻ *̃) R) ≅ (pop {x₀ = (ᴿ.push *) y} ◻ *̃) S′₁
           gib = let open ≅-Reasoning in
              begin
                 target pop-y*E/E′ ((pop ◻ *̃) R)
              ≅⟨ {!!} ⟩
                 (target ((ᴿ.pop y *ᵇ) (E′/E (⊖₁ 𝐸))) ((pop {x₀ = y} ◻ *̃) (target E P)))
              ≡⟨ sym (renᵇ-target-comm (E′/E (⊖₁ 𝐸)) (pop ◻) (target E P)) ⟩
-                (suc (pop {x₀ = y} ◻) *̃) (target (E′/E (⊖₁ 𝐸)) (target E P))
+                (suc (pop {x₀ = y} ◻) *̃) S₁
              ≅⟨ {!!} ⟩
-                (pop {x₀ = ᴺ.suc y} ◻ *̃) (target (E′/E (⊖₁ 𝐸)) (target E P))
-             ≡⟨ cong (pop ◻ *̃) (,-inj₂ eq†) ⟩
-                (pop ◻ *̃) S†
+                (pop {x₀ = ᴺ.suc y} ◻ *̃) ((swap *̃) S₂)
+             ≅⟨ ≅-cong✴ ↓_ {!!} (pop {x₀ = ᴺ.suc y} ◻ *̃) {!!} ⟩
+                (pop {x₀ = ᴺ.suc y} ◻ *̃) S′₁
              ∎
-          IH : coerceCxt (ᵇ∇ᵇ {a = a} {x •}) (target (E/E′ (⊖₁ 𝐸)) (target E′ P)) ≅ ((swap ᴿ+ 0) *̃) S†
+          IH : S₂ ≅ (swap *̃) S′₁
           IH = let open ≅-Reasoning in
              begin
-                coerceCxt (ᵇ∇ᵇ {a = a} {x •}) (target (E/E′ (⊖₁ 𝐸)) (target E′ P))
+                S₂
              ≡⟨ gamma₁ 𝐸 P ⟩
-                braiding (ᵇ∇ᵇ {a = a} {x •}) {0} (γ₁ 𝐸) (target (E′/E (⊖₁ 𝐸)) (target E P))
+                braiding (ᵇ∇ᵇ {a = a} {x •}) {0} (γ₁ 𝐸) S₁
              ≅⟨ reduce-ᵇ∇ᵇ (γ₁ 𝐸) _ ⟩
-                ((swap ᴿ+ 0) *̃) (target (E′/E (⊖₁ 𝐸)) (target E P))
-             ≡⟨ cong ((swap ᴿ+ 0) *̃) (,-inj₂ eq†) ⟩
-                ((swap ᴿ+ 0) *̃) S†
+                (swap *̃) S₁
+             ≡⟨ cong (swap *̃) (,-inj₂ eq†) ⟩
+                (swap *̃) S′₁
              ∎
           open ≅-Reasoning in ≅-to-≡ (
       begin
          [ target pop-y*E/E′ ((pop ◻ *̃) R) │ (push *̃) R′ ]
       ≅⟨ [-│-]-cong {!!} gib refl (≡-to-≅ quib) ⟩
-         [ (pop ◻ *̃) S† │ S‡ ]
+         [ (pop ◻ *̃) S′₁ │ S′₂ ]
       ≅⟨ {!!} ⟩
-         braiding ᵇ∇ᶜ blah [ (pop ◻ *̃) S† │ S‡ ]
+         braiding ᵇ∇ᶜ blah [ (pop ◻ *̃) S′₁ │ S′₂ ]
       ∎)
    ... | [ (◻ •) ᵇ ] , _ | ◻ , _ | [ eq† ] | [ eq‡ ]  = {!!}
    ... | [ ([ ._ ] •) ᵇ ] , _ | ◻ , _ | [ eq† ] | [ eq‡ ]  = {!!}
