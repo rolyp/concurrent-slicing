@@ -166,38 +166,7 @@ module Transition.Concur.Cofinal.Lattice where
                    (braiding (ᵇ∇ᶜ {a = a} {τ}) {0}
                              (cong₂ _│_ (≅-to-≡ (≅-cong (ᴿ.pop (ᴿ.push y) *) (≡-to-≅ (swap-swap (γ₁ 𝐸))))) refl)
                              [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ S₀′ ])
-{-
-      (cong₂ _│_
-       (trans
-        (IsEquivalence.reflexive
-         (record { refl = λ {.x} → refl ; sym = sym ; trans = trans })
-         (cong (ᴿ.pop (ᴺ.suc y) .Proc.Ren._.*)
-          (trans
-           (IsEquivalence.reflexive
-            (record { refl = λ {.x} → refl ; sym = sym ; trans = trans })
-            (sym
-             (trans
-              (trans (.Proc.Ren._.*-preserves-∘ (S (⊖₁ 𝐸)))
-               (.Proc.Ren._.*-preserves-≃ₑ ᴿ.swap-involutive (S (⊖₁ 𝐸))))
-              (.Proc.Ren._.*-preserves-id (S (⊖₁ 𝐸))))))
-           (trans
-            (IsEquivalence.reflexive
-             (record { refl = λ {.x} → refl ; sym = sym ; trans = trans })
-             (cong (ᴿ.swap .Proc.Ren._.*) (γ₁ 𝐸)))
-            refl))))
-        (trans
-         (IsEquivalence.reflexive
-          (record { refl = λ {.x} → refl ; sym = sym ; trans = trans })
-          (sym
-           (sym
-            (trans (.Proc.Ren._.*-preserves-∘ (S′ (⊖₁ 𝐸)))
-             (.Proc.Ren._.*-preserves-≃ₑ (λ x₁ → sym (ᴿ.pop∘swap y x₁))
-              (S′ (⊖₁ 𝐸)))))))
-         refl))
-       refl)
-      [ (pop ◻ *̃) S′₁ │ S′₂ ]
--}
-   gamma₁-│•ᵇ = {!!}
+   gamma₁-│•ᵇ 𝐸 F R S₁ P S₀′ = {!!}
 
    -- Not sure of the naming convention to use here. This is essentially γ₁ lifted to the lattice setting.
    -- One should do shirk inspect-on-steroids, but can't seem to avoid it here. Yuk.
@@ -365,7 +334,7 @@ module Transition.Concur.Cofinal.Lattice where
    ... | ◻ , R | _ , R′ | [ eq ] | [ eq′ ]
       with step (E′/E (⊖₁ 𝐸)) (target E P) | step ((ᴿ.push *ᶜ) F) ((push *̃) Q) |
            inspect (step (E′/E (⊖₁ 𝐸))) (target E P) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
-   ... | ◻ , S′₁ | _ , S′₂ | [ eq† ] | [ eq‡ ] = {!!}
+   ... | ◻ , S′₁ | _ , S′₂ | [ eq† ] | [ eq‡ ] = ≅-to-≡ {!gamma₁-│•ᵇ ? ? ? ? ? ? ? !}
 {-
       let
           S₁ = target (E′/E (⊖₁ 𝐸)) (target E P)
