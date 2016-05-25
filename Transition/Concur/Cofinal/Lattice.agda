@@ -351,7 +351,7 @@ module Transition.Concur.Cofinal.Lattice where
                 (suc (pop {x₀ = y} ◻) *̃) S₁
              ≅⟨ {!!} ⟩
                 (pop {x₀ = ᴺ.suc y} ◻ *̃) ((swap *̃) S₂)
-             ≅⟨ ≅-cong✴ ↓_ {!!} (pop {x₀ = ᴺ.suc y} ◻ *̃) (≅-sym (swap-swap̃ (≅-sym IH))) ⟩
+             ≅⟨ ≅-cong✴ ↓_ (sym (swap-swap (γ₁ 𝐸))) (pop {x₀ = ᴺ.suc y} ◻ *̃) (≅-sym (swap-swap̃ (≅-sym IH))) ⟩
                 (pop {x₀ = ᴺ.suc y} ◻ *̃) S′₁
              ∎
           open ≅-Reasoning in ≅-to-≡ (
