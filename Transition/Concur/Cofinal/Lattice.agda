@@ -170,7 +170,7 @@ module Transition.Concur.Cofinal.Lattice where
 
    -- Not sure of the naming convention to use here. This is essentially γ₁ lifted to the lattice setting.
    -- One should do shirk inspect-on-steroids, but can't seem to avoid it here. Yuk.
-   -- TODO: swap the direction of the output.
+   -- TODO: swap the direction of the equivalence, for consistency with γ₁.
    gamma₁ : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
             (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ →
             coerceCxt 𝑎 (target (E/E′ (⊖₁ 𝐸)) (target E′ P′)) ≡ braiding 𝑎 (γ₁ 𝐸) (target (E′/E (⊖₁ 𝐸)) (target E P′))
@@ -334,8 +334,7 @@ module Transition.Concur.Cofinal.Lattice where
    ... | ◻ , R | _ , R′ | [ eq ] | [ eq′ ]
       with step (E′/E (⊖₁ 𝐸)) (target E P) | step ((ᴿ.push *ᶜ) F) ((push *̃) Q) |
            inspect (step (E′/E (⊖₁ 𝐸))) (target E P) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
-   ... | ◻ , S′₁ | _ , S′₂ | [ eq† ] | [ eq‡ ] = ≅-to-≡ {!gamma₁-│•ᵇ ? ? ? ? ? ? ? !}
-{-
+   ... | ◻ , S′₁ | _ , S′₂ | [ eq† ] | [ eq‡ ] =
       let
           S₁ = target (E′/E (⊖₁ 𝐸)) (target E P)
           S₂ = target (E/E′ (⊖₁ 𝐸)) (target E′ P)
@@ -371,7 +370,6 @@ module Transition.Concur.Cofinal.Lattice where
       ≅⟨ ≅-sym (reduce-ᵇ∇ᶜ blah _) ⟩
          braiding ᵇ∇ᶜ {0} blah [ (pop ◻ *̃) S′₁ │ S′₂ ]
       ∎)
--}
    ... | [ (◻ •) ᵇ ] , _ | ◻ , _ | [ eq† ] | [ eq‡ ]  = {!!}
    ... | [ ([ ._ ] •) ᵇ ] , _ | ◻ , _ | [ eq† ] | [ eq‡ ]  = {!!}
    ... | [ (◻ •) ᵇ ] , _ | _ , _ | [ eq† ] | [ eq‡ ]  = {!!}
