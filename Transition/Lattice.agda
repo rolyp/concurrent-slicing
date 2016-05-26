@@ -28,26 +28,6 @@ module Transition.Lattice where
       ᴬᴾ-prefixes : ∀ {Γ} → Lattice.Prefixes (Σ[ a ∈ Action Γ ] Proc (ᴬ.target a))
       ᴬᴾ-prefixes = ×-prefixes
 
-   {-
-   outᴹ : ∀ {Γ P} {a : Action Γ} {R} {E₀ : P —[ a - _ ]→ R} {E E′ : ↓ E₀} → E ≤ E′ → out E ≤′ out E′
-   outᴹ {a = • x 〈 y 〉 ᶜ} {E = [ νᶜ E′ ]} {[ νᶜ E″ ]} [ νᶜ E ] with out E′ | out E″ | outᴹ E
-   ... | ◻ , _ | ◻ , _ | _ , P = ◻ , [ ν P ]
-   ... | ◻ , _ | [ • ◻ 〈 _ 〉 ᶜ ] , _ | _ , P = ◻ , [ ν P ]
-   ... | ◻ , _ | [ • [ ._ ] 〈 ◻ 〉 ᶜ ] , _ | _ , P = ◻ , [ ν P ]
-   ... | ◻ , _ | [ • [ ._ ] 〈 [ ._ ] 〉 ᶜ ] , _ | _ , P = ◻ , [ ν P ]
-   ... | [ • ◻ 〈 _ 〉 ᶜ ] , _ | [ • ◻ 〈 _ 〉 ᶜ ] , _ | [ • ◻ 〈 _ 〉 ᶜ ] , P = ◻ , [ ν P ]
-   ... | [ • ◻ 〈 _ 〉 ᶜ ] , _ | [ • [ ._ ] 〈 ◻ 〉 ᶜ ] , _ | [ • ◻ 〈 _ 〉 ᶜ ] , P = ◻ , [ ν P ]
-   ... | [ • ◻ 〈 _ 〉 ᶜ ] , _ | [ • [ ._ ] 〈 [ ._ ] 〉 ᶜ ] , _ | [ • ◻ 〈 _ 〉 ᶜ ] , P = ◻ , [ ν P ]
-   ... | [ • [ ._ ] 〈 ◻ 〉 ᶜ ] , _ | [ • [ ._ ] 〈 ◻ 〉 ᶜ ] , _ | [ • [ ._ ] 〈 ◻ 〉 ᶜ ] , P = ◻ , [ ν P ]
-   ... | [ • [ ._ ] 〈 ◻ 〉 ᶜ ] , _ | [ • [ ._ ] 〈 [ ._ ] 〉 ᶜ ] , _ | [ • [ ._ ] 〈 ◻ 〉 ᶜ ] , P = ◻ , [ ν P ]
-   ... | [ • [ ._ ] 〈 [ ._ ] 〉 ᶜ ] , _ | [ • [ ._ ] 〈 [ ._ ] 〉 ᶜ ] , _ | [ • [ ._ ] 〈 [ ._ ] 〉 ᶜ ] , P =
-      [ • [ x ] 〈 [ y ] 〉 ᶜ ] , [ ν P ]
-   outᴹ {a = τ ᶜ} {E = [ νᶜ E′ ]} {[ νᶜ E″ ]} [ νᶜ E ] with out E′ | out E″ | outᴹ E
-   ... | ◻ , _ | ◻ , _ | _ , P = ◻ , [ ν P ]
-   ... | ◻ , _ | [ τ ᶜ ] , _ | _ , P = ◻ , [ ν P ]
-   ... | [ τ ᶜ ] , _ | [ τ ᶜ ] , _ | [ τ ᶜ ] , P = [ τ ᶜ ] , [ ν P ]
-   outᴹ [ ! E ] = outᴹ E
--}
    step : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓′ P → ↓′ ᵀ.out E
    step⁻ : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓⁻′ P → ↓′ ᵀ.out E
 
@@ -102,7 +82,7 @@ module Transition.Lattice where
    step⁻ᴹ {a = _ ᶜ} (E ᶜ│ _) (P │ Q) = let a , R = stepᴹ E P in a , [ R │ Q ]
    step⁻ᴹ {a = _ ᵇ} (_ │ᵇ F) (P │ Q) = let a , S = stepᴹ F Q in a , [ (ᴹ push *ᴹ) P │ S ]
    step⁻ᴹ {a = _ ᶜ} (_ │ᶜ F) (P │ Q) = let a , S = stepᴹ F Q in a , [ P │ S ]
-{-
+
    step⁻ᴹ (E │• F) {P │ Q} {P′ │ Q′} (P† │ Q†)
       with step E P | step E P′ | stepᴹ E P†
    ... | ◻ , _ | ◻ , _ | _ , R† = let _ , S† = stepᴹ F Q† in ◻ , [ (ᴹ (pop ◻) *ᴹ) R† │ S† ]
@@ -180,6 +160,10 @@ module Transition.Lattice where
    ... | [ • [ ._ ] 〈 ◻ 〉 ᶜ ] , _ | [ • [ ._ ] 〈 [ ._ ] 〉 ᶜ ] , _ | [ _ ] , R† = ◻ , R†
    ... | [ • [ ._ ] 〈 [ ._ ] 〉 ᶜ ] , _ | [ • [ ._ ] 〈 [ ._ ] 〉 ᶜ ] , _ | [ _ ] , R† = [ (• [ x ]) ᵇ ] , R†
 
+   step⁻ᴹ {a = x • ᵇ} (νᵇ E) {ν P} {ν P′} (ν P†)
+      with step E P | step E P′ | stepᴹ E P†
+   ... | q | r | s = ?
+
    step⁻ᴹ {a = (• x) ᵇ} (νᵇ E) {ν P} {ν P′} (ν P†)
       with step E P | step E P′ | stepᴹ E P†
    ... | ◻ , _ | ◻ , _ | ◻ , R† = ◻ , [ ν (ᴹ swap *ᴹ) R† ]
@@ -210,22 +194,16 @@ module Transition.Lattice where
    ... | [ • [ ._ ] 〈 [ ._ ] 〉 ᶜ ] , _ | [ • ◻ 〈 _ 〉 ᶜ ] , _ | [ • () 〈 _ 〉 ᶜ ] , R†
    ... | [ • [ ._ ] 〈 [ ._ ] 〉 ᶜ ] , _ | [ • [ ._ ] 〈 ◻ 〉 ᶜ ] , _ | [ • _ 〈 () 〉 ᶜ ] , R†
    ... | [ • [ ._ ] 〈 [ ._ ] 〉 ᶜ ] , _ | [ • [ ._ ] 〈 [ ._ ] 〉 ᶜ ] , _ | _ , R† = [ • [ x ] 〈 [ y ] 〉 ᶜ ] , [ ν R† ]
--}
 
-   step⁻ᴹ E P = {!!}
-{-
-   step⁻ᴹ {a = • x 〈 y 〉 ᶜ} (νᶜ E) {R = ν R} {ν R′} (ν P)
-      with action (step E R) | action (step E R′) | actionᴹ (stepᴹ E P)
-   ... | ◻ | _ | _ = ◻
-   ... | [ • ◻ 〈 _ 〉 ᶜ ] | [ • _ 〈 _ 〉 ᶜ ] | [ • ◻ 〈 _ 〉 ᶜ ] = ◻
-   ... | [ • [ ._ ] 〈 ◻ 〉 ᶜ ] | [ • [ ._ ] 〈 _ 〉 ᶜ ] | [ • [ ._ ] 〈 ◻ 〉 ᶜ ] = ◻
-   ... | [ • [ ._ ] 〈 [ ._ ] 〉 ᶜ ] | [ • [ ._ ] 〈 [ ._ ] 〉 ᶜ ] | [ • [ ._ ] 〈 [ ._ ] 〉 ᶜ ] = [ νᶜ (stepᴹ E P) ]
-   ... | [ • [ ._ ] 〈 _ 〉 ᶜ ] | [ • ◻ 〈 _ 〉 ᶜ ] | [ • () 〈 _ 〉 ᶜ ]
-   step⁻ᴹ {a = τ ᶜ} (νᶜ E) {R = ν R} {ν R′} (ν P) with action (step E R) | action (step E R′) | actionᴹ (stepᴹ E P)
-   ... | ◻ | _ | _ = ◻
-   ... | [ τ ᶜ ] | [ τ ᶜ ] | [ τ ᶜ ] = [ νᶜ (stepᴹ E P) ]
-   step⁻ᴹ (! E) (! P) = [ ! stepᴹ E [ P │ [ ! P ] ] ]
--}
+   step⁻ᴹ {a = τ ᶜ} (νᶜ E) {ν P} {ν P′} (ν P†)
+      with step E P | step E P′ | stepᴹ E P†
+   ... | ◻ , _ | ◻ , _ | ◻ , R† = ◻ , [ ν R† ]
+   ... | ◻ , _ | [ τ ᶜ ] , _ | ◻ , R† = ◻ , [ ν R† ]
+   ... | [ _ ] , _ | ◻ , _ | () , R†
+   ... | [ τ ᶜ ] , _ | [ τ ᶜ ] , _ | [ τ ᶜ ] , R† = [ τ ᶜ ] , [ ν R† ]
+
+   step⁻ᴹ (! E) (! P) = stepᴹ E [ P │ [ ! P ] ]
+
    action : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓′ P → ↓′ a
    action E = π₁ ∘ᶠ step E
 
