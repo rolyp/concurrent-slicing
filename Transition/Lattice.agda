@@ -93,9 +93,14 @@ module Transition.Lattice where
    step⁻ {a = _ ᶜ} (E ᶜ│ _) (P │ Q) = let a , R = step E P in a , [ R │ Q ]
    step⁻ {a = _ ᵇ} (_ │ᵇ F) (P │ Q) = let a , S = step F Q in a , [ (push *̃) P │ S ]
    step⁻ {a = _ ᶜ} (_ │ᶜ F) (P │ Q) = let a , S = step F Q in a , [ P │ S ]
-   step⁻ (E │• F) (P │ Q) with step E P | step F Q
-   ... | [ [ x ] • ᵇ ] , R | [ • [ .x ] 〈 y 〉 ᶜ ] , S = [ τ ᶜ ] , [ (pop y *̃) R │ S ]
-   ... | _ , R | _ , S = ◻ , [ (pop ◻ *̃) R │ S ]
+   step⁻ (E │• F) (P │ Q) with step E P
+   ... | [ [ x ] • ᵇ ] , R with step F Q
+   ... | [ • [ .x ] 〈 y 〉 ᶜ ] , S = [ τ ᶜ ] , [ (pop y *̃) R │ S ]
+   ... | _ , S = ◻ , [ (pop ◻ *̃) R │ S ]
+   step⁻ (E │• F) (P │ Q) | _ , R = let _ , S = step F Q in ◻ , [ (pop ◻ *̃) R │ S ]
+-- step⁻ (E │• F) (P │ Q) with step E P | step F Q
+-- ... | [ [ x ] • ᵇ ] , R | [ • [ .x ] 〈 y 〉 ᶜ ] , S = [ τ ᶜ ] , [ (pop y *̃) R │ S ]
+-- ... | _ , R | _ , S = ◻ , [ (pop ◻ *̃) R │ S ]
    step⁻ (E │ᵥ F) (P │ Q) with step E P | step F Q
    ... | [ [ x ] • ᵇ ] , R | [ (• [ .x ]) ᵇ ] , S = [ τ ᶜ ] , [ ν [ R │ S ] ]
    ... | _ , R | _ , S = ◻ , [ ν [ R │ S ] ]
@@ -130,6 +135,7 @@ module Transition.Lattice where
    step⁻ᴹ {a = _ ᶜ} (E ᶜ│ _) (P │ Q) = let a , R = stepᴹ E P in a , [ R │ Q ]
    step⁻ᴹ {a = _ ᵇ} (_ │ᵇ F) (P │ Q) = let a , S = stepᴹ F Q in a , [ (ᴹ push *ᴹ) P │ S ]
    step⁻ᴹ {a = _ ᶜ} (_ │ᶜ F) (P │ Q) = let a , S = stepᴹ F Q in a , [ P │ S ]
+{-
    step⁻ᴹ (E │• F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P │ Q) with step E P₀ | step E P₀′ | stepᴹ E P | stepᴹ F Q
    ... | ◻ , _ | ◻ , _ | _ , R | _ , S = ◻ , [ (popᴹ ◻ *ᴹ) R │ S ]
    ... | ◻ , _ | [ (◻ •) ᵇ ] , _ | _ , R | _ , S = ◻ , [ (popᴹ ◻ *ᴹ) R │ S ]
@@ -143,7 +149,6 @@ module Transition.Lattice where
    step⁻ᴹ (E │• F) {P₀ │ Q₀} {R′ │ S′} (P │ Q) | [ (◻ •) ᵇ ] , proj₂ | [ x₁ ] , proj₃ | r | s = {!!}
    step⁻ᴹ (E │• F) {P₀ │ Q₀} {R′ │ S′} (P │ Q) | [ ([ x ] •) ᵇ ] , proj₂ | ◻ , proj₃ | r | s = {!!}
    step⁻ᴹ (E │• F) {P₀ │ Q₀} {R′ │ S′} (P │ Q) | [ ([ x ] •) ᵇ ] , proj₂ | [ x₁ ] , proj₃ | r | s = {!!}
-{-
    step⁻ᴹ (E │ᵥ F) {R │ S} {R′ │ S′} (P │ Q)
       with step E R | step E R′ | step F S | step F S′
    ... | ◻ , _ | ◻ , _ | ◻ , _ | _ , _ = {!!}
