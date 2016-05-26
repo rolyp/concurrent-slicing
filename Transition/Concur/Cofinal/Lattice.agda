@@ -339,15 +339,14 @@ module Transition.Concur.Cofinal.Lattice where
           pop-y*E/E′ = (ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))
           IH : S₂ ≅ (swap *̃) S′₁
           IH = ≅-trans (≡-to-≅ (gamma₁ 𝐸 P)) (≅-trans (reduce-ᵇ∇ᵇ (γ₁ 𝐸) S₁) (≡-to-≅ (cong (swap *̃) (,-inj₂ eq†))))
-          gib : target (subst (λ a′ → (ᴿ.pop y *) (ᵀ.target E′) —[ a′ ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸)))
-                              (pop∘push y a) pop-y*E/E′) ((pop ◻ *̃) R) ≅ (pop {x₀ = ᴺ.suc y} ◻ *̃) S′₁
+          wibble : Actionᵇ Γ → Set
+          wibble = λ a′ → (ᴿ.pop y *) (ᵀ.target E′) —[ a′ ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
+          gib : target (subst wibble (pop∘push y a) pop-y*E/E′) ((pop ◻ *̃) R) ≅ (pop {x₀ = ᴺ.suc y} ◻ *̃) S′₁
           gib = let open ≅-Reasoning in
              begin
-                target (subst (λ a′ → (ᴿ.pop y *) (ᵀ.target E′) —[ a′ ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸)))
-                              (pop∘push y a) pop-y*E/E′) ((pop ◻ *̃) R)
-             ≅⟨ ≅-cong✴ (λ a′ → (ᴿ.pop y *) (ᵀ.target E′) —[ a′ ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))) (sym (pop∘push y a)) (λ E† → target E† ((pop ◻ *̃) R))
-                        (≡-subst-removable (λ a′ → (ᴿ.pop y *) (ᵀ.target E′) —[ a′ ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸)))
-                                           (pop∘push y a) pop-y*E/E′) ⟩
+                target (subst wibble (pop∘push y a) pop-y*E/E′) ((pop ◻ *̃) R)
+             ≅⟨ ≅-cong✴ wibble (sym (pop∘push y a)) (λ E† → target E† ((pop ◻ *̃) R))
+                        (≡-subst-removable wibble (pop∘push y a) pop-y*E/E′) ⟩
                 target pop-y*E/E′ ((pop ◻ *̃) R)
              ≡⟨ cong (target (pop-y*E/E′) ∘ᶠ (pop ◻ *̃)) (sym (,-inj₂ eq)) ⟩
                 target pop-y*E/E′ ((pop ◻ *̃) (target E′ P))
@@ -358,15 +357,14 @@ module Transition.Concur.Cofinal.Lattice where
              ≅⟨ ≅-cong✴ ↓_ (sym (swap-swap (γ₁ 𝐸))) (pop {x₀ = ᴺ.suc y} ◻ *̃) (≅-sym (swap-swap̃ (≅-sym IH))) ⟩
                 (pop {x₀ = ᴺ.suc y} ◻ *̃) S′₁
              ∎
-          -- If I try to drop the equational reasoning, things go haywire. Confused.
+          -- If I replace the equational reasoning by trans, things go haywire. Confused.
           blah = cong₂ _│_ (
              let open EqReasoning (setoid _) in
              begin _ ≡⟨ cong (ᴿ.pop (ᴿ.push y) *) (swap-swap (γ₁ 𝐸)) ⟩ _ ≡⟨ sym (pop∘swap y (S′ (⊖₁ 𝐸))) ⟩ _ ∎
              ) refl
           open ≅-Reasoning in ≅-to-≡ (
       begin
-         [ target (subst (λ a′ → (ᴿ.pop y *) (ᵀ.target E′) —[ a′ ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸)))
-                         (pop∘push y a) pop-y*E/E′) ((pop ◻ *̃) R) │ (push *̃) R′ ]
+         [ target (subst wibble (pop∘push y a) pop-y*E/E′) ((pop ◻ *̃) R) │ (push *̃) R′ ]
       ≅⟨ [-│-]-cong (sym (trans (cong (ᴿ.pop (ᴿ.push y) *) (swap-swap (γ₁ 𝐸))) (sym (pop∘swap y _)))) gib
                     refl (≡-to-≅ (trans (cong (push *̃) (sym (,-inj₂ eq′)))
                                         (trans (renᶜ-target-comm F push Q) (,-inj₂ eq‡)))) ⟩
