@@ -328,6 +328,21 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ {E = E ᶜ│ Q₀} {E′ ᶜ│ ._} (𝐸 ᵛᵛ│ ._) [ P │ Q ] = cong (λ P → [ P │ Q ]) (gamma₁ 𝐸 P)
 -}
    gamma₁ {Γ} {E = E ᵇ│ Q₀} {E′ = E′ │• .F} (_│•ᵇ_ {x = x} {y} {a = a} 𝐸 F) [ P │ Q ]
+      with step E′ P | inspect (step E′) P
+   ... | ◻ , _ | _
+      with step (E′/E (⊖₁ 𝐸)) (target E P) | inspect (step (E′/E (⊖₁ 𝐸))) (target E P)
+   ... | ◻ , _ | s = {!!}
+   ... | [ (◻ •) ᵇ ] , proj₂ | s = {!!}
+   ... | [ ([ ._ ] •) ᵇ ] , proj₂ | s
+      with step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
+   ... | ◻ , _ | p = {!!}
+   gamma₁ {Γ} {._} {.(τ ᶜ)} {.ᵇ∇ᶜ} {._} {._} {._} {E ᵇ│ Q₀} {E′ │• .F} (𝐸 │•ᵇ F) [ P₁ │ Q ] | ◻ , proj₄ | r | [ ([ ._ ] •) ᵇ ] , proj₃ | s | [ • ◻ 〈 x₂ 〉 ᶜ ] , proj₂ | p = {!!}
+   gamma₁ {Γ} {._} {.(τ ᶜ)} {.ᵇ∇ᶜ} {._} {._} {._} {E ᵇ│ Q₀} {E′ │• .F} (𝐸 │•ᵇ F) [ P₁ │ Q ] | ◻ , proj₄ | r | [ ([ ._ ] •) ᵇ ] , proj₃ | s | [ • [ ._ ] 〈 x₂ 〉 ᶜ ] , proj₂ | p = {!!}
+   gamma₁ {Γ} {._} {.(τ ᶜ)} {.ᵇ∇ᶜ} {._} {._} {._} {E ᵇ│ Q₀} {E′ │• .F} (𝐸 │•ᵇ F) [ P₁ │ Q ] | [ (◻ •) ᵇ ] , proj₂ | r = {!!}
+   gamma₁ {Γ} {._} {.(τ ᶜ)} {.ᵇ∇ᶜ} {._} {._} {._} {E ᵇ│ Q₀} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] | [ ([ x ] •) ᵇ ] , proj₂ | r
+      with step (E′/E (⊖₁ 𝐸)) (target E P) | inspect (step (E′/E (⊖₁ 𝐸))) (target E P)
+   ... | q | s = {!!}
+{-
       with step E′ P | step F Q | inspect (step E′) P | inspect (step F) Q
    ... | ◻ , R | _ , R′ | [ eq ] | [ eq′ ]
       with step (E′/E (⊖₁ 𝐸)) (target E P) | step ((ᴿ.push *ᶜ) F) ((push *̃) Q) |
@@ -362,7 +377,10 @@ module Transition.Concur.Cofinal.Lattice where
              let open EqReasoning (setoid _) in
              begin _ ≡⟨ cong (ᴿ.pop (ᴿ.push y) *) (swap-swap (γ₁ 𝐸)) ⟩ _ ≡⟨ sym (pop∘swap y (S′ (⊖₁ 𝐸))) ⟩ _ ∎
              ) refl
-          open ≅-Reasoning in ≅-to-≡ (
+          open ≅-Reasoning in
+      {!!}
+{-
+          ≅-to-≡ (
       begin
          [ target (subst wibble (pop∘push y a) pop-y*E/E′) ((pop ◻ *̃) R) │ (push *̃) R′ ]
       ≅⟨ [-│-]-cong (sym (trans (cong (ᴿ.pop (ᴿ.push y) *) (swap-swap (γ₁ 𝐸))) (sym (pop∘swap y _)))) gib
@@ -372,6 +390,7 @@ module Transition.Concur.Cofinal.Lattice where
       ≅⟨ ≅-sym (reduce-ᵇ∇ᶜ blah _) ⟩
          braiding ᵇ∇ᶜ {0} blah [ (pop ◻ *̃) S′₁ │ S′₂ ]
       ∎)
+-}
    ... | [ (◻ •) ᵇ ] , _ | ◻ , _ | [ eq† ] | [ eq‡ ]  = {!!}
    ... | [ ([ ._ ] •) ᵇ ] , _ | ◻ , _ | [ eq† ] | [ eq‡ ]  = {!!}
    ... | [ (◻ •) ᵇ ] , _ | _ , _ | [ eq† ] | [ eq‡ ]  = {!!}
@@ -416,6 +435,7 @@ module Transition.Concur.Cofinal.Lattice where
    ... | [ (◻ •) ᵇ ] , _ | _ , _ = {!!}
    ... | [ ([ ._ ] •) ᵇ ] , _ | [ • ◻ 〈 _ 〉 ᶜ ] , _ = {!!}
    ... | [ ([ ._ ] •) ᵇ ] , _ | [ • [ ._ ] 〈 _ 〉 ᶜ ] , _ = {!!}
+-}
 -}
 {-
    gamma₁ {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ]
