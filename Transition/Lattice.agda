@@ -146,56 +146,6 @@ module Transition.Lattice where
             lattices = lattices; _≤_ = _≤_; _≤⁻_ = _≤⁻_; ≤⁻ᴸ⇒≤⁻ = ≤⁻ᴸ⇒≤⁻; ≤ᴸ⇒≤ = ≤ᴸ⇒≤; ≤⁻⇒≤⁻ᴸ = ≤⁻⇒≤⁻ᴸ; ≤⇒≤ᴸ = ≤⇒≤ᴸ
          }
 
-   source⁻ : ∀ {Γ P} {a : Action Γ} {R} {E : P —[ a - _ ]→ R} → ↓⁻ E → ↓⁻′ ᵀ.source E
-   source : ∀ {Γ P} {a : Action Γ} {R} {E : P —[ a - _ ]→ R} → ↓ E → ↓′ ᵀ.source E
-
-   source⁻ (x •∙ P) = x •∙ P
-   source⁻ (• x 〈 y 〉∙ P) = • x 〈 y 〉∙ P
-   source⁻ (E ➕₁ Q) = source E ➕ Q
-   source⁻ (E ᵇ│ Q) = source E │ Q
-   source⁻ (E ᶜ│ Q) = source E │ Q
-   source⁻ (P │ᵇ F) = P │ source F
-   source⁻ (P │ᶜ F) = P │ source F
-   source⁻ (E │• F) = source E │ source F
-   source⁻ (E │ᵥ F) = source E │ source F
-   source⁻ (ν• E) = ν source E
-   source⁻ (νᵇ E) = ν source E
-   source⁻ (νᶜ E) = ν source E
-   source⁻ (! E) with source E
-   ... | ◻ = ! ◻
-   ... | [ P │ ◻ ] = ! P
-   ... | [ P │ [ P′ ] ] = ! P ⊔⁻′ P′
-
-   source ◻ = ◻
-   source [ E ] = [ source⁻ E ]
-
-   source⁻ᴹ : ∀ {Γ P} {a : Action Γ} {R} {E₀ : P —[ a - _ ]→ R} {E E′ : ↓⁻ E₀} → E ≤⁻ E′ → source⁻ E ≤⁻′ source⁻ E′
-   sourceᴹ : ∀ {Γ P} {a : Action Γ} {R} {E₀ : P —[ a - _ ]→ R} {E E′ : ↓ E₀} → E ≤ E′ → source E ≤′ source E′
-
-   source⁻ᴹ (x •∙ P) = x •∙ P
-   source⁻ᴹ (• x 〈 y 〉∙ P) = • x 〈 y 〉∙ P
-   source⁻ᴹ (E ➕₁ Q) = sourceᴹ E ➕ Q
-   source⁻ᴹ (E ᵇ│ Q) = sourceᴹ E │ Q
-   source⁻ᴹ (E ᶜ│ Q) = sourceᴹ E │ Q
-   source⁻ᴹ (P │ᵇ F) = P │ sourceᴹ F
-   source⁻ᴹ (P │ᶜ F) = P │ sourceᴹ F
-   source⁻ᴹ (E │• F) = sourceᴹ E │ sourceᴹ F
-   source⁻ᴹ (E │ᵥ F) = sourceᴹ E │ sourceᴹ F
-   source⁻ᴹ (ν• E) = ν sourceᴹ E
-   source⁻ᴹ (νᵇ E) = ν sourceᴹ E
-   source⁻ᴹ (νᶜ E) = ν sourceᴹ E
-   source⁻ᴹ {E = ! E′} { ! E″} (! E) with source E′ | source E″ | sourceᴹ E
-   ... | ◻ | ◻ | ◻ = ! ◻
-   ... | ◻ | [ _ │ ◻ ] | ◻ = ! ◻
-   ... | ◻ | [ _ │ [ ! _ ] ] | ◻ = ! ◻
-   ... | [ _ │ ◻ ] | [ _ │ ◻ ] | [ P │ ◻ ] = ! P
-   ... | [ _ │ ◻ ] | [ P │ [ ! P′ ] ] | [ P† │ _ ] = ! ≤-trans P† (P ⊔ʳ P′)
-   ... | [ _ │ [ ! _ ] ] | [ _ │ ◻ ] | [ _ │ () ]
-   ... | [ _ │ [ ! _ ] ] | [ _ │ [ ! _ ] ] | [ P │ [ ! P′ ] ] = ! (P ⊔ᴹ P′)
-
-   sourceᴹ ◻ = ◻
-   sourceᴹ [ E ] = [ source⁻ᴹ E ]
-
    open module Action×Proc {Γ} = Lattice.Product (Action Γ) (Proc ∘ᶠ ᴬ.target) using (×-prefixes)
 
    -- Seem to need this to coerce product lattice to more specific type.
@@ -281,19 +231,19 @@ module Transition.Lattice where
    ... | _ , R | _ , S = ◻ , [ (pop ◻ *̃) R │ S ]
    step⁻ (E │ᵥ F) (P │ Q) with step E P | step F Q
    ... | [ [ x ] • ᵇ ] , R | [ (• [ .x ]) ᵇ ] , S = [ τ ᶜ ] , [ ν [ R │ S ] ]
-   ... | _ | _ = ◻ , ◻
+   ... | _ , R | _ , S = ◻ , [ ν [ R │ S ] ]
    step⁻ (ν•_ {x = x} E) (ν P) with step E P
-   ... | [ • [ ._ ] 〈 [ ._ ] 〉 ᶜ ] , R = [ (• [ x ]) ᵇ ] , R
-   ... | _ = ◻ , ◻
+   ... | [ • [ .(ᴺ.suc x) ] 〈 [ .ᴺ.zero ] 〉 ᶜ ] , R = [ (• [ x ]) ᵇ ] , R
+   ... | _ , R = ◻ , R
    step⁻ {a = x • ᵇ} (νᵇ E) (ν P) with step E P
-   ... | [ [ ._ ] • ᵇ ] , R = [ [ x ] • ᵇ ] , [ ν (swap *̃) R ]
-   ... | _ = ◻ , ◻
+   ... | [ [ .(ᴺ.suc x) ] • ᵇ ] , R = [ [ x ] • ᵇ ] , [ ν (swap *̃) R ]
+   ... | _ , R = ◻ , [ ν (swap *̃) R ]
    step⁻ {a = (• x) ᵇ} (νᵇ E) (ν P) with step E P
-   ... | [ (• [ ._ ]) ᵇ ] , R = [ (• [ x ]) ᵇ ] ,  [ ν (swap *̃) R ]
-   ... | _ = ◻ , ◻
+   ... | [ (• [ .(ᴺ.suc x) ]) ᵇ ] , R = [ (• [ x ]) ᵇ ] ,  [ ν (swap *̃) R ]
+   ... | _ , R = ◻ , [ ν (swap *̃) R ]
    step⁻ {a = • x 〈 y 〉 ᶜ} (νᶜ E) (ν P) with step E P
-   ... | [ • [ ._ ] 〈 [ ._ ] 〉 ᶜ ] , R = [ • [ x ] 〈 [ y ] 〉 ᶜ ] , [ ν R ]
-   ... | _ = ◻ , ◻
+   ... | [ • [ .(ᴺ.suc x) ] 〈 [ .(ᴺ.suc y) ] 〉 ᶜ ] , R = [ • [ x ] 〈 [ y ] 〉 ᶜ ] , [ ν R ]
+   ... | _ , R = ◻ , [ ν R ]
    -- Explicitly match the action, so we can translate it from Γ + 1 to Γ.
    step⁻ {a = τ ᶜ} (νᶜ E) (ν P) with step E P
    ... | [ τ ᶜ ] , R = [ τ ᶜ ] , [ ν R ]
