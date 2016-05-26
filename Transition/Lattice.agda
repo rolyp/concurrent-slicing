@@ -165,90 +165,36 @@ module Transition.Lattice where
    ... | [ • [ .x ] 〈 x₂ 〉 ᶜ ] , _ | [ • ◻ 〈 x₃ 〉 ᶜ ] , _ | s = {!!}
    ... | [ • [ .x ] 〈 x₂ 〉 ᶜ ] , _ | [ • [ .x ] 〈 x₃ 〉 ᶜ ] , _ | s = {!!}
 -}
-   step⁻ᴹ (E │ᵥ F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P │ Q)
-      with step E P₀ | step E P₀′ | stepᴹ E P
-   step⁻ᴹ (E │ᵥ F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q₁) | ◻ , proj₂ | ◻ , proj₄ | _ = {!!}
-   step⁻ᴹ (E │ᵥ F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q₁) | ◻ , proj₂ | [ (◻ •) ᵇ ] , proj₄ | w = {!!}
-   step⁻ᴹ (E │ᵥ F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q) | ◻ , proj₂ | [ ([ x ] •) ᵇ ] , proj₄ | w
-      with step F Q₀ | step F Q₀′ | stepᴹ F Q
-   step⁻ᴹ (E │ᵥ F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q₁) | ◻ , proj₆ | [ ([ x ] •) ᵇ ] , proj₇ | w | proj₁ , proj₂ | ◻ , proj₃ | proj₄ , proj₅ = {!!}
-   step⁻ᴹ (E │ᵥ F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q₁) | ◻ , proj₆ | [ ([ x ] •) ᵇ ] , proj₇ | w | proj₁ , proj₂ | [ (• ◻) ᵇ ] , proj₃ | proj₄ , proj₅ = {!!}
-   step⁻ᴹ (E │ᵥ F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q₁) | ◻ , proj₆ | [ ([ x ] •) ᵇ ] , proj₇ | w | proj₁ , proj₂ | [ (• [ .x ]) ᵇ ] , proj₃ | proj₄ , proj₅ = {!!}
+   step⁻ᴹ (E │ᵥ F) {P │ Q} {P′ │ Q′} (P† │ Q†)
+      with step E P | step E P′ | stepᴹ E P†
+   ... | ◻ , _ | ◻ , _ | _ , R† = let _ , S† = stepᴹ F Q† in ◻ , [ ν [ R† │ S† ] ]
+   ... | ◻ , _ | [ (◻ •) ᵇ ] , _ | _ , R† = let _ , S† = stepᴹ F Q† in ◻ , [ ν [ R† │ S† ] ]
+   ... | ◻ , _ | [ ([ x ] •) ᵇ ] , _ | _ , R†
+      with step F Q′ | stepᴹ F Q†
+   ... | ◻ , _ | _ , S† = ◻ , [ ν [ R† │ S† ] ]
+   ... | [ (• ◻) ᵇ ] , _ | _ , S† = ◻ , [ ν [ R† │ S† ] ]
+   ... | [ (• [ .x ]) ᵇ ] , _ | _ , S† = ◻ , [ ν [ R† │ S† ] ]
+   step⁻ᴹ (E │ᵥ F) {P │ Q} {P′ │ Q′} (P† │ Q†) | [ _ ] , _ | ◻ , _ | () , _
+   step⁻ᴹ (E │ᵥ F) {P │ Q} {P′ │ Q′} (P† │ Q†) | [ (◻ •) ᵇ ] , _ | [ (◻ •) ᵇ ] , _ | _ , R† =
+      let _ , S† = stepᴹ F Q† in ◻ , [ ν [ R† │ S† ] ]
+   step⁻ᴹ (E │ᵥ F) {P │ Q} {P′ │ Q′} (P† │ Q†) | [ (◻ •) ᵇ ] , _ | [ [ x ] • ᵇ ] , _ | _ , R†
+      with step F Q′ | stepᴹ F Q†
+   ... | ◻ , _ | _ , S† = ◻ , [ ν [ R† │ S† ] ]
+   ... | [ (• ◻) ᵇ ] , _ | _ , S† = ◻ , [ ν [ R† │ S† ] ]
+   ... | [ (• [ .x ]) ᵇ ] , _ | _ , S† = ◻ , [ ν [ R† │ S† ] ]
+   step⁻ᴹ (E │ᵥ F) {P │ Q} {P′ │ Q′} (P† │ Q†) | [ ([ x ] •) ᵇ ] , _ | [ (◻ •) ᵇ ] , _ | [ (() •) ᵇ ] , proj₈
+   step⁻ᴹ (E │ᵥ F) {P │ Q} {P′ │ Q′} (P† │ Q†) | [ ([ x ] •) ᵇ ] , proj₂ | [ ([ .x ] •) ᵇ ] , proj₄ | w
+      with step F Q | step F Q′ | stepᴹ F Q†
+   ... | ◻ , _ | ◻ , _ | proj₅ , S = {!!}
+   ... | ◻ , _ | [ (• ◻) ᵇ ] , _ | proj₅ , S = {!!}
+   ... | ◻ , _ | [ (• [ .x ]) ᵇ ] , _ | proj₅ , S = {!!}
+   ... | [ (• ◻) ᵇ ] , _ | ◻ , _ | proj₅ , S = {!!}
+   ... | [ (• [ .x ]) ᵇ ] , _ | ◻ , _ | () , _
+   ... | [ (• ◻) ᵇ ] , _ | [ (• ◻) ᵇ ] , _ | proj₅ , proj₆ = {!!}
+   ... | [ (• ◻) ᵇ ] , _ | [ (• [ .x ]) ᵇ ] , _ | proj₅ , proj₆ = {!!}
+   ... | [ (• [ .x ]) ᵇ ] , _ | [ (• ◻) ᵇ ] , _ | [ (• ()) ᵇ ] , _
+   ... | [ (• [ .x ]) ᵇ ] , _ | [ (• [ .x ]) ᵇ ] , _ | proj₅ , proj₆ = {!!}
 
-   step⁻ᴹ (E │ᵥ F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q₁) | [ x₁ ] , proj₂ | ◻ , proj₄ | () , proj₆
-   step⁻ᴹ (E │ᵥ F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q₁) | [ (◻ •) ᵇ ] , proj₂ | [ (◻ •) ᵇ ] , proj₄ | w = {!!}
-   step⁻ᴹ (E │ᵥ F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q) | [ (◻ •) ᵇ ] , proj₂ | [ ([ x ] •) ᵇ ] , proj₄ | w
-      with step F Q₀ | step F Q₀′ | stepᴹ F Q
-   step⁻ᴹ (E │ᵥ F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q₁) | [ (◻ •) ᵇ ] , proj₇ | [ ([ x ] •) ᵇ ] , proj₈ | proj₃ , proj₉ | proj₁ , proj₂ | ◻ , proj₄ | proj₅ , proj₆ = {!!}
-   step⁻ᴹ (E │ᵥ F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q₁) | [ (◻ •) ᵇ ] , proj₇ | [ ([ x ] •) ᵇ ] , proj₈ | proj₃ , proj₉ | proj₁ , proj₂ | [ (• ◻) ᵇ ] , proj₄ | proj₅ , proj₆ = {!!}
-   step⁻ᴹ (E │ᵥ F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q₁) | [ (◻ •) ᵇ ] , proj₇ | [ ([ x ] •) ᵇ ] , proj₈ | proj₃ , proj₉ | proj₁ , proj₂ | [ (• [ .x ]) ᵇ ] , proj₄ | proj₅ , proj₆ = {!!}
-
-   step⁻ᴹ (E │ᵥ F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q) | [ ([ x ] •) ᵇ ] , proj₂ | [ (◻ •) ᵇ ] , proj₄ | w
-      with step F Q₀ | step F Q₀′ | stepᴹ F Q
-   step⁻ᴹ (E │ᵥ F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q₁) | [ ([ x ] •) ᵇ ] , proj₇ | [ (◻ •) ᵇ ] , proj₈ | proj₁ , proj₉ | ◻ , proj₂ | proj₃ , proj₄ | proj₅ , proj₆ = {!!}
-   step⁻ᴹ (E │ᵥ F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q₁) | [ ([ x ] •) ᵇ ] , proj₇ | [ (◻ •) ᵇ ] , proj₈ | [ (() •) ᵇ ] , proj₉ | _ , proj₂ | proj₃ , proj₄ | proj₅ , proj₆
-   step⁻ᴹ (E │ᵥ F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q) | [ ([ x ] •) ᵇ ] , proj₂ | [ ([ .x ] •) ᵇ ] , proj₄ | w
-      with step F Q₀ | step F Q₀′ | stepᴹ F Q
-   step⁻ᴹ (E │ᵥ F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q₁) | [ ([ x ] •) ᵇ ] , proj₇ | [ ([ .x ] •) ᵇ ] , proj₈ | proj₁ , proj₃ | ◻ , proj₂ | ◻ , proj₄ | proj₅ , proj₆ = {!!}
-   step⁻ᴹ (E │ᵥ F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q₁) | [ ([ x ] •) ᵇ ] , proj₇ | [ ([ .x ] •) ᵇ ] , proj₈ | proj₁ , proj₃ | ◻ , proj₂ | [ (• ◻) ᵇ ] , proj₄ | proj₅ , proj₆ = {!!}
-   step⁻ᴹ (E │ᵥ F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q₁) | [ ([ x ] •) ᵇ ] , proj₇ | [ ([ .x ] •) ᵇ ] , proj₈ | proj₁ , proj₃ | ◻ , proj₂ | [ (• [ .x ]) ᵇ ] , proj₄ | proj₅ , proj₆ = {!!}
-   step⁻ᴹ (E │ᵥ F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q₁) | [ ([ x ] •) ᵇ ] , proj₇ | [ ([ .x ] •) ᵇ ] , proj₈ | proj₁ , proj₃ | [ (• ◻) ᵇ ] , proj₂ | ◻ , proj₄ | proj₅ , proj₆ = {!!}
-   step⁻ᴹ (E │ᵥ F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q₁) | [ ([ x ] •) ᵇ ] , proj₇ | [ ([ .x ] •) ᵇ ] , proj₈ | proj₁ , proj₃ | [ (• [ .x ]) ᵇ ] , proj₂ | ◻ , proj₄ | () , proj₆
-   step⁻ᴹ (E │ᵥ F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q₁) | [ ([ x ] •) ᵇ ] , proj₇ | [ ([ .x ] •) ᵇ ] , proj₈ | proj₁ , proj₃ | [ (• ◻) ᵇ ] , proj₂ | [ (• ◻) ᵇ ] , proj₄ | proj₅ , proj₆ = {!!}
-   step⁻ᴹ (E │ᵥ F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q₁) | [ ([ x ] •) ᵇ ] , proj₇ | [ ([ .x ] •) ᵇ ] , proj₈ | proj₁ , proj₃ | [ (• ◻) ᵇ ] , proj₂ | [ (• [ .x ]) ᵇ ] , proj₄ | proj₅ , proj₆ = {!!}
-   step⁻ᴹ (E │ᵥ F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q₁) | [ ([ x ] •) ᵇ ] , proj₇ | [ ([ .x ] •) ᵇ ] , proj₈ | proj₁ , proj₃ | [ (• [ .x ]) ᵇ ] , proj₂ | [ (• ◻) ᵇ ] , proj₄ | [ (• ()) ᵇ ] , proj₆
-   step⁻ᴹ (E │ᵥ F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q₁) | [ ([ x ] •) ᵇ ] , proj₇ | [ ([ .x ] •) ᵇ ] , proj₈ | proj₁ , proj₃ | [ (• [ .x ]) ᵇ ] , proj₂ | [ (• [ .x ]) ᵇ ] , proj₄ | proj₅ , proj₆ = ?
-{-
-   step⁻ᴹ (E │ᵥ F) {R │ S} {R′ │ S′} (P │ Q)
-      with step E R | step E R′ | step F S | step F S′
-   ... | ◻ , _ | ◻ , _ | ◻ , _ | _ , _ = {!!}
-   ... | ◻ , _ | [ x₁ ] , _ | ◻ , _ | ◻ , _ = {!!}
-   ... | ◻ , _ | [ x₁ ] , _ | ◻ , _ | [ x₂ ] , _ = {!!}
-   ... | ◻ , _ | ◻ , _ | [ x₁ ] , _ | _ , _ = {!!}
-   ... | ◻ , _ | [ ◻ • ᵇ ] , _ | [ x₂ ] , _ | _ , _ = {!!}
-   ... | ◻ , _ | [ [ x ] • ᵇ ] , _ | [ x₂ ] , _ | _ , _ = {!!}
-   ... | [ ◻ • ᵇ ] , _ | ◻ , _ | ◻ , _ | _ , _ = {!!}
-   ... | [ [ x ] • ᵇ ] , _ | ◻ , _ | ◻ , _ | _ , _ = {!!}
-   ... | [ ◻ • ᵇ ] , _ | [ ◻ • ᵇ ] , _ | ◻ , _ | ◻ , _ = {!!}
-   ... | [ ◻ • ᵇ ] , _ | [ [ x ] • ᵇ ] , _ | ◻ , _ | ◻ , _ = {!!}
-   ... | [ ([ x ] •) ᵇ ] , proj₂ | [ ◻ • ᵇ ] , proj₃ | ◻ , proj₄ | ◻ , proj₅ = {!!}
-   ... | [ ([ x ] •) ᵇ ] , proj₂ | [ ([ .x ] •) ᵇ ] , proj₃ | ◻ , proj₄ | ◻ , proj₅ = {!!}
-   ... | [ ◻ • ᵇ ] , proj₂ | [ ◻ • ᵇ ] , proj₄ | ◻ , proj₆ | [ x₃ ] , proj₈ = {!!}
-   ... | [ ◻ • ᵇ ] , proj₂ | [ [ x ] • ᵇ ] , proj₄ | ◻ , proj₆ | [ x₃ ] , proj₈ = {!!}
-   ... | [ [ x ] • ᵇ ] , proj₂ | [ ◻ • ᵇ ] , proj₄ | ◻ , proj₆ | [ x₃ ] , proj₈ = {!!}
-   ... | [ ([ x ] •) ᵇ ] , proj₂ | [ ([ .x ] •) ᵇ ] , proj₄ | ◻ , proj₆ | [ (• ◻) ᵇ ] , proj₈ = {!!}
-   ... | [ ([ x ] •) ᵇ ] , proj₂ | [ ([ .x ] •) ᵇ ] , proj₄ | ◻ , proj₆ | [ (• [ .x ]) ᵇ ] , proj₈ = {!!}
-   ... | [ (◻ •) ᵇ ] , proj₂ | ◻ , proj₄ | [ (• ◻) ᵇ ] , proj₆ | ◻ , proj₈ = {!!}
-   ... | [ (◻ •) ᵇ ] , proj₂ | ◻ , proj₄ | [ (• [ x ]) ᵇ ] , proj₆ | ◻ , proj₈ = {!!}
-   ... | [ ([ x ] •) ᵇ ] , proj₂ | ◻ , proj₄ | [ (• ◻) ᵇ ] , proj₆ | ◻ , proj₈ = {!!}
-   ... | [ ([ x ] •) ᵇ ] , proj₂ | ◻ , proj₄ | [ (• [ .x ]) ᵇ ] , proj₆ | ◻ , proj₈ = {!!}
-   ... | [ (◻ •) ᵇ ] , proj₂ | ◻ , proj₄ | [ (• ◻) ᵇ ] , proj₆ | [ x₃ ] , proj₈ = {!!}
-   ... | [ (◻ •) ᵇ ] , proj₂ | ◻ , proj₄ | [ (• [ x ]) ᵇ ] , proj₆ | [ x₃ ] , proj₈ = {!!}
-   ... | [ ([ x ] •) ᵇ ] , proj₂ | ◻ , proj₄ | [ (• ◻) ᵇ ] , proj₆ | [ x₃ ] , proj₈ = {!!}
-   ... | [ ([ x ] •) ᵇ ] , proj₂ | ◻ , proj₄ | [ (• [ .x ]) ᵇ ] , proj₆ | [ x₃ ] , proj₈ = {!!}
-   ... | [ (◻ •) ᵇ ] , proj₂ | [ (◻ •) ᵇ ] , proj₄ | [ x₃ ] , proj₆ | ◻ , proj₈ = {!!}
-   ... | [ (◻ •) ᵇ ] , proj₂ | [ ([ x ] •) ᵇ ] , proj₄ | [ x₃ ] , proj₆ | ◻ , proj₈ = {!!}
-   ... | [ ([ x ] •) ᵇ ] , proj₂ | [ (◻ •) ᵇ ] , proj₄ | [ (• ◻) ᵇ ] , proj₆ | ◻ , proj₈ = {!!}
-   ... | [ ([ x ] •) ᵇ ] , proj₂ | [ (◻ •) ᵇ ] , proj₄ | [ (• [ .x ]) ᵇ ] , proj₆ | ◻ , proj₈ = {!!}
-   ... | [ ([ x ] •) ᵇ ] , proj₂ | [ ([ .x ] •) ᵇ ] , proj₄ | [ (• ◻) ᵇ ] , proj₆ | ◻ , proj₈ = {!!}
-   ... | [ ([ x ] •) ᵇ ] , proj₂ | [ ([ .x ] •) ᵇ ] , proj₄ | [ (• [ .x ]) ᵇ ] , proj₆ | ◻ , proj₈ = {!!}
-   ... | [ (◻ •) ᵇ ] , proj₂ | [ (◻ •) ᵇ ] , proj₄ | [ (• ◻) ᵇ ] , proj₆ | [ (• ◻) ᵇ ] , proj₈ = {!!}
-   ... | [ (◻ •) ᵇ ] , proj₂ | [ (◻ •) ᵇ ] , proj₄ | [ (• ◻) ᵇ ] , proj₆ | [ (• [ x ]) ᵇ ] , proj₈ = {!!}
-   ... | [ (◻ •) ᵇ ] , proj₂ | [ ([ x ] •) ᵇ ] , proj₄ | [ (• ◻) ᵇ ] , proj₆ | [ (• ◻) ᵇ ] , proj₈ = {!!}
-   ... | [ (◻ •) ᵇ ] , proj₂ | [ ([ x ] •) ᵇ ] , proj₄ | [ (• ◻) ᵇ ] , proj₆ | [ (• [ .x ]) ᵇ ] , proj₈ = {!!}
-   ... | [ (◻ •) ᵇ ] , proj₂ | [ (◻ •) ᵇ ] , proj₄ | [ (• [ x ]) ᵇ ] , proj₆ | [ (• ◻) ᵇ ] , proj₈ = {!!}
-   ... | [ (◻ •) ᵇ ] , proj₂ | [ (◻ •) ᵇ ] , proj₄ | [ (• [ x ]) ᵇ ] , proj₆ | [ (• [ .x ]) ᵇ ] , proj₈ = {!!}
-   ... | [ (◻ •) ᵇ ] , proj₂ | [ ([ x ] •) ᵇ ] , proj₄ | [ (• [ .x ]) ᵇ ] , proj₆ | [ (• ◻) ᵇ ] , proj₈ = {!!}
-   ... | [ (◻ •) ᵇ ] , proj₂ | [ ([ x ] •) ᵇ ] , proj₄ | [ (• [ .x ]) ᵇ ] , proj₆ | [ (• [ .x ]) ᵇ ] , proj₈ = {!!}
-   ... | [ ([ x ] •) ᵇ ] , proj₂ | [ (◻ •) ᵇ ] , proj₄ | [ (• ◻) ᵇ ] , proj₆ | [ (• ◻) ᵇ ] , proj₈ = {!!}
-   ... | [ ([ x ] •) ᵇ ] , proj₂ | [ (◻ •) ᵇ ] , proj₄ | [ (• ◻) ᵇ ] , proj₆ | [ (• [ .x ]) ᵇ ] , proj₈ = {!!}
-   ... | [ ([ x ] •) ᵇ ] , proj₂ | [ ([ .x ] •) ᵇ ] , proj₄ | [ (• ◻) ᵇ ] , proj₆ | [ (• ◻) ᵇ ] , proj₈ = {!!}
-   ... | [ ([ x ] •) ᵇ ] , proj₂ | [ ([ .x ] •) ᵇ ] , proj₄ | [ (• ◻) ᵇ ] , proj₆ | [ (• [ .x ]) ᵇ ] , proj₈ = {!!}
-   ... | [ ([ x ] •) ᵇ ] , proj₂ | [ (◻ •) ᵇ ] , proj₄ | [ (• [ .x ]) ᵇ ] , proj₆ | [ (• ◻) ᵇ ] , proj₈ = {!!}
-   ... | [ ([ x ] •) ᵇ ] , proj₂ | [ (◻ •) ᵇ ] , proj₄ | [ (• [ .x ]) ᵇ ] , proj₆ | [ (• [ .x ]) ᵇ ] , proj₈ = {!!}
-   ... | [ ([ x ] •) ᵇ ] , proj₂ | [ ([ .x ] •) ᵇ ] , proj₄ | [ (• [ .x ]) ᵇ ] , proj₆ | [ (• ◻) ᵇ ] , proj₈ = {!!}
-   ... | [ ([ x ] •) ᵇ ] , proj₂ | [ ([ .x ] •) ᵇ ] , proj₄ | [ (• [ .x ]) ᵇ ] , proj₆ | [ (• [ .x ]) ᵇ ] , proj₈ = {!!}
--}
    step⁻ᴹ E P = {!!}
 {-
    step⁻ᴹ (E │ᵥ F) {R = R │ S} {R′ │ S′} (P │ Q) with action (step E R) | action (step E R′) | actionᴹ (stepᴹ E P)
