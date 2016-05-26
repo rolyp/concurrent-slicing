@@ -155,7 +155,10 @@ module Transition.Lattice where
    step⁻ᴹ (E │• F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q₁) | [ ([ x ] •) ᵇ ] , proj₅ | [ ([ .x ] •) ᵇ ] , proj₆ | proj₁ , proj₃ | ◻ , proj₂ | [ • [ .x ] 〈 x₂ 〉 ᶜ ] , proj₄ | s = {!!}
    step⁻ᴹ (E │• F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q₁) | [ ([ x ] •) ᵇ ] , proj₅ | [ ([ .x ] •) ᵇ ] , proj₆ | proj₁ , proj₃ | [ • ◻ 〈 x₂ 〉 ᶜ ] , proj₂ | ◻ , proj₄ | s = {!!}
    step⁻ᴹ (E │• F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q₁) | [ ([ x ] •) ᵇ ] , proj₅ | [ ([ .x ] •) ᵇ ] , proj₆ | r | [ • [ .x ] 〈 x₂ 〉 ᶜ ] , proj₂ | ◻ , proj₄ | () , proj₃
-   step⁻ᴹ (E │• F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q₁) | [ ([ x ] •) ᵇ ] , proj₅ | [ ([ .x ] •) ᵇ ] , proj₆ | r | [ x₁ ᶜ ] , proj₂ | [ x₂ ᶜ ] , proj₄ | s = ?
+   step⁻ᴹ (E │• F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q₁) | [ ([ x ] •) ᵇ ] , proj₅ | [ ([ .x ] •) ᵇ ] , proj₆ | proj₁ , proj₃ | [ • ◻ 〈 x₂ 〉 ᶜ ] , proj₂ | [ • ◻ 〈 x₄ 〉 ᶜ ] , proj₄ | s = {!!}
+   step⁻ᴹ (E │• F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q₁) | [ ([ x ] •) ᵇ ] , proj₅ | [ ([ .x ] •) ᵇ ] , proj₆ | r | [ • ◻ 〈 x₂ 〉 ᶜ ] , proj₂ | [ • [ .x ] 〈 x₄ 〉 ᶜ ] , proj₄ | s = {!!}
+   step⁻ᴹ (E │• F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q₁) | [ ([ x ] •) ᵇ ] , proj₅ | [ ([ .x ] •) ᵇ ] , proj₆ | r | [ • [ .x ] 〈 x₂ 〉 ᶜ ] , proj₂ | [ • ◻ 〈 x₄ 〉 ᶜ ] , proj₄ | [ • () 〈 x₃ 〉 ᶜ ] , proj₃
+   step⁻ᴹ (E │• F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P₁ │ Q₁) | [ ([ x ] •) ᵇ ] , proj₅ | [ ([ .x ] •) ᵇ ] , proj₆ | proj₇ , proj₈ | [ • [ .x ] 〈 x₂ 〉 ᶜ ] , proj₂ | [ • [ .x ] 〈 x₄ 〉 ᶜ ] , proj₄ | proj₁ , proj₃ = ?
 {-
    step⁻ᴹ (E │• F) {P₀ │ Q₀} {P₀′ │ Q₀′} (P │ Q) with step E P₀ | step E P₀′ | stepᴹ E P | stepᴹ F Q
    ... | ◻ , _ | ◻ , _ | _ , R | _ , S = ◻ , [ (popᴹ ◻ *ᴹ) R │ S ]
