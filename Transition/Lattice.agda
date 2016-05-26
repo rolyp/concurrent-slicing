@@ -134,7 +134,7 @@ module Transition.Lattice where
    ... | ◻ , _ | ◻ , _ | _ , P′ | _ , Q′ = ◻ , [ (popᴹ ◻ *ᴹ) P′ │ Q′ ]
    ... | ◻ , _ | [ (◻ •) ᵇ ] , _ | _ , P′ | _ , Q′ = ◻ , [ (popᴹ ◻ *ᴹ) P′ │ Q′ ]
    ... | ◻ , _ | [ ([ x ] •) ᵇ ] , ◻ | _ , P′ | _ , Q′ with step F S | step F S′
-   ... | proj₁ , proj₂ | ◻ , proj₄ = ◻ , [ {!!} ]
+   ... | proj₁ , proj₂ | ◻ , proj₄ = ◻ , [ {!!} │ Q′ ]
    ... | proj₁ , proj₂ | [ • ◻ 〈 x₂ 〉 ᶜ ] , proj₄ = {!!}
    ... | proj₁ , proj₂ | [ • [ .x ] 〈 x₂ 〉 ᶜ ] , proj₄ = {!!}
    step⁻ᴹ (E │• F) {R₁ │ S₁} {R′ │ S′} (P₁ │ Q₁) | ◻ , proj₂ | [ ([ x ] •) ᵇ ] , [ x₁ ] | proj₁ , P′ | proj₃ , proj₄ = {!x₁!}
