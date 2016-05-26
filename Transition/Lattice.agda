@@ -21,131 +21,6 @@ module Transition.Lattice where
    open import Ren.Lattice as ᴿ̃ using (pop; popᴹ; push; swap)
    open import Transition as ᵀ using (_—[_-_]→_; module _—[_-_]→_); open _—[_-_]→_
 
-   infixl 6 _➕₁_ _ᵇ│_ _ᶜ│_ _│ᵇ_ _│ᶜ_ _│•_ _│ᵥ_
-   mutual
-      data ↓⁻_ {Γ} : ∀ {P} {a : Action Γ} {R} → P —[ a - _ ]→ R → Set where
-         _•∙_ : ∀ {x : Name Γ} {P : Proc (Γ + 1)} → ↓′ x → ↓′ P → ↓⁻ (x •∙ P)
-         •_〈_〉∙_ : ∀ {x y : Name Γ} {P : Proc Γ} → ↓′ x → ↓′ y → ↓′ P → ↓⁻ (• x 〈 y 〉∙ P)
-         _➕₁_ : ∀ {P} {a : Action Γ} {R} {E : P —[ a - _ ]→ R} {Q : Proc Γ} → ↓ E → ↓′ Q → ↓⁻ (E ➕₁ Q)
-         _ᵇ│_ : ∀ {P} {a : Actionᵇ Γ} {R} {E : P —[ a ᵇ - _ ]→ R} {Q : Proc Γ} → ↓ E → ↓′ Q → ↓⁻ (E ᵇ│ Q)
-         _ᶜ│_ : ∀ {P} {a : Actionᶜ Γ} {R} {E : P —[ a ᶜ - _ ]→ R} {Q : Proc Γ} → ↓ E → ↓′ Q → ↓⁻ (E ᶜ│ Q)
-         _│ᵇ_ : ∀ {Q} {a : Actionᵇ Γ} {S} {P : Proc Γ} {F : Q —[ a ᵇ - _ ]→ S} → ↓′ P → ↓ F → ↓⁻ (P │ᵇ F)
-         _│ᶜ_ : ∀ {Q} {a : Actionᶜ Γ} {S} {P : Proc Γ} {F : Q —[ a ᶜ - _ ]→ S} → ↓′ P → ↓ F → ↓⁻ (P │ᶜ F)
-         _│•_ : ∀ {P R Q S} {x : Name Γ} {y : Name Γ} {E : P —[ x • ᵇ - _ ]→ R} {F : Q —[ • x 〈 y 〉 ᶜ - _ ]→ S} →
-                ↓ E → ↓ F → ↓⁻ (E │• F)
-         _│ᵥ_ : ∀ {P R Q S} {x : Name Γ} {E : P —[ x • ᵇ - _ ]→ R} {F : Q —[ (• x) ᵇ - _ ]→ S} →
-                ↓ E → ↓ F → ↓⁻ (E │ᵥ F)
-         ν•_ : ∀ {P R} {x : Name Γ} {E : P —[ • ᴺ.suc x 〈 ᴺ.zero 〉 ᶜ - _ ]→ R} → ↓ E → ↓⁻ ν• E
-         νᵇ_ : ∀ {P} {a : Actionᵇ Γ} {R} {E : P —[ (ᴿ.push *) a ᵇ - _ ]→ R} → ↓ E → ↓⁻ νᵇ E
-         νᶜ_ : ∀ {P} {a : Actionᶜ Γ} {R} {E : P —[ (ᴿ.push *) a ᶜ - _ ]→ R} → ↓ E → ↓⁻ νᶜ E
-         !_ : ∀ {P} {a : Action Γ} {R} {E : P │ ! P —[ a - _ ]→ R} → ↓ E → ↓⁻ ! E
-
-      data ↓_ {Γ} : ∀ {P} {a : Action Γ} {R} → P —[ a - _ ]→ R → Set where
-         ◻ : ∀ {P} {a : Action Γ} {R} {E : P —[ a - _ ]→ R} → ↓ E
-         [_] : ∀ {P} {a : Action Γ} {R} {E : P —[ a - _ ]→ R} → ↓⁻ E → ↓ E
-
-   infix 4 _≤⁻_ _≤_
-   mutual
-      data _≤⁻_ {Γ} : ∀ {P} {a : Action Γ} {R} {E : P —[ a - _ ]→ R} → ↓⁻ E → ↓⁻ E → Set where
-         _•∙_ : ∀ {x₀ : Name Γ} {P₀} {x x′ : ↓′ x₀} {P P′ : ↓′ P₀} → x ≤′ x′ → P ≤′ P′ → x •∙ P ≤⁻ x′ •∙ P′
-         •_〈_〉∙_ : ∀ {x₀ y₀ : Name Γ} {P₀} {x x′ : ↓′ x₀} {y y′ : ↓′ y₀} {P P′ : ↓′ P₀} →
-                   x ≤′ x′ → y ≤′ y′ → P ≤′ P′ → • x 〈 y 〉∙ P ≤⁻ • x′ 〈 y′ 〉∙ P′
-         _➕₁_ : ∀ {P} {a : Action Γ} {R} {E₀ : P —[ a - _ ]→ R} {Q₀ : Proc Γ} {E E′ : ↓ E₀} {Q Q′ : ↓′ Q₀} →
-                 E ≤ E′ → Q ≤′ Q′ → E ➕₁ Q ≤⁻ E′ ➕₁ Q′
-         _ᵇ│_ : ∀ {P} {a : Actionᵇ Γ} {R} {E₀ : P —[ a ᵇ - _ ]→ R} {Q₀ : Proc Γ} {E E′ : ↓ E₀} {Q Q′ : ↓′ Q₀} →
-                E ≤ E′ → Q ≤′ Q′ → E ᵇ│ Q ≤⁻ E′ ᵇ│ Q′
-         _ᶜ│_ : ∀ {P} {a : Actionᶜ Γ} {R} {E₀ : P —[ a ᶜ - _ ]→ R} {Q₀ : Proc Γ} {E E′ : ↓ E₀} {Q Q′ : ↓′ Q₀} →
-                E ≤ E′ → Q ≤′ Q′ → E ᶜ│ Q ≤⁻ E′ ᶜ│ Q′
-         _│ᵇ_ : ∀ {Q} {a : Actionᵇ Γ} {S} {P₀ : Proc Γ} {F₀ : Q —[ a ᵇ - _ ]→ S} {P P′ : ↓′ P₀} {F F′ : ↓ F₀} →
-                P ≤′ P′ → F ≤ F′ → P │ᵇ F ≤⁻ P′ │ᵇ F′
-         _│ᶜ_ : ∀ {Q} {a : Actionᶜ Γ} {S} {P₀ : Proc Γ} {F₀ : Q —[ a ᶜ - _ ]→ S} {P P′ : ↓′ P₀} {F F′ : ↓ F₀} →
-                P ≤′ P′ → F ≤ F′ → P │ᶜ F ≤⁻ P′ │ᶜ F′
-         _│•_ : ∀ {P R Q S} {x : Name Γ} {y : Name Γ} {E₀ : P —[ x • ᵇ - _ ]→ R} {F₀ : Q —[ • x 〈 y 〉 ᶜ - _ ]→ S}
-                {E E′ : ↓ E₀} {F F′ : ↓ F₀} → E ≤ E′ → F ≤ F′ → E │• F ≤⁻ E′ │• F′
-         _│ᵥ_ : ∀ {P R Q S} {x : Name Γ} {E₀ : P —[ x • ᵇ - _ ]→ R} {F₀ : Q —[ (• x) ᵇ - _ ]→ S}
-                {E E′ : ↓ E₀} {F F′ : ↓ F₀} → E ≤ E′ → F ≤ F′ → E │ᵥ F ≤⁻ E′ │ᵥ F′
-         ν•_ : ∀ {P R} {x : Name Γ} {E₀ : P —[ • ᴺ.suc x 〈 ᴺ.zero 〉 ᶜ - _ ]→ R} {E E′ : ↓ E₀} → E ≤ E′ → ν• E ≤⁻ ν• E′
-         νᵇ_ : ∀ {P R} {a : Actionᵇ Γ} {E₀ : P —[ (ᴿ.push *) a ᵇ - _ ]→ R} {E E′ : ↓ E₀} → E ≤ E′ → νᵇ E ≤⁻ νᵇ E′
-         νᶜ_ : ∀ {P R} {a : Actionᶜ Γ} {E₀ : P —[ (ᴿ.push *) a ᶜ - _ ]→ R} {E E′ : ↓ E₀} → E ≤ E′ → νᶜ E ≤⁻ νᶜ E′
-         !_ : ∀ {P} {a : Action Γ} {R} {E₀ : P │ ! P —[ a - _ ]→ R} {E E′ : ↓ E₀} → E ≤ E′ → ! E ≤⁻ ! E′
-
-      data _≤_ {Γ} : ∀ {P} {a : Action Γ} {R} {E : P —[ a - _ ]→ R} → ↓ E → ↓ E → Set where
-         ◻ : ∀ {P} {a : Action Γ} {R} {E₀ : P —[ a - _ ]→ R} {E : ↓ E₀} → ◻ ≤ E
-         [_] : ∀ {P} {a : Action Γ} {R} {E₀ : P —[ a - _ ]→ R} {E E′ : ↓⁻ E₀} → E ≤⁻ E′ → [ E ] ≤ [ E′ ]
-
-   -- Keep as postulates; too trivial to justify amount of boilerplate involved in proving them.
-   postulate
-      _⊔⁻_ : ∀ {Γ P} {a : Action Γ} {R} {E₀ : P —[ a - _ ]→ R} (E E′ : ↓⁻ E₀) → ↓⁻ E₀
-      _⊓⁻_ : ∀ {Γ P} {a : Action Γ} {R} {E₀ : P —[ a - _ ]→ R} (E E′ : ↓⁻ E₀) → ↓⁻ E₀
-      ⊔⁻-comm : ∀ {Γ P} {a : Action Γ} {R} {E : P —[ a - _ ]→ R} → Commutative _≡_ (_⊔⁻_ {E₀ = E})
-      ⊔⁻-assoc : ∀ {Γ P} {a : Action Γ} {R} {E : P —[ a - _ ]→ R} → Associative _≡_ (_⊔⁻_ {E₀ = E})
-      ⊓⁻-comm : ∀ {Γ P} {a : Action Γ} {R} {E : P —[ a - _ ]→ R} → Commutative _≡_ (_⊓⁻_ {E₀ = E})
-      ⊓⁻-assoc : ∀ {Γ P} {a : Action Γ} {R} {E : P —[ a - _ ]→ R} → Associative _≡_ (_⊓⁻_ {E₀ = E})
-      ⊓⁻-idem : ∀ {Γ P} {a : Action Γ} {R} {E : P —[ a  - _ ]→ R} → Idempotent _≡_ (_⊓⁻_ {E₀ = E})
-      ⊔⁻-absorbs-⊓⁻ : ∀ {Γ P} {a : Action Γ} {R} {E : P —[ a - _ ]→ R} → _Absorbs_ _≡_ (_⊔⁻_ {E₀ = E}) _⊓⁻_
-      ⊓⁻-absorbs-⊔⁻ : ∀ {Γ P} {a : Action Γ} {R} {E : P —[ a - _ ]→ R} → _Absorbs_ _≡_ (_⊓⁻_ {E₀ = E}) _⊔⁻_
-
-   -- TODO: should do these though, as they're not verbose.
-   postulate
-      _⊔_ : ∀ {Γ P} {a : Action Γ} {R} {E₀ : P —[ a - _ ]→ R} (E E′ : ↓ E₀) → ↓ E₀
-      _⊓_ : ∀ {Γ P} {a : Action Γ} {R} {E₀ : P —[ a - _ ]→ R} (E E′ : ↓ E₀) → ↓ E₀
-      ⊔-comm : ∀ {Γ P} {a : Action Γ} {R} {E : P —[ a - _ ]→ R} → Commutative _≡_ (_⊔_ {E₀ = E})
-      ⊔-assoc : ∀ {Γ P} {a : Action Γ} {R} {E : P —[ a - _ ]→ R} → Associative _≡_ (_⊔_ {E₀ = E})
-      ⊓-comm : ∀ {Γ P} {a : Action Γ} {R} {E : P —[ a - _ ]→ R} → Commutative _≡_ (_⊓_ {E₀ = E})
-      ⊓-assoc : ∀ {Γ P} {a : Action Γ} {R} {E : P —[ a - _ ]→ R} → Associative _≡_ (_⊓_ {E₀ = E})
-      ⊓-idem : ∀ {Γ P} {a : Action Γ} {R} {E : P —[ a - _ ]→ R} → Idempotent _≡_ (_⊓_ {E₀ = E})
-      ⊔-absorbs-⊓ : ∀ {Γ P} {a : Action Γ} {R} {E : P —[ a - _ ]→ R} → _Absorbs_ _≡_ (_⊔_ {E₀ = E}) _⊓_
-      ⊓-absorbs-⊔ : ∀ {Γ P} {a : Action Γ} {R} {E : P —[ a - _ ]→ R} → _Absorbs_ _≡_ (_⊓_ {E₀ = E}) _⊔_
-
-   isLattice⁻ : ∀ {Γ P} {a : Action Γ} {R} {E : P —[ a - _ ]→ R} → IsLattice _≡_ (_⊔⁻_ {E₀ = E}) _⊓⁻_
-   isLattice⁻ = record {
-         isEquivalence = isEquivalence;
-         ∨-comm = ⊔⁻-comm;
-         ∨-assoc = ⊔⁻-assoc;
-         ∨-cong = cong₂ _⊔⁻_;
-         ∧-comm = ⊓⁻-comm;
-         ∧-assoc = ⊓⁻-assoc;
-         ∧-cong = cong₂ _⊓⁻_;
-         absorptive = ⊔⁻-absorbs-⊓⁻ , ⊓⁻-absorbs-⊔⁻
-      }
-
-   isLattice : ∀ {Γ P} {a : Action Γ} {R} {E : P —[ a - _ ]→ R} → IsLattice _≡_ (_⊔_ {E₀ = E}) _⊓_
-   isLattice = record {
-         isEquivalence = isEquivalence;
-         ∨-comm = ⊔-comm;
-         ∨-assoc = ⊔-assoc;
-         ∨-cong = cong₂ _⊔_;
-         ∧-comm = ⊓-comm;
-         ∧-assoc = ⊓-assoc;
-         ∧-cong = cong₂ _⊓_;
-         absorptive = ⊔-absorbs-⊓ , ⊓-absorbs-⊔
-      }
-
-   private
-      lattices : ∀ {Γ P} {a : Action Γ} {R} → Lattices (P —[ a - _ ]→ R)
-      lattices = record {
-            ↓_ = ↓_; ↓⁻_ = ↓⁻_; _⊔⁻_ = _⊔⁻_; _⊔_ = _⊔_; _⊓⁻_ = _⊓⁻_; _⊓_ = _⊓_;
-            isLattice⁻ = isLattice⁻; isLattice = isLattice
-         }
-
-   open Lattice.Lattices using (_≤⁻ᴸ_; _≤ᴸ_)
-
-   -- Omitted (trivial and boilerplate-heavy).
-   postulate
-      ≤⁻ᴸ⇒≤⁻ : ∀ {Γ P} {a : Action Γ} {R} {E : P —[ a - _ ]→ R} → _≤⁻ᴸ_ lattices {a = E} ⇒ _≤⁻_
-      ≤⁻⇒≤⁻ᴸ : ∀ {Γ P} {a : Action Γ} {R} {E : P —[ a - _ ]→ R} → _≤⁻_ ⇒ _≤⁻ᴸ_ lattices {a = E}
-
-   -- TODO.
-   postulate
-      ≤ᴸ⇒≤ : ∀ {Γ P} {a : Action Γ} {R} {E : P —[ a - _ ]→ R} → _≤ᴸ_ lattices {a = E} ⇒ _≤_
-      ≤⇒≤ᴸ : ∀ {Γ P} {a : Action Γ} {R} {E : P —[ a - _ ]→ R} → _≤_ ⇒ _≤ᴸ_ lattices {a = E}
-
-   instance
-      prefixes : ∀ {Γ P} {a : Action Γ} {R} → Prefixes (P —[ a - _ ]→ R)
-      prefixes = record {
-            lattices = lattices; _≤_ = _≤_; _≤⁻_ = _≤⁻_; ≤⁻ᴸ⇒≤⁻ = ≤⁻ᴸ⇒≤⁻; ≤ᴸ⇒≤ = ≤ᴸ⇒≤; ≤⁻⇒≤⁻ᴸ = ≤⁻⇒≤⁻ᴸ; ≤⇒≤ᴸ = ≤⇒≤ᴸ
-         }
-
    open module Action×Proc {Γ} = Lattice.Product (Action Γ) (Proc ∘ᶠ ᴬ.target) using (×-prefixes)
 
    -- Seem to need this to coerce product lattice to more specific type.
@@ -257,10 +132,10 @@ module Transition.Lattice where
    stepᴹ E ◻ = ◻ , ◻
 
    step⁻ᴹ (_ •∙ _) (x •∙ P) = [ (x •) ᵇ ] , P
+   step⁻ᴹ (• _ 〈 _ 〉∙ _) (• x 〈 y 〉∙ P) = [ • x 〈 y 〉 ᶜ ] , P
+   step⁻ᴹ (E ➕₁ _) (P ➕ Q) = stepᴹ E P
    step⁻ᴹ E P = {!!}
 {-
-   step⁻ᴹ (• _ 〈 _ 〉∙ _) (• x 〈 y 〉∙ P) = [ • x 〈 y 〉∙ P ]
-   step⁻ᴹ (E ➕₁ _) (P ➕ Q) = [ stepᴹ E P ➕₁ Q ]
    step⁻ᴹ {a = _ ᵇ} (E ᵇ│ _) (P │ Q) = [ stepᴹ E P ᵇ│ Q ]
    step⁻ᴹ {a = _ ᶜ} (E ᶜ│ _) (P │ Q) = [ stepᴹ E P ᶜ│ Q ]
    step⁻ᴹ {a = _ ᵇ} (_ │ᵇ E) (P │ Q) = [ P │ᵇ stepᴹ E Q ]
@@ -290,7 +165,7 @@ module Transition.Lattice where
    ... | ◻ | _ | _ = ◻
    ... | [ (• ◻) ᵇ ] | [ (• _) ᵇ ] | [ (• ◻) ᵇ ] = ◻
    ... | [ (• [ ._ ]) ᵇ ] | [ (• [ ._ ]) ᵇ ] | [ (• [ ._ ]) ᵇ ] = [ νᵇ (stepᴹ E P) ]
-   step⁻ᴹ {a = x • ᵇ} (νᵇ E) {R = ν R} {ν R′} (ν P) with action (step E R) | action (step E R′) | actionᴹ (stepᴹ E P)
+   step⁻ᴹ {a = x • ᵇ} (νᵇ E ) {R = ν R} {ν R′} (ν P) with action (step E R) | action (step E R′) | actionᴹ (stepᴹ E P)
    ... | ◻ | _ | _ = ◻
    ... | [ ◻ • ᵇ ] | [ _ • ᵇ ] | [ ◻ • ᵇ ] = ◻
    ... | [ [ ._ ] • ᵇ ] | [ [ ._ ] • ᵇ ] | [ [ ._ ] • ᵇ ] = [ νᵇ (stepᴹ E P) ]
