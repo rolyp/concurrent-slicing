@@ -250,26 +250,15 @@ module Transition.Lattice where
    ... | ◻ , R = ◻ , [ ν R ]
    step⁻ (! E) (! P) = step E [ P │ [ ! P ] ]
 
-   action : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓′ P → ↓′ a
-   action E = π₁ ∘ᶠ step E
-{-
-   actionᴹ : ∀ {Γ P} {a : Action Γ} {R} {E₀ : P —[ a - _ ]→ R} {E E′ : ↓ E₀} → E ≤ E′ → action E ≤′ action E′
-   actionᴹ E = π₁ ∘ᶠ stepᴹ
--}
-   -- Called 'fwd' in the paper.
-   target : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓′ P → ↓′ R
-   target E = π₂ ∘ᶠ step E
-{-
-   targetᴹ : ∀ {Γ P} {a : Action Γ} {R} {E₀ : P —[ a - _ ]→ R} {E E′ : ↓ E₀} → E ≤ E′ → target E ≤′ target E′
-   targetᴹ = π₂ ∘ᶠ outᴹ
-
-   stepᴹ : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) {R R′ : ↓′ P} → R ≤′ R′ → step E R ≤ step E R′
-   step⁻ᴹ : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) {R R′ : ↓⁻′ P} → R ≤⁻′ R′ → step⁻ E R ≤ step⁻ E R′
+   stepᴹ : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) {R R′ : ↓′ P} → R ≤′ R′ → step E R ≤′ step E R′
+   step⁻ᴹ : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) {R R′ : ↓⁻′ P} → R ≤⁻′ R′ → step⁻ E R ≤′ step⁻ E R′
 
    stepᴹ E [ P ] = step⁻ᴹ E P
-   stepᴹ E ◻ = ◻
+   stepᴹ E ◻ = ◻ , ◻
 
-   step⁻ᴹ (_ •∙ _) (x •∙ P) = [ x •∙ P ]
+   step⁻ᴹ (_ •∙ _) (x •∙ P) = [ (x •) ᵇ ] , P
+   step⁻ᴹ E P = {!!}
+{-
    step⁻ᴹ (• _ 〈 _ 〉∙ _) (• x 〈 y 〉∙ P) = [ • x 〈 y 〉∙ P ]
    step⁻ᴹ (E ➕₁ _) (P ➕ Q) = [ stepᴹ E P ➕₁ Q ]
    step⁻ᴹ {a = _ ᵇ} (E ᵇ│ _) (P │ Q) = [ stepᴹ E P ᵇ│ Q ]
@@ -316,7 +305,20 @@ module Transition.Lattice where
    ... | ◻ | _ | _ = ◻
    ... | [ τ ᶜ ] | [ τ ᶜ ] | [ τ ᶜ ] = [ νᶜ (stepᴹ E P) ]
    step⁻ᴹ (! E) (! P) = [ ! stepᴹ E [ P │ [ ! P ] ] ]
+-}
+   action : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓′ P → ↓′ a
+   action E = π₁ ∘ᶠ step E
 
+   actionᴹ : ∀ {Γ P₀} {a : Action Γ} {R} (E : P₀ —[ a - _ ]→ R) {P P′ : ↓′ P₀} → P ≤′ P′ → action E P ≤′ action E P′
+   actionᴹ E = π₁ ∘ᶠ stepᴹ E
+
+   -- Called 'fwd' in the paper.
+   target : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓′ P → ↓′ R
+   target E = π₂ ∘ᶠ step E
+
+   targetᴹ : ∀ {Γ P₀} {a : Action Γ} {R} (E : P₀ —[ a - _ ]→ R) {P P′ : ↓′ P₀} → P ≤′ P′ → target E P ≤′ target E P′
+   targetᴹ E = π₂ ∘ᶠ stepᴹ E
+{-
    -- unstep reflects ◻. The unstep-◻ variant slices with a ◻ process and a non-◻ action. The recursion case
    -- is simpler than in the paper, because we don't specify here the slice of the source process.
    unstep : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) → ↓′ a → ↓′ P′ → ↓ E
