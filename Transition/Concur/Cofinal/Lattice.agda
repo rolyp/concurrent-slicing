@@ -89,7 +89,15 @@ module Transition.Concur.Cofinal.Lattice where
                    wib′ : (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸)) ≡ (ᴿ.pop (ᴺ.suc y) *) ((ᴿ.swap *) (S′ (⊖₁ 𝐸)))
                    wib′ = IsEquivalence.reflexive isEquivalence wib
                    gib : (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸)) ≡ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
-                   gib = trans wib′ (sym (pop∘swap y (S′ (⊖₁ 𝐸)))) in
+                   gib = let open EqReasoning (setoid _) in
+                      begin
+                         (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸))
+                      ≡⟨ cong (ᴿ.pop (ᴺ.suc y) *) (swap-swap (γ₁ 𝐸)) ⟩
+                         (ᴿ.pop (ᴺ.suc y) *) ((ᴿ.swap *) (S′ (⊖₁ 𝐸)))
+                      ≡⟨ sym (pop∘swap y _) ⟩
+                         (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
+                      ∎ in
+                      -- trans wib′ (sym (pop∘swap y (S′ (⊖₁ 𝐸)))) in
                _≡_
                (braiding (ᵇ∇ᶜ {a = a} {τ}) {0}
                          (cong₂ _│_ gib refl)
@@ -291,7 +299,7 @@ module Transition.Concur.Cofinal.Lattice where
       with step E′ P | inspect (step E′) P
    ... | ◻ , R | _
       with step (E′/E (⊖₁ 𝐸)) (target E P) | inspect (step (E′/E (⊖₁ 𝐸))) (target E P)
-   ... | ◻ , P′ | s = gamma₁-│•ᵇ {!𝐸!} {!!} {!!} {!!} {!!} {!!} {!!} {!!}
+   ... | ◻ , P′ | s = gamma₁-│•ᵇ 𝐸 {!!} {!!} {!!} {!!} {!!} {!!} {!!}
    ... | [ (◻ •) ᵇ ] , proj₂ | s = {!!}
    ... | [ ([ ._ ] •) ᵇ ] , proj₂ | s
       with step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
