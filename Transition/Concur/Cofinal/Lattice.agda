@@ -172,7 +172,7 @@ module Transition.Concur.Cofinal.Lattice where
                _≡_ {A = ↓_ {A = Proc (Γ + 1)} ((ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸)) │ (ᴿ.push *) S₀)}
                    [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ S₀′ ]
                    [ goal │ (push *̃) S₁ ]
-   gamma₁-│•ᵇ 𝐸 F R S₁ P S₀′ = {!!}
+   gamma₁-│•ᵇ 𝐸 F pop-y*E/E′ R S₁ P S₀′ = {!!}
 
    -- This is γ₁ lifted to the lattice setting. Can't seem to avoid inspect-on-steroids here, yuk.
    -- TODO: swap the direction of the equivalence, for consistency with γ₁.
@@ -364,7 +364,7 @@ module Transition.Concur.Cofinal.Lattice where
    ... | [ • ◻ 〈 x₂ 〉 ᶜ ] , _ | w = {!!}
    ... | [ • [ ._ ] 〈 x₂ 〉 ᶜ ] , _ | w = {!!}
    gamma₁ {E = E ᵇ│ _} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] | [ [ x ] • ᵇ ] , _ | r | [ ◻ • ᵇ ] , _ | s | [ • [ .x ] 〈 _ 〉 ᶜ ] , _ | u = {!!}
-   gamma₁ {E = E ᵇ│ _} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] | [ [ x ] • ᵇ ] , _ | r | [ [ ._ ] • ᵇ ] , _ | s | [ • [ .x ] 〈 _ 〉 ᶜ ] , _ | u
+   gamma₁ {E = E ᵇ│ _} {E′ │• .F} (_│•ᵇ_ {y = y} {a = a} 𝐸 F) [ P │ Q ] | [ [ x ] • ᵇ ] , _ | r | [ [ ._ ] • ᵇ ] , _ | s | [ • [ .x ] 〈 _ 〉 ᶜ ] , _ | u
       with step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
    ... | ◻ , _ | _ = {!!}
    ... | [ • ◻ 〈 _ 〉 ᶜ ] , _ | _ = {!!}
