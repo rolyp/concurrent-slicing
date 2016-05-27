@@ -28,84 +28,7 @@ module Transition.Concur.Cofinal.Lattice where
    open import Transition.Ren.Lattice using (renᶜ-target-comm; renᶜ-action-comm; renᵇ-target-comm; renᵇ-action-comm)
 
    open Delta′
-{-
-   ◻≢[-] : ∀ {Γ} {a : Actionᶜ Γ} {a′ : ↓ᶜ⁻ a} → _≡_ {A = ↓_ {A = Action Γ} (a ᶜ)} ◻ [ a′ ᶜ ] → ⊥
-   ◻≢[-] ()
 
-   blah : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
-          (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ → action (E/E′ (⊖₁ 𝐸)) (target E′ P′) ≡ residual 𝑎 (action E P′)
-   blah {𝑎 = ˣ∇ˣ} 𝐸 ◻ = refl
-   blah {𝑎 = ᵇ∇ᵇ} 𝐸 ◻ = refl
-   blah {𝑎 = ᵇ∇ᶜ} 𝐸 ◻ = refl
-   blah {𝑎 = ᶜ∇ᵇ} 𝐸 ◻ = refl
-   blah {𝑎 = ᶜ∇ᶜ} 𝐸 ◻ = refl
-   blah {𝑎 = ᵛ∇ᵛ} 𝐸 ◻ = refl
-   blah (E ᵇ│ᵇ F) [ P │ Q ] = sym (ᴬrenᵇ-step-comm E push P)
-   blah (E ᵇ│ᶜ F) [ P │ Q ] = refl
-   blah (E ᶜ│ᵇ F) [ P │ Q ] = sym (ᴬrenᶜ-step-comm E push P)
-   blah (E ᶜ│ᶜ F) [ P │ Q ] = refl
-   blah (𝐸 │•ᵇ F) [ P │ Q ] = {!!}
-
-   blah {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
-   ... | ◻ , R′ | ◻ , _ | [ eq ] | [ eq′ ]
-      with step (E/E′ (⊖₁ 𝐸)) R′ | inspect (step (E/E′ (⊖₁ 𝐸))) R′
-   ... | ◻ , _ | _ = refl
-   ... | [ τ ᶜ ] , _ | [ eq† ] = ⊥-elim (◻≢[-] (
-      let action′ = action (E/E′ (⊖₁ 𝐸)) in
-      trans (sym (,-inj₁ eq′)) (trans (sym (blah 𝐸 P)) (trans (cong action′ (,-inj₂ eq)) (,-inj₁ eq†)))))
-   blah {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | ◻ , R′ | [ τ ᶜ ] , _ | [ eq ] | [ eq′ ]
-      with step (E/E′ (⊖₁ 𝐸)) R′ | inspect (step (E/E′ (⊖₁ 𝐸))) R′
-   ... | ◻ , _ | [ eq† ] = ⊥-elim (◻≢[-] (sym (
-      let action′ = action (E/E′ (⊖₁ 𝐸)) in
-      trans (sym (,-inj₁ eq′)) (trans (sym (blah 𝐸 P)) (trans (cong action′ (,-inj₂ eq)) (,-inj₁ eq†))))))
-   ... | [ τ ᶜ ] , _ | [ eq† ] = refl
-   blah {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | [ τ ᶜ ] , R′ | ◻ , _ | [ eq ] | [ eq′ ]
-      with step (E/E′ (⊖₁ 𝐸)) R′ | inspect (step (E/E′ (⊖₁ 𝐸))) R′
-   ... | ◻ , _ | _ = refl
-   ... | [ τ ᶜ ] , _ | [ eq† ] = ⊥-elim (◻≢[-] (
-      let action′ = action (E/E′ (⊖₁ 𝐸)) in
-      trans (sym (,-inj₁ eq′)) (trans (sym (blah 𝐸 P)) (trans (cong action′ (,-inj₂ eq)) (,-inj₁ eq†)))))
-   blah {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] | [ τ ᶜ ] , R′ | [ τ ᶜ ] , R | [ eq ] | [ eq′ ]
-      with step (E/E′ (⊖₁ 𝐸)) R′ | inspect (step (E/E′ (⊖₁ 𝐸))) R′
-   ... | ◻ , _ | [ eq† ] = ⊥-elim (◻≢[-] (sym (
-      let action′ = action (E/E′ (⊖₁ 𝐸)) in
-      trans (sym (,-inj₁ eq′)) (trans (sym (blah 𝐸 P)) (trans (cong action′ (,-inj₂ eq)) (,-inj₁ eq†))))))
-   ... | [ τ ᶜ ] , _ | _ = refl
-   blah (! 𝐸) [ ! P ] = blah 𝐸 [ P │ [ ! P ] ]
-   blah 𝐸 P = {!!}
-
-   blah (𝐸 │•ᶜ F) [ x₁ │ x₂ ] = {!!}
-   blah (E ᵇ│• 𝐸) [ x₁ │ x₂ ] = {!!}
-   blah (E ᶜ│• 𝐸) [ x₁ │ x₂ ] = {!!}
-   blah (𝐸 │ᵥᵇ F) [ x₁ │ x₂ ] = {!!}
-   blah (𝐸 │ᵥᶜ F) [ x₁ │ x₂ ] = {!!}
-   blah (E ᵇ│ᵥ 𝐸) [ x₁ │ x₂ ] = {!!}
-   blah (E ᶜ│ᵥ 𝐸) [ x₁ │ x₂ ] = {!!}
-   blah (𝐸 ➕₁ Q) [ x ➕ x₁ ] = {!!}
-   blah (P │ᵇᵇ 𝐸) [ x │ x₁ ] = {!!}
-   blah (P │ᵇᶜ 𝐸) [ x │ x₁ ] = {!!}
-   blah (P │ᶜᵇ 𝐸) [ x │ x₁ ] = {!!}
-   blah (P │ᶜᶜ 𝐸) [ x │ x₁ ] = {!!}
-   blah (P │ᵛᵛ 𝐸) [ x │ x₁ ] = {!!}
-   blah (𝐸 ᵇᵇ│ Q) [ x │ x₁ ] = {!!}
-   blah (𝐸 ᵇᶜ│ Q) [ x │ x₁ ] = {!!}
-   blah (𝐸 ᶜᵇ│ Q) [ x │ x₁ ] = {!!}
-   blah (𝐸 ᶜᶜ│ Q) [ x │ x₁ ] = {!!}
-   blah (𝐸 ᵛᵛ│ Q) [ x │ x₁ ] = {!!}
-   blah (𝐸 │• 𝐸₁) [ x₁ │ x₂ ] = {!!}
-   blah (𝐸 │•ᵥ 𝐸₁) [ x₁ │ x₂ ] = {!!}
-   blah (𝐸 │ᵥ• 𝐸₁) [ x₁ │ x₂ ] = {!!}
-   blah (𝐸 │ᵥ 𝐸₁) [ x₁ │ x₂ ] = {!!}
-   blah (𝐸 │ᵥ′ 𝐸₁) [ x₁ │ x₂ ] = {!!}
-   blah (ν• 𝐸) [ ν x₁ ] = {!!}
-   blah (ν•ᵇ 𝐸) [ ν x₁ ] = {!!}
-   blah (ν•ᶜ 𝐸) [ ν x₁ ] = {!!}
-   blah (νᵇᵇ 𝐸) [ ν x ] = {!!}
-   blah (νˣˣ 𝐸) [ ν x₁ ] = {!!}
-   blah (νᵇᶜ 𝐸) [ ν x ] = {!!}
-   blah (νᶜᵇ 𝐸) [ ν x ] = {!!}
-   blah (νᶜᶜ 𝐸) [ ν x ] = {!!}
--}
    braiding : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) {Δ : Cxt} {P P′} (γ : ⋈̂[ Γ , 𝑎 , Δ ] P P′) → ↓ P → ↓ P′
    braiding ˣ∇ˣ eq rewrite eq = idᶠ
    braiding ᵇ∇ᵇ {Δ} refl = (swap ᴿ+ Δ) *̃
@@ -129,8 +52,8 @@ module Transition.Concur.Cofinal.Lattice where
       reduce-ᵇ∇ᵇ refl _ = ≅-refl
 
       reduce-ᵇ∇ᶜ : ∀ {Γ P P′} {a : Actionᵇ Γ} {a′ : Actionᶜ Γ} (γ : P ≡ P′) (P† : ↓ P) →
-                   braiding (ᵇ∇ᶜ {a = a} {a′}) {0} γ P† ≅ P†
-      reduce-ᵇ∇ᶜ refl _ = ≅-refl
+                   braiding (ᵇ∇ᶜ {a = a} {a′}) {0} γ P† ≡ subst ↓_ γ P†
+      reduce-ᵇ∇ᶜ refl _ = refl
 
       reduce-ᶜ∇ᵇ : ∀ {Γ P P′} {a : Actionᶜ Γ} {a′ : Actionᵇ Γ} (γ : P ≡ P′) (P† : ↓ P) →
                    braiding (ᶜ∇ᵇ {a = a} {a′}) {0} γ P† ≅ P†
@@ -159,27 +82,56 @@ module Transition.Concur.Cofinal.Lattice where
 
    gamma₁-│•ᵇ : ∀ {Γ x y P₀ R₀ R′₀ S₀ Q₀} {a : Actionᵇ Γ} {E : P₀ —[ a ᵇ - _ ]→ R₀} {E′ : P₀ —[ (x •) ᵇ - _ ]→ R′₀}
                (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (F : Q₀ —[ • x 〈 y 〉 ᶜ - _ ]→ S₀)
-               (pop-y*E/E′ : (ᴿ.pop y *) R₀ —[ a ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))) (R : ↓ R₀) (S₁ : ↓ S₀)
+               (pop-y*E/E′ : (ᴿ.pop y *) R₀ —[ a ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))) (Q : ↓ Q₀) (R : ↓ R₀) (S₁ : ↓ S₀)
                (P′ : ↓ S (⊖₁ 𝐸)) (S₀′ : ↓ (ᴿ.push *) S₀) →
                let wib : (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸)) ≡ (ᴿ.pop (ᴺ.suc y) *) ((ᴿ.swap *) (S′ (⊖₁ 𝐸)))
-                   wib = cong (ᴿ.pop (ᴺ.suc y) *) (swap-swap (trans (γ₁ 𝐸) (≅-to-≡ (Proc↲ refl (S′ (⊖₁ 𝐸))))))
+                   wib = cong (ᴿ.pop (ᴺ.suc y) *) (swap-swap (γ₁ 𝐸))
+                   wib′ : (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸)) ≡ (ᴿ.pop (ᴺ.suc y) *) ((ᴿ.swap *) (S′ (⊖₁ 𝐸)))
+                   wib′ = IsEquivalence.reflexive isEquivalence wib
                    gib : (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸)) ≡ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
-                   gib = trans wib (sym (pop∘swap y (S′ (⊖₁ 𝐸))))
-                   have : ↓ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
-                   have = target pop-y*E/E′ ((pop ◻ *̃) R)
-                   goal : ↓ (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸))
-                   goal = subst ↓_ (sym gib) have in
-               _≡_ {A = ↓_ {A = Proc (Γ + 1)} ((ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸)) │ (ᴿ.push *) S₀)}
-                   [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ S₀′ ]
-                   [ goal │ (push *̃) S₁ ]
-   gamma₁-│•ᵇ 𝐸 F pop-y*E/E′ R S₁ P S₀′ = {!!}
+                   gib = trans wib′ (sym (pop∘swap y (S′ (⊖₁ 𝐸)))) in
+               _≡_
+               (braiding (ᵇ∇ᶜ {a = a} {τ}) {0}
+                         (cong₂ _│_ gib refl)
+                         [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ target ((ᴿ.push *ᶜ) F) (((push *̃) Q)) ])
+               [ target pop-y*E/E′ ((pop ◻ *̃) R) │ ((push *̃) (target F Q)) ]
+   gamma₁-│•ᵇ = {!!}
 
-   -- This is γ₁ lifted to the lattice setting. Can't seem to avoid inspect-on-steroids here, yuk.
-   -- TODO: swap the direction of the equivalence, for consistency with γ₁.
+{-
+      (cong₂ _│_
+       (trans
+        (IsEquivalence.reflexive
+         (record { refl = λ {.x} → refl ; sym = sym ; trans = trans })
+         (cong (ᴿ.pop (ᴺ.suc y) .Proc.Ren._.*)
+          (trans
+           (IsEquivalence.reflexive
+            (record { refl = λ {.x} → refl ; sym = sym ; trans = trans })
+            (sym
+             (trans
+              (trans (.Proc.Ren._.*-preserves-∘ (S (⊖₁ 𝐸)))
+               (.Proc.Ren._.*-preserves-≃ₑ ᴿ.swap-involutive (S (⊖₁ 𝐸))))
+              (.Proc.Ren._.*-preserves-id (S (⊖₁ 𝐸))))))
+           (trans
+            (IsEquivalence.reflexive
+             (record { refl = λ {.x} → refl ; sym = sym ; trans = trans })
+             (cong (ᴿ.swap .Proc.Ren._.*) (γ₁ 𝐸)))
+            refl))))
+        (trans
+         (IsEquivalence.reflexive
+          (record { refl = λ {.x} → refl ; sym = sym ; trans = trans })
+          (sym
+           (sym
+            (trans (.Proc.Ren._.*-preserves-∘ (S′ (⊖₁ 𝐸)))
+             (.Proc.Ren._.*-preserves-≃ₑ (λ x₁ → sym (ᴿ.pop∘swap y x₁))
+              (S′ (⊖₁ 𝐸)))))))
+         refl))
+       refl)
+-}
+
+   -- γ₁ lifted to the lattice setting. Can't seem to avoid inspect-on-steroids here, yuk.
    gamma₁ : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
             (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ →
             braiding 𝑎 (γ₁ 𝐸) (target (E′/E (⊖₁ 𝐸)) (target E P′)) ≡ coerceCxt 𝑎 (target (E/E′ (⊖₁ 𝐸)) (target E′ P′))
-
 {-
    gamma₁ {𝑎 = ˣ∇ˣ {x = x} {u}} 𝐸 ◻ =
       ≅-to-≡ (≅-trans (◻-cong (sym (trans (γ₁ 𝐸) (≅-to-≡ (Proc↲ refl _))))) (≅-sym (reduce-ˣ∇ˣ {x = x} {u} (γ₁ 𝐸) _)))
@@ -339,7 +291,7 @@ module Transition.Concur.Cofinal.Lattice where
       with step E′ P | inspect (step E′) P
    ... | ◻ , R | _
       with step (E′/E (⊖₁ 𝐸)) (target E P) | inspect (step (E′/E (⊖₁ 𝐸))) (target E P)
-   ... | ◻ , P′ | s = {!!}
+   ... | ◻ , P′ | s = gamma₁-│•ᵇ {!𝐸!} {!!} {!!} {!!} {!!} {!!} {!!} {!!}
    ... | [ (◻ •) ᵇ ] , proj₂ | s = {!!}
    ... | [ ([ ._ ] •) ᵇ ] , proj₂ | s
       with step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
