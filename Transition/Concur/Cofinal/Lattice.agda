@@ -106,13 +106,15 @@ module Transition.Concur.Cofinal.Lattice where
              ≡⟨ sym (pop∘swap y _) ⟩
                 (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
              ∎
+          nib : (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ ≅ target pop-y*E/E′ ((pop ◻ *̃) R)
+          nib = {!!}
           open ≅-Reasoning in ≅-to-≡ (
       begin
          braiding (ᵇ∇ᶜ {a = a} {τ}) {0} (cong₂ _│_ gib refl)
                   [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ target ((ᴿ.push *ᶜ) F) (((push *̃) Q)) ]
       ≅⟨ reduce-ᵇ∇ᶜ (cong₂ _│_ gib refl) _ ⟩
          [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ target ((ᴿ.push *ᶜ) F) (((push *̃) Q)) ]
-      ≅⟨ {!!} ⟩
+      ≅⟨ ≅-cong [_] (≅-cong✴₂ ↓_ gib _│_ nib (≡-to-≅ (sym (renᶜ-target-comm F push Q)))) ⟩
          [ target pop-y*E/E′ ((pop ◻ *̃) R) │ ((push *̃) (target F Q)) ]
       ∎)
 
