@@ -161,13 +161,10 @@ module Transition.Concur.Cofinal.Lattice where
                (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (F : Q₀ —[ • x 〈 y 〉 ᶜ - _ ]→ S₀)
                (pop-y*E/E′ : (ᴿ.pop y *) R₀ —[ a ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))) (R : ↓ R₀) (S₁ : ↓ S₀)
                (P′ : ↓ S (⊖₁ 𝐸)) (S₀′ : ↓ (ᴿ.push *) S₀) →
-               let S‡ = [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ S₀′ ]
-                   S† = braiding (ᵇ∇ᶜ {a = a} {τ}) {0}
-                                 (cong₂ _│_ (≅-to-≡ (≅-cong (ᴿ.pop (ᴿ.push y) *) (≡-to-≅ (swap-swap (γ₁ 𝐸))))) refl)
-                                 S‡ in
+               let S‡ = [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ S₀′ ] in
                _≡_ {A = ↓_ {A = Proc (Γ + 1)} ((ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸)) │ (ᴿ.push *) S₀)}
-                   [ target pop-y*E/E′ ((pop ◻ *̃) R) │ (push *̃) S₁ ]
                    {!!}
+                   [ target pop-y*E/E′ ((pop ◻ *̃) R) │ (push *̃) S₁ ]
    gamma₁-│•ᵇ 𝐸 F R S₁ P S₀′ = {!!}
 
    -- Not sure of the naming convention to use here. This is essentially γ₁ lifted to the lattice setting.
