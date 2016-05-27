@@ -52,8 +52,8 @@ module Transition.Concur.Cofinal.Lattice where
       reduce-ᵇ∇ᵇ refl _ = ≅-refl
 
       reduce-ᵇ∇ᶜ : ∀ {Γ P P′} {a : Actionᵇ Γ} {a′ : Actionᶜ Γ} (γ : P ≡ P′) (P† : ↓ P) →
-                   braiding (ᵇ∇ᶜ {a = a} {a′}) {0} γ P† ≡ subst ↓_ γ P†
-      reduce-ᵇ∇ᶜ refl _ = refl
+                   braiding (ᵇ∇ᶜ {a = a} {a′}) {0} γ P† ≅ P†
+      reduce-ᵇ∇ᶜ refl _ = ≅-refl
 
       reduce-ᶜ∇ᵇ : ∀ {Γ P P′} {a : Actionᶜ Γ} {a′ : Actionᵇ Γ} (γ : P ≡ P′) (P† : ↓ P) →
                    braiding (ᶜ∇ᵇ {a = a} {a′}) {0} γ P† ≅ P†
@@ -93,43 +93,28 @@ module Transition.Concur.Cofinal.Lattice where
                       ≡⟨ sym (pop∘swap y _) ⟩
                          (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
                       ∎ in
-               _≡_
-               (braiding (ᵇ∇ᶜ {a = a} {τ}) {0}
-                         (cong₂ _│_ gib refl)
-                         [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ target ((ᴿ.push *ᶜ) F) (((push *̃) Q)) ])
+               braiding (ᵇ∇ᶜ {a = a} {τ}) {0} (cong₂ _│_ gib refl)
+                        [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ target ((ᴿ.push *ᶜ) F) (((push *̃) Q)) ] ≡
                [ target pop-y*E/E′ ((pop ◻ *̃) R) │ ((push *̃) (target F Q)) ]
-   gamma₁-│•ᵇ = {!!}
-
-{-
-      (cong₂ _│_
-       (trans
-        (IsEquivalence.reflexive
-         (record { refl = λ {.x} → refl ; sym = sym ; trans = trans })
-         (cong (ᴿ.pop (ᴺ.suc y) .Proc.Ren._.*)
-          (trans
-           (IsEquivalence.reflexive
-            (record { refl = λ {.x} → refl ; sym = sym ; trans = trans })
-            (sym
-             (trans
-              (trans (.Proc.Ren._.*-preserves-∘ (S (⊖₁ 𝐸)))
-               (.Proc.Ren._.*-preserves-≃ₑ ᴿ.swap-involutive (S (⊖₁ 𝐸))))
-              (.Proc.Ren._.*-preserves-id (S (⊖₁ 𝐸))))))
-           (trans
-            (IsEquivalence.reflexive
-             (record { refl = λ {.x} → refl ; sym = sym ; trans = trans })
-             (cong (ᴿ.swap .Proc.Ren._.*) (γ₁ 𝐸)))
-            refl))))
-        (trans
-         (IsEquivalence.reflexive
-          (record { refl = λ {.x} → refl ; sym = sym ; trans = trans })
-          (sym
-           (sym
-            (trans (.Proc.Ren._.*-preserves-∘ (S′ (⊖₁ 𝐸)))
-             (.Proc.Ren._.*-preserves-≃ₑ (λ x₁ → sym (ᴿ.pop∘swap y x₁))
-              (S′ (⊖₁ 𝐸)))))))
-         refl))
-       refl)
--}
+   gamma₁-│•ᵇ {y = y} {a = a} 𝐸 F pop-y*E/E′ Q R P′ =
+      let gib : (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸)) ≡ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
+          gib = let open EqReasoning (setoid _) in
+             begin
+                (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸))
+             ≡⟨ cong (ᴿ.pop (ᴺ.suc y) *) (swap-swap (γ₁ 𝐸)) ⟩
+                (ᴿ.pop (ᴺ.suc y) *) ((ᴿ.swap *) (S′ (⊖₁ 𝐸)))
+             ≡⟨ sym (pop∘swap y _) ⟩
+                (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
+             ∎
+          open ≅-Reasoning in ≅-to-≡ (
+      begin
+         braiding (ᵇ∇ᶜ {a = a} {τ}) {0} (cong₂ _│_ gib refl)
+                  [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ target ((ᴿ.push *ᶜ) F) (((push *̃) Q)) ]
+      ≅⟨ reduce-ᵇ∇ᶜ (cong₂ _│_ gib refl) _ ⟩
+         [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ target ((ᴿ.push *ᶜ) F) (((push *̃) Q)) ]
+      ≅⟨ {!!} ⟩
+         [ target pop-y*E/E′ ((pop ◻ *̃) R) │ ((push *̃) (target F Q)) ]
+      ∎)
 
    -- γ₁ lifted to the lattice setting. Can't seem to avoid inspect-on-steroids here, yuk.
    gamma₁ : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
