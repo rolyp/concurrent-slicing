@@ -161,14 +161,18 @@ module Transition.Concur.Cofinal.Lattice where
                (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (F : Q₀ —[ • x 〈 y 〉 ᶜ - _ ]→ S₀)
                (pop-y*E/E′ : (ᴿ.pop y *) R₀ —[ a ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))) (R : ↓ R₀) (S₁ : ↓ S₀)
                (P′ : ↓ S (⊖₁ 𝐸)) (S₀′ : ↓ (ᴿ.push *) S₀) →
-               let S‡ = [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ S₀′ ] in
+               let wib : (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸)) ≡ (ᴿ.pop (ᴺ.suc y) *) ((ᴿ.swap *) (S′ (⊖₁ 𝐸)))
+                   wib = cong (ᴿ.pop (ᴺ.suc y) *) (swap-swap (trans (γ₁ 𝐸) (≅-to-≡ (Proc↲ refl (S′ (⊖₁ 𝐸))))))
+                   have : ↓ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
+                   have = target pop-y*E/E′ ((pop ◻ *̃) R)
+                   goal : ↓ (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸))
+                   goal = subst ↓_ {!!} have in
                _≡_ {A = ↓_ {A = Proc (Γ + 1)} ((ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸)) │ (ᴿ.push *) S₀)}
-                   S‡
-                   {!!} -- [ target pop-y*E/E′ ((pop ◻ *̃) R) │ (push *̃) S₁ ]
+                   [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ S₀′ ]
+                   [ goal │ (push *̃) S₁ ]
    gamma₁-│•ᵇ 𝐸 F R S₁ P S₀′ = {!!}
 
-   -- Not sure of the naming convention to use here. This is essentially γ₁ lifted to the lattice setting.
-   -- One should do shirk inspect-on-steroids, but can't seem to avoid it here. Yuk.
+   -- This is γ₁ lifted to the lattice setting. Can't seem to avoid inspect-on-steroids here, yuk.
    -- TODO: swap the direction of the equivalence, for consistency with γ₁.
    gamma₁ : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
             (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ →
