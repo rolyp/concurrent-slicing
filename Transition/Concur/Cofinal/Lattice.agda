@@ -82,13 +82,9 @@ module Transition.Concur.Cofinal.Lattice where
 
    gamma₁-│•ᵇ : ∀ {Γ x y P₀ R₀ R′₀ S₀ Q₀} {a : Actionᵇ Γ} {E : P₀ —[ a ᵇ - _ ]→ R₀} {E′ : P₀ —[ (x •) ᵇ - _ ]→ R′₀}
                (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (F : Q₀ —[ • x 〈 y 〉 ᶜ - _ ]→ S₀)
-               (pop-y*E/E′ : (ᴿ.pop y *) R₀ —[ a ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))) (Q : ↓ Q₀) (R : ↓ R₀) (S₁ : ↓ S₀)
-               (P′ : ↓ S (⊖₁ 𝐸)) (S₀′ : ↓ (ᴿ.push *) S₀) →
-               let wib : (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸)) ≡ (ᴿ.pop (ᴺ.suc y) *) ((ᴿ.swap *) (S′ (⊖₁ 𝐸)))
-                   wib = cong (ᴿ.pop (ᴺ.suc y) *) (swap-swap (γ₁ 𝐸))
-                   wib′ : (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸)) ≡ (ᴿ.pop (ᴺ.suc y) *) ((ᴿ.swap *) (S′ (⊖₁ 𝐸)))
-                   wib′ = IsEquivalence.reflexive isEquivalence wib
-                   gib : (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸)) ≡ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
+               (pop-y*E/E′ : (ᴿ.pop y *) R′₀ —[ a ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))) (Q : ↓ Q₀) (R : ↓ R′₀)
+               (P′ : ↓ S (⊖₁ 𝐸)) →
+               let gib : (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸)) ≡ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
                    gib = let open EqReasoning (setoid _) in
                       begin
                          (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸))
@@ -97,7 +93,6 @@ module Transition.Concur.Cofinal.Lattice where
                       ≡⟨ sym (pop∘swap y _) ⟩
                          (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
                       ∎ in
-                      -- trans wib′ (sym (pop∘swap y (S′ (⊖₁ 𝐸)))) in
                _≡_
                (braiding (ᵇ∇ᶜ {a = a} {τ}) {0}
                          (cong₂ _│_ gib refl)
@@ -299,9 +294,9 @@ module Transition.Concur.Cofinal.Lattice where
       with step E′ P | inspect (step E′) P
    ... | ◻ , R | _
       with step (E′/E (⊖₁ 𝐸)) (target E P) | inspect (step (E′/E (⊖₁ 𝐸))) (target E P)
-   ... | ◻ , P′ | s = gamma₁-│•ᵇ 𝐸 {!!} {!!} {!!} {!!} {!!} {!!} {!!}
-   ... | [ (◻ •) ᵇ ] , proj₂ | s = {!!}
-   ... | [ ([ ._ ] •) ᵇ ] , proj₂ | s
+   ... | ◻ , P′ | _ = gamma₁-│•ᵇ 𝐸 F pop-y*E/E′ Q R P′
+   ... | [ (◻ •) ᵇ ] , P′ | _ = gamma₁-│•ᵇ 𝐸 F pop-y*E/E′ Q R P′
+   ... | [ ([ ._ ] •) ᵇ ] , P′ | _
       with step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
    ... | ◻ , _ | p = {!!}
    gamma₁ {E = E ᵇ│ _} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] | _ | ◻ , _ | r | [ ([ ._ ] •) ᵇ ] , _ | s | [ • ◻ 〈 _ 〉 ᶜ ] , _ | p = {!!}
