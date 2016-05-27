@@ -163,10 +163,12 @@ module Transition.Concur.Cofinal.Lattice where
                (P′ : ↓ S (⊖₁ 𝐸)) (S₀′ : ↓ (ᴿ.push *) S₀) →
                let wib : (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸)) ≡ (ᴿ.pop (ᴺ.suc y) *) ((ᴿ.swap *) (S′ (⊖₁ 𝐸)))
                    wib = cong (ᴿ.pop (ᴺ.suc y) *) (swap-swap (trans (γ₁ 𝐸) (≅-to-≡ (Proc↲ refl (S′ (⊖₁ 𝐸))))))
+                   gib : (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸)) ≡ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
+                   gib = trans wib (sym (pop∘swap y (S′ (⊖₁ 𝐸))))
                    have : ↓ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
                    have = target pop-y*E/E′ ((pop ◻ *̃) R)
                    goal : ↓ (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸))
-                   goal = subst ↓_ {!!} have in
+                   goal = subst ↓_ (sym gib) have in
                _≡_ {A = ↓_ {A = Proc (Γ + 1)} ((ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸)) │ (ᴿ.push *) S₀)}
                    [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ S₀′ ]
                    [ goal │ (push *̃) S₁ ]
@@ -176,7 +178,8 @@ module Transition.Concur.Cofinal.Lattice where
    -- TODO: swap the direction of the equivalence, for consistency with γ₁.
    gamma₁ : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
             (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ →
-            coerceCxt 𝑎 (target (E/E′ (⊖₁ 𝐸)) (target E′ P′)) ≡ braiding 𝑎 (γ₁ 𝐸) (target (E′/E (⊖₁ 𝐸)) (target E P′))
+            braiding 𝑎 (γ₁ 𝐸) (target (E′/E (⊖₁ 𝐸)) (target E P′)) ≡ coerceCxt 𝑎 (target (E/E′ (⊖₁ 𝐸)) (target E′ P′))
+
 {-
    gamma₁ {𝑎 = ˣ∇ˣ {x = x} {u}} 𝐸 ◻ =
       ≅-to-≡ (≅-trans (◻-cong (sym (trans (γ₁ 𝐸) (≅-to-≡ (Proc↲ refl _))))) (≅-sym (reduce-ˣ∇ˣ {x = x} {u} (γ₁ 𝐸) _)))
@@ -330,8 +333,6 @@ module Transition.Concur.Cofinal.Lattice where
       ∎)
    gamma₁ {E = E ᶜ│ Q₀} {E′ ᶜ│ ._} (𝐸 ᵛᵛ│ ._) [ P │ Q ] = cong (λ P → [ P │ Q ]) (gamma₁ 𝐸 P)
 -}
-{-
-   NEW CANDIDATE
    gamma₁ {E = E ᵇ│ _} {E′ = E′ │• .F} (_│•ᵇ_ {x = x} {y} {a = a} 𝐸 F) [ P │ Q ]
       with step E′ P | inspect (step E′) P
    ... | ◻ , _ | _
@@ -349,11 +350,11 @@ module Transition.Concur.Cofinal.Lattice where
            step F Q | inspect (step F) Q
    ... | ◻ , _ | s | ◻ , _ | u = {!!}
    ... | [ (◻ •) ᵇ ] , _ | s | ◻ , _ | u = {!!}
-   ... | [ ([ .(ᴺ.suc x) ] •) ᵇ ] , _ | s | ◻ , _ | u
+   ... | [ ([ ._ ] •) ᵇ ] , _ | s | ◻ , _ | u
       with step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
    ... | ◻ , _ | w = {!!}
    ... | [ • ◻ 〈 x₂ 〉 ᶜ ] , _ | w = {!!}
-   ... | [ • [ .(ᴺ.suc x) ] 〈 x₂ 〉 ᶜ ] , _ | w = {!!}
+   ... | [ • [ ._ ] 〈 x₂ 〉 ᶜ ] , _ | w = {!!}
    gamma₁ {E = E ᵇ│ _} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] | [ [ x ] • ᵇ ] , _ | r | ◻ , _ | s | [ • ◻ 〈 _ 〉 ᶜ ] , _ | u = {!!}
    gamma₁ {E = E ᵇ│ _} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] | [ [ x ] • ᵇ ] , _ | r | ◻ , _ | s | [ • [ .x ] 〈 _ 〉 ᶜ ] , _ | u = {!!}
    gamma₁ {E = E ᵇ│ _} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] | [ [ x ] • ᵇ ] , _ | r | [ ◻ • ᵇ ] , _ | s | [ • ◻ 〈 _ 〉 ᶜ ] , _ | u = {!!}
@@ -361,14 +362,13 @@ module Transition.Concur.Cofinal.Lattice where
       with step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
    ... | ◻ , _ | w = {!!}
    ... | [ • ◻ 〈 x₂ 〉 ᶜ ] , _ | w = {!!}
-   ... | [ • [ .(ᴺ.suc x) ] 〈 x₂ 〉 ᶜ ] , _ | w = {!!}
+   ... | [ • [ ._ ] 〈 x₂ 〉 ᶜ ] , _ | w = {!!}
    gamma₁ {E = E ᵇ│ _} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] | [ [ x ] • ᵇ ] , _ | r | [ ◻ • ᵇ ] , _ | s | [ • [ .x ] 〈 _ 〉 ᶜ ] , _ | u = {!!}
    gamma₁ {E = E ᵇ│ _} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] | [ [ x ] • ᵇ ] , _ | r | [ [ ._ ] • ᵇ ] , _ | s | [ • [ .x ] 〈 _ 〉 ᶜ ] , _ | u
       with step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
    ... | ◻ , _ | _ = {!!}
-   ... | [ • ◻ 〈 x₂ 〉 ᶜ ] , _ | _ = {!!}
-   ... | [ • [ .(ᴺ.suc x) ] 〈 x₂ 〉 ᶜ ] , _ | _ = {!!}
--}
+   ... | [ • ◻ 〈 _ 〉 ᶜ ] , _ | _ = {!!}
+   ... | [ • [ ._ ] 〈 _ 〉 ᶜ ] , _ | _ = {!!}
 {-
       with step E′ P | step F Q | inspect (step E′) P | inspect (step F) Q
    ... | ◻ , R | _ , R′ | [ eq ] | [ eq′ ]
