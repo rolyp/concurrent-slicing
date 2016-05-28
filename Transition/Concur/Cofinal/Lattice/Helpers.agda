@@ -73,8 +73,9 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       [-│-]-cong refl ≅-refl refl ≅-refl = ≅-refl
 
    gamma₁-│•ᵇ : ∀ {Γ x y P₀ R₀ R′₀ S₀ Q₀} {a : Actionᵇ Γ} {E : P₀ —[ a ᵇ - _ ]→ R₀} {E′ : P₀ —[ (x •) ᵇ - _ ]→ R′₀}
-               (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (F : Q₀ —[ • x 〈 y 〉 ᶜ - _ ]→ S₀) (P : ↓ P₀) (Q : ↓ Q₀) (R′ : ↓ R′₀)
-               (P′ : ↓ S (⊖₁ 𝐸)) → target E′ P ≡ R′ → target (E′/E (⊖₁ 𝐸)) (target E P) ≡ P′ →
+               (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (F : Q₀ —[ • x 〈 y 〉 ᶜ - _ ]→ S₀) (P : ↓ P₀) (Q : ↓ Q₀) (S† : ↓ (ᴿ.push *) S₀)
+               (R′ : ↓ R′₀) (P′ : ↓ S (⊖₁ 𝐸)) → target E′ P ≡ R′ → target (E′/E (⊖₁ 𝐸)) (target E P) ≡ P′ →
+               target ((ᴿ.push *ᶜ) F) (((push *̃) Q)) ≡ S† →
                braiding (ᵇ∇ᵇ {a = a} {x •}) {0} (γ₁ 𝐸) (target (E′/E (⊖₁ 𝐸)) (target E P)) ≡
                target (E/E′ (⊖₁ 𝐸)) (target E′ P) →
                let gib : (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸)) ≡ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
@@ -89,9 +90,9 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                    pop-y*E/E′ = subst (λ a → _ —[ a ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸)))
                                       (pop∘push y a) ((ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))) in
                braiding (ᵇ∇ᶜ {a = a} {τ}) {0} (cong₂ _│_ gib refl)
-                        [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ target ((ᴿ.push *ᶜ) F) (((push *̃) Q)) ] ≡
+                        [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ S† ] ≡
                [ target pop-y*E/E′ ((pop ◻ *̃) R′) │ ((push *̃) (target F Q)) ]
-   gamma₁-│•ᵇ {Γ} {x = x} {y} {a = a} {E} {E′} 𝐸 F P Q R′ P′ eq eq† IH =
+   gamma₁-│•ᵇ {Γ} {x = x} {y} {a = a} {E} {E′} 𝐸 F P Q S† R′ P′ eq eq† eq‡ IH =
       let T : Actionᵇ Γ → Set
           T = λ a′ → (ᴿ.pop y *) (ᵀ.target E′) —[ a′ ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
           pop-y*E/E′ = subst T (pop∘push y a) ((ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸)))
@@ -135,15 +136,9 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
           open ≅-Reasoning in ≅-to-≡ (
       begin
          braiding (ᵇ∇ᶜ {a = a} {τ}) {0} (cong₂ _│_ α refl)
-                  [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ target ((ᴿ.push *ᶜ) F) (((push *̃) Q)) ]
+                  [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ S† ]
       ≅⟨ reduce-ᵇ∇ᶜ (cong₂ _│_ α refl) _ ⟩
-         [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ target ((ᴿ.push *ᶜ) F) (((push *̃) Q)) ]
-      ≅⟨ [-│-]-cong α δ refl (≡-to-≅ (sym (renᶜ-target-comm F push Q))) ⟩
+         [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ S† ]
+      ≅⟨ [-│-]-cong α δ refl (≡-to-≅ (trans (sym eq‡) (sym (renᶜ-target-comm F push Q)))) ⟩
          [ target pop-y*E/E′ ((pop ◻ *̃) R′) │ (push *̃) (target F Q) ]
       ∎)
-{-
-   braiding
-   [ (pop ◻ *̃) P′ │ S† ]
-   ≡
-   [ target pop-y*E/E′ ((pop ◻ *̃) R′) │ (push *̃) (target F Q) ]
--}
