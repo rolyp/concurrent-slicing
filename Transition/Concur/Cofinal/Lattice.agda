@@ -83,8 +83,9 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁-│•ᵇ : ∀ {Γ x y P₀ R₀ R′₀ S₀ Q₀} {a : Actionᵇ Γ} {E : P₀ —[ a ᵇ - _ ]→ R₀} {E′ : P₀ —[ (x •) ᵇ - _ ]→ R′₀}
                (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (F : Q₀ —[ • x 〈 y 〉 ᶜ - _ ]→ S₀)
                (pop-y*E/E′ : (ᴿ.pop y *) R′₀ —[ a ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))) (P : ↓ P₀) (Q : ↓ Q₀) (R′ : ↓ R′₀)
-               (P′ : ↓ S (⊖₁ 𝐸)) → P′ ≡ target (E′/E (⊖₁ 𝐸)) (target E P) →
-               braiding (ᵇ∇ᵇ {a = a}) {0} (γ₁ 𝐸) P′ ≡ coerceCxt ᵇ∇ᵇ (target (E/E′ (⊖₁ 𝐸)) R′) →
+               (P′ : ↓ S (⊖₁ 𝐸)) → target (E′/E (⊖₁ 𝐸)) (target E P) ≡ P′ →
+               braiding (ᵇ∇ᵇ {a = a} {x •}) {0} (γ₁ 𝐸) (target (E′/E (⊖₁ 𝐸)) (target E P)) ≡
+               coerceCxt (ᵇ∇ᵇ {a = a} {x •}) (target (E/E′ (⊖₁ 𝐸)) R′) →
                let gib : (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸)) ≡ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
                    gib = let open EqReasoning (setoid _) in
                       begin
@@ -109,7 +110,12 @@ module Transition.Concur.Cofinal.Lattice where
                 (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
              ∎
           wib : (swap *̃) P′ ≅ P″
-          wib = {!!}
+          wib = let open ≅-Reasoning in
+             begin
+                (swap *̃) P′
+             ≅⟨ {!!} ⟩
+                P″
+             ∎
           nib : (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ ≅ target pop-y*E/E′ ((pop ◻ *̃) R′)
           nib = let open ≅-Reasoning in
              begin
@@ -297,8 +303,8 @@ module Transition.Concur.Cofinal.Lattice where
       with step E′ P | inspect (step E′) P
    ... | ◻ , R | _
       with step (E′/E (⊖₁ 𝐸)) (target E P) | inspect (step (E′/E (⊖₁ 𝐸))) (target E P)
-   ... | ◻ , P′ | [ eq′ ] = gamma₁-│•ᵇ 𝐸 F pop-y*E/E′ P Q R P′ ? {!!}
-   ... | [ (◻ •) ᵇ ] , P′ | [ eq′ ] = gamma₁-│•ᵇ 𝐸 F pop-y*E/E′ P Q R P′ ? {!!}
+   ... | ◻ , P′ | [ eq′ ] = gamma₁-│•ᵇ 𝐸 F pop-y*E/E′ P Q R P′ (,-inj₂ eq′) {!gamma₁ 𝐸 P!}
+   ... | [ (◻ •) ᵇ ] , P′ | [ eq′ ] = gamma₁-│•ᵇ 𝐸 F pop-y*E/E′ P Q R P′ {!!} {!!}
    ... | [ ([ ._ ] •) ᵇ ] , P′ | _
       with step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
    ... | ◻ , _ | p = {!!}
