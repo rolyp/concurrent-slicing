@@ -97,7 +97,8 @@ module Transition.Concur.Cofinal.Lattice where
                         [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ target ((ᴿ.push *ᶜ) F) (((push *̃) Q)) ] ≡
                [ target pop-y*E/E′ ((pop ◻ *̃) R′) │ ((push *̃) (target F Q)) ]
    gamma₁-│•ᵇ {y = y} {a = a} 𝐸 F pop-y*E/E′ Q R′ P′ IH =
-      let gib : (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸)) ≡ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
+      let P″ = target (E/E′ (⊖₁ 𝐸)) R′
+          gib : (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸)) ≡ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
           gib = let open EqReasoning (setoid _) in
              begin
                 (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸))
@@ -107,7 +108,16 @@ module Transition.Concur.Cofinal.Lattice where
                 (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
              ∎
           nib : (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ ≅ target pop-y*E/E′ ((pop ◻ *̃) R′)
-          nib = {!!}
+          nib = let open ≅-Reasoning in
+             begin
+                (pop {x₀ = ᴺ.suc y} ◻ *̃) P′
+             ≅⟨ ≅-cong✴ ↓_ (swap-swap (γ₁ 𝐸)) (pop {x₀ = ᴺ.suc y} ◻ *̃) (swap-swap̃ IH) ⟩
+                (pop {x₀ = ᴺ.suc y} ◻ *̃) ((swap *̃) P″)
+             ≅⟨ ≅-sym (pop∘swap̃ ◻ P″) ⟩
+                (suc (pop {x₀ = y} ◻) *̃) P″
+             ≅⟨ {!!} ⟩
+                target pop-y*E/E′ ((pop ◻ *̃) R′)
+             ∎
           open ≅-Reasoning in ≅-to-≡ (
       begin
          braiding (ᵇ∇ᶜ {a = a} {τ}) {0} (cong₂ _│_ gib refl)
