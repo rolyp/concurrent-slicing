@@ -286,14 +286,16 @@ module Transition.Concur.Cofinal.Lattice where
          braiding ᶜ∇ᶜ (cong₂ _│_ (γ₁ 𝐸) refl) [ S‡ │  Q ]
       ∎)
    gamma₁ {E = E ᶜ│ Q₀} {E′ ᶜ│ ._} (𝐸 ᵛᵛ│ ._) [ P │ Q ] = cong (λ P → [ P │ Q ]) (gamma₁ 𝐸 P)
+-}
+
    gamma₁ {E = E ᵇ│ _} {E′ = E′ │• .F} (_│•ᵇ_ {x = x} {y} {a = a} 𝐸 F) [ P │ Q ]
       with (ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))
    ... | pop-y*E/E′ rewrite pop∘push y a
       with step E′ P | inspect (step E′) P
    ... | ◻ , R | _
       with step (E′/E (⊖₁ 𝐸)) (target E P) | inspect (step (E′/E (⊖₁ 𝐸))) (target E P)
-   ... | ◻ , P′ | _ = gamma₁-│•ᵇ 𝐸 F pop-y*E/E′ Q R P′
-   ... | [ (◻ •) ᵇ ] , P′ | _ = gamma₁-│•ᵇ 𝐸 F pop-y*E/E′ Q R P′
+   ... | ◻ , P′ | _ = gamma₁-│•ᵇ 𝐸 F pop-y*E/E′ Q R P′ ?
+   ... | [ (◻ •) ᵇ ] , P′ | _ = gamma₁-│•ᵇ 𝐸 F pop-y*E/E′ Q R P′ ?
    ... | [ ([ ._ ] •) ᵇ ] , P′ | _
       with step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
    ... | ◻ , _ | p = {!!}
@@ -324,7 +326,6 @@ module Transition.Concur.Cofinal.Lattice where
    ... | ◻ , _ | _ = {!!}
    ... | [ • ◻ 〈 _ 〉 ᶜ ] , _ | _ = {!!}
    ... | [ • [ ._ ] 〈 _ 〉 ᶜ ] , _ | _ = {!!}
--}
 
 {-
       with step E′ P | step F Q | inspect (step E′) P | inspect (step F) Q
