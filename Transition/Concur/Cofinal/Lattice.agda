@@ -197,13 +197,15 @@ module Transition.Concur.Cofinal.Lattice where
       with step E′ P | inspect (step E′) P
    ... | ◻ , R′ | [ eq ]
       with step (E′/E (⊖₁ 𝐸)) (target E P) | inspect (step (E′/E (⊖₁ 𝐸))) (target E P)
-   ... | ◻ , P′ | [ eq† ] = gamma₁-│•ᵇ 𝐸 F P Q R′ P′ (,-inj₂ eq) (,-inj₂ eq†) (gamma₁ 𝐸 P)
-   ... | [ (◻ •) ᵇ ] , P′ | [ eq† ] = gamma₁-│•ᵇ 𝐸 F P Q R′ P′ (,-inj₂ eq) (,-inj₂ eq†) (gamma₁ 𝐸 P)
+   ... | ◻ , P′ | [ eq† ] =
+      gamma₁-│•ᵇ 𝐸 F P Q (target ((ᴿ.push *ᶜ) F) ((push *̃) Q)) R′ P′ (,-inj₂ eq) (,-inj₂ eq†) refl (gamma₁ 𝐸 P)
+   ... | [ (◻ •) ᵇ ] , P′ | [ eq† ] =
+      gamma₁-│•ᵇ 𝐸 F P Q (target ((ᴿ.push *ᶜ) F) ((push *̃) Q)) R′ P′ (,-inj₂ eq) (,-inj₂ eq†) refl (gamma₁ 𝐸 P)
    ... | [ ([ ._ ] •) ᵇ ] , P′ | [ eq† ]
       with step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
-   ... | ◻ , S† | [ eq‡ ] = {!!}
-   ... | [ • ◻ 〈 _ 〉 ᶜ ] , S† | [ eq‡ ] = {!!}
-   ... | [ • [ ._ ] 〈 _ 〉 ᶜ ] , S† | [ eq‡ ] = {!!}
+   ... | ◻ , S† | [ eq‡ ] = gamma₁-│•ᵇ 𝐸 F P Q S† R′ P′ (,-inj₂ eq) (,-inj₂ eq†) (,-inj₂ eq‡) (gamma₁ 𝐸 P)
+   ... | [ • ◻ 〈 _ 〉 ᶜ ] , S† | [ eq‡ ] = gamma₁-│•ᵇ 𝐸 F P Q S† R′ P′ (,-inj₂ eq) (,-inj₂ eq†) (,-inj₂ eq‡) (gamma₁ 𝐸 P)
+   ... | [ • [ ._ ] 〈 _ 〉 ᶜ ] , S† | [ eq‡ ] = ?
    gamma₁ {E = E ᵇ│ _} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] |
       [ ◻ • ᵇ ] , _ | [ eq ] = {!!}
    gamma₁ {E = E ᵇ│ _} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] |
