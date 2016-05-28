@@ -141,3 +141,9 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       ≅⟨ [-│-]-cong α δ refl (≡-to-≅ (sym (renᶜ-target-comm F push Q))) ⟩
          [ target pop-y*E/E′ ((pop ◻ *̃) R′) │ (push *̃) (target F Q) ]
       ∎)
+{-
+   braiding
+   [ (pop ◻ *̃) P′ │ S† ]
+   ≡
+   [ target pop-y*E/E′ ((pop ◻ *̃) R′) │ (push *̃) (target F Q) ]
+-}
