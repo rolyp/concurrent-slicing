@@ -205,7 +205,7 @@ module Transition.Concur.Cofinal.Lattice where
       with step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
    ... | ◻ , S† | [ eq‡ ] = gamma₁-│•ᵇ 𝐸 F P Q S† R′ P′ (,-inj₂ eq) (,-inj₂ eq†) (,-inj₂ eq‡) (gamma₁ 𝐸 P)
    ... | [ • ◻ 〈 _ 〉 ᶜ ] , S† | [ eq‡ ] = gamma₁-│•ᵇ 𝐸 F P Q S† R′ P′ (,-inj₂ eq) (,-inj₂ eq†) (,-inj₂ eq‡) (gamma₁ 𝐸 P)
-   ... | [ • [ ._ ] 〈 _ 〉 ᶜ ] , S† | [ eq‡ ] = ?
+   ... | [ • [ ._ ] 〈 _ 〉 ᶜ ] , S† | [ eq‡ ] = {!!}
    gamma₁ {E = E ᵇ│ _} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] |
       [ ◻ • ᵇ ] , _ | [ eq ] = {!!}
    gamma₁ {E = E ᵇ│ _} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] |
