@@ -116,7 +116,7 @@ module Transition.Concur.Cofinal.Lattice where
              ≅⟨ ≅-sym (pop∘swap̃ ◻ P″) ⟩
                 (suc (pop {x₀ = y} ◻) *̃) P″
              ≡⟨ renᵇ-target-comm (E/E′ (⊖₁ 𝐸)) (pop ◻) R′ ⟩
-                target (((ᴿ.pop y) *ᵇ) (E/E′ (⊖₁ 𝐸))) (((pop {x₀ = y} ◻) *̃) R′)
+                target (((ᴿ.pop y) *ᵇ) (E/E′ (⊖₁ 𝐸))) (((pop ◻) *̃) R′)
              ≅⟨ {!!} ⟩
                 target pop-y*E/E′ ((pop ◻ *̃) R′)
              ∎
