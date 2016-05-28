@@ -85,7 +85,7 @@ module Transition.Concur.Cofinal.Lattice where
                (pop-y*E/E′ : (ᴿ.pop y *) R′₀ —[ a ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))) (P : ↓ P₀) (Q : ↓ Q₀) (R′ : ↓ R′₀)
                (P′ : ↓ S (⊖₁ 𝐸)) → target E′ P ≡ R′ → target (E′/E (⊖₁ 𝐸)) (target E P) ≡ P′ →
                braiding (ᵇ∇ᵇ {a = a} {x •}) {0} (γ₁ 𝐸) (target (E′/E (⊖₁ 𝐸)) (target E P)) ≡
-               coerceCxt (ᵇ∇ᵇ {a = a} {x •}) (target (E/E′ (⊖₁ 𝐸)) R′) →
+               target (E/E′ (⊖₁ 𝐸)) (target E′ P) →
                let gib : (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸)) ≡ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
                    gib = let open EqReasoning (setoid _) in
                       begin
@@ -98,7 +98,7 @@ module Transition.Concur.Cofinal.Lattice where
                braiding (ᵇ∇ᶜ {a = a} {τ}) {0} (cong₂ _│_ gib refl)
                         [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ target ((ᴿ.push *ᶜ) F) (((push *̃) Q)) ] ≡
                [ target pop-y*E/E′ ((pop ◻ *̃) R′) │ ((push *̃) (target F Q)) ]
-   gamma₁-│•ᵇ {y = y} {a = a} 𝐸 F pop-y*E/E′ P Q R′ P′ eq eq† IH =
+   gamma₁-│•ᵇ {x = x} {y} {a = a} {E} {E′} 𝐸 F pop-y*E/E′ P Q R′ P′ eq eq† IH =
       let P″ = target (E/E′ (⊖₁ 𝐸)) R′
           gib : (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸)) ≡ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
           gib = let open EqReasoning (setoid _) in
@@ -113,7 +113,13 @@ module Transition.Concur.Cofinal.Lattice where
           wib = let open ≅-Reasoning in
              begin
                 (swap *̃) P′
-             ≅⟨ {!!} ⟩
+             ≡⟨ cong (swap *̃) (sym eq†) ⟩
+                (swap *̃) (target (E′/E (⊖₁ 𝐸)) (target E P))
+             ≅⟨ ≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _) ⟩
+                braiding (ᵇ∇ᵇ {a = a} {x •}) {0} (γ₁ 𝐸) (target (E′/E (⊖₁ 𝐸)) (target E P))
+             ≡⟨ IH ⟩
+                target (E/E′ (⊖₁ 𝐸)) (target E′ P)
+             ≡⟨ cong (target (E/E′ (⊖₁ 𝐸))) eq ⟩
                 P″
              ∎
           nib : (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ ≅ target pop-y*E/E′ ((pop ◻ *̃) R′)
@@ -297,14 +303,15 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ {E = E ᶜ│ Q₀} {E′ ᶜ│ ._} (𝐸 ᵛᵛ│ ._) [ P │ Q ] = cong (λ P → [ P │ Q ]) (gamma₁ 𝐸 P)
 -}
 
+{-
    gamma₁ {E = E ᵇ│ _} {E′ = E′ │• .F} (_│•ᵇ_ {x = x} {y} {a = a} 𝐸 F) [ P │ Q ]
       with (ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))
    ... | pop-y*E/E′ rewrite pop∘push y a
       with step E′ P | inspect (step E′) P
    ... | ◻ , R′ | [ eq ]
       with step (E′/E (⊖₁ 𝐸)) (target E P) | inspect (step (E′/E (⊖₁ 𝐸))) (target E P)
-   ... | ◻ , P′ | [ eq† ] = gamma₁-│•ᵇ 𝐸 F pop-y*E/E′ P Q R′ P′ (,-inj₂ eq) (,-inj₂ eq†) {!gamma₁ 𝐸 P!}
-   ... | [ (◻ •) ᵇ ] , P′ | [ eq′ ] = ?
+   ... | ◻ , P′ | [ eq† ] = gamma₁-│•ᵇ 𝐸 F pop-y*E/E′ P Q R′ P′ (,-inj₂ eq) (,-inj₂ eq†) (gamma₁ 𝐸 P)
+   ... | [ (◻ •) ᵇ ] , P′ | [ eq′ ] = {!!}
    ... | [ ([ ._ ] •) ᵇ ] , P′ | _
       with step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
    ... | ◻ , _ | p = {!!}
@@ -345,6 +352,7 @@ module Transition.Concur.Cofinal.Lattice where
    ... | ◻ , _ | _ = {!!}
    ... | [ • ◻ 〈 _ 〉 ᶜ ] , _ | _ = {!!}
    ... | [ • [ ._ ] 〈 _ 〉 ᶜ ] , _ | _ = {!!}
+-}
 
 {-
       with step E′ P | step F Q | inspect (step E′) P | inspect (step F) Q
