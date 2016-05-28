@@ -197,8 +197,8 @@ module Transition.Concur.Cofinal.Lattice where
       with step E′ P | inspect (step E′) P
    ... | ◻ , R′ | [ eq ]
       with step (E′/E (⊖₁ 𝐸)) (target E P) | inspect (step (E′/E (⊖₁ 𝐸))) (target E P)
-   ... | ◻ , P′ | [ eq† ] = {!!} --gamma₁-│•ᵇ 𝐸 F ? P Q R′ P′ (,-inj₂ eq) (,-inj₂ eq†) {!!} (gamma₁ 𝐸 P)
-   ... | [ (◻ •) ᵇ ] , P′ | _ = {!!}
+   ... | ◻ , P′ | [ eq† ] = gamma₁-│•ᵇ 𝐸 F P Q R′ P′ (,-inj₂ eq) (,-inj₂ eq†) (gamma₁ 𝐸 P)
+   ... | [ (◻ •) ᵇ ] , P′ | [ eq† ] = gamma₁-│•ᵇ 𝐸 F P Q R′ P′ (,-inj₂ eq) (,-inj₂ eq†) (gamma₁ 𝐸 P)
    ... | [ ([ ._ ] •) ᵇ ] , P′ | _
       with step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
    ... | ◻ , _ | p = {!!}
