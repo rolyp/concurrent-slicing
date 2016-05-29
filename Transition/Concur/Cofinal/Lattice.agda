@@ -197,19 +197,18 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ {E = E ᶜ│ Q₀} {E′ ᶜ│ ._} (𝐸 ᵛᵛ│ ._) [ P │ Q ] = cong (λ P → [ P │ Q ]) (gamma₁ 𝐸 P)
 -}
 
-{-
    gamma₁ {E = E ᵇ│ _} {E′ = E′ │• .F} (_│•ᵇ_ {x = x} {y} {a = a} 𝐸 F) [ P │ Q ]
       with step E′ P | inspect (step E′) P
    ... | ◻ , R′ | [ ≡R′ ]
       with step (E′/E (⊖₁ 𝐸)) (target E P) | inspect (step (E′/E (⊖₁ 𝐸))) (target E P)
    ... | ◻ , P′ | [ ≡P′ ] =
       let S† = target ((ᴿ.push *ᶜ) F) ((push *̃) Q); S‡ = target F Q in
-      gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ (,-inj₂ ≡R′) (,-inj₂ ≡P′) refl refl (gamma₁ 𝐸 P)
+      {!!} -- gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ (,-inj₂ ≡R′) (,-inj₂ ≡P′) refl refl (gamma₁ 𝐸 P)
    ... | [ (._ •) ᵇ ] , P′ | [ ≡P′ ]
       with step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
    ... | ◻ , S† | [ ≡S† ] =
       let S‡ = target F Q in
-      gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ (,-inj₂ ≡R′) (,-inj₂ ≡P′) (,-inj₂ ≡S†) refl (gamma₁ 𝐸 P)
+      {!!} -- gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ (,-inj₂ ≡R′) (,-inj₂ ≡P′) (,-inj₂ ≡S†) refl (gamma₁ 𝐸 P)
    ... | [ • ._ 〈 y† 〉 ᶜ ] , S† | [ ≡S† ] =
       let S‡ = target F Q in
       {!!} -- PROBLEM y† AND ◻
@@ -219,11 +218,11 @@ module Transition.Concur.Cofinal.Lattice where
            step F Q | inspect (step F) Q
    ... | ◻ , P′ | [ ≡P′ ] | ◻ , S‡ | [ ≡S‡ ] =
       let S† = target ((ᴿ.push *ᶜ) F) ((push *̃) Q) in
-      gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ (,-inj₂ ≡R′) (,-inj₂ ≡P′) refl (,-inj₂ ≡S‡) (gamma₁ 𝐸 P)
+      {!!} -- gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ (,-inj₂ ≡R′) (,-inj₂ ≡P′) refl (,-inj₂ ≡S‡) (gamma₁ 𝐸 P)
    ... | [ (._ •) ᵇ ] , P′ | [ ≡P′ ] | ◻ , S‡ | [ ≡S‡ ]
       with step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
    ... | ◻ , S† | [ ≡S† ] =
-      gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ (,-inj₂ ≡R′) (,-inj₂ ≡P′) (,-inj₂ ≡S†) (,-inj₂ ≡S‡) (gamma₁ 𝐸 P)
+      {!!} -- gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ (,-inj₂ ≡R′) (,-inj₂ ≡P′) (,-inj₂ ≡S†) (,-inj₂ ≡S‡) (gamma₁ 𝐸 P)
    ... | [ • ._ 〈 y′ 〉 ᶜ ] , S† | [ ≡S† ] = {!!}
    gamma₁ {E = E ᵇ│ _} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] |
       [ x • ᵇ ] , R′ | [ ≡R′ ] | ◻ , P′ | [ ≡P′ ] | [ • .x 〈 y‡ 〉 ᶜ ] , S‡ | [ ≡S‡ ] = {!!} -- PROBLEM ◻ AND y‡
@@ -232,7 +231,6 @@ module Transition.Concur.Cofinal.Lattice where
       with step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
    ... | ◻ , S† | [ ≡S† ] = {!!} -- PROBLEM y‡ AND ◻
    ... | [ • ._ 〈 y† 〉 ᶜ ] , S† | [ ≡S† ] = {!!} -- PROBLEM y† AND y‡
--}
 
 {-
    gamma₁ {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ]
