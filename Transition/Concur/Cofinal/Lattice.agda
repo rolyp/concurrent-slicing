@@ -38,6 +38,9 @@ module Transition.Concur.Cofinal.Lattice where
       gibble : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) → ↓ π₂ (ᴬ⊖ (ᴬ⌣-sym 𝑎)) → ↓ π₁ (ᴬ⊖ 𝑎)
       gibble 𝑎 rewrite sym (ᴬγ 𝑎) | ᴬ⌣-sym-involutive 𝑎 = idᶠ
 
+   ◻≢[-] : ∀ {Γ} {a : Actionᶜ Γ} {a′ : ↓ᶜ⁻ a} → _≡_ {A = ↓_ {A = Action Γ} (a ᶜ)} ◻ [ a′ ᶜ ] → ⊥
+   ◻≢[-] ()
+
    -- γ₁ lifted to the lattice setting. Can't seem to avoid inspect-on-steroids here, yuk.
    gamma₁ : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
             (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ →
@@ -204,8 +207,10 @@ module Transition.Concur.Cofinal.Lattice where
    ... | ◻ , P′ | [ ≡P′ ] =
       let S† = target ((ᴿ.push *ᶜ) F) ((push *̃) Q); S‡ = target F Q in
       {!!} -- gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ (,-inj₂ ≡R′) (,-inj₂ ≡P′) refl refl (gamma₁ 𝐸 P)
-   ... | [ (._ •) ᵇ ] , P′ | [ ≡P′ ]
+   ... | [ (._ •) ᵇ ] , P′ | [ ≡P′ ] =
+      ⊥-elim {!◻≢[-] ?!}
       -- [ a′ = ◻ contradicts a′/a = (._ •) ᵇ ]
+{-
       with step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
    ... | ◻ , S† | [ ≡S† ] =
       let S‡ = target F Q in
@@ -213,6 +218,7 @@ module Transition.Concur.Cofinal.Lattice where
    ... | [ • ._ 〈 y† 〉 ᶜ ] , S† | [ ≡S† ] =
       let S‡ = target F Q in
       {!!} -- ?? PROBLEM y† AND ◻
+-}
    gamma₁ {E = E ᵇ│ _} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] |
       [ x • ᵇ ] , R′ | [ ≡R′ ]
       with step (E′/E (⊖₁ 𝐸)) (target E P) | inspect (step (E′/E (⊖₁ 𝐸))) (target E P) |
