@@ -67,7 +67,7 @@ module Transition.Lattice where
    ... | [ τ ᶜ ] , R = [ τ ᶜ ] , [ ν R ]
    ... | ◻ , R = ◻ , [ ν R ]
    step⁻ (! E) (! P) = step E [ P │ [ ! P ] ]
-{-
+
    stepᴹ : ∀ {Γ P₀} {a : Action Γ} {P′} (E : P₀ —[ a - _ ]→ P′) {P P′ : ↓′ P₀} → P ≤′ P′ → step E P ≤′ step E P′
    step⁻ᴹ : ∀ {Γ P₀} {a : Action Γ} {P′} (E : P₀ —[ a - _ ]→ P′) {P P′ : ↓⁻′ P₀} → P ≤⁻′ P′ → step⁻ E P ≤′ step⁻ E P′
 
@@ -169,7 +169,6 @@ module Transition.Lattice where
 
    targetᴹ : ∀ {Γ P₀} {a : Action Γ} {R} (E : P₀ —[ a - _ ]→ R) {P P′ : ↓′ P₀} → P ≤′ P′ → target E P ≤′ target E P′
    targetᴹ E = π₂ ∘ᶠ stepᴹ E
--}
 
 {-
    -- unstep reflects ◻. The unstep-◻ variant slices with a ◻ process and a non-◻ action. The recursion case
