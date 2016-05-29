@@ -38,7 +38,8 @@ module Transition.Concur.Cofinal.Lattice where
    -- γ₁ lifted to the lattice setting. Can't seem to avoid inspect-on-steroids here, yuk.
    gamma₁ : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
             (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ →
-            braiding 𝑎 (γ₁ 𝐸) (target (E′/E (⊖₁ 𝐸)) (target E P′)) ≡ coerceCxt 𝑎 (target (E/E′ (⊖₁ 𝐸)) (target E′ P′))
+            braiding 𝑎 (γ₁ 𝐸) (target (E′/E (⊖₁ 𝐸)) (target E P′)) ≡ coerceCxt 𝑎 (target (E/E′ (⊖₁ 𝐸)) (target E′ P′)) ×
+            action (E/E′ (⊖₁ 𝐸)) (target E′ P′) ≡ residual 𝑎 (action E P′)
 {-
    gamma₁ {𝑎 = ˣ∇ˣ {x = x} {u}} 𝐸 ◻ =
       ≅-to-≡ (≅-trans (◻-cong (sym (trans (γ₁ 𝐸) (≅-to-≡ (Proc↲ refl _))))) (≅-sym (reduce-ˣ∇ˣ {x = x} {u} (γ₁ 𝐸) _)))
@@ -198,10 +199,11 @@ module Transition.Concur.Cofinal.Lattice where
    ... | ◻ , R′ | [ ≡R′ ]
       with step (E′/E (⊖₁ 𝐸)) (target E P) | inspect (step (E′/E (⊖₁ 𝐸))) (target E P)
    ... | ◻ , P′ | [ ≡P′ ] =
-      gamma₁-│•ᵇ 𝐸 F P Q (target ((ᴿ.push *ᶜ) F) ((push *̃) Q)) R′ P′ (,-inj₂ ≡R′) (,-inj₂ ≡P′) refl (gamma₁ 𝐸 P)
+      let S† = target ((ᴿ.push *ᶜ) F) ((push *̃) Q) in
+      gamma₁-│•ᵇ 𝐸 F P Q S† R′ P′ (,-inj₂ ≡R′) (,-inj₂ ≡P′) refl (gamma₁ 𝐸 P) , {!!}
    ... | [ (._ •) ᵇ ] , P′ | [ ≡P′ ]
       with step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
-   ... | ◻ , S† | [ ≡S† ] = gamma₁-│•ᵇ 𝐸 F P Q S† R′ P′ (,-inj₂ ≡R′) (,-inj₂ ≡P′) (,-inj₂ ≡S†) (gamma₁ 𝐸 P)
+   ... | ◻ , S† | [ ≡S† ] = {!!} -- gamma₁-│•ᵇ 𝐸 F P Q S† R′ P′ (,-inj₂ ≡R′) (,-inj₂ ≡P′) (,-inj₂ ≡S†) (gamma₁ 𝐸 P)
    ... | [ • ._ 〈 y′ 〉 ᶜ ] , S† | [ ≡S† ] = {!!} -- PROBLEM y' AND ◻
    gamma₁ {E = E ᵇ│ _} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] |
       [ x • ᵇ ] , R′ | [ ≡R′ ]
