@@ -3,6 +3,9 @@ module Ren.Lattice.Properties where
 
    open import ConcurrentSlicingCommon
 
+   open import Action using (Action)
+   import Action.Lattice
+   open import Action.Ren.Lattice renaming (_* to _ᴬ*̃)
    import Lattice; open Lattice.Prefixes ⦃...⦄
    open import Name as ᴺ using (Name; _+_)
    open import Proc using (Proc)
@@ -49,10 +52,11 @@ module Ren.Lattice.Properties where
          P
       ∎
 
-   -- More of the same; trivial but tedious, so leave for now.
+   -- More of the same; trivial but tedious, so leave for now. TODO: abstract over ↓ A for any Renameable A.
    postulate
       swap∘push∘push̃ : ∀ {Γ} {P : Proc Γ} (P′ : ↓ P) → (ᴿ̃.swap *̃) ((ᴿ̃.push *̃) ((ᴿ̃.push *̃) P′)) ≅ (ᴿ̃.push *̃) ((ᴿ̃.push *̃) P′)
       pop∘push̃ : ∀ {Γ} {y : Name Γ} (y′ : ↓ y) {P : Proc Γ} (P′ : ↓ P) → (ᴿ̃.pop y′ *̃) ((ᴿ̃.push *̃) P′) ≅ P′
+      ᴬpop∘push̃ : ∀ {Γ} {y : Name Γ} (y′ : ↓ y) {a : Action Γ} (a′ : ↓ a) → (ᴿ̃.pop y′ ᴬ*̃) ((ᴿ̃.push ᴬ*̃) a′) ≅ a′
       swap∘suc-push̃ : ∀ {Γ} {P : Proc (Γ + 1)} (P′ : ↓ P) → (ᴿ̃.push *̃) P′ ≅ (ᴿ̃.swap *̃) ((ᴿ̃.suc ᴿ̃.push *̃) P′)
       swap∘push̃ : ∀ {Γ} {P : Proc (Γ + 1)} (P′ : ↓ P) → (ᴿ̃.suc ᴿ̃.push *̃) P′ ≅ (ᴿ̃.swap *̃) ((ᴿ̃.push *̃) P′)
       pop∘swap̃ : ∀ {Γ} {y : Name Γ} (y′ : ↓ y) {P : Proc (Γ + 2)} (P′ : ↓ P) →

@@ -149,8 +149,11 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       begin
          action pop-y*E/E′  ((pop ◻ *̃) R′)
       ≅⟨ {!!} ⟩
+         (pop {x₀ = y} ◻ ᴬ*̃) (action (E/E′ (⊖₁ 𝐸)) R′)
+      ≡⟨ cong ((pop {x₀ = y} ◻ ᴬ*̃) ∘ᶠ action (E/E′ (⊖₁ 𝐸))) (sym eq) ⟩
+         (pop {x₀ = y} ◻ ᴬ*̃) (action (E/E′ (⊖₁ 𝐸)) (target E′ P))
+      ≡⟨ cong (pop {x₀ = y} ◻ ᴬ*̃) (π₂ IH) ⟩
          (pop {x₀ = y} ◻ ᴬ*̃) ((push ᴬ*̃) (action E P))
-      ≅⟨ {!!} ⟩
+      ≅⟨ ᴬpop∘push̃ ◻ (action E P) ⟩
          action E P
-      ∎
-      )
+      ∎)
