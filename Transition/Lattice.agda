@@ -41,11 +41,10 @@ module Transition.Lattice where
    step⁻ {a = _ ᶜ} (E ᶜ│ _) (P │ Q) = let a , R = step E P in a , [ R │ Q ]
    step⁻ {a = _ ᵇ} (_ │ᵇ F) (P │ Q) = let a , S = step F Q in a , [ (push *̃) P │ S ]
    step⁻ {a = _ ᶜ} (_ │ᶜ F) (P │ Q) = let a , S = step F Q in a , [ P │ S ]
-   step⁻ (E │• F) (P │ Q) with step E P
-   ... | [ x • ᵇ ] , R with step F Q
-   ... | [ • .x 〈 y 〉 ᶜ ] , S = [ τ ᶜ ] , [ (pop y *̃) R │ S ]
-   ... | _ , S = ◻ , [ (pop ◻ *̃) R │ S ]
-   step⁻ (E │• F) (P │ Q) | _ , R = let _ , S = step F Q in ◻ , [ (pop ◻ *̃) R │ S ]
+   step⁻ (E │• F) (P │ Q) with step E P | step F Q
+   ... | ◻ , R | _ , S = ◻ , [ (pop ◻ *̃) R │ S ]
+   ... | [ (x •) ᵇ ] , R | ◻ , S = ◻ , [ (pop ◻ *̃) R │ S ]
+   ... | [ (x •) ᵇ ] , R | [ • .x 〈 y 〉 ᶜ ] , S = [ τ ᶜ ] , [ (pop y *̃) R │ S ]
    step⁻ (E │ᵥ F) (P │ Q) with step E P
    ... | [ x • ᵇ ] , R with step F Q
    ... | [ (• .x) ᵇ ] , S = [ τ ᶜ ] , [ ν [ R │ S ] ]
@@ -68,7 +67,7 @@ module Transition.Lattice where
    ... | [ τ ᶜ ] , R = [ τ ᶜ ] , [ ν R ]
    ... | ◻ , R = ◻ , [ ν R ]
    step⁻ (! E) (! P) = step E [ P │ [ ! P ] ]
-
+{-
    stepᴹ : ∀ {Γ P₀} {a : Action Γ} {P′} (E : P₀ —[ a - _ ]→ P′) {P P′ : ↓′ P₀} → P ≤′ P′ → step E P ≤′ step E P′
    step⁻ᴹ : ∀ {Γ P₀} {a : Action Γ} {P′} (E : P₀ —[ a - _ ]→ P′) {P P′ : ↓⁻′ P₀} → P ≤⁻′ P′ → step⁻ E P ≤′ step⁻ E P′
 
@@ -170,6 +169,8 @@ module Transition.Lattice where
 
    targetᴹ : ∀ {Γ P₀} {a : Action Γ} {R} (E : P₀ —[ a - _ ]→ R) {P P′ : ↓′ P₀} → P ≤′ P′ → target E P ≤′ target E P′
    targetᴹ E = π₂ ∘ᶠ stepᴹ E
+-}
+
 {-
    -- unstep reflects ◻. The unstep-◻ variant slices with a ◻ process and a non-◻ action. The recursion case
    -- is simpler than in the paper, because we don't specify here the slice of the source process.
