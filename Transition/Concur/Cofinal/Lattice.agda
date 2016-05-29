@@ -7,6 +7,7 @@ module Transition.Concur.Cofinal.Lattice where
    open import Action.Concur using (_ᴬ⌣_; ᴬ⌣-sym; ᴬ⌣-sym-involutive; module _ᴬ⌣_; ᴬ⊖; ᴬγ); open _ᴬ⌣_
    open import Action.Concur.Lattice using (residual)
    open import Action.Lattice as ᴬ̃ using (↓ᵇ⁻_; ↓ᶜ⁻_); open ᴬ̃.↓_; open ᴬ̃.↓⁻_; open ᴬ̃.↓ᵇ⁻_; open ᴬ̃.↓ᶜ⁻_
+   open import Action.Ren.Lattice using () renaming (_* to _ᴬ*̃)
    open import Braiding.Proc using (_⋉̂_)
    open import Braiding.Proc.Lattice using (braid̂)
    open import Lattice using (Lattices); open Lattice.Prefixes ⦃...⦄
@@ -38,7 +39,7 @@ module Transition.Concur.Cofinal.Lattice where
       gibble : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) → ↓ π₂ (ᴬ⊖ (ᴬ⌣-sym 𝑎)) → ↓ π₁ (ᴬ⊖ 𝑎)
       gibble 𝑎 rewrite sym (ᴬγ 𝑎) | ᴬ⌣-sym-involutive 𝑎 = idᶠ
 
-   ◻≢[-] : ∀ {Γ} {a : Actionᶜ Γ} {a′ : ↓ᶜ⁻ a} → _≡_ {A = ↓_ {A = Action Γ} (a ᶜ)} ◻ [ a′ ᶜ ] → ⊥
+   ◻≢[-] : ∀ {Γ} {a : Action Γ} {a′ : ↓⁻ a} → _≡_ {A = ↓_ {A = Action Γ} a} ◻ [ a′ ] → ⊥
    ◻≢[-] ()
 
    -- γ₁ lifted to the lattice setting. Can't seem to avoid inspect-on-steroids here, yuk.
@@ -206,19 +207,18 @@ module Transition.Concur.Cofinal.Lattice where
       with step (E′/E (⊖₁ 𝐸)) (target E P) | inspect (step (E′/E (⊖₁ 𝐸))) (target E P)
    ... | ◻ , P′ | [ ≡P′ ] =
       let S† = target ((ᴿ.push *ᶜ) F) ((push *̃) Q); S‡ = target F Q in
-      {!!} -- gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ (,-inj₂ ≡R′) (,-inj₂ ≡P′) refl refl (gamma₁ 𝐸 P)
-   ... | [ (._ •) ᵇ ] , P′ | [ ≡P′ ] =
-      ⊥-elim {!◻≢[-] ?!}
-      -- [ a′ = ◻ contradicts a′/a = (._ •) ᵇ ]
-{-
-      with step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
-   ... | ◻ , S† | [ ≡S† ] =
-      let S‡ = target F Q in
-      {!!} -- gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ (,-inj₂ ≡R′) (,-inj₂ ≡P′) (,-inj₂ ≡S†) refl (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 y† 〉 ᶜ ] , S† | [ ≡S† ] =
-      let S‡ = target F Q in
-      {!!} -- ?? PROBLEM y† AND ◻
--}
+          {!!} -- gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ (,-inj₂ ≡R′) (,-inj₂ ≡P′) refl refl (gamma₁ 𝐸 P)
+   ... | [ (._ •) ᵇ ] , P′ | [ ≡P′ ] = ⊥-elim (◻≢[-] (
+      let open EqReasoning (setoid _) in
+      begin
+         (push ᴬ*̃) ◻
+      ≡⟨ cong (push ᴬ*̃) (sym (,-inj₁ ≡R′)) ⟩
+         (push ᴬ*̃) (action E′ P)
+      ≡⟨ sym (π₂ (gamma₁ 𝐸 P)) ⟩
+         action (E′/E (⊖₁ 𝐸)) (target E P)
+      ≡⟨ ,-inj₁ ≡P′ ⟩
+         [ (_ •) ᵇ ]
+      ∎))
    gamma₁ {E = E ᵇ│ _} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] |
       [ x • ᵇ ] , R′ | [ ≡R′ ]
       with step (E′/E (⊖₁ 𝐸)) (target E P) | inspect (step (E′/E (⊖₁ 𝐸))) (target E P) |
