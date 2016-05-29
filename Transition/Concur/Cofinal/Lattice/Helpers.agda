@@ -75,8 +75,8 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
 
    gamma₁-│•ᵇ : ∀ {Γ x y P₀ R₀ R′₀ S₀ Q₀} {a : Actionᵇ Γ} {E : P₀ —[ a ᵇ - _ ]→ R₀} {E′ : P₀ —[ (x •) ᵇ - _ ]→ R′₀}
                (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (F : Q₀ —[ • x 〈 y 〉 ᶜ - _ ]→ S₀) (P : ↓ P₀) (Q : ↓ Q₀) (S† : ↓ (ᴿ.push *) S₀)
-               (R′ : ↓ R′₀) (P′ : ↓ S (⊖₁ 𝐸)) → target E′ P ≡ R′ → target (E′/E (⊖₁ 𝐸)) (target E P) ≡ P′ →
-               target ((ᴿ.push *ᶜ) F) (((push *̃) Q)) ≡ S† →
+               (S‡ : ↓ S₀) (R′ : ↓ R′₀) (P′ : ↓ S (⊖₁ 𝐸)) → target E′ P ≡ R′ → target (E′/E (⊖₁ 𝐸)) (target E P) ≡ P′ →
+               target ((ᴿ.push *ᶜ) F) (((push *̃) Q)) ≡ S† → target F Q ≡ S‡ →
                braiding (ᵇ∇ᵇ {a = a} {x •}) {0} (γ₁ 𝐸) (target (E′/E (⊖₁ 𝐸)) (target E P)) ≡
                target (E/E′ (⊖₁ 𝐸)) (target E′ P) ×
                action (E/E′ (⊖₁ 𝐸)) (target E′ P) ≡ (push ᴬ*̃) (action E P) →
@@ -93,9 +93,9 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                                       (pop∘push y a) ((ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))) in
                braiding (ᵇ∇ᶜ {a = a} {τ}) {0} (cong₂ _│_ gib refl)
                         [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ S† ] ≡
-               [ target pop-y*E/E′ ((pop ◻ *̃) R′) │ ((push *̃) (target F Q)) ] ×
+               [ target pop-y*E/E′ ((pop ◻ *̃) R′) │ ((push *̃) S‡) ] ×
                action pop-y*E/E′ ((pop ◻ *̃) R′) ≡ action E P
-   gamma₁-│•ᵇ {Γ} {x = x} {y} {a = a} {E} {E′} 𝐸 F P Q S† R′ P′ ≡R′ ≡P′ ≡S† IH =
+   gamma₁-│•ᵇ {Γ} {x = x} {y} {a = a} {E} {E′} 𝐸 F P Q S† S‡ R′ P′ ≡R′ ≡P′ ≡S† ≡S‡ IH =
       let T : Actionᵇ Γ → Set
           T = λ a′ → (ᴿ.pop y *) (ᵀ.target E′) —[ a′ ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
           pop-y*E/E′ = subst T (pop∘push y a) ((ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸)))
@@ -142,8 +142,9 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                   [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ S† ]
       ≅⟨ reduce-ᵇ∇ᶜ (cong₂ _│_ α refl) _ ⟩
          [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ S† ]
-      ≅⟨ [-│-]-cong α δ refl (≡-to-≅ (trans (sym ≡S†) (sym (renᶜ-target-comm F push Q)))) ⟩
-         [ target pop-y*E/E′ ((pop ◻ *̃) R′) │ (push *̃) (target F Q) ]
+      ≅⟨ [-│-]-cong α δ refl (≡-to-≅ (trans (sym ≡S†) (trans (sym (renᶜ-target-comm F push Q))
+                                                             (cong (push *̃) ≡S‡)))) ⟩
+         [ target pop-y*E/E′ ((pop ◻ *̃) R′) │ (push *̃) S‡ ]
       ∎) , ≅-to-≡ (
       let open ≅-Reasoning in
       begin
