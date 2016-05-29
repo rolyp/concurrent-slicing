@@ -219,25 +219,26 @@ module Transition.Lattice where
    unstep⁻ (! E) a R with unstep⁻ E a R
    ... | P │ ◻ = ! P
    ... | P │ [ P′ ] = ! P ⊔⁻′ P′
-{-
+
    unstep-◻ᴹ : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) {a′ a″ : ↓⁻′ a} →
-               a′ ≤⁻′ a″ → unstep-◻ E a′ ≤⁻ unstep-◻ E a″
-   unstep-◻ᴹ (_ •∙ _) (x • ᵇ) = x •∙ ◻
-   unstep-◻ᴹ (• _ 〈 _ 〉∙ _) (• x 〈 y 〉 ᶜ) = • x 〈 y 〉∙ ◻
-   unstep-◻ᴹ (E ➕₁ _) a = [ unstep-◻ᴹ E a ] ➕₁ ◻
-   unstep-◻ᴹ (E ᵇ│ _) a = [ unstep-◻ᴹ E a ] ᵇ│ ◻
-   unstep-◻ᴹ (E ᶜ│ _) a = [ unstep-◻ᴹ E a ] ᶜ│ ◻
-   unstep-◻ᴹ (_ │ᵇ E) a = ◻ │ᵇ [ unstep-◻ᴹ E a ]
-   unstep-◻ᴹ (_ │ᶜ E) a = ◻ │ᶜ [ unstep-◻ᴹ E a ]
-   unstep-◻ᴹ (E │• F) (τ ᶜ) = [ unstep-◻ᴹ E ([ _ ] • ᵇ) ] │• [ unstep-◻ᴹ F (• [ _ ] 〈 ◻ 〉 ᶜ) ]
-   unstep-◻ᴹ (ν• E) ((• _) ᵇ) = ν• [ unstep-◻ᴹ E (• sucᴹ [ _ ] 〈 ᴹ zero 〉 ᶜ) ]
-   unstep-◻ᴹ (E │ᵥ F) (τ ᶜ) = [ unstep-◻ᴹ E ([ _ ] • ᵇ) ] │ᵥ [ unstep-◻ᴹ F ((• [ _ ]) ᵇ) ]
-   unstep-◻ᴹ {a = x • ᵇ} (νᵇ E) (_ • ᵇ) = νᵇ [ unstep-◻ᴹ E ([ (ᴿ.push *) x ] • ᵇ) ]
-   unstep-◻ᴹ {a = (• x) ᵇ} (νᵇ E) ((• _) ᵇ) = νᵇ [ unstep-◻ᴹ E ((• [ (ᴿ.push *) x ]) ᵇ) ]
-   unstep-◻ᴹ {a = • x 〈 y 〉 ᶜ} (νᶜ E) (• _ 〈 _ 〉 ᶜ) = νᶜ [ unstep-◻ᴹ E (• [ (ᴿ.push *) x ] 〈 [ (ᴿ.push *) y ] 〉 ᶜ) ]
-   unstep-◻ᴹ {a = τ ᶜ} (νᶜ E) (τ ᶜ) = νᶜ [ unstep-◻ᴹ E (τ ᶜ) ]
+               a′ ≤⁻′ a″ → unstep-◻ E a′ ≤⁻′ unstep-◻ E a″
+   unstep-◻ᴹ (x •∙ _) (.x • ᵇ) = x •∙ ◻
+   unstep-◻ᴹ (• x 〈 _ 〉∙ _) (• .x 〈 y 〉 ᶜ) = • x 〈 y 〉∙ ◻
+   unstep-◻ᴹ (E ➕₁ _) a = [ unstep-◻ᴹ E a ] ➕ ◻
+   unstep-◻ᴹ (E ᵇ│ _) a = [ unstep-◻ᴹ E a ] │ ◻
+   unstep-◻ᴹ (E ᶜ│ _) a = [ unstep-◻ᴹ E a ] │ ◻
+   unstep-◻ᴹ (_ │ᵇ E) a = ◻ │ [ unstep-◻ᴹ E a ]
+   unstep-◻ᴹ (_ │ᶜ E) a = ◻ │ [ unstep-◻ᴹ E a ]
+   unstep-◻ᴹ (E │• F) (τ ᶜ) = [ unstep-◻ᴹ E (_ • ᵇ) ] │ [ unstep-◻ᴹ F (• _ 〈 ◻ 〉 ᶜ) ]
+   unstep-◻ᴹ (ν• E) ((• _) ᵇ) = ν [ unstep-◻ᴹ E (• ᴺ.suc _ 〈 ᴹ zero 〉 ᶜ) ]
+   unstep-◻ᴹ (E │ᵥ F) (τ ᶜ) = [ unstep-◻ᴹ E (_ • ᵇ) ] │ [ unstep-◻ᴹ F ((• _) ᵇ) ]
+   unstep-◻ᴹ {a = x • ᵇ} (νᵇ E) (._ • ᵇ) = ν [ unstep-◻ᴹ E ((ᴿ.push *) x • ᵇ) ]
+   unstep-◻ᴹ {a = (• x) ᵇ} (νᵇ E) ((• ._) ᵇ) = ν [ unstep-◻ᴹ E ((• (ᴿ.push *) x) ᵇ) ]
+   unstep-◻ᴹ {a = • x 〈 y 〉 ᶜ} (νᶜ E) (• ._ 〈 _ 〉 ᶜ) = ν [ unstep-◻ᴹ E (• (ᴿ.push *) x 〈 [ (ᴿ.push *) y ] 〉 ᶜ) ]
+   unstep-◻ᴹ {a = τ ᶜ} (νᶜ E) (τ ᶜ) = ν [ unstep-◻ᴹ E (τ ᶜ) ]
    unstep-◻ᴹ (! E) a = ! [ unstep-◻ᴹ E a ]
 
+{-
    -- Auxiliary lemmas needed for monotonicity.
    unstep-◻-min : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) (a′ : ↓⁻′ a) (R : ↓′ P′) →
                   [ unstep-◻ E a′ ] ≤ unstep E [ a′ ] R
