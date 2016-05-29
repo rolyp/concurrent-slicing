@@ -170,12 +170,20 @@ module Transition.Lattice where
    targetᴹ : ∀ {Γ P₀} {a : Action Γ} {R} (E : P₀ —[ a - _ ]→ R) {P P′ : ↓′ P₀} → P ≤′ P′ → target E P ≤′ target E P′
    targetᴹ E = π₂ ∘ᶠ stepᴹ E
 
-{-
    -- unstep reflects ◻. The unstep-◻ variant slices with a ◻ process and a non-◻ action. The recursion case
    -- is simpler than in the paper, because we don't specify here the slice of the source process.
-   unstep : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) → ↓′ a → ↓′ P′ → ↓ E
-   unstep-◻ : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) → ↓⁻′ a → ↓⁻ E
-   unstep⁻ : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) → ↓′ a → ↓⁻′ P′ → ↓⁻ E
+   unstep : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) → ↓′ a → ↓′ P′ → ↓′ P
+   unstep-◻ : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) → ↓⁻′ a → ↓⁻′ P
+   unstep⁻ : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) → ↓′ a → ↓⁻′ P′ → ↓⁻′ P
+
+   unstep E a [ P ] = [ unstep⁻ E a P ]
+   unstep E [ a ] ◻ = [ unstep-◻ E a ]
+   unstep _ ◻ ◻ = ◻
+
+   unstep-◻ E a = ?
+
+   unstep⁻ E a P† = ?
+{-
 
    unstep E a [ R ] = [ unstep⁻ E a R ]
    unstep E [ a ] ◻ = [ unstep-◻ E a ]
