@@ -21,8 +21,8 @@ module Proc.Lattice where
       infixr 7 _•∙_ •_〈_〉∙_
       data ↓⁻_ {Γ} : Proc Γ → Set where
          Ο : ↓⁻ Ο
-         _•∙_ : ∀ {x P} → ↓′ x → ↓ P → ↓⁻ (x •∙ P)
-         •_〈_〉∙_ : ∀ {x y P} → ↓′ x → ↓′ y → ↓ P → ↓⁻ (• x 〈 y 〉∙ P)
+         _•∙_ : ∀ x {P} → ↓ P → ↓⁻ (x •∙ P)
+         •_〈_〉∙_ : ∀ x {y P} → ↓′ y → ↓ P → ↓⁻ (• x 〈 y 〉∙ P)
          _➕_ : ∀ {P Q} → ↓ P → ↓ Q → ↓⁻ (P ➕ Q)
          _│_ : ∀ {P Q} → ↓ P → ↓ Q → ↓⁻ (P │ Q)
          ν_ : ∀ {P} → ↓ P → ↓⁻ (ν P)
@@ -36,9 +36,8 @@ module Proc.Lattice where
       infix 4 _≤⁻_ _≤_
       data _≤⁻_ {Γ} : {P : Proc Γ} → ↓⁻ P → ↓⁻ P → Set where
          Ο : Ο ≤⁻ Ο
-         _•∙_ : ∀ {x₀ P₀} {x x′ : ↓′ x₀} {P P′ : ↓ P₀} → x ≤′ x′ → P ≤ P′ → x •∙ P ≤⁻ x′ •∙ P′
-         •_〈_〉∙_ : ∀ {x₀ y₀ P₀} {x x′ : ↓′ x₀} {y y′ : ↓′ y₀} {P P′ : ↓ P₀} →
-                   x ≤′ x′ → y ≤′ y′ → P ≤ P′ → • x 〈 y 〉∙ P ≤⁻ • x′ 〈 y′ 〉∙ P′
+         _•∙_ : ∀ x {P₀} {P P′ : ↓ P₀} → P ≤ P′ → x •∙ P ≤⁻ x •∙ P′
+         •_〈_〉∙_ : ∀ x {y₀ P₀} {y y′ : ↓′ y₀} {P P′ : ↓ P₀} → y ≤′ y′ → P ≤ P′ → • x 〈 y 〉∙ P ≤⁻ • x 〈 y′ 〉∙ P′
          _➕_ : ∀ {P₀ Q₀} {P P′ : ↓ P₀} {Q Q′ : ↓ Q₀} → P ≤ P′ → Q ≤ Q′ → P ➕ Q ≤⁻ P′ ➕ Q′
          _│_ : ∀ {P₀ Q₀} {P P′ : ↓ P₀} {Q Q′ : ↓ Q₀} → P ≤ P′ → Q ≤ Q′ → P │ Q ≤⁻ P′ │ Q′
          ν_ : ∀ {P₀} {P P′ : ↓ P₀} → P ≤ P′ → ν P ≤⁻ ν P′
@@ -54,8 +53,8 @@ module Proc.Lattice where
    to-↓ P = [ to-↓⁻ P ]
 
    to-↓⁻ Ο = Ο
-   to-↓⁻ (x •∙ P) = ᴺ̃.to-↓ x •∙ to-↓ P
-   to-↓⁻ (• x 〈 y 〉∙ P) = • ᴺ̃.to-↓ x 〈 ᴺ̃.to-↓ y 〉∙ to-↓ P
+   to-↓⁻ (x •∙ P) = x •∙ to-↓ P
+   to-↓⁻ (• x 〈 y 〉∙ P) = • x 〈 ᴺ̃.to-↓ y 〉∙ to-↓ P
    to-↓⁻ (P ➕ Q) = to-↓ P ➕ to-↓ Q
    to-↓⁻ (P │ Q) = to-↓ P │ to-↓ Q
    to-↓⁻ (ν P) = ν to-↓ P
@@ -65,8 +64,8 @@ module Proc.Lattice where
    _⊔_ : ∀ {Γ} {P₀ : Proc Γ} (P P′ : ↓ P₀) → ↓ P₀
 
    Ο ⊔⁻ Ο = Ο
-   x •∙ P ⊔⁻ x′ •∙ P′ = (x ⊔′ x′) •∙ (P ⊔ P′)
-   • x 〈 y 〉∙ P ⊔⁻ • x′ 〈 y′ 〉∙ P′ = • x ⊔′ x′ 〈 y ⊔′ y′ 〉∙ (P ⊔ P′)
+   x •∙ P ⊔⁻ .x •∙ P′ = x •∙ (P ⊔ P′)
+   • x 〈 y 〉∙ P ⊔⁻ • .x 〈 y′ 〉∙ P′ = • x 〈 y ⊔′ y′ 〉∙ (P ⊔ P′)
    (P ➕ Q) ⊔⁻ (P′ ➕ Q′) = (P ⊔ P′) ➕ (Q ⊔ Q′)
    (P │ Q) ⊔⁻ (P′ │ Q′) = (P ⊔ P′) │ (Q ⊔ Q′)
    ν P ⊔⁻ ν P′ = ν (P ⊔ P′)
@@ -82,8 +81,8 @@ module Proc.Lattice where
    _⊓_ : ∀ {Γ} {P₀ : Proc Γ} (P P′ : ↓ P₀) → ↓ P₀
 
    Ο ⊓⁻ Ο = Ο
-   (x •∙ P) ⊓⁻ (x′ •∙ P′) = (x ⊓′ x′) •∙ (P ⊓ P′)
-   • x 〈 y 〉∙ P ⊓⁻ • x′ 〈 y′ 〉∙ P′ = • x ⊓′ x′ 〈 y ⊓′ y′ 〉∙ (P ⊓ P′)
+   (x •∙ P) ⊓⁻ (.x •∙ P′) = x •∙ (P ⊓ P′)
+   • x 〈 y 〉∙ P ⊓⁻ • .x 〈 y′ 〉∙ P′ = • x 〈 y ⊓′ y′ 〉∙ (P ⊓ P′)
    (P ➕ Q) ⊓⁻ (P′ ➕ Q′) = (P ⊓ P′) ➕ (Q ⊓ Q′)
    (P │ Q) ⊓⁻ (P′ │ Q′) = (P ⊓ P′) │ (Q ⊓ Q′)
    ν P ⊓⁻ ν P′ = ν (P ⊓ P′)
@@ -107,8 +106,8 @@ module Proc.Lattice where
    ⊔-comm : ∀ {Γ} {P : Proc Γ} → Commutative _≡_ (_⊔_ {P₀ = P})
 
    ⊔⁻-comm Ο Ο = refl
-   ⊔⁻-comm (x •∙ P) (x′ •∙ P′) = cong₂ _•∙_ (ᴺ̃.⊔-comm x x′) (⊔-comm P P′)
-   ⊔⁻-comm (• x 〈 y 〉∙ P) (• x′ 〈 y′ 〉∙ P′) = cong₃ •_〈_〉∙_ (ᴺ̃.⊔-comm x x′) (ᴺ̃.⊔-comm y y′) (⊔-comm P P′)
+   ⊔⁻-comm (x •∙ P) (.x •∙ P′) = cong (λ P† → x •∙ P†) (⊔-comm P P′)
+   ⊔⁻-comm (• x 〈 y 〉∙ P) (• .x 〈 y′ 〉∙ P′) = cong₂ (λ y† P† → • x 〈 y† 〉∙ P†) (ᴺ̃.⊔-comm y y′) (⊔-comm P P′)
    ⊔⁻-comm (P ➕ Q) (P′ ➕ Q′) = cong₂ _➕_ (⊔-comm P P′) (⊔-comm Q Q′)
    ⊔⁻-comm (P │ Q) (P′ │ Q′) = cong₂ _│_ (⊔-comm P P′) (⊔-comm Q Q′)
    ⊔⁻-comm (ν P) (ν P′) = cong ν_ (⊔-comm P P′)
@@ -122,8 +121,8 @@ module Proc.Lattice where
    ⊓-comm : ∀ {Γ} {P : Proc Γ} → Commutative _≡_ (_⊓_ {P₀ = P})
 
    ⊓⁻-comm Ο Ο = refl
-   ⊓⁻-comm (x •∙ P) (x′ •∙ P′) = cong₂ _•∙_ (ᴺ̃.⊓-comm x x′) (⊓-comm P P′)
-   ⊓⁻-comm (• x 〈 y 〉∙ P) (• x′ 〈 y′ 〉∙ P′) = cong₃ •_〈_〉∙_ (ᴺ̃.⊓-comm x x′) (ᴺ̃.⊓-comm y y′) (⊓-comm P P′)
+   ⊓⁻-comm (x •∙ P) (.x •∙ P′) = cong (λ P† → x •∙ P†) (⊓-comm P P′)
+   ⊓⁻-comm (• x 〈 y 〉∙ P) (• .x 〈 y′ 〉∙ P′) = cong₂ (λ y† P† → • x 〈 y† 〉∙ P†) (ᴺ̃.⊓-comm y y′) (⊓-comm P P′)
    ⊓⁻-comm (P ➕ Q) (P′ ➕ Q′) = cong₂ _➕_ (⊓-comm P P′) (⊓-comm Q Q′)
    ⊓⁻-comm (P │ Q) (P′ │ Q′) = cong₂ _│_ (⊓-comm P P′) (⊓-comm Q Q′)
    ⊓⁻-comm (ν P) (ν P′) = cong ν_ (⊓-comm P P′)
@@ -137,9 +136,9 @@ module Proc.Lattice where
    ⊔-assoc : ∀ {Γ} {P : Proc Γ} → Associative _≡_ (_⊔_ {P₀ = P})
 
    ⊔⁻-assoc Ο Ο Ο = refl
-   ⊔⁻-assoc (x₁ •∙ P₁) (x₂ •∙ P₂) (x₃ •∙ P₃) = cong₂ _•∙_ (ᴺ̃.⊔-assoc x₁ x₂ x₃) (⊔-assoc P₁ P₂ P₃)
-   ⊔⁻-assoc (• x₁ 〈 y₁ 〉∙ P₁) (• x₂ 〈 y₂ 〉∙ P₂) (• x₃ 〈 y₃ 〉∙ P₃) =
-      cong₃ •_〈_〉∙_ (ᴺ̃.⊔-assoc x₁ x₂ x₃) (ᴺ̃.⊔-assoc y₁ y₂ y₃) (⊔-assoc P₁ P₂ P₃)
+   ⊔⁻-assoc (x •∙ P₁) (.x •∙ P₂) (.x •∙ P₃) = cong (λ P† → x •∙ P†) (⊔-assoc P₁ P₂ P₃)
+   ⊔⁻-assoc (• x 〈 y₁ 〉∙ P₁) (• .x 〈 y₂ 〉∙ P₂) (• .x 〈 y₃ 〉∙ P₃) =
+      cong₂ (λ y† P† → • x 〈 y† 〉∙ P†) (ᴺ̃.⊔-assoc y₁ y₂ y₃) (⊔-assoc P₁ P₂ P₃)
    ⊔⁻-assoc (P₁ ➕ Q₁) (P₂ ➕ Q₂) (P₃ ➕ Q₃) = cong₂ _➕_ (⊔-assoc P₁ P₂ P₃) (⊔-assoc Q₁ Q₂ Q₃)
    ⊔⁻-assoc (P₁ │ Q₁) (P₂ │ Q₂) (P₃ │ Q₃) = cong₂ _│_ (⊔-assoc P₁ P₂ P₃) (⊔-assoc Q₁ Q₂ Q₃)
    ⊔⁻-assoc (ν P₁) (ν P₂) (ν P₃) = cong ν_ (⊔-assoc P₁ P₂ P₃)
@@ -174,9 +173,9 @@ module Proc.Lattice where
    ⊓-assoc [ P₁ ] [ P₂ ] [ P₃ ] = cong [_] (⊓⁻-assoc P₁ P₂ P₃)
 
    ⊓⁻-assoc Ο Ο Ο = refl
-   ⊓⁻-assoc (x₁ •∙ P₁) (x₂ •∙ P₂) (x₃ •∙ P₃) = cong₂ _•∙_ (ᴺ̃.⊓-assoc x₁ x₂ x₃) (⊓-assoc P₁ P₂ P₃)
-   ⊓⁻-assoc (• x₁ 〈 y₁ 〉∙ P₁) (• x₂ 〈 y₂ 〉∙ P₂) (• x₃ 〈 y₃ 〉∙ P₃) =
-      cong₃ •_〈_〉∙_ (ᴺ̃.⊓-assoc x₁ x₂ x₃) (ᴺ̃.⊓-assoc y₁ y₂ y₃) (⊓-assoc P₁ P₂ P₃)
+   ⊓⁻-assoc (x •∙ P₁) (.x •∙ P₂) (.x •∙ P₃) = cong (λ P† → x •∙ P†) (⊓-assoc P₁ P₂ P₃)
+   ⊓⁻-assoc (• x 〈 y₁ 〉∙ P₁) (• .x 〈 y₂ 〉∙ P₂) (• .x 〈 y₃ 〉∙ P₃) =
+      cong₂ (λ y† P† → • x 〈 y† 〉∙ P†) (ᴺ̃.⊓-assoc y₁ y₂ y₃) (⊓-assoc P₁ P₂ P₃)
    ⊓⁻-assoc (P₁ ➕ Q₁) (P₂ ➕ Q₂) (P₃ ➕ Q₃) = cong₂ _➕_ (⊓-assoc P₁ P₂ P₃) (⊓-assoc Q₁ Q₂ Q₃)
    ⊓⁻-assoc (P₁ │ Q₁) (P₂ │ Q₂) (P₃ │ Q₃) = cong₂ _│_ (⊓-assoc P₁ P₂ P₃) (⊓-assoc Q₁ Q₂ Q₃)
    ⊓⁻-assoc (ν P₁) (ν P₂) (ν P₃) = cong ν_ (⊓-assoc P₁ P₂ P₃)
@@ -186,9 +185,9 @@ module Proc.Lattice where
    ⊔-absorbs-⊓ : ∀ {Γ} {P : Proc Γ} → _Absorbs_ _≡_ (_⊔_ {P₀ = P}) _⊓_
 
    ⊔⁻-absorbs-⊓ Ο Ο = refl
-   ⊔⁻-absorbs-⊓ (x •∙ P) (x′ •∙ P′) = cong₂ _•∙_ (ᴺ̃.⊔-absorbs-⊓ x x′) (⊔-absorbs-⊓ P P′)
-   ⊔⁻-absorbs-⊓ (• x 〈 y 〉∙ P) (• x′ 〈 y′ 〉∙ P′) =
-      cong₃ •_〈_〉∙_ (ᴺ̃.⊔-absorbs-⊓ x x′) (ᴺ̃.⊔-absorbs-⊓ y y′) (⊔-absorbs-⊓ P P′)
+   ⊔⁻-absorbs-⊓ (x •∙ P) (.x •∙ P′) = cong (λ P† → x •∙ P†) (⊔-absorbs-⊓ P P′)
+   ⊔⁻-absorbs-⊓ (• x 〈 y 〉∙ P) (• .x 〈 y′ 〉∙ P′) =
+      cong₂ (λ y† P† → • x 〈 y† 〉∙ P†) (ᴺ̃.⊔-absorbs-⊓ y y′) (⊔-absorbs-⊓ P P′)
    ⊔⁻-absorbs-⊓ (P ➕ Q) (P′ ➕ Q′) = cong₂ _➕_ (⊔-absorbs-⊓ P P′) (⊔-absorbs-⊓ Q Q′)
    ⊔⁻-absorbs-⊓ (P │ Q) (P′ │ Q′) = cong₂ _│_ (⊔-absorbs-⊓ P P′) (⊔-absorbs-⊓ Q Q′)
    ⊔⁻-absorbs-⊓ (ν P) (ν P′) = cong ν_ (⊔-absorbs-⊓ P P′)
@@ -205,8 +204,8 @@ module Proc.Lattice where
    ⊓-idem : ∀ {Γ} {P : Proc Γ} → Idempotent _≡_ (_⊓_ {P₀ = P})
 
    ⊓⁻-idem Ο = refl
-   ⊓⁻-idem (x •∙ P) = cong₂ _•∙_ (⊓′-idem x) (⊓-idem P)
-   ⊓⁻-idem (• x 〈 y 〉∙ P) = cong₃ •_〈_〉∙_ (⊓′-idem x) (⊓′-idem y) (⊓-idem P)
+   ⊓⁻-idem (x •∙ P) = cong (λ P† → x •∙ P†) (⊓-idem P)
+   ⊓⁻-idem (• x 〈 y 〉∙ P) = cong₂ (λ y† P† → • x 〈 y† 〉∙ P†) (⊓′-idem y) (⊓-idem P)
    ⊓⁻-idem (P ➕ Q) = cong₂ _➕_ (⊓-idem P) (⊓-idem Q)
    ⊓⁻-idem (P │ Q) = cong₂ _│_ (⊓-idem P) (⊓-idem Q)
    ⊓⁻-idem (ν P) = cong ν_ (⊓-idem P)
@@ -219,9 +218,9 @@ module Proc.Lattice where
    ⊓-absorbs-⊔ : ∀ {Γ} {P : Proc Γ} → _Absorbs_ _≡_ (_⊓_ {P₀ = P}) _⊔_
 
    ⊓⁻-absorbs-⊔⁻ Ο Ο = refl
-   ⊓⁻-absorbs-⊔⁻ (x •∙ P) (x′ •∙ P′) = cong₂ _•∙_ (ᴺ̃.⊓-absorbs-⊔ x x′) (⊓-absorbs-⊔ P P′)
-   ⊓⁻-absorbs-⊔⁻ (• x 〈 y 〉∙ P) (• x′ 〈 y′ 〉∙ P′) =
-      cong₃ •_〈_〉∙_ (ᴺ̃.⊓-absorbs-⊔ x x′) (ᴺ̃.⊓-absorbs-⊔ y y′) (⊓-absorbs-⊔ P P′)
+   ⊓⁻-absorbs-⊔⁻ (x •∙ P) (.x •∙ P′) = cong (λ P† → x •∙ P†) (⊓-absorbs-⊔ P P′)
+   ⊓⁻-absorbs-⊔⁻ (• x 〈 y 〉∙ P) (• .x 〈 y′ 〉∙ P′) =
+      cong₂ (λ y† P† → • x 〈 y† 〉∙ P†) (ᴺ̃.⊓-absorbs-⊔ y y′) (⊓-absorbs-⊔ P P′)
    ⊓⁻-absorbs-⊔⁻ (P ➕ Q) (P′ ➕ Q′) = cong₂ _➕_ (⊓-absorbs-⊔ P P′) (⊓-absorbs-⊔ Q Q′)
    ⊓⁻-absorbs-⊔⁻ (P │ Q) (P′ │ Q′) = cong₂ _│_ (⊓-absorbs-⊔ P P′) (⊓-absorbs-⊔ Q Q′)
    ⊓⁻-absorbs-⊔⁻ (ν P) (ν P′) = cong ν_ (⊓-absorbs-⊔ P P′)
@@ -269,13 +268,11 @@ module Proc.Lattice where
    ≤ᴸ⇒≤ : ∀ {Γ} {P : Proc Γ} → _≤ᴸ_ lattices {a = P} ⇒ _≤_
 
    ≤⁻ᴸ⇒≤⁻ {i = Ο} {Ο} _ = Ο
-   ≤⁻ᴸ⇒≤⁻ {i = x •∙ P} {x′ •∙ P′} _ with x ⊓′ x′ | P ⊓ P′ |
-      inspect (_⊓′_ x) x′ | inspect (_⊓_ P) P′
-   ≤⁻ᴸ⇒≤⁻ {i = x •∙ P} {x′ •∙ P′} refl | .x | .P | [ x≤⁻ᴸx′ ] | [ P≤⁻ᴸP′ ] = ≤′ᴸ⇒≤′ (sym x≤⁻ᴸx′) •∙ ≤ᴸ⇒≤ (sym P≤⁻ᴸP′)
-   ≤⁻ᴸ⇒≤⁻ {i = • x 〈 y 〉∙ P} {• x′ 〈 y′ 〉∙ P′} _ with x ⊓′ x′ | y ⊓′ y′ | P ⊓ P′ |
-      inspect (_⊓′_ x) x′ | inspect (_⊓′_ y) y′ | inspect (_⊓_ P) P′
-   ≤⁻ᴸ⇒≤⁻ {i = • x 〈 y 〉∙ P} {• x′ 〈 y′ 〉∙ P′} refl | .x | .y | .P | [ x≤⁻ᴸx′ ] | [ y≤⁻ᴸy′ ] | [ P≤⁻ᴸP′ ] =
-      • ≤′ᴸ⇒≤′ (sym x≤⁻ᴸx′) 〈 ≤′ᴸ⇒≤′ (sym y≤⁻ᴸy′) 〉∙ ≤ᴸ⇒≤ (sym P≤⁻ᴸP′)
+   ≤⁻ᴸ⇒≤⁻ {i = x •∙ P} {.x •∙ P′} _ with P ⊓ P′ | inspect (_⊓_ P) P′
+   ≤⁻ᴸ⇒≤⁻ {i = x •∙ P} {.x •∙ P′} refl | .P | [ P≤⁻ᴸP′ ] = x •∙ ≤ᴸ⇒≤ (sym P≤⁻ᴸP′)
+   ≤⁻ᴸ⇒≤⁻ {i = • x 〈 y 〉∙ P} {• .x 〈 y′ 〉∙ P′} _ with y ⊓′ y′ | P ⊓ P′ | inspect (_⊓′_ y) y′ | inspect (_⊓_ P) P′
+   ≤⁻ᴸ⇒≤⁻ {i = • x 〈 y 〉∙ P} {• .x 〈 y′ 〉∙ P′} refl | .y | .P | [ y≤⁻ᴸy′ ] | [ P≤⁻ᴸP′ ] =
+      • x 〈 ≤′ᴸ⇒≤′ (sym y≤⁻ᴸy′) 〉∙ ≤ᴸ⇒≤ (sym P≤⁻ᴸP′)
    ≤⁻ᴸ⇒≤⁻ {i = P ➕ Q} {P′ ➕ Q′} _ with P ⊓ P′ | Q ⊓ Q′ |
       inspect (_⊓_ P) P′ | inspect (_⊓_ Q) Q′
    ≤⁻ᴸ⇒≤⁻ {i = P ➕ Q} {P′ ➕ Q′} refl | .P | .Q | [ P≤⁻ᴸP′ ] | [ Q≤⁻ᴸQ′ ] = ≤ᴸ⇒≤ (sym P≤⁻ᴸP′) ➕ ≤ᴸ⇒≤ (sym Q≤⁻ᴸQ′)
@@ -297,8 +294,8 @@ module Proc.Lattice where
    ≤⇒≤ᴸ : ∀ {Γ} {P : Proc Γ} → _≤_ ⇒ _≤ᴸ_ lattices {a = P}
 
    ≤⁻⇒≤⁻ᴸ Ο = refl
-   ≤⁻⇒≤⁻ᴸ (x •∙ P) = cong₂ _•∙_ (≤′⇒≤′ᴸ x) (≤⇒≤ᴸ P)
-   ≤⁻⇒≤⁻ᴸ (• x 〈 y 〉∙ P) = cong₃ •_〈_〉∙_ (≤′⇒≤′ᴸ x) (≤′⇒≤′ᴸ y) (≤⇒≤ᴸ P)
+   ≤⁻⇒≤⁻ᴸ (x •∙ P) = cong (λ P† → x •∙ P†) (≤⇒≤ᴸ P)
+   ≤⁻⇒≤⁻ᴸ (• x 〈 y 〉∙ P) = cong₂ (λ y† P† → • x 〈 y† 〉∙ P†) (≤′⇒≤′ᴸ y) (≤⇒≤ᴸ P)
    ≤⁻⇒≤⁻ᴸ (P ➕ Q) = cong₂ _➕_ (≤⇒≤ᴸ P) (≤⇒≤ᴸ Q)
    ≤⁻⇒≤⁻ᴸ (P │ Q) = cong₂ _│_ (≤⇒≤ᴸ P) (≤⇒≤ᴸ Q)
    ≤⁻⇒≤⁻ᴸ (ν P) = cong ν_ (≤⇒≤ᴸ P)

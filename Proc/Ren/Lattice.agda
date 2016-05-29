@@ -6,7 +6,7 @@ module Proc.Ren.Lattice where
    import Lattice.Product
    open import Name as ᴺ using (Name; _+_)
    open import Proc as ᴾ using (Proc); open ᴾ.Proc
-   open import Name.Lattice as ᴺ̃ using (); open ᴺ̃.↓_
+   open import Name.Lattice as ᴺ̃ using (); open ᴺ̃.↓_; open ᴺ̃._≤_
    import Proc.Ren
    import Proc.Lattice as ᴾ̃; open ᴾ̃.↓⁻_; open ᴾ̃.↓_; open ᴾ̃._≤⁻_; open ᴾ̃._≤_
    open import Ren as ᴿ using (Ren; +-preserves-id);
@@ -21,8 +21,8 @@ module Proc.Ren.Lattice where
    _* : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {P : Proc Γ} → ↓ ρ → ↓ P → ↓ (ρ *′) P
 
    (ρ *⁻) Ο = Ο
-   (ρ *⁻) (x •∙ P) = (ρ ᴿ̃.*) x •∙ (suc ρ *) P
-   (ρ *⁻) (• x 〈 y 〉∙ P) = • (ρ ᴿ̃.*) x 〈 (ρ ᴿ̃.*) y 〉∙ (ρ *) P
+   (_*⁻ {ρ = ρ₀} ρ) (x •∙ P) = ρ₀ x •∙ (suc ρ *) P
+   (_*⁻ {ρ = ρ₀} ρ) (• x 〈 y 〉∙ P) = • ρ₀ x 〈 (ρ ᴿ̃.*) y 〉∙ (ρ *) P
    (ρ *⁻) (P ➕ Q) = (ρ *) P ➕ (ρ *) Q
    (ρ *⁻) (P │ Q) = (ρ *) P │ (ρ *) Q
    (ρ *⁻) (ν P) = ν (suc ρ *) P
@@ -37,27 +37,27 @@ module Proc.Ren.Lattice where
       *-preserves-∘ : ∀ {Γ Δ Γ′} {ρ₀ : Ren Δ Γ′} {σ₀ : Ren Γ Δ} {P : Proc Γ} {ρ : ↓ ρ₀} {σ : ↓ σ₀}
                       (P′ : ↓ P) → (ρ *) ((σ *) P′) ≅ (((ρ ᴿ̃.*) ∘ᶠ σ) *) P′
 
-   -- Gets rather tedious as I wasn't able to usefully employ generic helpers.
+   -- Rather tedious; wasn't able to usefully employ generic helpers.
    *-preserves-id : ∀ {Γ} {P : Proc Γ} (P′ : ↓ P) → (ᴿ̃.id *) P′ ≅ P′
    *-preserves-id {Γ} {P₀} ◻ = eq (*′-preserves-id P₀)
       where
          eq : ∀ {P₀ P₀′ : Proc Γ} → P₀ ≡ P₀′ → _≅_ {A = ↓ P₀} (◻ {P = P₀}) {↓ P₀′} (◻ {P = P₀′})
          eq {P₀ = P₀} {.P₀} refl = ≅-refl
    *-preserves-id [ Ο ] = ≅-refl
-   *-preserves-id {Γ} {x₀ •∙ P₀} [ x •∙ P ] =
-      eq (≡-to-≅ (ᴿ̃.*-preserves-id x))
+   *-preserves-id {Γ} {x •∙ P₀} [ .x •∙ P ] =
+      eq x
          (trans (*′-preserves-≃ₑ (+-preserves-id 1) P₀) (*′-preserves-id P₀))
          (≅-trans (*-preserves-≃ₑ ᴿ̃.+-preserves-id P) (*-preserves-id P))
       where
-         eq : ∀ {P₀ P₀′ : Proc (Γ + 1)} {x₀ : Name Γ} {x x′ : ↓ x₀} {P : ↓ P₀} {P′ : ↓ P₀′} →
-              x ≅ x′ → P₀ ≡ P₀′ → P ≅ P′ → _≅_ {A = ↓_ _} [ x •∙ P ] {↓_ _} [ x′ •∙ P′ ]
-         eq ≅-refl refl ≅-refl = ≅-refl
-   *-preserves-id {Γ} {• x₀ 〈 y₀ 〉∙ P₀} [ • x 〈 y 〉∙ P ] =
-      eq (≡-to-≅ (ᴿ̃.*-preserves-id x)) (≡-to-≅ (ᴿ̃.*-preserves-id y)) (*′-preserves-id P₀) (*-preserves-id P)
+         eq : ∀ {P₀ P₀′ : Proc (Γ + 1)} (x : Name Γ) {P : ↓ P₀} {P′ : ↓ P₀′} →
+              P₀ ≡ P₀′ → P ≅ P′ → _≅_ {A = ↓_ _} [ x •∙ P ] {↓_ _} [ x •∙ P′ ]
+         eq _ refl ≅-refl = ≅-refl
+   *-preserves-id {Γ} {• x 〈 y₀ 〉∙ P₀} [ • .x 〈 y 〉∙ P ] =
+      eq x (≡-to-≅ (ᴿ̃.*-preserves-id y)) (*′-preserves-id P₀) (*-preserves-id P)
       where
-         eq : ∀ {P₀ P₀′ : Proc Γ} {x₀ y₀ : Name Γ} {x x′ : ↓ x₀} {y y′ : ↓ y₀} {P : ↓ P₀} {P′ : ↓ P₀′} →
-              x ≅ x′ → y ≅ y′ → P₀ ≡ P₀′ → P ≅ P′ → _≅_ {A = ↓_ _} [ • x 〈 y 〉∙ P ] {↓_ _} [ • x′ 〈 y′ 〉∙ P′ ]
-         eq ≅-refl ≅-refl refl ≅-refl = ≅-refl
+         eq : ∀ {P₀ P₀′ : Proc Γ} (x : Name Γ) {y₀ : Name Γ} {y y′ : ↓ y₀} {P : ↓ P₀} {P′ : ↓ P₀′} →
+              y ≅ y′ → P₀ ≡ P₀′ → P ≅ P′ → _≅_ {A = ↓_ _} [ • x 〈 y 〉∙ P ] {↓_ _} [ • x 〈 y′ 〉∙ P′ ]
+         eq _ ≅-refl refl ≅-refl = ≅-refl
    *-preserves-id {Γ} {P₀ ➕ Q₀} [ P ➕ Q ] =
       eq (*′-preserves-id P₀) (*′-preserves-id Q₀) (*-preserves-id P) (*-preserves-id Q)
       where
@@ -87,8 +87,8 @@ module Proc.Ren.Lattice where
    _*⁻ᴹ : ∀ {Γ Γ′} {ρ₀ : Ren Γ Γ′} {P₀ : Proc Γ} {ρ ρ′ : ↓ ρ₀} {P P′ : ↓⁻ P₀} → ρ ≤ ρ′ → P ≤⁻ P′ → (ρ *⁻) P ≤⁻ (ρ′ *⁻) P′
 
    (ρ *⁻ᴹ) Ο = Ο
-   (ρ *⁻ᴹ) (x •∙ P) =  (ρ ᴿ̃.*ᴹ) x •∙ (sucᴹ ρ *ᴹ) P
-   (ρ *⁻ᴹ) (• x 〈 y 〉∙ P) = • (ρ ᴿ̃.*ᴹ) x 〈 (ρ ᴿ̃.*ᴹ) y 〉∙ (ρ *ᴹ) P
+   (_*⁻ᴹ {ρ₀ = ρ₀} ρ) (x •∙ P) =  ρ₀ x •∙ (sucᴹ ρ *ᴹ) P
+   (_*⁻ᴹ {ρ₀ = ρ₀} ρ) (• x 〈 y 〉∙ P) = • ρ₀ x 〈 (ρ ᴿ̃.*ᴹ) y 〉∙ (ρ *ᴹ) P
    (ρ *⁻ᴹ) (P ➕ Q) = (ρ *ᴹ) P ➕ (ρ *ᴹ) Q
    (ρ *⁻ᴹ) (P │ Q) = (ρ *ᴹ) P │ (ρ *ᴹ) Q
    (ρ *⁻ᴹ) (ν P) = ν (sucᴹ ρ *ᴹ) P
@@ -108,10 +108,10 @@ module Proc.Ren.Lattice where
    _†⁻ : ∀ {Γ Γ′} (ρ₀ : Ren Γ Γ′) (P₀ : Proc Γ) → ↓⁻ (ρ₀ *′) P₀ → ↓⁻ (ρ₀ , P₀)
 
    (ρ †⁻) Ο Ο = ᴿ̃.◻ , Ο
-   (ρ †⁻) (x •∙ P) (u •∙ P′) =
-      let ρ′ , P″ = (ᴿ.suc ρ †) P P′ in pre ρ′ ⊔ (x ↦ u) , ρ ⁻¹[ x ] u •∙ P″
-   (ρ †⁻) (• x 〈 y 〉∙ P) (• u 〈 v 〉∙ P′) =
-      let ρ′ , P″ = (ρ †) P P′ in ρ′ ⊔ x ↦ u ⊔ y ↦ v , • ρ ⁻¹[ x ] u 〈 ρ ⁻¹[ y ] v 〉∙ P″
+   (ρ †⁻) (x •∙ P) (.(ρ x) •∙ P′) =
+      let ρ′ , P″ = (ᴿ.suc ρ †) P P′ in pre ρ′ ⊔ (x ↦ [ ρ x ]) , x •∙ P″
+   (ρ †⁻) (• x 〈 y 〉∙ P) (• .(ρ x) 〈 v 〉∙ P′) =
+      let ρ′ , P″ = (ρ †) P P′ in ρ′ ⊔ x ↦ [ ρ x ] ⊔ y ↦ v , • x 〈 ρ ⁻¹[ y ] v 〉∙ P″
    (ρ †⁻) (P ➕ Q) (P′ ➕ Q′) = let ρ₁ , P″ = (ρ †) P P′; ρ₂ , Q″ = (ρ †) Q Q′ in ρ₁ ⊔ ρ₂ , P″ ➕ Q″
    (ρ †⁻) (P │ Q) (P′ │ Q′) = let ρ₁ , P″ = (ρ †) P P′; ρ₂ , Q″ = (ρ †) Q Q′ in ρ₁ ⊔ ρ₂ , P″ │ Q″
    (ρ †⁻) (ν P) (ν P′) = let ρ′ , P″ = (ᴿ.suc ρ †) P P′ in pre ρ′ , ν P″
@@ -123,10 +123,10 @@ module Proc.Ren.Lattice where
    _†⁻ᴹ : ∀ {Γ Γ′} (ρ₀ : Ren Γ Γ′) (P₀ : Proc Γ) {P P′ : ↓⁻ (ρ₀ *′) P₀} → P ≤⁻ P′ → (ρ₀ †⁻) P₀ P ≤⁻ (ρ₀ †⁻) P₀ P′
    _†ᴹ : ∀ {Γ Γ′} (ρ₀ : Ren Γ Γ′) (P₀ : Proc Γ) {P P′ : ↓ (ρ₀ *′) P₀} → P ≤ P′ → (ρ₀ †) P₀ P ≤ (ρ₀ †) P₀ P′
    (ρ †⁻ᴹ) Ο Ο = ᴿ̃.◻≤ , Ο
-   (ρ †⁻ᴹ) (x •∙ P) (u •∙ P′) =
-      let ρ′ , P″ = (ᴿ.suc ρ †ᴹ) P P′ in preᴹ ρ′ ⊔ᴹ x ↦ᴹ u , ρ ⁻¹ᴹ[ x ] u •∙ P″
-   (ρ †⁻ᴹ) (• x 〈 y 〉∙ P) (• u 〈 v 〉∙ P′) =
-      let ρ′ , P″ = (ρ †ᴹ) P P′ in ρ′ ⊔ᴹ x ↦ᴹ u ⊔ᴹ y ↦ᴹ v , • ρ ⁻¹ᴹ[ x ] u 〈 ρ ⁻¹ᴹ[ y ] v 〉∙ P″
+   (ρ †⁻ᴹ) (x •∙ P) (.(ρ x) •∙ P′) =
+      let ρ′ , P″ = (ᴿ.suc ρ †ᴹ) P P′ in preᴹ ρ′ ⊔ᴹ x ↦ᴹ [ ρ x ] , x •∙ P″
+   (ρ †⁻ᴹ) (• x 〈 y 〉∙ P) (• .(ρ x) 〈 v 〉∙ P′) =
+      let ρ′ , P″ = (ρ †ᴹ) P P′ in ρ′ ⊔ᴹ x ↦ᴹ [ ρ x ] ⊔ᴹ y ↦ᴹ v , • x 〈 ρ ⁻¹ᴹ[ y ] v 〉∙ P″
    (ρ †⁻ᴹ) (P ➕ Q) (P′ ➕ Q′) = let ρ₁ , P″ = (ρ †ᴹ) P P′; ρ₂ , Q″ = (ρ †ᴹ) Q Q′ in ρ₁ ⊔ᴹ ρ₂ , P″ ➕ Q″
    (ρ †⁻ᴹ) (P │ Q) (P′ │ Q′) = let ρ₁ , P″ = (ρ †ᴹ) P P′; ρ₂ , Q″ = (ρ †ᴹ) Q Q′ in ρ₁ ⊔ᴹ ρ₂ , P″ │ Q″
    (ρ †⁻ᴹ) (ν P) (ν P′) = let ρ′ , P″ = (ᴿ.suc ρ †ᴹ) P P′ in preᴹ ρ′ , ν P″
