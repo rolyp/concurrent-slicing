@@ -208,74 +208,28 @@ module Transition.Concur.Cofinal.Lattice where
    ... | ◻ , P′ | [ ≡P′ ] =
       let S† = target ((ᴿ.push *ᶜ) F) ((push *̃) Q); S‡ = target F Q in
           {!!} -- gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ (,-inj₂ ≡R′) (,-inj₂ ≡P′) refl refl (gamma₁ 𝐸 P)
-   ... | [ (._ •) ᵇ ] , P′ | [ ≡P′ ] = ⊥-elim (◻≢[-] (
-      let open EqReasoning (setoid _) in
-      begin
-         ◻
-      ≡⟨ cong (push ᴬ*̃) (sym (,-inj₁ ≡R′)) ⟩
-         (push ᴬ*̃) (action E′ P)
-      ≡⟨ sym (π₂ (gamma₁ 𝐸 P)) ⟩
-         action (E′/E (⊖₁ 𝐸)) (target E P)
-      ≡⟨ ,-inj₁ ≡P′ ⟩
-         [ _ • ᵇ ]
-      ∎))
+   ... | [ (._ •) ᵇ ] , P′ | [ ≡P′ ] =
+      ⊥-elim (◻≢[-] (trans (cong (push ᴬ*̃) (sym (,-inj₁ ≡R′))) (trans (sym (π₂ (gamma₁ 𝐸 P))) (,-inj₁ ≡P′))))
    gamma₁ {E = E ᵇ│ _} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] |
       [ x • ᵇ ] , R′ | [ ≡R′ ]
       with step (E′/E (⊖₁ 𝐸)) (target E P) | inspect (step (E′/E (⊖₁ 𝐸))) (target E P) |
            step F Q | inspect (step F) Q
-   ... | ◻ , P′ | [ ≡P′ ] | ◻ , S‡ | [ ≡S‡ ] = ⊥-elim (◻≢[-] (
-      let open EqReasoning (setoid _) in
-      begin
-         ◻
-      ≡⟨ sym (,-inj₁ ≡P′) ⟩
-         action (E′/E (⊖₁ 𝐸)) (target E P)
-      ≡⟨ π₂ (gamma₁ 𝐸 P) ⟩
-         (push ᴬ*̃) (action E′ P)
-      ≡⟨ cong (push ᴬ*̃) (,-inj₁ ≡R′) ⟩
-         [ _ • ᵇ ]
-      ∎))
+   ... | ◻ , P′ | [ ≡P′ ] | ◻ , S‡ | [ ≡S‡ ] =
+      ⊥-elim (◻≢[-] (trans (sym (,-inj₁ ≡P′)) (trans (π₂ (gamma₁ 𝐸 P)) (cong (push ᴬ*̃) (,-inj₁ ≡R′)))))
    ... | [ (._ •) ᵇ ] , P′ | [ ≡P′ ] | ◻ , S‡ | [ ≡S‡ ]
       with step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
    ... | ◻ , S† | [ ≡S† ] =
       {!!} -- gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ (,-inj₂ ≡R′) (,-inj₂ ≡P′) (,-inj₂ ≡S†) (,-inj₂ ≡S‡) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 y′ 〉 ᶜ ] , S† | [ ≡S† ] = ⊥-elim (◻≢[-] (
-      let open EqReasoning (setoid _) in
-      begin
-         ◻
-      ≡⟨ cong (push ᴬ*̃) (sym (,-inj₁ ≡S‡)) ⟩
-         (push ᴬ*̃) (action F Q)
-      ≡⟨ renᶜ-action-comm F push Q ⟩
-         (action ((ᴿ.push *ᶜ) F) ((push *̃) Q))
-      ≡⟨ ,-inj₁ ≡S† ⟩
-         [ • _ 〈 y′ 〉 ᶜ ]
-      ∎)) -- [ a′ = ◻ contradicts push a′ = [ • ._ 〈 y′ 〉 ᶜ ] ]
+   ... | [ • ._ 〈 y′ 〉 ᶜ ] , S† | [ ≡S† ] =
+      ⊥-elim (◻≢[-] (trans (cong (push ᴬ*̃) (sym (,-inj₁ ≡S‡))) (trans (renᶜ-action-comm F push Q) (,-inj₁ ≡S†))))
    gamma₁ {E = E ᵇ│ _} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] |
-      [ x • ᵇ ] , R′ | [ ≡R′ ] | ◻ , P′ | [ ≡P′ ] | [ • .x 〈 y‡ 〉 ᶜ ] , S‡ | [ ≡S‡ ] = ⊥-elim (◻≢[-] (
-      let open EqReasoning (setoid _) in
-      begin
-         ◻
-      ≡⟨ sym (,-inj₁ ≡P′) ⟩
-         action (E′/E (⊖₁ 𝐸)) (target E P)
-      ≡⟨ π₂ (gamma₁ 𝐸 P) ⟩
-         (push ᴬ*̃) (action E′ P)
-      ≡⟨ cong (push ᴬ*̃) (,-inj₁ ≡R′) ⟩
-         [ _ • ᵇ ]
-      ∎))
+      [ x • ᵇ ] , R′ | [ ≡R′ ] | ◻ , P′ | [ ≡P′ ] | [ • .x 〈 y‡ 〉 ᶜ ] , S‡ | [ ≡S‡ ] =
+      ⊥-elim (◻≢[-] (trans (sym (,-inj₁ ≡P′)) (trans (π₂ (gamma₁ 𝐸 P)) (cong (push ᴬ*̃) (,-inj₁ ≡R′)))))
    gamma₁ {E = E ᵇ│ _} {E′ │• .F} (_│•ᵇ_ {y = y} {a = a} 𝐸 F) [ P │ Q ] |
       [ x • ᵇ ] , R′ | [ ≡R′ ] | [ ._ • ᵇ ] , P′ | [ ≡P′ ] | [ • .x 〈 y‡ 〉 ᶜ ] , S‡ | [ ≡S‡ ]
       with step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
-   ... | ◻ , S† | [ ≡S† ] = ⊥-elim (◻≢[-] (
-      let open EqReasoning (setoid _) in
-      begin
-         ◻
-      ≡⟨ sym (,-inj₁ ≡S†) ⟩
-         action ((ᴿ.push *ᶜ) F) ((push *̃) Q)
-      ≡⟨ sym (renᶜ-action-comm F push Q) ⟩
-         (push ᴬ*̃) (action F Q)
-      ≡⟨ cong (push ᴬ*̃) (,-inj₁ ≡S‡) ⟩
-         [ • _ 〈 (push ᴿ̃.*) y‡ 〉 ᶜ ]
-      ∎))
-   -- [ push a′ = ◻ contradicts a′ = • .x 〈 y‡ 〉 ᶜ ]
+   ... | ◻ , S† | [ ≡S† ] =
+      ⊥-elim (◻≢[-] (trans (sym (,-inj₁ ≡S†)) (trans (sym (renᶜ-action-comm F push Q)) (cong (push ᴬ*̃) (,-inj₁ ≡S‡)))))
    ... | [ • ._ 〈 y† 〉 ᶜ ] , S† | [ ≡S† ] = {!!} -- PROBLEM y† AND y‡
 
 {-
