@@ -34,34 +34,34 @@ module Transition.Lattice where
    step E [ P ] = step⁻ E P
    step E ◻ = ◻ , ◻
 
-   step⁻ (_ •∙ _) (x •∙ P) = [ (x •) ᵇ ] , P
-   step⁻ (• _ 〈 _ 〉∙ _) (• x 〈 y 〉∙ P) = [ • x 〈 y 〉 ᶜ ] , P
+   step⁻ (x •∙ _) (.x •∙ P) = [ (x •) ᵇ ] , P
+   step⁻ (• x 〈 _ 〉∙ _) (• .x 〈 y 〉∙ P) = [ • x 〈 y 〉 ᶜ ] , P
    step⁻ (E ➕₁ _) (P ➕ Q) = step E P
    step⁻ {a = _ ᵇ} (E ᵇ│ _) (P │ Q) = let a , R = step E P in a , [ R │ (push *̃) Q ]
    step⁻ {a = _ ᶜ} (E ᶜ│ _) (P │ Q) = let a , R = step E P in a , [ R │ Q ]
    step⁻ {a = _ ᵇ} (_ │ᵇ F) (P │ Q) = let a , S = step F Q in a , [ (push *̃) P │ S ]
    step⁻ {a = _ ᶜ} (_ │ᶜ F) (P │ Q) = let a , S = step F Q in a , [ P │ S ]
    step⁻ (E │• F) (P │ Q) with step E P
-   ... | [ [ x ] • ᵇ ] , R with step F Q
-   ... | [ • [ .x ] 〈 y 〉 ᶜ ] , S = [ τ ᶜ ] , [ (pop y *̃) R │ S ]
+   ... | [ x • ᵇ ] , R with step F Q
+   ... | [ • .x 〈 y 〉 ᶜ ] , S = [ τ ᶜ ] , [ (pop y *̃) R │ S ]
    ... | _ , S = ◻ , [ (pop ◻ *̃) R │ S ]
    step⁻ (E │• F) (P │ Q) | _ , R = let _ , S = step F Q in ◻ , [ (pop ◻ *̃) R │ S ]
    step⁻ (E │ᵥ F) (P │ Q) with step E P
-   ... | [ [ x ] • ᵇ ] , R with step F Q
-   ... | [ (• [ .x ]) ᵇ ] , S = [ τ ᶜ ] , [ ν [ R │ S ] ]
+   ... | [ x • ᵇ ] , R with step F Q
+   ... | [ (• .x) ᵇ ] , S = [ τ ᶜ ] , [ ν [ R │ S ] ]
    ... | _ , S = ◻ , [ ν [ R │ S ] ]
    step⁻ (E │ᵥ F) (P │ Q) | _ , R = let _ , S = step F Q in ◻ , [ ν [ R │ S ] ]
    step⁻ (ν•_ {x = x} E) (ν P) with step E P
-   ... | [ • [ .(ᴺ.suc x) ] 〈 [ .ᴺ.zero ] 〉 ᶜ ] , R = [ (• [ x ]) ᵇ ] , R
+   ... | [ • .(ᴺ.suc x) 〈 [ .ᴺ.zero ] 〉 ᶜ ] , R = [ (• x) ᵇ ] , R
    ... | _ , R = ◻ , R
    step⁻ {a = x • ᵇ} (νᵇ E) (ν P) with step E P
-   ... | [ [ .(ᴺ.suc x) ] • ᵇ ] , R = [ [ x ] • ᵇ ] , [ ν (swap *̃) R ]
+   ... | [ .(ᴺ.suc x) • ᵇ ] , R = [ x • ᵇ ] , [ ν (swap *̃) R ]
    ... | _ , R = ◻ , [ ν (swap *̃) R ]
    step⁻ {a = (• x) ᵇ} (νᵇ E) (ν P) with step E P
-   ... | [ (• [ .(ᴺ.suc x) ]) ᵇ ] , R = [ (• [ x ]) ᵇ ] ,  [ ν (swap *̃) R ]
+   ... | [ (• .(ᴺ.suc x)) ᵇ ] , R = [ (• x) ᵇ ] ,  [ ν (swap *̃) R ]
    ... | _ , R = ◻ , [ ν (swap *̃) R ]
    step⁻ {a = • x 〈 y 〉 ᶜ} (νᶜ E) (ν P) with step E P
-   ... | [ • [ .(ᴺ.suc x) ] 〈 [ .(ᴺ.suc y) ] 〉 ᶜ ] , R = [ • [ x ] 〈 [ y ] 〉 ᶜ ] , [ ν R ]
+   ... | [ • .(ᴺ.suc x) 〈 [ .(ᴺ.suc y) ] 〉 ᶜ ] , R = [ • x 〈 [ y ] 〉 ᶜ ] , [ ν R ]
    ... | _ , R = ◻ , [ ν R ]
    -- Explicitly match the action to translate it by (+ 1).
    step⁻ {a = τ ᶜ} (νᶜ E) (ν P) with step E P
@@ -75,8 +75,8 @@ module Transition.Lattice where
    stepᴹ E [ P ] = step⁻ᴹ E P
    stepᴹ E ◻ = ◻ , ◻
 
-   step⁻ᴹ (_ •∙ _) (x •∙ P) = [ (x •) ᵇ ] , P
-   step⁻ᴹ (• _ 〈 _ 〉∙ _) (• x 〈 y 〉∙ P) = [ • x 〈 y 〉 ᶜ ] , P
+   step⁻ᴹ (x •∙ _) (.x •∙ P) = [ (x •) ᵇ ] , P
+   step⁻ᴹ (• x 〈 _ 〉∙ _) (• .x 〈 y 〉∙ P) = [ • x 〈 y 〉 ᶜ ] , P
    step⁻ᴹ (E ➕₁ _) (P ➕ Q) = stepᴹ E P
    step⁻ᴹ {a = _ ᵇ} (E ᵇ│ _) (P │ Q) = let a , R = stepᴹ E P in a , [ R │ (ᴹ push *ᴹ) Q ]
    step⁻ᴹ {a = _ ᶜ} (E ᶜ│ _) (P │ Q) = let a , R = stepᴹ E P in a , [ R │ Q ]
