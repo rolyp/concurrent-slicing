@@ -21,8 +21,8 @@ module Transition.Concur.Cofinal.Lattice where
    open import Ren.Lattice.Properties
    open import Ren.Properties
    open import Transition as ᵀ using (_—[_-_]→_); open ᵀ._—[_-_]→_
-   open import Transition.Concur using (Concur₁; module Concur₁; module Delta′; ⊖₁); open Concur₁
-   open import Transition.Concur.Cofinal using (⋈̂[_,_,_]; γ₁)
+   open import Transition.Concur using (Concur₁; Concur; module Concur₁; module Delta′; Delta; ⊖₁; ⊖); open Concur₁
+   open import Transition.Concur.Cofinal using (⋈̂[_,_,_]; γ₁; γ)
    open import Transition.Concur.Cofinal.Lattice.Helpers
    open import Transition.Lattice as ᵀ̃ using (step; step⁻; action; target)
    open import Transition.Ren using (_*ᵇ; _*ᶜ)
