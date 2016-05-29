@@ -312,35 +312,3 @@ module Transition.Lattice where
    ... | _ │ ◻ | P │ [ ! P′ ] | P† │ _ = ! ≤-trans P† (P ⊔ʳ P′)
    ... | _ │ [ ! _ ] | _ │ ◻ | _ │ ()
    ... | _ │ [ ! _ ] | _ │ [ ! _ ] | P │ [ ! P′ ] = ! (P ⊔ᴹ P′)
-
-
-{-
-   fwd : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓′ P → ↓′ (a , R)
-   fwd E = out ∘ᶠ step E
-
-   fwd⁻ : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓⁻′ P → ↓′ (a , R)
-   fwd⁻ E = out ∘ᶠ step⁻ E
-
-   fwdᴹ : ∀ {Γ P₀} {a : Action Γ} {R} (E : P₀ —[ a - _ ]→ R) {P P′ : ↓′ P₀} → P ≤′ P′ → fwd E P ≤′ fwd E P′
-   fwdᴹ E = outᴹ ∘ᶠ stepᴹ E
-
-   fwd⁻ᴹ : ∀ {Γ P₀} {a : Action Γ} {R} (E : P₀ —[ a - _ ]→ R) {P P′ : ↓⁻′ P₀} → P ≤⁻′ P′ → fwd⁻ E P ≤′ fwd⁻ E P′
-   fwd⁻ᴹ E = outᴹ ∘ᶠ step⁻ᴹ E
-
-   bwd : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓′ (a , R) → ↓′ P
-   bwd E (a , R) = source (unstep E a R)
-
-   bwdᴹ : ∀ {Γ P} {a₀ : Action Γ} {R₀} (E : P —[ a₀ - _ ]→ R₀) {a a′ : ↓′ a₀} {R R′ : ↓′ R₀} →
-          (a , R) ≤′ (a′ , R′) → bwd E (a , R) ≤′ bwd E (a′ , R′)
-   bwdᴹ E (a , R) = sourceᴹ (unstepᴹ E a R)
-
-   bwd-◻ : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓⁻′ a → ↓⁻′ P
-   bwd-◻ E a = source⁻ (unstep-◻ E a)
-
-   bwd⁻ : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓′ a → ↓⁻′ R → ↓⁻′ P
-   bwd⁻ E a R = source⁻ (unstep⁻ E a R)
-
-   bwd⁻ᴹ : ∀ {Γ P} {a₀ : Action Γ} {R₀} (E : P —[ a₀ - _ ]→ R₀) {a a′ : ↓′ a₀} {R R′ : ↓⁻′ R₀} →
-           a ≤′ a′ → R ≤⁻′ R′ → bwd⁻ E a R ≤⁻′ bwd⁻ E a′ R′
-   bwd⁻ᴹ E a R = source⁻ᴹ (unstep⁻ᴹ E a R)
--}
