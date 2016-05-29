@@ -211,7 +211,9 @@ module Transition.Concur.Cofinal.Lattice where
       [ x • ᵇ ] , R′ | [ ≡R′ ]
       with step (E′/E (⊖₁ 𝐸)) (target E P) | inspect (step (E′/E (⊖₁ 𝐸))) (target E P) |
            step F Q | inspect (step F) Q
-   ... | ◻ , P′ | [ ≡P′ ] | ◻ , S‡ | [ ≡S‡ ] = {!!} -- GENERALISE TO S‡ AND ≡S‡
+   ... | ◻ , P′ | [ ≡P′ ] | ◻ , S‡ | [ ≡S‡ ] =
+      let S† = target ((ᴿ.push *ᶜ) F) ((push *̃) Q) in
+      gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ (,-inj₂ ≡R′) (,-inj₂ ≡P′) refl (,-inj₂ ≡S‡) (gamma₁ 𝐸 P)
    ... | [ (._ •) ᵇ ] , P′ | [ ≡P′ ] | ◻ , S‡ | [ ≡S‡ ]
       with step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
    ... | ◻ , S† | [ ≡S† ] = {!!} -- GENERALISE TO S‡ AND ≡S‡
