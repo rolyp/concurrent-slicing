@@ -199,11 +199,13 @@ module Transition.Concur.Cofinal.Lattice where
    ... | ◻ , R′ | [ ≡R′ ]
       with step (E′/E (⊖₁ 𝐸)) (target E P) | inspect (step (E′/E (⊖₁ 𝐸))) (target E P)
    ... | ◻ , P′ | [ ≡P′ ] =
-      let S† = target ((ᴿ.push *ᶜ) F) ((push *̃) Q) in
-      gamma₁-│•ᵇ 𝐸 F P Q S† R′ P′ (,-inj₂ ≡R′) (,-inj₂ ≡P′) refl (gamma₁ 𝐸 P)
+      let S† = target ((ᴿ.push *ᶜ) F) ((push *̃) Q); S‡ = target F Q in
+      gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ (,-inj₂ ≡R′) (,-inj₂ ≡P′) refl refl (gamma₁ 𝐸 P)
    ... | [ (._ •) ᵇ ] , P′ | [ ≡P′ ]
       with step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
-   ... | ◻ , S† | [ ≡S† ] = gamma₁-│•ᵇ 𝐸 F P Q S† R′ P′ (,-inj₂ ≡R′) (,-inj₂ ≡P′) (,-inj₂ ≡S†) (gamma₁ 𝐸 P)
+   ... | ◻ , S† | [ ≡S† ] =
+      let S‡ = target F Q in
+      gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ (,-inj₂ ≡R′) (,-inj₂ ≡P′) (,-inj₂ ≡S†) refl (gamma₁ 𝐸 P)
    ... | [ • ._ 〈 y′ 〉 ᶜ ] , S† | [ ≡S† ] = {!!} -- PROBLEM y' AND ◻
    gamma₁ {E = E ᵇ│ _} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] |
       [ x • ᵇ ] , R′ | [ ≡R′ ]
