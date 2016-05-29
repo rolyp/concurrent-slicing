@@ -18,7 +18,7 @@ module Transition.Concur.Cofinal.Lattice where
    import Proc.Ren
    open import Proc.Ren.Lattice using () renaming (_* to _*̃)
    open import Ren as ᴿ using (Ren); open ᴿ.Renameable ⦃...⦄
-   open import Ren.Lattice using (_ᴿ+_; swap; push; pop; suc)
+   open import Ren.Lattice as ᴿ̃ using (_ᴿ+_; swap; push; pop; suc)
    open import Ren.Lattice.Properties
    open import Ren.Properties
    open import Transition as ᵀ using (_—[_-_]→_); open ᵀ._—[_-_]→_
@@ -244,7 +244,7 @@ module Transition.Concur.Cofinal.Lattice where
          ◻
       ≡⟨ cong (push ᴬ*̃) (sym (,-inj₁ ≡S‡)) ⟩
          (push ᴬ*̃) (action F Q)
-      ≡⟨ renᶜ-action-comm F {!push!} Q ⟩
+      ≡⟨ renᶜ-action-comm F push Q ⟩
          (action ((ᴿ.push *ᶜ) F) ((push *̃) Q))
       ≡⟨ ,-inj₁ ≡S† ⟩
          [ • _ 〈 y′ 〉 ᶜ ]
@@ -264,7 +264,18 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ {E = E ᵇ│ _} {E′ │• .F} (_│•ᵇ_ {y = y} {a = a} 𝐸 F) [ P │ Q ] |
       [ x • ᵇ ] , R′ | [ ≡R′ ] | [ ._ • ᵇ ] , P′ | [ ≡P′ ] | [ • .x 〈 y‡ 〉 ᶜ ] , S‡ | [ ≡S‡ ]
       with step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
-   ... | ◻ , S† | [ ≡S† ] = {!!} -- [ push a′ = ◻ contradicts a′ = • .x 〈 y‡ 〉 ᶜ ]
+   ... | ◻ , S† | [ ≡S† ] = ⊥-elim (◻≢[-] (
+      let open EqReasoning (setoid _) in
+      begin
+         ◻
+      ≡⟨ sym (,-inj₁ ≡S†) ⟩
+         action ((ᴿ.push *ᶜ) F) ((push *̃) Q)
+      ≡⟨ sym (renᶜ-action-comm F push Q) ⟩
+         (push ᴬ*̃) (action F Q)
+      ≡⟨ cong (push ᴬ*̃) (,-inj₁ ≡S‡) ⟩
+         [ • _ 〈 (push ᴿ̃.*) y‡ 〉 ᶜ ]
+      ∎))
+   -- [ push a′ = ◻ contradicts a′ = • .x 〈 y‡ 〉 ᶜ ]
    ... | [ • ._ 〈 y† 〉 ᶜ ] , S† | [ ≡S† ] = {!!} -- PROBLEM y† AND y‡
 
 {-
