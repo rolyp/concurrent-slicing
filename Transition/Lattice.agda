@@ -236,7 +236,11 @@ module Transition.Lattice where
    unstep-◻ᴹ {a = (• x) ᵇ} (νᵇ E) ((• ._) ᵇ) = ν [ unstep-◻ᴹ E ((• (ᴿ.push *) x) ᵇ) ]
    unstep-◻ᴹ {a = • x 〈 y 〉 ᶜ} (νᶜ E) (• ._ 〈 _ 〉 ᶜ) = ν [ unstep-◻ᴹ E (• (ᴿ.push *) x 〈 [ (ᴿ.push *) y ] 〉 ᶜ) ]
    unstep-◻ᴹ {a = τ ᶜ} (νᶜ E) (τ ᶜ) = ν [ unstep-◻ᴹ E (τ ᶜ) ]
-   unstep-◻ᴹ (! E) a = ! [ unstep-◻ᴹ E a ]
+   unstep-◻ᴹ (! E) {a′ = a′} {a″} a with unstep-◻ E a′ | unstep-◻ E a″ | unstep-◻ᴹ E a
+   ... | _ │ ◻ | _ │ ◻ | P │ ◻ = ! P
+   ... | _ │ ◻ | P │ [ ! P′ ] | P† │ _ = ! ≤-trans P† (P ⊔ʳ P′)
+   ... | _ │ [ ! _ ] | _ │ ◻ | _ │ ()
+   ... | _ │ [ ! _ ] | _ │ [ ! _ ] | P │ [ ! P′ ] = ! (P ⊔ᴹ P′)
 
 {-
    -- Auxiliary lemmas needed for monotonicity.
