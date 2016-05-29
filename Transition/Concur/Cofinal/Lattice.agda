@@ -211,7 +211,7 @@ module Transition.Concur.Cofinal.Lattice where
    ... | [ (._ •) ᵇ ] , P′ | [ ≡P′ ] = ⊥-elim (◻≢[-] (
       let open EqReasoning (setoid _) in
       begin
-         (push ᴬ*̃) ◻
+         ◻
       ≡⟨ cong (push ᴬ*̃) (sym (,-inj₁ ≡R′)) ⟩
          (push ᴬ*̃) (action E′ P)
       ≡⟨ sym (π₂ (gamma₁ 𝐸 P)) ⟩
@@ -238,7 +238,17 @@ module Transition.Concur.Cofinal.Lattice where
       with step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
    ... | ◻ , S† | [ ≡S† ] =
       {!!} -- gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ (,-inj₂ ≡R′) (,-inj₂ ≡P′) (,-inj₂ ≡S†) (,-inj₂ ≡S‡) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 y′ 〉 ᶜ ] , S† | [ ≡S† ] = {!!}
+   ... | [ • ._ 〈 y′ 〉 ᶜ ] , S† | [ ≡S† ] = ⊥-elim (◻≢[-] (
+      let open EqReasoning (setoid _) in
+      begin
+         ◻
+      ≡⟨ cong (push ᴬ*̃) (sym (,-inj₁ ≡S‡)) ⟩
+         (push ᴬ*̃) (action F Q)
+      ≡⟨ renᶜ-action-comm F {!push!} Q ⟩
+         (action ((ᴿ.push *ᶜ) F) ((push *̃) Q))
+      ≡⟨ ,-inj₁ ≡S† ⟩
+         [ • _ 〈 y′ 〉 ᶜ ]
+      ∎)) -- [ a′ = ◻ contradicts push a′ = [ • ._ 〈 y′ 〉 ᶜ ] ]
    gamma₁ {E = E ᵇ│ _} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] |
       [ x • ᵇ ] , R′ | [ ≡R′ ] | ◻ , P′ | [ ≡P′ ] | [ • .x 〈 y‡ 〉 ᶜ ] , S‡ | [ ≡S‡ ] = ⊥-elim (◻≢[-] (
       let open EqReasoning (setoid _) in
