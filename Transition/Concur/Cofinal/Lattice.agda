@@ -260,7 +260,7 @@ module Transition.Concur.Cofinal.Lattice where
           inj = λ { {y′ = y′} {.y′} refl → refl } in
       gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ y† y‡ (,-inj₂ ≡R′) (,-inj₂ ≡P′) (,-inj₂ ≡S†) (,-inj₂ ≡S‡) (sym (inj α)) (gamma₁ 𝐸 P)
 
-   gamma₁ {E = E ᶜ│ _} {E′ = E′ │• .F} (_│•ᶜ_ {y = y} {a = a} 𝐸 F) [ P │ Q ] = ?
+   gamma₁ {E = E ᶜ│ _} {E′ = E′ │• .F} (_│•ᶜ_ {y = y} {a = a} 𝐸 F) [ P │ Q ] = {!!}
 
    gamma₁ {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ]
       with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
