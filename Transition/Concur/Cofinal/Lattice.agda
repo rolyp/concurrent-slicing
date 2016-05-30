@@ -213,7 +213,7 @@ module Transition.Concur.Cofinal.Lattice where
       with step (E′/E (⊖₁ 𝐸)) (target E P) | inspect (step (E′/E (⊖₁ 𝐸))) (target E P)
    ... | ◻ , P′ | [ ≡P′ ] =
       let S† = target ((ᴿ.push *ᶜ) F) ((push *̃) Q); S‡ = target F Q in
-      gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ (,-inj₂ ≡R′) (,-inj₂ ≡P′) refl refl (gamma₁ 𝐸 P)
+      gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ ◻ ◻ (,-inj₂ ≡R′) (,-inj₂ ≡P′) refl refl refl (gamma₁ 𝐸 P)
    ... | [ (._ •) ᵇ ] , P′ | [ ≡P′ ] =
       ⊥-elim (◻≢[-] (trans (cong (push ᴬ*̃) (sym (,-inj₁ ≡R′))) (trans (sym (ᴬgamma₁ 𝐸 P)) (,-inj₁ ≡P′))))
    gamma₁ {E = E ᵇ│ _} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] |
@@ -225,7 +225,7 @@ module Transition.Concur.Cofinal.Lattice where
    ... | [ (._ •) ᵇ ] , P′ | [ ≡P′ ] | ◻ , S‡ | [ ≡S‡ ]
       with step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
    ... | ◻ , S† | [ ≡S† ] =
-      gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ (,-inj₂ ≡R′) (,-inj₂ ≡P′) (,-inj₂ ≡S†) (,-inj₂ ≡S‡) (gamma₁ 𝐸 P)
+      gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ ◻ ◻ (,-inj₂ ≡R′) (,-inj₂ ≡P′) (,-inj₂ ≡S†) (,-inj₂ ≡S‡) refl (gamma₁ 𝐸 P)
    ... | [ • ._ 〈 y′ 〉 ᶜ ] , S† | [ ≡S† ] =
       ⊥-elim (◻≢[-] (trans (cong (push ᴬ*̃) (sym (,-inj₁ ≡S‡))) (trans (renᶜ-action-comm F push Q) (,-inj₁ ≡S†))))
    gamma₁ {E = E ᵇ│ _} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] |
@@ -237,16 +237,14 @@ module Transition.Concur.Cofinal.Lattice where
    ... | ◻ , S† | [ ≡S† ] =
       ⊥-elim (◻≢[-] (trans (sym (,-inj₁ ≡S†)) (trans (sym (renᶜ-action-comm F push Q)) (cong (push ᴬ*̃) (,-inj₁ ≡S‡)))))
    ... | [ • ._ 〈 y† 〉 ᶜ ] , S† | [ ≡S† ] =
-{-
-      let y†≡y‡ : y† ≡ y‡
-          y†≡y‡ = let open EqReasoning (setoid _) in
+      let ≡y† : y† ≡ (push ᴿ̃.*) y‡
+          ≡y† = let open EqReasoning (setoid _) in
              begin
-                ?
-             ≡⟨ ? ⟩
-                ?
+                y†
+             ≡⟨ {!!} ⟩
+                (push ᴿ̃.*) y‡
              ∎ in
--}
-      {!!} -- PROBLEM y† AND y‡
+      gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ y† y‡ (,-inj₂ ≡R′) (,-inj₂ ≡P′) (,-inj₂ ≡S†) (,-inj₂ ≡S‡) ≡y† (gamma₁ 𝐸 P)
 
 {-
    gamma₁ {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ]

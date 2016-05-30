@@ -152,7 +152,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                 (pop y† *̃) P′
              ≅⟨ ≅-cong✴ ↓_ (swap-swap (γ₁ 𝐸)) (pop y† *̃) (swap-swap̃ β) ⟩
                 (pop y† *̃) ((swap *̃) P″)
-             ≡⟨ cong (λ y → (pop y *̃) ((swap *̃) P″)) ≡y†  ⟩
+             ≡⟨ cong (λ y → (pop y *̃) ((swap *̃) P″)) ≡y† ⟩
                 (pop ((push ᴿ̃.*) y‡) *̃) ((swap *̃) P″)
              ≅⟨ ≅-sym (pop∘swap̃ y‡ P″) ⟩
                 (suc (pop y‡) *̃) P″
