@@ -49,7 +49,7 @@ module Transition.Concur.Cofinal.Lattice where
 --              ×
 --              action (E/E′ (⊖₁ 𝐸)) (target E′ P′) ≡ residual 𝑎 (action E P′)
 
-   -- γ₁ lifted to the lattice setting. Can't seem to avoid inspect-on-steroids here, yuk.
+   -- γ₁ lifted to the lattice setting. Can't seem to avoid some use of inspect-on-steroids here, yuk.
    gamma₁ : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
             (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ →
             braiding 𝑎 (γ₁ 𝐸) (target (E′/E (⊖₁ 𝐸)) (target E P′)) ≡ coerceCxt 𝑎 (target (E/E′ (⊖₁ 𝐸)) (target E′ P′))
@@ -82,19 +82,19 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ (E ᶜ│ᵇ F) [ P │ Q ] = cong (λ P′ → [ P′ │ _ ]) (renᶜ-target-comm E push P)
    gamma₁ (E ᶜ│ᶜ F) [ P │ Q ] = refl
    gamma₁ (𝐸 ➕₁ Q) [ P ➕ _ ] = gamma₁ 𝐸 P
-{-
    gamma₁ {𝑎 = ˣ∇ˣ {x = x} {u}} {E = _ │ᵇ F} {._ │ᵇ F′} (._ │ᵇᵇ 𝐹) [ P │ Q ] =
       let S† = π₂ (step (E/E′ (⊖₁ 𝐹)) (π₂ (step F′ Q)))
           S‡ = π₂ (step (E′/E (⊖₁ 𝐹)) (π₂ (step F Q)))
           open ≅-Reasoning in ≅-to-≡ (
       begin
-         [ (push *̃) P │ S† ]
-      ≅⟨ [│-]-cong _ (trans (sym (≅-to-≡ (Proc↲ refl (S′ (⊖₁ 𝐹))))) (sym (γ₁ 𝐹)))
-                     (≅-trans (≡-to-≅ (gamma₁ 𝐹 Q)) (reduce-ˣ∇ˣ {x = x} {u} (γ₁ 𝐹) _)) ⟩
-         [ (push *̃) P │ S‡ ]
-      ≅⟨ ≅-sym (reduce-ˣ∇ˣ {x = x} {u} (cong₂ _│_ refl (γ₁ 𝐹)) _) ⟩
          braiding (ˣ∇ˣ {x = x} {u}) {0} (cong₂ _│_ refl (γ₁ 𝐹)) [ (push *̃) P │ S‡ ]
+      ≅⟨ reduce-ˣ∇ˣ {x = x} {u} (cong₂ _│_ refl (γ₁ 𝐹)) _ ⟩
+         [ (push *̃) P │ S‡ ]
+      ≅⟨ [│-]-cong ((push *̃) P) (trans (γ₁ 𝐹) (≅-to-≡ (Proc↲ refl (S′ (⊖₁ 𝐹)))))
+                                 (≅-trans (≅-sym (reduce-ˣ∇ˣ {x = x} {u} (γ₁ 𝐹) _)) (≡-to-≅ (gamma₁ 𝐹 Q))) ⟩
+         [ (push *̃) P │ S† ]
       ∎)
+{-
    gamma₁ {𝑎 = ᵇ∇ᵇ} {E = P₀ │ᵇ F} {._ │ᵇ F′} (._ │ᵇᵇ 𝐹) [ P │ Q ] =
       let S† = π₂ (step (E/E′ (⊖₁ 𝐹)) (π₂ (step F′ Q)))
           S‡ = π₂ (step (E′/E (⊖₁ 𝐹)) (π₂ (step F Q)))
