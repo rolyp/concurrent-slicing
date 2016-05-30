@@ -14,7 +14,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
    open import Proc.Lattice as ᴾ̃ using (); open ᴾ̃.↓_; open ᴾ̃.↓⁻_
    open import Proc.Ren.Lattice using () renaming (_* to _*̃)
    open import Ren as ᴿ using (); open ᴿ.Renameable ⦃...⦄
-   open import Ren.Lattice using (swap; pop; push; _ᴿ+_; suc)
+   open import Ren.Lattice as ᴿ̃ using (swap; pop; push; _ᴿ+_; suc)
    open import Ren.Lattice.Properties
    open import Ren.Properties
    open import Transition as ᵀ using (_—[_-_]→_)
@@ -100,8 +100,9 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
 
    gamma₁-│•ᵇ : ∀ {Γ x y P₀ R₀ R′₀ S₀ Q₀} {a : Actionᵇ Γ} {E : P₀ —[ a ᵇ - _ ]→ R₀} {E′ : P₀ —[ (x •) ᵇ - _ ]→ R′₀}
                (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (F : Q₀ —[ • x 〈 y 〉 ᶜ - _ ]→ S₀) (P : ↓ P₀) (Q : ↓ Q₀) (S† : ↓ (ᴿ.push *) S₀)
-               (S‡ : ↓ S₀) (R′ : ↓ R′₀) (P′ : ↓ S (⊖₁ 𝐸)) → target E′ P ≡ R′ → target (E′/E (⊖₁ 𝐸)) (target E P) ≡ P′ →
-               target ((ᴿ.push *ᶜ) F) ((push *̃) Q) ≡ S† → target F Q ≡ S‡ →
+               (S‡ : ↓ S₀) (R′ : ↓ R′₀) (P′ : ↓ S (⊖₁ 𝐸)) (y† : ↓ ᴺ.suc y) (y‡ : ↓ y) →
+               target E′ P ≡ R′ → target (E′/E (⊖₁ 𝐸)) (target E P) ≡ P′ →
+               target ((ᴿ.push *ᶜ) F) ((push *̃) Q) ≡ S† → target F Q ≡ S‡ → y† ≡ (push ᴿ̃.*) y‡ →
                braiding (ᵇ∇ᵇ {a = a} {x •}) {0} (γ₁ 𝐸) (target (E′/E (⊖₁ 𝐸)) (target E P)) ≡
                target (E/E′ (⊖₁ 𝐸)) (target E′ P) →
                let α : (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸)) ≡ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
@@ -116,9 +117,9 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                    pop-y*E/E′ = subst (λ a → _ —[ a ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸)))
                                       (pop∘push y a) ((ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))) in
                braiding (ᵇ∇ᶜ {a = a} {τ}) {0} (cong₂ _│_ α refl)
-                        [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ S† ] ≡
-               [ target pop-y*E/E′ ((pop ◻ *̃) R′) │ ((push *̃) S‡) ]
-   gamma₁-│•ᵇ {Γ} {x = x} {y} {a = a} {E} {E′} 𝐸 F P Q S† S‡ R′ P′ ≡R′ ≡P′ ≡S† ≡S‡ IH =
+                        [ (pop y† *̃) P′ │ S† ] ≡
+               [ target pop-y*E/E′ ((pop y‡ *̃) R′) │ ((push *̃) S‡) ]
+   gamma₁-│•ᵇ {Γ} {x = x} {y} {a = a} {E} {E′} 𝐸 F P Q S† S‡ R′ P′ y† y‡ ≡R′ ≡P′ ≡S† ≡S‡ ≡y† IH =
       let T : Actionᵇ Γ → Set
           T = λ a′ → (ᴿ.pop y *) (ᵀ.target E′) —[ a′ ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
           pop-y*E/E′ = subst T (pop∘push y a) ((ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸)))
@@ -145,19 +146,19 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
              ≡⟨ cong (target (E/E′ (⊖₁ 𝐸))) ≡R′ ⟩
                 P″
              ∎
-          δ : (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ ≅ target pop-y*E/E′ (((pop ◻) *̃) R′)
+          δ : (pop y† *̃) P′ ≅ target pop-y*E/E′ (((pop y‡) *̃) R′)
           δ = let open ≅-Reasoning in
              begin
-                (pop {x₀ = ᴺ.suc y} ◻ *̃) P′
-             ≅⟨ ≅-cong✴ ↓_ (swap-swap (γ₁ 𝐸)) (pop {x₀ = ᴺ.suc y} ◻ *̃) (swap-swap̃ β) ⟩
-                (pop {x₀ = ᴺ.suc y} ◻ *̃) ((swap *̃) P″)
-             ≅⟨ ≅-sym (pop∘swap̃ ◻ P″) ⟩
-                (suc (pop {x₀ = y} ◻) *̃) P″
+                (pop y† *̃) P′
+             ≅⟨ ≅-cong✴ ↓_ (swap-swap (γ₁ 𝐸)) (pop y† *̃) (swap-swap̃ β) ⟩
+                (pop y† *̃) ((swap *̃) P″)
+             ≅⟨ ≅-sym (pop∘swap̃ y‡ P″) ⟩
+                (suc (pop y‡) *̃) P″
              ≡⟨ renᵇ-target-comm (E/E′ (⊖₁ 𝐸)) (pop ◻) R′ ⟩
                 target (((ᴿ.pop y) *ᵇ) (E/E′ (⊖₁ 𝐸))) (((pop ◻) *̃) R′)
              ≅⟨ ≅-cong✴ T (pop∘push y a) (λ E† → target E† ((pop ◻ *̃) R′))
                         (≅-sym (≡-subst-removable T (pop∘push y a) _)) ⟩
-                target pop-y*E/E′ (((pop ◻) *̃) R′)
+                target pop-y*E/E′ (((pop y‡) *̃) R′)
              ∎ in ≅-to-≡ (
       let open ≅-Reasoning in
       begin

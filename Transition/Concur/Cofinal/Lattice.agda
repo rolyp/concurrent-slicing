@@ -236,7 +236,17 @@ module Transition.Concur.Cofinal.Lattice where
       with step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
    ... | ◻ , S† | [ ≡S† ] =
       ⊥-elim (◻≢[-] (trans (sym (,-inj₁ ≡S†)) (trans (sym (renᶜ-action-comm F push Q)) (cong (push ᴬ*̃) (,-inj₁ ≡S‡)))))
-   ... | [ • ._ 〈 y† 〉 ᶜ ] , S† | [ ≡S† ] = {!!} -- PROBLEM y† AND y‡
+   ... | [ • ._ 〈 y† 〉 ᶜ ] , S† | [ ≡S† ] =
+{-
+      let y†≡y‡ : y† ≡ y‡
+          y†≡y‡ = let open EqReasoning (setoid _) in
+             begin
+                ?
+             ≡⟨ ? ⟩
+                ?
+             ∎ in
+-}
+      {!!} -- PROBLEM y† AND y‡
 
 {-
    gamma₁ {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ]
