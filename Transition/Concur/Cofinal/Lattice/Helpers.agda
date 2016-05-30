@@ -172,8 +172,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
          [ target pop-y*E/E′ ((pop y‡ *̃) R′) │ (push *̃) S‡ ]
       ∎)
 
-   postulate
-    gamma₁-│•ᶜ : ∀ {Γ x y P₀ R₀ R′₀ Q₀ S₀} {a : Actionᶜ Γ} {E : P₀ —[ a ᶜ - _ ]→ R₀} {E′ : P₀ —[ (x •) ᵇ - _ ]→ R′₀}
+   gamma₁-│•ᶜ : ∀ {Γ x y P₀ R₀ R′₀ Q₀ S₀} {a : Actionᶜ Γ} {E : P₀ —[ a ᶜ - _ ]→ R₀} {E′ : P₀ —[ (x •) ᵇ - _ ]→ R′₀}
                 (𝐸 : E ⌣₁[ ᶜ∇ᵇ ] E′) (F : Q₀ —[ • x 〈 y 〉 ᶜ - _ ]→ S₀) (P : ↓ P₀) (Q : ↓ Q₀) (S† : ↓ S (⊖₁ 𝐸))
                 (S‡ : ↓ S₀) (R′ : ↓ R′₀) (y‡ : ↓ y) →
                 target E′ P ≡ R′ → target (E′/E (⊖₁ 𝐸)) (target E P) ≡ S† → target F Q ≡ S‡ →
@@ -184,7 +183,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                     pop-y*E/E′ = subst T (pop∘push y a) ((ᴿ.pop y *ᶜ) (E/E′ (⊖₁ 𝐸))) in
                 braiding (ᶜ∇ᶜ {a = a} {τ}) {0} (cong₂ _│_ (cong (ᴿ.pop y *) (γ₁ 𝐸)) refl) [ (pop y‡ *̃) S† │ S‡ ] ≡
                 [ target pop-y*E/E′ ((pop y‡ *̃) R′) │ S‡ ]
---   gamma₁-│•ᶜ = {!!}
+   gamma₁-│•ᶜ {Γ} {y = y} {a = a} {E} {E′} 𝐸 F P Q S† S‡ R′ y‡ ≡R′ ≡S† ≡S‡ IH = {!!}
 
    gamma₁-νᵛᵛ : ∀ {Γ} {P₀ : Proc (Γ + 1)} {R₀ R′₀} {E : P₀ —[ τ ᶜ - _ ]→ R₀} {E′ : P₀ —[ τ ᶜ - _ ]→ R′₀}
                (𝐸 : E ⌣₁[ ᵛ∇ᵛ ] E′) (P : ↓ P₀) (R : ↓ R₀) (R′ : ↓ R′₀) (S† : ↓ S (⊖₁ 𝐸)) (S‡ : ↓ S′ (⊖₁ 𝐸)) →
