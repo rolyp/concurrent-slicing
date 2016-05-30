@@ -152,21 +152,22 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                 (pop y† *̃) P′
              ≅⟨ ≅-cong✴ ↓_ (swap-swap (γ₁ 𝐸)) (pop y† *̃) (swap-swap̃ β) ⟩
                 (pop y† *̃) ((swap *̃) P″)
+             ≡⟨ cong (λ y → (pop y *̃) ((swap *̃) P″)) ≡y†  ⟩
+                (pop ((push ᴿ̃.*) y‡) *̃) ((swap *̃) P″)
              ≅⟨ ≅-sym (pop∘swap̃ y‡ P″) ⟩
                 (suc (pop y‡) *̃) P″
-             ≡⟨ renᵇ-target-comm (E/E′ (⊖₁ 𝐸)) (pop ◻) R′ ⟩
-                target (((ᴿ.pop y) *ᵇ) (E/E′ (⊖₁ 𝐸))) (((pop ◻) *̃) R′)
-             ≅⟨ ≅-cong✴ T (pop∘push y a) (λ E† → target E† ((pop ◻ *̃) R′))
+             ≡⟨ renᵇ-target-comm (E/E′ (⊖₁ 𝐸)) (pop y‡) R′ ⟩
+                target (((ᴿ.pop y) *ᵇ) (E/E′ (⊖₁ 𝐸))) (((pop y‡) *̃) R′)
+             ≅⟨ ≅-cong✴ T (pop∘push y a) (λ E† → target E† ((pop y‡ *̃) R′))
                         (≅-sym (≡-subst-removable T (pop∘push y a) _)) ⟩
                 target pop-y*E/E′ (((pop y‡) *̃) R′)
              ∎ in ≅-to-≡ (
       let open ≅-Reasoning in
       begin
-         braiding (ᵇ∇ᶜ {a = a} {τ}) {0} (cong₂ _│_ α refl)
-                  [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ S† ]
+         braiding (ᵇ∇ᶜ {a = a} {τ}) {0} (cong₂ _│_ α refl) [ (pop y† *̃) P′ │ S† ]
       ≅⟨ reduce-ᵇ∇ᶜ (cong₂ _│_ α refl) _ ⟩
-         [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ S† ]
+         [ (pop y† *̃) P′ │ S† ]
       ≅⟨ [-│-]-cong α δ refl (≡-to-≅ (trans (sym ≡S†) (trans (sym (renᶜ-target-comm F push Q))
                                                              (cong (push *̃) ≡S‡)))) ⟩
-         [ target pop-y*E/E′ ((pop ◻ *̃) R′) │ (push *̃) S‡ ]
+         [ target pop-y*E/E′ ((pop y‡ *̃) R′) │ (push *̃) S‡ ]
       ∎)
