@@ -98,26 +98,27 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       ∎)
 
    gamma₁-│•ᵇ : ∀ {Γ x y P₀ R₀ R′₀ S₀ Q₀} {a : Actionᵇ Γ} {E : P₀ —[ a ᵇ - _ ]→ R₀} {E′ : P₀ —[ (x •) ᵇ - _ ]→ R′₀}
-               (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (F : Q₀ —[ • x 〈 y 〉 ᶜ - _ ]→ S₀) (P : ↓ P₀) (Q : ↓ Q₀) (S† : ↓ (ᴿ.push *) S₀)
-               (S‡ : ↓ S₀) (R′ : ↓ R′₀) (P′ : ↓ S (⊖₁ 𝐸)) (y† : ↓ ᴺ.suc y) (y‡ : ↓ y) →
-               target E′ P ≡ R′ → target (E′/E (⊖₁ 𝐸)) (target E P) ≡ P′ →
-               target ((ᴿ.push *ᶜ) F) ((push *̃) Q) ≡ S† → target F Q ≡ S‡ → y† ≡ (push ᴿ̃.*) y‡ →
-               braiding (ᵇ∇ᵇ {a = a} {x •}) {0} (γ₁ 𝐸) (target (E′/E (⊖₁ 𝐸)) (target E P)) ≡
-               target (E/E′ (⊖₁ 𝐸)) (target E′ P) →
-               let α : (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸)) ≡ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
-                   α = let open EqReasoning (setoid _) in
-                      begin
-                         (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸))
-                      ≡⟨ cong (ᴿ.pop (ᴺ.suc y) *) (swap-swap (γ₁ 𝐸)) ⟩
-                         (ᴿ.pop (ᴺ.suc y) *) ((ᴿ.swap *) (S′ (⊖₁ 𝐸)))
-                      ≡⟨ sym (pop∘swap y _) ⟩
-                         (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
-                      ∎
-                   pop-y*E/E′ = subst (λ a → _ —[ a ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸)))
-                                      (pop∘push y a) ((ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))) in
-               braiding (ᵇ∇ᶜ {a = a} {τ}) {0} (cong₂ _│_ α refl)
-                        [ (pop y† *̃) P′ │ S† ] ≡
-               [ target pop-y*E/E′ ((pop y‡ *̃) R′) │ ((push *̃) S‡) ]
+                (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (F : Q₀ —[ • x 〈 y 〉 ᶜ - _ ]→ S₀) (P : ↓ P₀) (Q : ↓ Q₀) (S† : ↓ (ᴿ.push *) S₀)
+                (S‡ : ↓ S₀) (R′ : ↓ R′₀) (P′ : ↓ S (⊖₁ 𝐸)) (y† : ↓ ᴺ.suc y) (y‡ : ↓ y) →
+                target E′ P ≡ R′ → target (E′/E (⊖₁ 𝐸)) (target E P) ≡ P′ →
+                target ((ᴿ.push *ᶜ) F) ((push *̃) Q) ≡ S† → target F Q ≡ S‡ → y† ≡ (push ᴿ̃.*) y‡ →
+                braiding (ᵇ∇ᵇ {a = a} {x •}) {0} (γ₁ 𝐸) (target (E′/E (⊖₁ 𝐸)) (target E P)) ≡
+                target (E/E′ (⊖₁ 𝐸)) (target E′ P) →
+                let α : (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸)) ≡ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
+                    α = let open EqReasoning (setoid _) in
+                       begin
+                          (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸))
+                       ≡⟨ cong (ᴿ.pop (ᴺ.suc y) *) (swap-swap (γ₁ 𝐸)) ⟩
+                          (ᴿ.pop (ᴺ.suc y) *) ((ᴿ.swap *) (S′ (⊖₁ 𝐸)))
+                       ≡⟨ sym (pop∘swap y _) ⟩
+                          (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
+                       ∎
+                    T : Actionᵇ Γ → Set
+                    T = λ a′ → (ᴿ.pop y *) (ᵀ.target E′) —[ a′ ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
+                    pop-y*E/E′ = subst T (pop∘push y a) ((ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))) in
+                braiding (ᵇ∇ᶜ {a = a} {τ}) {0} (cong₂ _│_ α refl)
+                         [ (pop y† *̃) P′ │ S† ] ≡
+                [ target pop-y*E/E′ ((pop y‡ *̃) R′) │ ((push *̃) S‡) ]
    gamma₁-│•ᵇ {Γ} {x = x} {y} {a = a} {E} {E′} 𝐸 F P Q S† S‡ R′ P′ y† y‡ ≡R′ ≡P′ ≡S† ≡S‡ ≡y† IH =
       let T : Actionᵇ Γ → Set
           T = λ a′ → (ᴿ.pop y *) (ᵀ.target E′) —[ a′ ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
@@ -170,6 +171,16 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                                                              (cong (push *̃) ≡S‡)))) ⟩
          [ target pop-y*E/E′ ((pop y‡ *̃) R′) │ (push *̃) S‡ ]
       ∎)
+
+   gamma₁-│•ᶜ : ∀ {Γ x y P₀ R₀ R′₀ Q₀ S₀} {a : Actionᶜ Γ} {E : P₀ —[ a ᶜ - _ ]→ R₀} {E′ : P₀ —[ (x •) ᵇ - _ ]→ R′₀}
+                (𝐸 : E ⌣₁[ ᶜ∇ᵇ ] E′) (F : Q₀ —[ • x 〈 y 〉 ᶜ - _ ]→ S₀) (P : ↓ P₀) (Q : ↓ Q₀) (S† : ↓ S (⊖₁ 𝐸))
+                (S‡ : ↓ S₀) (R′ : ↓ R′₀) →
+                let T : Actionᶜ Γ → Set
+                    T = (λ a → (ᴿ.pop y *) (ᵀ.target E′) —[ a ᶜ - _ ]→ (ᴿ.pop y *) (S′ (⊖₁ 𝐸)))
+                    pop-y*E/E′ = subst T (pop∘push y a) ((ᴿ.pop y *ᶜ) (E/E′ (⊖₁ 𝐸))) in
+                braiding (ᶜ∇ᶜ {a = a} {τ}) {0} (cong₂ _│_ (cong (ᴿ.pop y *) (γ₁ 𝐸)) refl) [ (pop ◻ *̃) S† │ S‡ ] ≡
+                [ target pop-y*E/E′ ((pop ◻ *̃) R′) │ S‡ ]
+   gamma₁-│•ᶜ = {!!}
 
    gamma₁-νᵛᵛ : ∀ {Γ} {P₀ : Proc (Γ + 1)} {R₀ R′₀} {E : P₀ —[ τ ᶜ - _ ]→ R₀} {E′ : P₀ —[ τ ᶜ - _ ]→ R′₀}
                (𝐸 : E ⌣₁[ ᵛ∇ᵛ ] E′) (P : ↓ P₀) (R : ↓ R₀) (R′ : ↓ R′₀) (S† : ↓ S (⊖₁ 𝐸)) (S‡ : ↓ S′ (⊖₁ 𝐸)) →
