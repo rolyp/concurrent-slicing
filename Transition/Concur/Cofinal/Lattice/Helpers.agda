@@ -10,7 +10,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
    open import Lattice using (Lattices); open Lattice.Prefixes ⦃...⦄
    open import Name as ᴺ using (Name; Cxt; _+_)
    open import Name.Lattice as ᴺ̃ using (); open ᴺ̃.↓_
-   open import Proc as ᴾ using (Proc); open ᴾ.Proc
+   open import Proc as ᴾ using (Proc; Proc↱); open ᴾ.Proc
    open import Proc.Lattice as ᴾ̃ using (); open ᴾ̃.↓_; open ᴾ̃.↓⁻_
    open import Proc.Ren.Lattice using () renaming (_* to _*̃)
    open import Ren as ᴿ using (); open ᴿ.Renameable ⦃...⦄
@@ -170,3 +170,9 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                                                              (cong (push *̃) ≡S‡)))) ⟩
          [ target pop-y*E/E′ ((pop y‡ *̃) R′) │ (push *̃) S‡ ]
       ∎)
+
+   postulate
+      gamma₁-νᵛᵛ : ∀ {Γ} {P₀ : Proc (Γ + 1)} {R₀ R′₀} {E : P₀ —[ τ ᶜ - _ ]→ R₀} {E′ : P₀ —[ τ ᶜ - _ ]→ R′₀}
+                  (𝐸 : E ⌣₁[ ᵛ∇ᵛ ] E′) (S† : ↓ S (⊖₁ 𝐸)) (S‡ : ↓ S′ (⊖₁ 𝐸)) →
+                  _≡_ {A = ↓_ {A = Proc Γ} (ν Proc↱ refl (S′ (⊖₁ 𝐸)))} [ ν braid̂ (γ₁ 𝐸) S† ] [ ν S‡ ]
+--    gamma₁-νᵛᵛ = {!!}
