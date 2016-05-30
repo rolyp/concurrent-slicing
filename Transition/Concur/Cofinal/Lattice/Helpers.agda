@@ -73,15 +73,39 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                    _≅_ {A = ↓_ {A = Proc Γ} _} [ P │ Q ] {↓_ {A = Proc Γ} _} [ P′ │ Q′ ]
       [-│-]-cong refl ≅-refl refl ≅-refl = ≅-refl
 
+   ᴬgamma₁-│•ᵇ : ∀ {Γ x y P₀ R₀ R′₀ S₀ Q₀} {a : Actionᵇ Γ} {E : P₀ —[ a ᵇ - _ ]→ R₀} {E′ : P₀ —[ (x •) ᵇ - _ ]→ R′₀}
+                (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (F : Q₀ —[ • x 〈 y 〉 ᶜ - _ ]→ S₀) (P : ↓ P₀) (R′ : ↓ R′₀) →
+                target E′ P ≡ R′ → action (E/E′ (⊖₁ 𝐸)) (target E′ P) ≡ (push ᴬ*̃) (action E P) →
+                let pop-y*E/E′ = subst (λ a → _ —[ a ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸)))
+                                       (pop∘push y a) ((ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))) in
+                action pop-y*E/E′ ((pop ◻ *̃) R′) ≡ action E P
+   ᴬgamma₁-│•ᵇ {Γ} {x = x} {y} {a = a} {E} {E′} 𝐸 F P R′ ≡R′ IH = ≅-to-≡ (
+      let T : Actionᵇ Γ → Set
+          T = λ a′ → (ᴿ.pop y *) (ᵀ.target E′) —[ a′ ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
+          pop-y*E/E′ = subst T (pop∘push y a) ((ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸)))
+          open ≅-Reasoning in
+      begin
+         action pop-y*E/E′  ((pop ◻ *̃) R′)
+      ≅⟨ ≅-cong✴ T (sym (pop∘push y a)) (λ E† → action E† ((pop ◻ *̃) R′)) (≡-subst-removable T (pop∘push y a) _) ⟩
+         action ((ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))) ((pop ◻ *̃) R′)
+      ≡⟨ sym (renᵇ-action-comm (E/E′ (⊖₁ 𝐸)) (pop ◻) R′) ⟩
+         (pop {x₀ = y} ◻ ᴬ*̃) (action (E/E′ (⊖₁ 𝐸)) R′)
+      ≡⟨ cong ((pop {x₀ = y} ◻ ᴬ*̃) ∘ᶠ action (E/E′ (⊖₁ 𝐸))) (sym ≡R′) ⟩
+         (pop {x₀ = y} ◻ ᴬ*̃) (action (E/E′ (⊖₁ 𝐸)) (target E′ P))
+      ≡⟨ cong (pop {x₀ = y} ◻ ᴬ*̃) IH ⟩
+         (pop {x₀ = y} ◻ ᴬ*̃) ((push ᴬ*̃) (action E P))
+      ≅⟨ ᴬpop∘push̃ ◻ (action E P) ⟩
+         action E P
+      ∎)
+
    gamma₁-│•ᵇ : ∀ {Γ x y P₀ R₀ R′₀ S₀ Q₀} {a : Actionᵇ Γ} {E : P₀ —[ a ᵇ - _ ]→ R₀} {E′ : P₀ —[ (x •) ᵇ - _ ]→ R′₀}
                (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (F : Q₀ —[ • x 〈 y 〉 ᶜ - _ ]→ S₀) (P : ↓ P₀) (Q : ↓ Q₀) (S† : ↓ (ᴿ.push *) S₀)
                (S‡ : ↓ S₀) (R′ : ↓ R′₀) (P′ : ↓ S (⊖₁ 𝐸)) → target E′ P ≡ R′ → target (E′/E (⊖₁ 𝐸)) (target E P) ≡ P′ →
-               target ((ᴿ.push *ᶜ) F) (((push *̃) Q)) ≡ S† → target F Q ≡ S‡ →
+               target ((ᴿ.push *ᶜ) F) ((push *̃) Q) ≡ S† → target F Q ≡ S‡ →
                braiding (ᵇ∇ᵇ {a = a} {x •}) {0} (γ₁ 𝐸) (target (E′/E (⊖₁ 𝐸)) (target E P)) ≡
-               target (E/E′ (⊖₁ 𝐸)) (target E′ P) ×
-               action (E/E′ (⊖₁ 𝐸)) (target E′ P) ≡ (push ᴬ*̃) (action E P) →
-               let gib : (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸)) ≡ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
-                   gib = let open EqReasoning (setoid _) in
+               target (E/E′ (⊖₁ 𝐸)) (target E′ P) →
+               let α : (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸)) ≡ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
+                   α = let open EqReasoning (setoid _) in
                       begin
                          (ᴿ.pop (ᴺ.suc y) *) (S (⊖₁ 𝐸))
                       ≡⟨ cong (ᴿ.pop (ᴺ.suc y) *) (swap-swap (γ₁ 𝐸)) ⟩
@@ -91,10 +115,9 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                       ∎
                    pop-y*E/E′ = subst (λ a → _ —[ a ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸)))
                                       (pop∘push y a) ((ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))) in
-               braiding (ᵇ∇ᶜ {a = a} {τ}) {0} (cong₂ _│_ gib refl)
+               braiding (ᵇ∇ᶜ {a = a} {τ}) {0} (cong₂ _│_ α refl)
                         [ (pop {x₀ = ᴺ.suc y} ◻ *̃) P′ │ S† ] ≡
-               [ target pop-y*E/E′ ((pop ◻ *̃) R′) │ ((push *̃) S‡) ] ×
-               action pop-y*E/E′ ((pop ◻ *̃) R′) ≡ action E P
+               [ target pop-y*E/E′ ((pop ◻ *̃) R′) │ ((push *̃) S‡) ]
    gamma₁-│•ᵇ {Γ} {x = x} {y} {a = a} {E} {E′} 𝐸 F P Q S† S‡ R′ P′ ≡R′ ≡P′ ≡S† ≡S‡ IH =
       let T : Actionᵇ Γ → Set
           T = λ a′ → (ᴿ.pop y *) (ᵀ.target E′) —[ a′ ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (S′ (⊖₁ 𝐸))
@@ -117,7 +140,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                 (swap *̃) (target (E′/E (⊖₁ 𝐸)) (target E P))
              ≅⟨ ≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _) ⟩
                 braiding (ᵇ∇ᵇ {a = a} {x •}) {0} (γ₁ 𝐸) (target (E′/E (⊖₁ 𝐸)) (target E P))
-             ≡⟨ π₁ IH ⟩
+             ≡⟨ IH ⟩
                 target (E/E′ (⊖₁ 𝐸)) (target E′ P)
              ≡⟨ cong (target (E/E′ (⊖₁ 𝐸))) ≡R′ ⟩
                 P″
@@ -145,18 +168,4 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       ≅⟨ [-│-]-cong α δ refl (≡-to-≅ (trans (sym ≡S†) (trans (sym (renᶜ-target-comm F push Q))
                                                              (cong (push *̃) ≡S‡)))) ⟩
          [ target pop-y*E/E′ ((pop ◻ *̃) R′) │ (push *̃) S‡ ]
-      ∎) , ≅-to-≡ (
-      let open ≅-Reasoning in
-      begin
-         action pop-y*E/E′  ((pop ◻ *̃) R′)
-      ≅⟨ ≅-cong✴ T (sym (pop∘push y a)) (λ E† → action E† ((pop ◻ *̃) R′)) (≡-subst-removable T (pop∘push y a) _) ⟩
-         action ((ᴿ.pop y *ᵇ) (E/E′ (⊖₁ 𝐸))) ((pop ◻ *̃) R′)
-      ≡⟨ sym (renᵇ-action-comm (E/E′ (⊖₁ 𝐸)) (pop ◻) R′) ⟩
-         (pop {x₀ = y} ◻ ᴬ*̃) (action (E/E′ (⊖₁ 𝐸)) R′)
-      ≡⟨ cong ((pop {x₀ = y} ◻ ᴬ*̃) ∘ᶠ action (E/E′ (⊖₁ 𝐸))) (sym ≡R′) ⟩
-         (pop {x₀ = y} ◻ ᴬ*̃) (action (E/E′ (⊖₁ 𝐸)) (target E′ P))
-      ≡⟨ cong (pop {x₀ = y} ◻ ᴬ*̃) (π₂ IH) ⟩
-         (pop {x₀ = y} ◻ ᴬ*̃) ((push ᴬ*̃) (action E P))
-      ≅⟨ ᴬpop∘push̃ ◻ (action E P) ⟩
-         action E P
       ∎)
