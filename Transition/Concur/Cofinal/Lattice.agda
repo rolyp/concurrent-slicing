@@ -42,6 +42,12 @@ module Transition.Concur.Cofinal.Lattice where
    ◻≢[-] : ∀ {Γ} {a : Action Γ} {a′ : ↓⁻ a} → _≡_ {A = ↓_ {A = Action Γ} a} ◻ [ a′ ] → ⊥
    ◻≢[-] ()
 
+   postulate
+      ᴬgamma₁ : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
+                (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ →
+                action (E′/E (⊖₁ 𝐸)) (target E P′) ≡ gibble 𝑎 (residual (ᴬ⌣-sym 𝑎) (action E′ P′)) ×
+                action (E/E′ (⊖₁ 𝐸)) (target E′ P′) ≡ residual 𝑎 (action E P′)
+
    -- γ₁ lifted to the lattice setting. Can't seem to avoid inspect-on-steroids here, yuk.
    gamma₁ : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
             (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ →
