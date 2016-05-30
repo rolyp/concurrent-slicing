@@ -264,25 +264,16 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ {E = E ᶜ│ Q₀} {E′ = E′ │• .F} (_│•ᶜ_ {x = x} {y} {a = a} 𝐸 F) [ P │ Q ]
       with step E′ P | step (E′/E (⊖₁ 𝐸)) (target E P) | step F Q |
            inspect (step E′) P | inspect (step (E′/E (⊖₁ 𝐸))) (target E P) | inspect (step F) Q
-   gamma₁ {Γ} {._} {.(τ ᶜ)} {.ᶜ∇ᶜ} {._} {._} {._} {E ᶜ│ Q₀} {E′ │• .F} (𝐸 │•ᶜ F) [ P₁ │ Q ] | ◻ , proj₂ | ◻ , proj₄ | ◻ , proj₆ | s | t | u = ?
-   gamma₁ {Γ} {._} {.(τ ᶜ)} {.ᶜ∇ᶜ} {._} {._} {._} {E ᶜ│ Q₀} {E′ │• .F} (𝐸 │•ᶜ F) [ P₁ │ Q ] | ◻ , proj₂ | ◻ , proj₄ | [ x₁ ] , proj₆ | s | t | u = ?
-   gamma₁ {Γ} {._} {.(τ ᶜ)} {.ᶜ∇ᶜ} {._} {._} {._} {E ᶜ│ Q₀} {E′ │• .F} (𝐸 │•ᶜ F) [ P₁ │ Q ] | ◻ , proj₂ | [ x₁ ] , proj₄ | ◻ , proj₆ | s | t | u = ?
-   gamma₁ {Γ} {._} {.(τ ᶜ)} {.ᶜ∇ᶜ} {._} {._} {._} {E ᶜ│ Q₀} {E′ │• .F} (𝐸 │•ᶜ F) [ P₁ │ Q ] | ◻ , proj₂ | [ x₁ ] , proj₄ | [ x₂ ] , proj₆ | s | t | u = ?
-   gamma₁ {Γ} {._} {.(τ ᶜ)} {.ᶜ∇ᶜ} {._} {._} {._} {E ᶜ│ Q₀} {E′ │• .F} (𝐸 │•ᶜ F) [ P₁ │ Q ] | [ x₁ ] , proj₂ | ◻ , proj₄ | ◻ , proj₆ | s | t | u = ?
-   gamma₁ {Γ} {._} {.(τ ᶜ)} {.ᶜ∇ᶜ} {._} {._} {._} {E ᶜ│ Q₀} {E′ │• .F} (𝐸 │•ᶜ F) [ P₁ │ Q ] | [ x₁ ] , proj₂ | ◻ , proj₄ | [ x₂ ] , proj₆ | s | t | u = ?
-   gamma₁ {Γ} {._} {.(τ ᶜ)} {.ᶜ∇ᶜ} {._} {._} {._} {E ᶜ│ Q₀} {E′ │• .F} (𝐸 │•ᶜ F) [ P₁ │ Q ] | [ x₁ ] , proj₂ | [ x₂ ] , proj₄ | ◻ , proj₆ | s | t | u = ?
-   gamma₁ {Γ} {._} {.(τ ᶜ)} {.ᶜ∇ᶜ} {._} {._} {._} {E ᶜ│ Q₀} {E′ │• .F} (𝐸 │•ᶜ F) [ P₁ │ Q ] | [ x₁ ] , proj₂ | [ x₂ ] , proj₄ | [ x₃ ] , proj₆ | s | t | u = ?
+   ... | ◻ , proj₂ | ◻ , proj₄ | ◻ , proj₆ | s | t | u = {!!}
+   ... | ◻ , proj₂ | ◻ , proj₄ | [ x₁ ] , proj₆ | s | t | u = {!!}
+   ... | ◻ , proj₂ | [ (.x •) ᵇ ] , proj₄ | ◻ , proj₆ | s | t | u = {!!}
+   ... | ◻ , proj₂ | [ (.x •) ᵇ ] , proj₄ | [ • .x 〈 x₁ 〉 ᶜ ] , proj₆ | s | t | u = {!!}
+   ... | [ (.x •) ᵇ ] , proj₂ | ◻ , proj₄ | ◻ , proj₆ | s | t | u = {!!}
+   ... | [ (.x •) ᵇ ] , proj₂ | ◻ , proj₄ | [ • .x 〈 x₁ 〉 ᶜ ] , proj₆ | s | t | u = {!!}
+   ... | [ (.x •) ᵇ ] , proj₂ | [ (.x •) ᵇ ] , proj₄ | ◻ , proj₆ | s | t | u = {!!}
+   ... | [ (.x •) ᵇ ] , proj₂ | [ (.x •) ᵇ ] , proj₄ | [ • .x 〈 x₁ 〉 ᶜ ] , proj₆ | s | t | u = {!!}
 {-
-   gamma₁ {E = E ᶜ│ Q₀} {E′ = E′ │• .F} (_│•ᶜ_ {x = x} {y} {a = a} 𝐸 F) [ P │ Q ] = ≅-to-≡ (
       let T = (λ a → (ᴿ.pop y *) (ᵀ.target E′) —[ a ᶜ - _ ]→ (ᴿ.pop y *) (S′ (⊖₁ 𝐸)))
-          open ≅-Reasoning in
-      begin
-         braiding ᶜ∇ᶜ (cong₂ _│_ (cong (ᴿ.pop y *) (γ₁ 𝐸)) refl) (target (E′/E (⊖₁ 𝐸) │• F) (target (E ᶜ│ Q₀) [ P │ Q ]))
-      ≅⟨ reduce-ᶜ∇ᶜ (cong₂ _│_ (cong (ᴿ.pop y *) (γ₁ 𝐸)) refl) _ ⟩
-         target (E′/E (⊖₁ 𝐸) │• F) [ target E P │ Q ]
-      ≅⟨ {!!} ⟩
-         target (subst T (pop∘push y a) ((ᴿ.pop y *ᶜ) (E/E′ (⊖₁ 𝐸))) ᶜ│ ᵀ.target F) (target (E′ │• F) [ P │ Q ])
-      ∎)
 -}
 
 {-
