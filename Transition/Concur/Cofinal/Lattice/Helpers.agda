@@ -175,16 +175,19 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                (𝐸 : E ⌣₁[ ᵛ∇ᵛ ] E′) (P : ↓ P₀) (R : ↓ R₀) (R′ : ↓ R′₀) (S† : ↓ S (⊖₁ 𝐸)) (S‡ : ↓ S′ (⊖₁ 𝐸)) →
                target E P ≡ R → target E′ P ≡ R′ → target (E′/E (⊖₁ 𝐸)) R ≡ S† → target (E/E′ (⊖₁ 𝐸)) R′ ≡ S‡ →
                _≡_ {A = ↓_ {A = Proc Γ} (ν Proc↱ refl (S′ (⊖₁ 𝐸)))} [ ν braid̂ (γ₁ 𝐸) S† ] [ ν S‡ ]
-   gamma₁-νᵛᵛ 𝐸 P R R′ S† S‡ ≡R ≡R′ ≡S† ≡S‡ = cong [_] (cong ν_ (
+   gamma₁-νᵛᵛ {E = E} {E′} 𝐸 P R R′ S† S‡ ≡R ≡R′ ≡S† ≡S‡ = cong [_] (cong ν_ (
       let open EqReasoning (setoid _) in
       begin
          braid̂ (γ₁ 𝐸) S†
-      ≡⟨ {!!} ⟩
+      ≡⟨ cong (braid̂ (γ₁ 𝐸)) (trans (sym ≡S†) (cong (target (E′/E (⊖₁ 𝐸))) (sym ≡R))) ⟩
+         braid̂ (γ₁ 𝐸) (target (E′/E (⊖₁ 𝐸)) (target E P))
+      ≡⟨ {!gamma₁ 𝐸 P!} ⟩
+         target (E/E′ (⊖₁ 𝐸)) (target E′ P)
+      ≡⟨ cong (target (E/E′ (⊖₁ 𝐸))) ≡R′ ⟩
+         target (E/E′ (⊖₁ 𝐸)) R′
+      ≡⟨ ≡S‡ ⟩
          S‡
       ∎))
 {-
-      trans (sym (,-inj₂ eq†))
-            (trans (cong (target (E/E′ (⊖₁ 𝐸))) (sym (,-inj₂ eq)))
-                   (trans (gamma₁ 𝐸 P)
-                          (cong (braid̂ (γ₁ 𝐸)) (trans (cong (target (E′/E (⊖₁ 𝐸))) (,-inj₂ eq′)) (,-inj₂ eq‡)))))
+                   gamma₁ 𝐸 P
 -}
