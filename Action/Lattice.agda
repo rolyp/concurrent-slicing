@@ -42,6 +42,9 @@ module Action.Lattice where
    •_-inj : ∀ {Γ} {x x′ : Name Γ} → _≅_ {A = ↓ᵇ⁻ • x} (• x) (• x′) → x ≡ x′
    •_-inj ≅-refl = refl
 
+   [_]-inj : ∀ {Γ} {a a′ : Action Γ} {a† : ↓⁻ a} {a‡ : ↓⁻ a′} → _≅_ {A = ↓ a} [ a† ] [ a‡ ] → a† ≅ a‡
+   [_]-inj ≅-refl = ≅-refl
+
    data _≤ᵇ⁻_ {Γ : Cxt} : {a : Actionᵇ Γ} → ↓ᵇ⁻ a → ↓ᵇ⁻ a → Set where
       _• : (x : Name Γ) → x • ≤ᵇ⁻ x •
       •_ : (x : Name Γ) → • x ≤ᵇ⁻ • x
