@@ -243,7 +243,7 @@ module Transition.Concur.Cofinal.Lattice where
           ≡y† = let open EqReasoning (setoid _) in
              begin
                 y†
-             ≡⟨ {!!} ⟩
+             ≡⟨ {!sym ?!} ⟩
                 (push ᴿ̃.*) y‡
              ∎ in
       gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ y† y‡ (,-inj₂ ≡R′) (,-inj₂ ≡P′) (,-inj₂ ≡S†) (,-inj₂ ≡S‡) ≡y† (gamma₁ 𝐸 P)
