@@ -90,8 +90,8 @@ module Transition.Concur.Cofinal.Lattice where
          braiding (ˣ∇ˣ {x = x} {u}) {0} (cong₂ _│_ refl (γ₁ 𝐹)) [ (push *̃) P │ S‡ ]
       ≅⟨ reduce-ˣ∇ˣ {x = x} {u} (cong₂ _│_ refl (γ₁ 𝐹)) _ ⟩
          [ (push *̃) P │ S‡ ]
-      ≅⟨ [│-]-cong ((push *̃) P) (trans (γ₁ 𝐹) (≅-to-≡ (Proc↲ refl (S′ (⊖₁ 𝐹)))))
-                                 (≅-trans (≅-sym (reduce-ˣ∇ˣ {x = x} {u} (γ₁ 𝐹) _)) (≡-to-≅ (gamma₁ 𝐹 Q))) ⟩
+      ≅⟨ [│-]-cong _ (trans (γ₁ 𝐹) (≅-to-≡ (Proc↲ refl (S′ (⊖₁ 𝐹)))))
+                     (≅-trans (≅-sym (reduce-ˣ∇ˣ {x = x} {u} (γ₁ 𝐹) _)) (≡-to-≅ (gamma₁ 𝐹 Q))) ⟩
          [ (push *̃) P │ S† ]
       ∎)
    gamma₁ {𝑎 = ᵇ∇ᵇ} {E = P₀ │ᵇ F} {._ │ᵇ F′} (._ │ᵇᵇ 𝐹) [ P │ Q ] =
@@ -106,43 +106,43 @@ module Transition.Concur.Cofinal.Lattice where
                     (γ₁ 𝐹) (≅-trans (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐹) S‡)) (≡-to-≅ (gamma₁ 𝐹 Q))) ⟩
          [ (push *̃) ((push *̃) P) │ S† ]
       ∎)
-{-
    gamma₁ {E = _ │ᵇ F} {._ │ᶜ F′} (._ │ᵇᶜ 𝐹) [ P │ Q ] =
       let S† = π₂ (step (E/E′ (⊖₁ 𝐹)) (π₂ (step F′ Q)))
           S‡ = π₂ (step (E′/E (⊖₁ 𝐹)) (π₂ (step F Q)))
           open ≅-Reasoning in ≅-to-≡ (
       begin
-         [ (push *̃) P │ S† ]
-      ≅⟨ [│-]-cong _ (trans (sym (≅-to-≡ (Proc↲ refl (S′ (⊖₁ 𝐹))))) (sym (γ₁ 𝐹)))
-                     (≅-trans (≡-to-≅ (gamma₁ 𝐹 Q)) (reduce-ᵇ∇ᶜ (γ₁ 𝐹) _)) ⟩
-         [ (push *̃) P │ S‡ ]
-      ≅⟨ ≅-sym (reduce-ᵇ∇ᶜ (cong₂ _│_ refl (γ₁ 𝐹)) _) ⟩
          braiding ᵇ∇ᶜ (cong₂ _│_ refl (γ₁ 𝐹)) [ (push *̃) P │ S‡ ]
+      ≅⟨ reduce-ᵇ∇ᶜ (cong₂ _│_ refl (γ₁ 𝐹)) _ ⟩
+         [ (push *̃) P │ S‡ ]
+      ≅⟨ [│-]-cong _ (trans (γ₁ 𝐹) (≅-to-≡ (Proc↲ refl (S′ (⊖₁ 𝐹)))))
+                     (≅-trans (≅-sym (reduce-ᵇ∇ᶜ (γ₁ 𝐹) _)) (≡-to-≅ (gamma₁ 𝐹 Q))) ⟩
+         [ (push *̃) P │ S† ]
       ∎)
    gamma₁ {E = _ │ᶜ F} {._ │ᵇ F′} (._ │ᶜᵇ 𝐹) [ P │ Q ] =
       let S† = π₂ (step (E/E′ (⊖₁ 𝐹)) (π₂ (step F′ Q)))
           S‡ = π₂ (step (E′/E (⊖₁ 𝐹)) (π₂ (step F Q)))
           open ≅-Reasoning in ≅-to-≡ (
       begin
-         [ (push *̃) P │ S† ]
-      ≅⟨ [│-]-cong _ (trans (sym (≅-to-≡ (Proc↲ refl (S′ (⊖₁ 𝐹))))) (sym (γ₁ 𝐹)))
-                     (≅-trans (≡-to-≅ (gamma₁ 𝐹 Q)) (reduce-ᶜ∇ᵇ (γ₁ 𝐹) _)) ⟩
-         [ (push *̃) P │ S‡ ]
-      ≅⟨ ≅-sym (reduce-ᶜ∇ᵇ (cong₂ _│_ refl (γ₁ 𝐹)) _) ⟩
          braiding ᶜ∇ᵇ (cong₂ _│_ refl (γ₁ 𝐹)) [ (push *̃) P │ S‡ ]
+      ≅⟨ reduce-ᶜ∇ᵇ (cong₂ _│_ refl (γ₁ 𝐹)) _ ⟩
+         [ (push *̃) P │ S‡ ]
+      ≅⟨ [│-]-cong _ (trans (γ₁ 𝐹) (≅-to-≡ (Proc↲ refl (S′ (⊖₁ 𝐹)))))
+                     (≅-trans (≅-sym (reduce-ᶜ∇ᵇ (γ₁ 𝐹) _)) (≡-to-≅ (gamma₁ 𝐹 Q))) ⟩
+         [ (push *̃) P │ S† ]
       ∎)
    gamma₁ {E = _ │ᶜ F} {._ │ᶜ F′} (._ │ᶜᶜ 𝐹) [ P │ Q ] =
       let S† = π₂ (step (E/E′ (⊖₁ 𝐹)) (π₂ (step F′ Q)))
           S‡ = π₂ (step (E′/E (⊖₁ 𝐹)) (π₂ (step F Q)))
           open ≅-Reasoning in ≅-to-≡ (
       begin
-         [ P │ S† ]
-      ≅⟨ [│-]-cong _ (trans (sym (≅-to-≡ (Proc↲ refl (S′ (⊖₁ 𝐹))))) (sym (γ₁ 𝐹)))
-                     (≅-trans (≡-to-≅ (gamma₁ 𝐹 Q)) (reduce-ᶜ∇ᶜ (γ₁ 𝐹) _)) ⟩
-         [ P │ S‡ ]
-      ≅⟨ ≅-sym (reduce-ᶜ∇ᶜ (cong₂ _│_ refl (γ₁ 𝐹)) _) ⟩
          braiding ᶜ∇ᶜ (cong₂ _│_ refl (γ₁ 𝐹)) [ P │ S‡ ]
+      ≅⟨ reduce-ᶜ∇ᶜ (cong₂ _│_ refl (γ₁ 𝐹)) _ ⟩
+         [ P │ S‡ ]
+      ≅⟨ [│-]-cong _ (trans (γ₁ 𝐹) (≅-to-≡ (Proc↲ refl (S′ (⊖₁ 𝐹)))))
+                     (≅-trans (≅-sym (reduce-ᶜ∇ᶜ (γ₁ 𝐹) _)) (≡-to-≅ (gamma₁ 𝐹 Q))) ⟩
+         [ P │ S† ]
       ∎)
+{-
    gamma₁ {E = P₀ │ᶜ F} {._ │ᶜ F′} (._ │ᵛᵛ 𝐹) [ P │ Q ] = cong (λ Q → [ P │ Q ]) (gamma₁ 𝐹 Q)
    gamma₁ {𝑎 = ˣ∇ˣ {x = x} {u}} {E = E ᵇ│ Q₀} {E′ ᵇ│ ._} (𝐸 ᵇᵇ│ ._) [ P │ Q ] =
       let S† = π₂ (step (E/E′ (⊖₁ 𝐸)) (π₂ (step E′ P)))
