@@ -3,7 +3,8 @@ module Transition.Concur.Cofinal.Lattice where
    open import ConcurrentSlicingCommon
    import Relation.Binary.EqReasoning as EqReasoning
 
-   open import Action as ᴬ using (Action; Actionᵇ; Actionᶜ; inc); open ᴬ.Action; open ᴬ.Actionᵇ; open ᴬ.Actionᶜ
+   open import Action as ᴬ using (Action; Actionᵇ; Actionᶜ; inc; •_〈_〉-inj);
+      open ᴬ.Action; open ᴬ.Actionᵇ; open ᴬ.Actionᶜ
    open import Action.Concur using (_ᴬ⌣_; ᴬ⌣-sym; ᴬ⌣-sym-involutive; module _ᴬ⌣_; ᴬ⊖; ᴬγ); open _ᴬ⌣_
    open import Action.Concur.Lattice using (residual)
    open import Action.Lattice as ᴬ̃ using (↓ᵇ⁻_; ↓ᶜ⁻_); open ᴬ̃.↓_; open ᴬ̃.↓⁻_; open ᴬ̃.↓ᵇ⁻_; open ᴬ̃.↓ᶜ⁻_
@@ -243,7 +244,7 @@ module Transition.Concur.Cofinal.Lattice where
           ≡y† = let open EqReasoning (setoid _) in
              begin
                 y†
-             ≡⟨ {!sym ?!} ⟩
+             ≡⟨ sym {!!} ⟩
                 (push ᴿ̃.*) y‡
              ∎ in
       gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ y† y‡ (,-inj₂ ≡R′) (,-inj₂ ≡P′) (,-inj₂ ≡S†) (,-inj₂ ≡S‡) ≡y† (gamma₁ 𝐸 P)

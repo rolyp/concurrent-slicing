@@ -31,6 +31,17 @@ module Action.Lattice where
       ◻ : {a : Action Γ} → ↓ a
       [_] : ∀ {a : Action Γ} → ↓⁻ a → ↓ a
 
+   -- Helpers for constructor injectivity.
+   •_〈_〉-inj : ∀ {Γ} {x x′ y y′ : Name Γ} {y† : ↓′ y} {y‡ : ↓′ y′} →
+              _≅_ {A = ↓ᶜ⁻ • x 〈 y 〉} • x 〈 y† 〉 {↓ᶜ⁻ • x′ 〈 y′ 〉} • x′ 〈 y‡ 〉 → x ≡ x′ × y† ≅ y‡
+   •_〈_〉-inj ≅-refl = refl , ≅-refl
+
+   _•-inj : ∀ {Γ} {x x′ : Name Γ} → _≅_ {A = ↓ᵇ⁻ x •} (x •) (x′ •) → x ≡ x′
+   _•-inj ≅-refl = refl
+
+   •_-inj : ∀ {Γ} {x x′ : Name Γ} → _≅_ {A = ↓ᵇ⁻ • x} (• x) (• x′) → x ≡ x′
+   •_-inj ≅-refl = refl
+
    data _≤ᵇ⁻_ {Γ : Cxt} : {a : Actionᵇ Γ} → ↓ᵇ⁻ a → ↓ᵇ⁻ a → Set where
       _• : (x : Name Γ) → x • ≤ᵇ⁻ x •
       •_ : (x : Name Γ) → • x ≤ᵇ⁻ • x
