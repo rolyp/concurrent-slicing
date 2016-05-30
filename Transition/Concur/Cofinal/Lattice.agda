@@ -266,9 +266,10 @@ module Transition.Concur.Cofinal.Lattice where
           open ≅-Reasoning in
       begin
          braiding ᶜ∇ᶜ (cong₂ _│_ (cong (ᴿ.pop y *) (γ₁ 𝐸)) refl) (target (E′/E (⊖₁ 𝐸) │• F) (target (E ᶜ│ Q₀) [ P │ Q ]))
-      ≡⟨ {!!} ⟩
-         coerceCxt (ᶜ∇ᶜ {a = a} {• x 〈 y 〉})
-                   (target (subst T (pop∘push y a) ((ᴿ.pop y *ᶜ) (E/E′ (⊖₁ 𝐸))) ᶜ│ ᵀ.target F) (target (E′ │• F) [ P │ Q ]))
+      ≅⟨ reduce-ᶜ∇ᶜ (cong₂ _│_ (cong (ᴿ.pop y *) (γ₁ 𝐸)) refl) _ ⟩
+         target (E′/E (⊖₁ 𝐸) │• F) (target (E ᶜ│ Q₀) [ P │ Q ])
+      ≅⟨ {!!} ⟩
+         target (subst T (pop∘push y a) ((ᴿ.pop y *ᶜ) (E/E′ (⊖₁ 𝐸))) ᶜ│ ᵀ.target F) (target (E′ │• F) [ P │ Q ])
       ∎)
 
 {-
