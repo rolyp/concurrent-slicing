@@ -176,6 +176,9 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
     gamma₁-│•ᶜ : ∀ {Γ x y P₀ R₀ R′₀ Q₀ S₀} {a : Actionᶜ Γ} {E : P₀ —[ a ᶜ - _ ]→ R₀} {E′ : P₀ —[ (x •) ᵇ - _ ]→ R′₀}
                 (𝐸 : E ⌣₁[ ᶜ∇ᵇ ] E′) (F : Q₀ —[ • x 〈 y 〉 ᶜ - _ ]→ S₀) (P : ↓ P₀) (Q : ↓ Q₀) (S† : ↓ S (⊖₁ 𝐸))
                 (S‡ : ↓ S₀) (R′ : ↓ R′₀) (y‡ : ↓ y) →
+                target E′ P ≡ R′ → target (E′/E (⊖₁ 𝐸)) (target E P) ≡ S† → target F Q ≡ S‡ →
+                braiding (ᶜ∇ᵇ {a = a} {x •}) {0} (γ₁ 𝐸) (target (E′/E (⊖₁ 𝐸)) (target E P)) ≡
+                target (E/E′ (⊖₁ 𝐸)) (target E′ P) →
                 let T : Actionᶜ Γ → Set
                     T = (λ a → (ᴿ.pop y *) (ᵀ.target E′) —[ a ᶜ - _ ]→ (ᴿ.pop y *) (S′ (⊖₁ 𝐸)))
                     pop-y*E/E′ = subst T (pop∘push y a) ((ᴿ.pop y *ᶜ) (E/E′ (⊖₁ 𝐸))) in
