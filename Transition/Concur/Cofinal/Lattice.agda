@@ -281,9 +281,9 @@ module Transition.Concur.Cofinal.Lattice where
            inspect (step ((ᴿ.push *ᵇ) E)) ((push *̃) P)
    ... | ◻ , S′ | ◻ , Q′ | ◻ , R | ◻ , R† | [ ≡S′ ] | [ ≡Q′ ] | [ ≡R ] | [ ≡R† ] =
       gamma₁-ᵇ│• E 𝐹 P Q R R† S′ Q′ ◻ ◻ (,-inj₂ ≡R) (,-inj₂ ≡R†) (,-inj₂ ≡S′) (,-inj₂ ≡Q′) refl (gamma₁ 𝐹 Q)
-   ... | _ | _ | [ (x •) ᵇ ] , R | ◻ , R† | _ | _ | [ ≡R ] | [ ≡R† ] =
+   ... | _ | _ | [ _ ᵇ ] , R | ◻ , R† | _ | _ | [ ≡R ] | [ ≡R† ] =
       ⊥-elim (◻≢[-] (sym (trans (cong (push ᴬ*̃) (sym (,-inj₁ ≡R))) (trans (renᵇ-action-comm E push P) (,-inj₁ ≡R†)))))
-   ... | _ | _ | ◻ , R | [ (._ •) ᵇ ] , R† | _ | _ | [ ≡R ] | [ ≡R† ] =
+   ... | _ | _ | ◻ , R | [ _ ᵇ ] , R† | _ | _ | [ ≡R ] | [ ≡R† ] =
       ⊥-elim (◻≢[-] (trans (cong (push ᴬ*̃) (sym (,-inj₁ ≡R))) (trans (renᵇ-action-comm E push P) (,-inj₁ ≡R†))))
    ... | ◻ , S′ | ◻ , Q′ | [ (x •) ᵇ ] , R | [ (.(ᴺ.suc x) •) ᵇ ] , R† | [ ≡S′ ] | [ ≡Q′ ] | [ ≡R ] | [ ≡R† ] =
       gamma₁-ᵇ│• E 𝐹 P Q R R† S′ Q′ ◻ ◻ (,-inj₂ ≡R) (,-inj₂ ≡R†) (,-inj₂ ≡S′) (,-inj₂ ≡Q′) refl (gamma₁ 𝐹 Q)
@@ -301,6 +301,14 @@ module Transition.Concur.Cofinal.Lattice where
                 _≡_ {A = ↓_ {A = Action Γ} (• x 〈 y 〉 ᶜ)} [ • x 〈 y′ 〉 ᶜ ] [ • x 〈 y″ 〉 ᶜ ] → y′ ≡ y″
           inj = λ { {y′ = y′} {.y′} refl → refl } in
       gamma₁-ᵇ│• E 𝐹 P Q R R† S′ Q′ _ _ (,-inj₂ ≡R) (,-inj₂ ≡R†) (,-inj₂ ≡S′) (,-inj₂ ≡Q′) (sym (inj α)) (gamma₁ 𝐹 Q)
+
+   gamma₁ {E = P₀ │ᶜ F} {E′ = .E │• F′} (_ᶜ│•_ {y = y} E 𝐹) [ P │ Q ]
+      with step F′ Q | step (E′/E (⊖₁ 𝐹)) (tgt F Q) | step E P |
+           inspect (step F′) Q | inspect (step (E′/E (⊖₁ 𝐹))) (tgt F Q) | inspect (step E) P
+   ... | ◻ , q | ◻ , s | t , u | [ ≡S′ ] | [ ≡Q′ ] | [ ≡R ] = {!!}
+   ... | ◻ , q | [ x₁ ] , s | t , u | [ ≡S′ ] | [ ≡Q′ ] | [ ≡R ] = {!!}
+   ... | [ x₁ ] , q | ◻ , s | t , u | [ ≡S′ ] | [ ≡Q′ ] | [ ≡R ] = {!!}
+   ... | [ x₁ ] , q | [ x₂ ] , s | t , u | [ ≡S′ ] | [ ≡Q′ ] | [ ≡R ] = {!!}
 
    gamma₁ _ _ = {!!}
 
