@@ -25,9 +25,9 @@ module Transition.Concur.Cofinal.Lattice where
    open import Transition.Concur using (Concur₁; Concur; module Concur₁; module Delta′; Delta; ⊖₁; ⊖); open Concur₁
    open import Transition.Concur.Cofinal using (⋈̂[_,_,_]; γ₁; γ)
    open import Transition.Concur.Cofinal.Lattice.Helpers
-   open import Transition.Lattice as ᵀ̃ using (step; step⁻; action; target)
+   open import Transition.Lattice as ᵀ̃ using (step; step⁻; action; tgt)
    open import Transition.Ren using (_*ᵇ; _*ᶜ)
-   open import Transition.Ren.Lattice using (renᶜ-target-comm; renᶜ-action-comm; renᵇ-target-comm; renᵇ-action-comm)
+   open import Transition.Ren.Lattice using (renᶜ-tgt-comm; renᶜ-action-comm; renᵇ-tgt-comm; renᵇ-action-comm)
 
    open Delta′
 
@@ -45,14 +45,14 @@ module Transition.Concur.Cofinal.Lattice where
    postulate
       ᴬgamma₁ : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
                 (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ →
-                action (E′/E (⊖₁ 𝐸)) (target E P′) ≡ gibble 𝑎 (residual (ᴬ⌣-sym 𝑎) (action E′ P′))
+                action (E′/E (⊖₁ 𝐸)) (tgt E P′) ≡ gibble 𝑎 (residual (ᴬ⌣-sym 𝑎) (action E′ P′))
 --              ×
---              action (E/E′ (⊖₁ 𝐸)) (target E′ P′) ≡ residual 𝑎 (action E P′)
+--              action (E/E′ (⊖₁ 𝐸)) (tgt E′ P′) ≡ residual 𝑎 (action E P′)
 
    -- γ₁ lifted to the lattice setting. Can't seem to avoid some use of inspect-on-steroids here, yuk.
    gamma₁ : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
             (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ →
-            braiding 𝑎 (γ₁ 𝐸) (target (E′/E (⊖₁ 𝐸)) (target E P′)) ≡ coerceCxt 𝑎 (target (E/E′ (⊖₁ 𝐸)) (target E′ P′))
+            braiding 𝑎 (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P′)) ≡ coerceCxt 𝑎 (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P′))
 {-
    gamma₁ {𝑎 = ˣ∇ˣ {x = x} {u}} 𝐸 ◻ =
       ≅-to-≡ (≅-trans (reduce-ˣ∇ˣ {x = x} {u} (γ₁ 𝐸) _) (◻-cong (trans (γ₁ 𝐸) (≅-to-≡ (Proc↲ refl _)))))
@@ -68,22 +68,22 @@ module Transition.Concur.Cofinal.Lattice where
 
    gamma₁ {a = a ᵇ} {a′ ᵇ} {E = .E ᵇ│ Q₀} {E′ = P₀ │ᵇ .F} (E ᵇ│ᵇ F) [ P │ Q ] =
       let S† : π₂ (step ((ᴿ.push *ᵇ) E) ((push *̃) P)) ≅ (swap *̃) ((push *̃) (π₂ (step E P)))
-          S† = ≅-trans (≡-to-≅ (sym (renᵇ-target-comm E push P))) (swap∘push̃ _)
+          S† = ≅-trans (≡-to-≅ (sym (renᵇ-tgt-comm E push P))) (swap∘push̃ _)
           S‡ : (push *̃) (π₂ (step F Q)) ≅ (swap *̃) (π₂ (step ((ᴿ.push *ᵇ) F) ((push *̃) Q)))
-          S‡ = ≅-trans (swap∘suc-push̃ _) (≡-to-≅ (cong (swap *̃) (renᵇ-target-comm F push Q)))
+          S‡ = ≅-trans (swap∘suc-push̃ _) (≡-to-≅ (cong (swap *̃) (renᵇ-tgt-comm F push Q)))
           open ≅-Reasoning in ≅-to-≡ (
       begin
-         braiding (ᵇ∇ᵇ {a = a} {a′}) {0} (sym (cong₂ _│_ (swap∘push (ᵀ.target E)) (swap∘suc-push (ᵀ.target F))))
+         braiding (ᵇ∇ᵇ {a = a} {a′}) {0} (sym (cong₂ _│_ (swap∘push (ᵀ.tgt E)) (swap∘suc-push (ᵀ.tgt F))))
                                         [ (push *̃) (π₂ (step E P)) │ π₂ (step ((ᴿ.push *ᵇ) F) ((push *̃) Q)) ]
-      ≅⟨ reduce-ᵇ∇ᵇ (sym (cong₂ _│_ (swap∘push (ᵀ.target E)) (swap∘suc-push (ᵀ.target F)))) _ ⟩
+      ≅⟨ reduce-ᵇ∇ᵇ (sym (cong₂ _│_ (swap∘push (ᵀ.tgt E)) (swap∘suc-push (ᵀ.tgt F)))) _ ⟩
          [ (swap *̃) ((push *̃) (π₂ (step E P))) │ (swap *̃) (π₂ (step ((ᴿ.push *ᵇ) F) ((push *̃) Q))) ]
-      ≅⟨ ≅-sym ([-│-]-cong (swap∘push (ᵀ.target E)) S† (swap∘suc-push (ᵀ.target F)) S‡) ⟩
+      ≅⟨ ≅-sym ([-│-]-cong (swap∘push (ᵀ.tgt E)) S† (swap∘suc-push (ᵀ.tgt F)) S‡) ⟩
          [ π₂ (step ((ᴿ.push *ᵇ) E) ((push *̃) P)) │ (push *̃) (π₂ (step F Q)) ]
       ∎)
 
-   gamma₁ (E ᵇ│ᶜ F) [ P │ Q ] = cong (λ Q′ → [ _ │ Q′ ]) (sym (renᶜ-target-comm F push Q))
+   gamma₁ (E ᵇ│ᶜ F) [ P │ Q ] = cong (λ Q′ → [ _ │ Q′ ]) (sym (renᶜ-tgt-comm F push Q))
 
-   gamma₁ (E ᶜ│ᵇ F) [ P │ Q ] = cong (λ P′ → [ P′ │ _ ]) (renᶜ-target-comm E push P)
+   gamma₁ (E ᶜ│ᵇ F) [ P │ Q ] = cong (λ P′ → [ P′ │ _ ]) (renᶜ-tgt-comm E push P)
 
    gamma₁ (E ᶜ│ᶜ F) [ P │ Q ] = refl
 
@@ -226,15 +226,15 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ {E = E ᵇ│ _} {E′ = E′ │• .F} (_│•ᵇ_ {x = x} {y} {a = a} 𝐸 F) [ P │ Q ] =
       with step E′ P | inspect (step E′) P
    ... | ◻ , R′ | [ ≡R′ ]
-      with step (E′/E (⊖₁ 𝐸)) (target E P) | inspect (step (E′/E (⊖₁ 𝐸))) (target E P)
+      with step (E′/E (⊖₁ 𝐸)) (tgt E P) | inspect (step (E′/E (⊖₁ 𝐸))) (tgt E P)
    ... | ◻ , P′ | [ ≡P′ ] =
-      let S† = target ((ᴿ.push *ᶜ) F) ((push *̃) Q); S‡ = target F Q in
+      let S† = tgt ((ᴿ.push *ᶜ) F) ((push *̃) Q); S‡ = tgt F Q in
       gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ ◻ ◻ (,-inj₂ ≡R′) (,-inj₂ ≡P′) refl refl refl (gamma₁ 𝐸 P)
    ... | [ (._ •) ᵇ ] , P′ | [ ≡P′ ] =
       ⊥-elim (◻≢[-] (trans (cong (push ᴬ*̃) (sym (,-inj₁ ≡R′))) (trans (sym (ᴬgamma₁ 𝐸 P)) (,-inj₁ ≡P′))))
    gamma₁ {E = E ᵇ│ _} {E′ │• .F} (𝐸 │•ᵇ F) [ P │ Q ] |
       [ x • ᵇ ] , R′ | [ ≡R′ ]
-      with step (E′/E (⊖₁ 𝐸)) (target E P) | inspect (step (E′/E (⊖₁ 𝐸))) (target E P) |
+      with step (E′/E (⊖₁ 𝐸)) (tgt E P) | inspect (step (E′/E (⊖₁ 𝐸))) (tgt E P) |
            step F Q | inspect (step F) Q
    ... | ◻ , P′ | [ ≡P′ ] | ◻ , S‡ | [ ≡S‡ ] =
       ⊥-elim (◻≢[-] (trans (sym (,-inj₁ ≡P′)) (trans (ᴬgamma₁ 𝐸 P) (cong (push ᴬ*̃) (,-inj₁ ≡R′)))))
@@ -262,8 +262,8 @@ module Transition.Concur.Cofinal.Lattice where
 -}
 
    gamma₁ {E = E ᶜ│ Q₀} {E′ = E′ │• .F} (_│•ᶜ_ {x = x} {y} {a = a} 𝐸 F) [ P │ Q ]
-      with step E′ P | step (E′/E (⊖₁ 𝐸)) (target E P) | step F Q |
-           inspect (step E′) P | inspect (step (E′/E (⊖₁ 𝐸))) (target E P) | inspect (step F) Q
+      with step E′ P | step (E′/E (⊖₁ 𝐸)) (tgt E P) | step F Q |
+           inspect (step E′) P | inspect (step (E′/E (⊖₁ 𝐸))) (tgt E P) | inspect (step F) Q
    ... | ◻ , R′ | ◻ , S† | _ , S‡ | [ ≡R′ ] | [ ≡S† ] | [ ≡S‡ ] =
       gamma₁-│•ᶜ 𝐸 F P Q S† S‡ R′ ◻ (,-inj₂ ≡R′) (,-inj₂ ≡S†) (,-inj₂ ≡S‡) (gamma₁ 𝐸 P)
    ... | ◻ , R′ | [ (.x •) ᵇ ] , S† | _ , S‡ | [ ≡R′ ] | [ ≡S† ] | [ ≡S‡ ] =
@@ -274,6 +274,38 @@ module Transition.Concur.Cofinal.Lattice where
       gamma₁-│•ᶜ 𝐸 F P Q S† S‡ R′ ◻ (,-inj₂ ≡R′) (,-inj₂ ≡S†) (,-inj₂ ≡S‡) (gamma₁ 𝐸 P)
    ... | [ (.x •) ᵇ ] , R′ | [ (.x •) ᵇ ] , S† | [ • .x 〈 y‡ 〉 ᶜ ] , S‡ | [ ≡R′ ] | [ ≡S† ] | [ ≡S‡ ] =
       gamma₁-│•ᶜ 𝐸 F P Q S† S‡ R′ y‡ (,-inj₂ ≡R′) (,-inj₂ ≡S†) (,-inj₂ ≡S‡) (gamma₁ 𝐸 P)
+
+   gamma₁ {E = P₀ │ᵇ F} {E′ = .E │• F′} (_ᵇ│•_ {y = y} E 𝐹) [ P │ Q ]
+      with step F′ Q | step (E′/E (⊖₁ 𝐹)) (tgt F Q) | step E P | step ((ᴿ.push *ᵇ) E) ((push *̃) P) |
+           inspect (step F′) Q | inspect (step (E′/E (⊖₁ 𝐹))) (tgt F Q) | inspect (step E) P |
+           inspect (step ((ᴿ.push *ᵇ) E)) ((push *̃) P)
+   ... | ◻ , proj₂ | ◻ , proj₄ | _ | _ | _ | _ | _ | _ = {!!}
+   ... | ◻ , proj₂ | [ x₁ ] , proj₄ | proj₅ , proj₆ | proj₇ , proj₈ | p′ | q′ | r′ | s′ = {!!} -- impossible
+   ... | [ x₁ ] , proj₂ | ◻ , proj₄ | proj₅ , proj₆ | proj₇ , proj₈ | p′ | q′ | r′ | s′ = {!!} -- impossible
+   ... | [ x₁ ] , proj₂ | [ x₂ ] , proj₄ | proj₅ , proj₆ | proj₇ , proj₈ | p′ | q′ | r′ | s′ = {!!}
+
+   gamma₁ _ _ = {!!}
+
+{-
+   gamma₁ (E ᶜ│• 𝐸) P₁ = {!!}
+   gamma₁ (𝐸 │ᵥᵇ F) P₁ = {!!}
+   gamma₁ (𝐸 │ᵥᶜ F) P₁ = {!!}
+   gamma₁ (E ᵇ│ᵥ 𝐸) P₁ = {!!}
+   gamma₁ (E ᶜ│ᵥ 𝐸) P₁ = {!!}
+   gamma₁ (𝐸 │• 𝐸₁) P₁ = {!!}
+   gamma₁ (𝐸 │•ᵥ 𝐸₁) P₁ = {!!}1
+   gamma₁ (𝐸 │ᵥ• 𝐸₁) P₁ = {!!}
+   gamma₁ (𝐸 │ᵥ 𝐸₁) P₁ = {!!}
+   gamma₁ (𝐸 │ᵥ′ 𝐸₁) P₁ = {!!}
+   gamma₁ (ν• 𝐸) P₁ = {!!}
+   gamma₁ (ν•ᵇ 𝐸) P₁ = {!!}
+   gamma₁ (ν•ᶜ 𝐸) P₁ = {!!}
+   gamma₁ (νᵇᵇ 𝐸) P₁ = {!!}
+   gamma₁ (νˣˣ 𝐸) P₁ = {!!}
+   gamma₁ (νᵇᶜ 𝐸) P₁ = {!!}
+   gamma₁ (νᶜᵇ 𝐸) P₁ = {!!}
+   gamma₁ (νᶜᶜ 𝐸) P₁ = {!!}
+-}
 
 {-
    gamma₁ {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ]
@@ -319,27 +351,4 @@ module Transition.Concur.Cofinal.Lattice where
    ... | [ τ ᶜ ] , S‡ | [ τ ᶜ ] , S† | [ ≡S‡ ] | [ ≡S† ] =
       gamma₁-νᵛᵛ 𝐸 P R R′ S† S‡ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S†) (,-inj₂ ≡S‡) (gamma₁ 𝐸 P)
    gamma₁ (! 𝐸) [ ! P ] = gamma₁ 𝐸 [ P │ [ ! P ] ]
--}
-
-   gamma₁ _ _ = {!!}
-{-
-   gamma₁ {a = a ᵇ} (_ᵇ│•_ {y = y} {F = F} {F′} E 𝐹) [ P │ Q ] = {!!}
-   gamma₁ (E ᶜ│• 𝐸) P₁ = {!!}
-   gamma₁ (𝐸 │ᵥᵇ F) P₁ = {!!}
-   gamma₁ (𝐸 │ᵥᶜ F) P₁ = {!!}
-   gamma₁ (E ᵇ│ᵥ 𝐸) P₁ = {!!}
-   gamma₁ (E ᶜ│ᵥ 𝐸) P₁ = {!!}
-   gamma₁ (𝐸 │• 𝐸₁) P₁ = {!!}
-   gamma₁ (𝐸 │•ᵥ 𝐸₁) P₁ = {!!}1
-   gamma₁ (𝐸 │ᵥ• 𝐸₁) P₁ = {!!}
-   gamma₁ (𝐸 │ᵥ 𝐸₁) P₁ = {!!}
-   gamma₁ (𝐸 │ᵥ′ 𝐸₁) P₁ = {!!}
-   gamma₁ (ν• 𝐸) P₁ = {!!}
-   gamma₁ (ν•ᵇ 𝐸) P₁ = {!!}
-   gamma₁ (ν•ᶜ 𝐸) P₁ = {!!}
-   gamma₁ (νᵇᵇ 𝐸) P₁ = {!!}
-   gamma₁ (νˣˣ 𝐸) P₁ = {!!}
-   gamma₁ (νᵇᶜ 𝐸) P₁ = {!!}
-   gamma₁ (νᶜᵇ 𝐸) P₁ = {!!}
-   gamma₁ (νᶜᶜ 𝐸) P₁ = {!!}
 -}

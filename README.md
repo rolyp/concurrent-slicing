@@ -26,5 +26,4 @@ Appendix A of the paper.
   * `∘ᶠ` → `∘ᶠ`, `idᶠ` → `id`
   * `target` → `fwd`
   * `†` → `unren`
-  * `S` and `S'` fields → ?
 * Bump revision numbers for `agda-stdlib-ext`, `proof-relevant-pi` and `concurrent-slicing`

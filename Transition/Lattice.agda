@@ -21,11 +21,11 @@ module Transition.Lattice where
    open import Ren.Lattice as ᴿ̃ using (pop; popᴹ; push; swap)
    open import Transition as ᵀ using (_—[_-_]→_; module _—[_-_]→_); open _—[_-_]→_
 
-   open module Action×Proc {Γ} = Lattice.Product (Action Γ) (Proc ∘ᶠ ᴬ.target) using (×-prefixes)
+   open module Action×Proc {Γ} = Lattice.Product (Action Γ) (Proc ∘ᶠ ᴬ.tgt) using (×-prefixes)
 
    -- Seem to need this to coerce product lattice to more specific type.
    instance
-      ᴬᴾ-prefixes : ∀ {Γ} → Lattice.Prefixes (Σ[ a ∈ Action Γ ] Proc (ᴬ.target a))
+      ᴬᴾ-prefixes : ∀ {Γ} → Lattice.Prefixes (Σ[ a ∈ Action Γ ] Proc (ᴬ.tgt a))
       ᴬᴾ-prefixes = ×-prefixes
 
    step : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓′ P → ↓′ ᵀ.out E
@@ -164,11 +164,11 @@ module Transition.Lattice where
    actionᴹ E = π₁ ∘ᶠ stepᴹ E
 
    -- Called 'fwd' in the paper.
-   target : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓′ P → ↓′ R
-   target E = π₂ ∘ᶠ step E
+   tgt : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓′ P → ↓′ R
+   tgt E = π₂ ∘ᶠ step E
 
-   targetᴹ : ∀ {Γ P₀} {a : Action Γ} {R} (E : P₀ —[ a - _ ]→ R) {P P′ : ↓′ P₀} → P ≤′ P′ → target E P ≤′ target E P′
-   targetᴹ E = π₂ ∘ᶠ stepᴹ E
+   tgtᴹ : ∀ {Γ P₀} {a : Action Γ} {R} (E : P₀ —[ a - _ ]→ R) {P P′ : ↓′ P₀} → P ≤′ P′ → tgt E P ≤′ tgt E P′
+   tgtᴹ E = π₂ ∘ᶠ stepᴹ E
 
    -- unstep reflects ◻. The unstep-◻ variant slices with a ◻ process and a non-◻ action. The recursion case
    -- is simpler than in the paper, because we don't specify here the slice of the source process.
