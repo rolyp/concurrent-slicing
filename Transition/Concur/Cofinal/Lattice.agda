@@ -296,18 +296,7 @@ module Transition.Concur.Cofinal.Lattice where
    ... | [ • x 〈 y‡ 〉 ᶜ ] , S′ | [ • .(ᴺ.suc x) 〈 y† 〉 ᶜ ] , Q′ | [ (.x •) ᵇ ] , R | [ .(ᴺ.suc x) • ᵇ ] , R†
        | [ ≡S′ ] | [ ≡Q′ ] | [ ≡R ] | [ ≡R† ] =
       let α : [ • ᴺ.suc x 〈 (push ᴿ̃.*) y‡ 〉 ᶜ ] ≡ [ • ᴺ.suc x 〈 y† 〉 ᶜ ]
-          α = let open EqReasoning (setoid _) in
-             begin
-                [ • ᴺ.suc x 〈 (push ᴿ̃.*) y‡ 〉 ᶜ ]
-             ≡⟨ sym (cong (push ᴬ*̃) (,-inj₁ ≡S′)) ⟩
-                (push ᴬ*̃) (action F′ Q)
-             ≡⟨ renᶜ-action-comm F′ push Q ⟩
-                action ((ᴿ.push *ᶜ) F′) ((push *̃) Q)
-             ≡⟨ {!!} ⟩
-                action (E′/E (⊖₁ 𝐹)) (tgt F Q)
-             ≡⟨ ,-inj₁ ≡Q′ ⟩
-                [ • ᴺ.suc x 〈 y† 〉 ᶜ ]
-             ∎
+          α = trans (sym (cong (push ᴬ*̃) (,-inj₁ ≡S′))) (trans (sym (ᴬgamma₁ 𝐹 Q)) (,-inj₁ ≡Q′))
           inj : ∀ {Γ} {x y : Name Γ} {y′ y″ : ↓ y} →
                 _≡_ {A = ↓_ {A = Action Γ} (• x 〈 y 〉 ᶜ)} [ • x 〈 y′ 〉 ᶜ ] [ • x 〈 y″ 〉 ᶜ ] → y′ ≡ y″
           inj = λ { {y′ = y′} {.y′} refl → refl } in
