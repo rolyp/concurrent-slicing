@@ -227,12 +227,12 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                 (R† : ↓ (ᴿ.suc ᴿ.push *) R₀) (S′ : ↓ S′₀) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) (y† : ↓ ᴺ.suc y) (y‡ : ↓ y) →
                 tgt E P ≡ R → tgt ((ᴿ.push *ᵇ) E) ((push *̃) P) ≡ R† → tgt F′ Q ≡ S′ → tgt (E′/E (⊖₁ 𝐹)) (tgt F Q) ≡ Q′ →
                 y† ≡ (push ᴿ̃.*) y‡ →
-                braiding (ᵇ∇ᶜ {a = a} {τ}) {0} (γ₁ 𝐹) (tgt (E′/E (⊖₁ 𝐹)) (tgt F Q)) ≡
+                braiding (ᵇ∇ᶜ {a = a} {• x 〈 y 〉}) {0} (γ₁ 𝐹) (tgt (E′/E (⊖₁ 𝐹)) (tgt F Q)) ≡
                 tgt (E/E′ (⊖₁ 𝐹)) (tgt F′ Q) →
                 braiding (ᵇ∇ᶜ {a = a} {τ}) {0} (cong₂ _│_ (sym (pop∘suc-push y R₀)) (γ₁ 𝐹))
                 [ (pop y† *̃) R† │ Q′ ] ≡
                 [ (push *̃) ((pop y‡ *̃) R) │ tgt (E/E′ (⊖₁ 𝐹)) S′ ]
-   gamma₁-ᵇ│• {y = y} {a = a} E {F} {F′} 𝐹 P Q R R† S′ Q′ y† y‡ ≡R ≡R† ≡S′ ≡Q′ ≡y† IH =
+   gamma₁-ᵇ│• {x = x} {y} {a = a} E {F} {F′} 𝐹 P Q R R† S′ Q′ y† y‡ ≡R ≡R† ≡S′ ≡Q′ ≡y† IH =
       let α : (pop y† *̃) R† ≅ (push *̃) ((pop y‡ *̃) R)
           α = let open ≅-Reasoning in
              begin
@@ -254,7 +254,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                 Q′
              ≡⟨ sym ≡Q′ ⟩
                 tgt (E′/E (⊖₁ 𝐹)) (tgt F Q)
-             ≅⟨ ≅-sym (reduce-ᵇ∇ᶜ {a = a} {τ} (γ₁ 𝐹) _) ⟩
+             ≅⟨ ≅-sym (reduce-ᵇ∇ᶜ {a = a} {• x 〈 y 〉} (γ₁ 𝐹) _) ⟩
                 braiding ᵇ∇ᶜ {0} (γ₁ 𝐹) (tgt (E′/E (⊖₁ 𝐹)) (tgt F Q))
              ≡⟨ IH ⟩
                 tgt (E/E′ (⊖₁ 𝐹)) (tgt F′ Q)
