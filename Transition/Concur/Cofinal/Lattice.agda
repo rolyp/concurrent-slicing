@@ -280,7 +280,8 @@ module Transition.Concur.Cofinal.Lattice where
            inspect (step F′) Q | inspect (step (E′/E (⊖₁ 𝐹))) (tgt F Q) | inspect (step E) P |
            inspect (step ((ᴿ.push *ᵇ) E)) ((push *̃) P)
    ... | ◻ , S′ | ◻ , Q† | ◻ , R | ◻ , R† |  [ ≡S′ ] | [ ≡Q† ] | [ ≡R ] | [ ≡R† ] = {!!}
-   ... | ◻ , S′ | ◻ , Q† | [ (x •) ᵇ ] , R | ◻ , R† | _ | _ | _ | _ = {!!} -- impossible
+   ... | _ | _ | [ (x •) ᵇ ] , R | ◻ , R† | _ | _ | [ ≡R ] | [ ≡R† ] =
+      ⊥-elim (◻≢[-] (sym (trans (cong (push ᴬ*̃) (sym (,-inj₁ ≡R))) (trans (renᵇ-action-comm E push P) (,-inj₁ ≡R†)))))
    ... | _ | _ | ◻ , R | [ (._ •) ᵇ ] , R† | _ | _ | [ ≡R ] | [ ≡R† ] =
       ⊥-elim (◻≢[-] (trans (cong (push ᴬ*̃) (sym (,-inj₁ ≡R))) (trans (renᵇ-action-comm E push P) (,-inj₁ ≡R†))))
    ... | ◻ , S′ | ◻ , Q† | [ (x •) ᵇ ] , R | [ (.(ᴺ.suc x) •) ᵇ ] , R† | [ ≡S′ ] | [ ≡Q† ] | [ ≡R ] | [ ≡R† ] = {!!}
@@ -288,8 +289,6 @@ module Transition.Concur.Cofinal.Lattice where
       ⊥-elim (◻≢[-] (trans (sym (cong (push ᴬ*̃) (,-inj₁ ≡S′))) (trans (sym (ᴬgamma₁ 𝐹 Q)) (,-inj₁ ≡Q†))))
    ... | [ • _ 〈 _ 〉 ᶜ ] , S′ | ◻ , _ | _ | _ | _ | _ | _ | _ = {!!} -- impossible
    ... | [ • x 〈 _ 〉 ᶜ ] , S′ | [ • .(ᴺ.suc x) 〈 _ 〉 ᶜ ] , Q† | ◻ , R | ◻ , R† | p′ | q′ | r′ | s′ = {!!}
-   ... | [ • x 〈 _ 〉 ᶜ ] , S′ | [ • .(ᴺ.suc x) 〈 _ 〉 ᶜ ] , Q† | [ (.x •) ᵇ ] , R | ◻ , R† | p′ | q′ | r′ | s′ =
-      {!!} -- impossible
    ... | [ • x 〈 _ 〉 ᶜ ] , S′ | [ • .(ᴺ.suc x) 〈 _ 〉 ᶜ ] , Q† | [ (.x •) ᵇ ] , R | [ .(ᴺ.suc x) • ᵇ ] , R† | p′ | q′ | r′ | s′ = {!!}
 
    gamma₁ _ _ = {!!}
