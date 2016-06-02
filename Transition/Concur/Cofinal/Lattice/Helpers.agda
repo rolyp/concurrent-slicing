@@ -241,7 +241,9 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                 (pop y† *̃) (tgt ((ᴿ.push *ᵇ) E) ((push *̃) P))
              ≡⟨ cong ((pop y† *̃)) (sym (renᵇ-tgt-comm E push P)) ⟩
                 (pop y† *̃) ((suc push *̃) (tgt E P))
-             ≅⟨ {!!} ⟩
+             ≡⟨ cong (λ y → (pop y *̃) ((suc push *̃) (tgt E P))) ≡y† ⟩
+                (pop ((push ᴿ̃.*) y‡) *̃) ((suc push *̃) (tgt E P))
+             ≅⟨ ≅-sym (pop∘suc-push̃ y‡ (tgt E P)) ⟩
                 (push *̃) ((pop y‡ *̃) (tgt E P))
              ≡⟨ cong ((push *̃) ∘ᶠ (pop y‡ *̃)) ≡R ⟩
                 (push *̃) ((pop y‡ *̃) R)
