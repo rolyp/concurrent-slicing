@@ -305,9 +305,11 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ {E = P₀ │ᶜ F} {E′ = .E │• F′} (_ᶜ│•_ {y = y} E 𝐹) [ P │ Q ]
       with step F′ Q | step (E′/E (⊖₁ 𝐹)) (tgt F Q) | step E P |
            inspect (step F′) Q | inspect (step (E′/E (⊖₁ 𝐹))) (tgt F Q) | inspect (step E) P
-   ... | ◻ , q | ◻ , s | t , u | [ ≡S′ ] | [ ≡Q′ ] | [ ≡R ] = {!!}
-   ... | ◻ , q | [ x₁ ] , s | t , u | [ ≡S′ ] | [ ≡Q′ ] | [ ≡R ] = {!!}
-   ... | [ x₁ ] , q | ◻ , s | t , u | [ ≡S′ ] | [ ≡Q′ ] | [ ≡R ] = {!!}
+   ... | ◻ , S′ | ◻ , Q′ | t , u | [ ≡S′ ] | [ ≡Q′ ] | [ ≡R ] = {!!}
+   ... | ◻ , S′ | [ _ ] , Q′ | t , u | [ ≡S′ ] | [ ≡Q′ ] | [ ≡R ] =
+      ⊥-elim (◻≢[-] (trans (sym (,-inj₁ ≡S′)) (trans (sym (ᴬgamma₁ 𝐹 Q)) (,-inj₁ ≡Q′))))
+   ... | [ _ ] , S′ | ◻ , s | t , u | [ ≡S′ ] | [ ≡Q′ ] | [ ≡R ] =
+      ⊥-elim (◻≢[-] (sym (trans (sym (,-inj₁ ≡S′)) (trans (sym (ᴬgamma₁ 𝐹 Q)) (,-inj₁ ≡Q′)))))
    ... | [ x₁ ] , q | [ x₂ ] , s | t , u | [ ≡S′ ] | [ ≡Q′ ] | [ ≡R ] = {!!}
 
    gamma₁ _ _ = {!!}
