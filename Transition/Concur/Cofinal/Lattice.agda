@@ -42,6 +42,10 @@ module Transition.Concur.Cofinal.Lattice where
    ◻≢[-] : ∀ {Γ} {a : Action Γ} {a′ : ↓⁻ a} → _≡_ {A = ↓_ {A = Action Γ} a} ◻ [ a′ ] → ⊥
    ◻≢[-] ()
 
+   [•x〈-〉ᶜ]-inj : ∀ {Γ} {x y : Name Γ} {y′ y″ : ↓ y} →
+                 _≡_ {A = ↓_ {A = Action Γ} (• x 〈 y 〉 ᶜ)} [ • x 〈 y′ 〉 ᶜ ] [ • x 〈 y″ 〉 ᶜ ] → y′ ≡ y″
+   [•x〈-〉ᶜ]-inj = λ { {y′ = y′} {.y′} refl → refl }
+
    postulate
       ᴬgamma₁ : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
                 (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ →
@@ -254,11 +258,8 @@ module Transition.Concur.Cofinal.Lattice where
       ⊥-elim (◻≢[-] (trans (sym (,-inj₁ ≡S†)) (trans (sym (renᶜ-action-comm F push Q)) (cong (push ᴬ*̃) (,-inj₁ ≡S‡)))))
    ... | [ • .(ᴺ.suc x) 〈 y† 〉 ᶜ ] , S† | [ ≡S† ] =
       let α : [ • ᴺ.suc x 〈 (push ᴿ̃.*) y‡ 〉 ᶜ ] ≡ [ • ᴺ.suc x 〈 y† 〉 ᶜ ]
-          α = trans (sym (cong (push ᴬ*̃) (,-inj₁ ≡S‡))) (trans (renᶜ-action-comm F push Q) (,-inj₁ ≡S†))
-          inj : ∀ {Γ} {x y : Name Γ} {y′ y″ : ↓ y} →
-                _≡_ {A = ↓_ {A = Action Γ} (• x 〈 y 〉 ᶜ)} [ • x 〈 y′ 〉 ᶜ ] [ • x 〈 y″ 〉 ᶜ ] → y′ ≡ y″
-          inj = λ { {y′ = y′} {.y′} refl → refl } in
-      gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ y† y‡ (,-inj₂ ≡R′) (,-inj₂ ≡P′) (,-inj₂ ≡S†) (,-inj₂ ≡S‡) (sym (inj α)) (gamma₁ 𝐸 P)
+          α = trans (sym (cong (push ᴬ*̃) (,-inj₁ ≡S‡))) (trans (renᶜ-action-comm F push Q) (,-inj₁ ≡S†)) in
+      gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ y† y‡ (,-inj₂ ≡R′) (,-inj₂ ≡P′) (,-inj₂ ≡S†) (,-inj₂ ≡S‡) (sym ([•x〈-〉ᶜ]-inj α)) (gamma₁ 𝐸 P)
 
    gamma₁ {E = E ᶜ│ Q₀} {E′ = E′ │• .F} (_│•ᶜ_ {x = x} {y} {a = a} 𝐸 F) [ P │ Q ]
       with step E′ P | step (E′/E (⊖₁ 𝐸)) (tgt E P) | step F Q |
@@ -296,11 +297,8 @@ module Transition.Concur.Cofinal.Lattice where
    ... | [ • x 〈 y‡ 〉 ᶜ ] , S′ | [ • .(ᴺ.suc x) 〈 y† 〉 ᶜ ] , Q′ | [ (.x •) ᵇ ] , R | [ .(ᴺ.suc x) • ᵇ ] , R†
        | [ ≡S′ ] | [ ≡Q′ ] | [ ≡R ] | [ ≡R† ] =
       let α : [ • ᴺ.suc x 〈 (push ᴿ̃.*) y‡ 〉 ᶜ ] ≡ [ • ᴺ.suc x 〈 y† 〉 ᶜ ]
-          α = trans (sym (cong (push ᴬ*̃) (,-inj₁ ≡S′))) (trans (sym (ᴬgamma₁ 𝐹 Q)) (,-inj₁ ≡Q′))
-          inj : ∀ {Γ} {x y : Name Γ} {y′ y″ : ↓ y} →
-                _≡_ {A = ↓_ {A = Action Γ} (• x 〈 y 〉 ᶜ)} [ • x 〈 y′ 〉 ᶜ ] [ • x 〈 y″ 〉 ᶜ ] → y′ ≡ y″
-          inj = λ { {y′ = y′} {.y′} refl → refl } in
-      gamma₁-ᵇ│• E 𝐹 P Q R R† S′ Q′ _ _ (,-inj₂ ≡R) (,-inj₂ ≡R†) (,-inj₂ ≡S′) (,-inj₂ ≡Q′) (sym (inj α)) (gamma₁ 𝐹 Q)
+          α = trans (sym (cong (push ᴬ*̃) (,-inj₁ ≡S′))) (trans (sym (ᴬgamma₁ 𝐹 Q)) (,-inj₁ ≡Q′)) in
+      gamma₁-ᵇ│• E 𝐹 P Q R R† S′ Q′ y† y‡ (,-inj₂ ≡R) (,-inj₂ ≡R†) (,-inj₂ ≡S′) (,-inj₂ ≡Q′) (sym ([•x〈-〉ᶜ]-inj α)) (gamma₁ 𝐹 Q)
 
    gamma₁ {E = P₀ │ᶜ F} {E′ = .E │• F′} (_ᶜ│•_ {y = y} E 𝐹) [ P │ Q ]
       with step F′ Q | step (E′/E (⊖₁ 𝐹)) (tgt F Q) | step E P |
@@ -315,7 +313,10 @@ module Transition.Concur.Cofinal.Lattice where
       ⊥-elim (◻≢[-] (sym (trans (sym (,-inj₁ ≡S′)) (trans (sym (ᴬgamma₁ 𝐹 Q)) (,-inj₁ ≡Q′)))))
    ... | [ _ ᶜ ] , S′ | [ _ ᶜ ] , Q′ | ◻ , R | [ ≡S′ ] | [ ≡Q′ ] | [ ≡R ] =
       gamma₁-ᶜ│• E 𝐹 P Q R S′ Q′ ◻ ◻ (,-inj₂ ≡R) (,-inj₂ ≡S′) (,-inj₂ ≡Q′) refl (gamma₁ 𝐹 Q)
-   ... | [ • x 〈 y† 〉 ᶜ ] , S′ | [ • .x 〈 y‡ 〉 ᶜ ] , Q′ | [ (.x •) ᵇ ] , R | [ ≡S′ ] | [ ≡Q′ ] | [ ≡R ] = {!!}
+   ... | [ • x 〈 y† 〉 ᶜ ] , S′ | [ • .x 〈 y‡ 〉 ᶜ ] , Q′ | [ (.x •) ᵇ ] , R | [ ≡S′ ] | [ ≡Q′ ] | [ ≡R ] =
+      let α : [ • x 〈 y‡ 〉 ᶜ ] ≡ [ • x 〈 y† 〉 ᶜ ]
+          α = trans (sym (,-inj₁ ≡Q′)) (trans (ᴬgamma₁ 𝐹 Q) (,-inj₁ ≡S′)) in
+      gamma₁-ᶜ│• E 𝐹 P Q R S′ Q′ y† y‡ (,-inj₂ ≡R) (,-inj₂ ≡S′) (,-inj₂ ≡Q′) (sym ([•x〈-〉ᶜ]-inj α)) (gamma₁ 𝐹 Q)
 
    gamma₁ _ _ = {!!}
 
