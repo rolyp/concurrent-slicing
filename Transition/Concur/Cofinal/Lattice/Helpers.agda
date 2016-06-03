@@ -347,6 +347,15 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
          [ ν S′ ]
       ∎)
 
+   postulate
+    gamma₁-νᶜᶜ : ∀ {Γ P₀ R₀ R′₀} {a a′ : Actionᶜ Γ} {E : P₀ —[ (ᴿ.push *) a ᶜ - _ ]→ R₀} {E′ : P₀ —[ (ᴿ.push *) a′ ᶜ - _ ]→ R′₀}
+               (𝐸 : E ⌣₁[ ᶜ∇ᶜ ] E′) (P : ↓ P₀) (R : ↓ R₀) (R′ : ↓ R′₀) (S : ↓ tgt₁ (⊖₁ 𝐸)) (S′ : ↓ tgt₂ (⊖₁ 𝐸)) →
+               tgt E P ≡ R → tgt E′ P ≡ R′ → tgt (E′/E (⊖₁ 𝐸)) R ≡ S → tgt (E/E′ (⊖₁ 𝐸)) R′ ≡ S′ →
+               braiding (ᶜ∇ᶜ {a = (ᴿ.push *) a} {(ᴿ.push *) a′}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)) ≡
+               tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P) →
+               braiding (ᶜ∇ᶜ {a = a} {a′}) {0} (cong ν_ (γ₁ 𝐸))
+               [ ν S ] ≡ [ ν S′ ]
+
 {-
    gamma₁-νᵛᵛ : ∀ {Γ} {P₀ : Proc (Γ + 1)} {R₀ R′₀} {E : P₀ —[ τ ᶜ - _ ]→ R₀} {E′ : P₀ —[ τ ᶜ - _ ]→ R′₀}
                (𝐸 : E ⌣₁[ ᵛ∇ᵛ ] E′) (P : ↓ P₀) (R : ↓ R₀) (R′ : ↓ R′₀) (S† : ↓ tgt₁ (⊖₁ 𝐸)) (S‡ : ↓ tgt₂ (⊖₁ 𝐸)) →
