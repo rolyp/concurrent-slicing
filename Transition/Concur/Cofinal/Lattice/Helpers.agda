@@ -318,12 +318,14 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                [ ν S ] ≡ [ ν S′ ]
 
    gamma₁-νˣˣ {x = x} {u} 𝐸 P R R′ S S′ ≡R ≡R′ ≡S ≡S′ IH =
-      let open ≅-Reasoning in ≅-to-≡ (
+      let α : S ≅ S′
+          α = {!!}
+          open ≅-Reasoning in ≅-to-≡ (
       begin
          braiding (ˣ∇ˣ {x = x} {u}) (cong ν_ (cong (ᴿ.swap *) (γ₁ 𝐸))) [ ν S ]
       ≅⟨ reduce-ˣ∇ˣ {x = x} {u} (cong ν_ (cong (ᴿ.swap *) (γ₁ 𝐸))) _ ⟩
          [ ν S ]
-      ≅⟨ {!!} ⟩
+      ≅⟨ [ν-]-cong (cong (ᴿ.swap *) (γ₁ 𝐸)) α ⟩
          [ ν S′ ]
       ∎)
 
