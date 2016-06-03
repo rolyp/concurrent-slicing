@@ -45,20 +45,18 @@ module Transition.Lattice where
    ... | ◻ , R | _ , S = ◻ , [ (pop ◻ *̃) R │ S ]
    ... | [ (x •) ᵇ ] , R | ◻ , S = ◻ , [ (pop ◻ *̃) R │ S ]
    ... | [ (x •) ᵇ ] , R | [ • .x 〈 y 〉 ᶜ ] , S = [ τ ᶜ ] , [ (pop y *̃) R │ S ]
-   step⁻ (E │ᵥ F) (P │ Q) with step E P
-   ... | [ x • ᵇ ] , R with step F Q
-   ... | [ (• .x) ᵇ ] , S = [ τ ᶜ ] , [ ν [ R │ S ] ]
-   ... | _ , S = ◻ , [ ν [ R │ S ] ]
-   step⁻ (E │ᵥ F) (P │ Q) | _ , R = let _ , S = step F Q in ◻ , [ ν [ R │ S ] ]
+   step⁻ (E │ᵥ F) (P │ Q) with step E P | step F Q
+   ... | [ x • ᵇ ] , R | [ (• .x) ᵇ ] , S = [ τ ᶜ ] , [ ν [ R │ S ] ]
+   ... | _ , R | _ , S = ◻ , [ ν [ R │ S ] ]
    step⁻ (ν•_ {x = x} E) (ν P) with step E P
    ... | [ • .(ᴺ.suc x) 〈 [ .ᴺ.zero ] 〉 ᶜ ] , R = [ (• x) ᵇ ] , R
    ... | _ , R = ◻ , R
    step⁻ {a = x • ᵇ} (νᵇ E) (ν P) with step E P
    ... | [ .(ᴺ.suc x) • ᵇ ] , R = [ x • ᵇ ] , [ ν (swap *̃) R ]
-   ... | _ , R = ◻ , [ ν (swap *̃) R ]
+   ... | ◻ , R = ◻ , [ ν (swap *̃) R ]
    step⁻ {a = (• x) ᵇ} (νᵇ E) (ν P) with step E P
    ... | [ (• .(ᴺ.suc x)) ᵇ ] , R = [ (• x) ᵇ ] ,  [ ν (swap *̃) R ]
-   ... | _ , R = ◻ , [ ν (swap *̃) R ]
+   ... | ◻ , R = ◻ , [ ν (swap *̃) R ]
    step⁻ {a = • x 〈 y 〉 ᶜ} (νᶜ E) (ν P) with step E P
    ... | [ • .(ᴺ.suc x) 〈 [ .(ᴺ.suc y) ] 〉 ᶜ ] , R = [ • x 〈 [ y ] 〉 ᶜ ] , [ ν R ]
    ... | _ , R = ◻ , [ ν R ]
