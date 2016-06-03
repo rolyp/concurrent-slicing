@@ -323,11 +323,11 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ {E = E ᶜ│ Q₀} {E′ │ᵥ .F} (𝐸 │ᵥᶜ F) P₁ = {!!}
    gamma₁ (E ᵇ│ᵥ 𝐸) P₁ = {!!}
    gamma₁ (E ᶜ│ᵥ 𝐸) P₁ = {!!}
-   gamma₁ (𝐸 │• 𝐸₁) P₁ = {!!}
-   gamma₁ (𝐸 │•ᵥ 𝐸₁) P₁ = {!!}1
-   gamma₁ (𝐸 │ᵥ• 𝐸₁) P₁ = {!!}
-   gamma₁ (𝐸 │ᵥ 𝐸₁) P₁ = {!!}
-   gamma₁ (𝐸 │ᵥ′ 𝐸₁) P₁ = {!!}
+   gamma₁ (𝐸 │• 𝐹) P₁ = {!!}
+   gamma₁ (𝐸 │•ᵥ 𝐹) P₁ = {!!}1
+   gamma₁ (𝐸 │ᵥ• 𝐹) P₁ = {!!}
+   gamma₁ (𝐸 │ᵥ 𝐹) P₁ = {!!}
+   gamma₁ (𝐸 │ᵥ′ 𝐹) P₁ = {!!}
    gamma₁ (ν• 𝐸) P = {!!}
    gamma₁ (ν•ᵇ 𝐸) P₁ = {!!}
    gamma₁ (ν•ᶜ 𝐸) P₁ = {!!}
