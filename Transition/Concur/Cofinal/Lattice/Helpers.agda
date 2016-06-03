@@ -304,13 +304,20 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       ∎)
 -}
 
-   postulate
-    gamma₁-νˣˣ : ∀ {Γ} {x u : Name Γ} {P₀ R₀ R′₀} {E : P₀ —[ (• ᴺ.suc x) ᵇ - _ ]→ R₀}
+   gamma₁-νˣˣ : ∀ {Γ} {x u : Name Γ} {P₀ R₀ R′₀} {E : P₀ —[ (• ᴺ.suc x) ᵇ - _ ]→ R₀}
                {E′ : P₀ —[ (• ᴺ.suc u) ᵇ - _ ]→ R′₀} (𝐸 : E ⌣₁[ ˣ∇ˣ ] E′) (S : ↓ (ᴿ.swap *) (tgt₁ (⊖₁ 𝐸)))
                 (S′ : ↓ (ᴿ.swap *) (tgt₂ (⊖₁ 𝐸))) →
-               (braiding (ˣ∇ˣ {x = x} {u}) {0} (cong ν_ (cong (ᴿ.swap *) (γ₁ 𝐸))))
+               braiding (ˣ∇ˣ {x = x} {u}) {0} (cong ν_ (cong (ᴿ.swap *) (γ₁ 𝐸)))
                [ ν S ] ≡ [ ν S′ ]
-
+   gamma₁-νˣˣ {x = x} {u} 𝐸 S S′ =
+      let open ≅-Reasoning in ≅-to-≡ (
+      begin
+         braiding (ˣ∇ˣ {x = x} {u}) (cong ν_ (cong (ᴿ.swap *) (γ₁ 𝐸))) [ ν S ]
+      ≅⟨ reduce-ˣ∇ˣ {x = x} {u} (cong ν_ (cong (ᴿ.swap *) (γ₁ 𝐸))) _ ⟩
+         [ ν S ]
+      ≅⟨ {!!} ⟩
+         [ ν S′ ]
+      ∎)
 {-
    gamma₁-νᵛᵛ : ∀ {Γ} {P₀ : Proc (Γ + 1)} {R₀ R′₀} {E : P₀ —[ τ ᶜ - _ ]→ R₀} {E′ : P₀ —[ τ ᶜ - _ ]→ R′₀}
                (𝐸 : E ⌣₁[ ᵛ∇ᵛ ] E′) (P : ↓ P₀) (R : ↓ R₀) (R′ : ↓ R′₀) (S† : ↓ tgt₁ (⊖₁ 𝐸)) (S‡ : ↓ tgt₂ (⊖₁ 𝐸)) →
