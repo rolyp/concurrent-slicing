@@ -337,6 +337,12 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ (νᶜᵇ 𝐸) P₁ = {!!}
 -}
 
+   gamma₁ (νˣˣ 𝐸) P₁ = {!!}
+
+   gamma₁ (νᵇᶜ 𝐸) P₁ = {!!}
+
+   gamma₁ (νᶜᵇ 𝐸) P₁ = {!!}
+
    gamma₁ {E = νᶜ E} {νᶜ E′} (νᶜᶜ 𝐸) [ ν P ] = {!!}
 
 {-
