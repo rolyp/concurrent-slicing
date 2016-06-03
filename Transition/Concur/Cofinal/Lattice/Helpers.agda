@@ -10,7 +10,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
    open import Lattice using (Lattices); open Lattice.Prefixes ⦃...⦄
    open import Name as ᴺ using (Name; Cxt; _+_)
    open import Name.Lattice as ᴺ̃ using (); open ᴺ̃.↓_
-   open import Proc as ᴾ using (Proc; Proc↱); open ᴾ.Proc
+   open import Proc as ᴾ using (Proc; Proc↱; Proc↲); open ᴾ.Proc
    open import Proc.Lattice as ᴾ̃ using (); open ᴾ̃.↓_; open ᴾ̃.↓⁻_
    open import Proc.Ren.Lattice using () renaming (_* to _*̃)
    open import Ren as ᴿ using (); open ᴿ.Renameable ⦃...⦄
@@ -317,9 +317,27 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                braiding (ˣ∇ˣ {x = x} {u}) {0} (cong ν_ (cong (ᴿ.swap *) (γ₁ 𝐸)))
                [ ν S ] ≡ [ ν S′ ]
 
-   gamma₁-νˣˣ {x = x} {u} 𝐸 P R R′ S S′ ≡R ≡R′ ≡S ≡S′ IH =
+   gamma₁-νˣˣ {x = x} {u} {E = E} {E′} 𝐸 P R R′ S S′ ≡R ≡R′ ≡S ≡S′ IH =
       let α : S ≅ S′
-          α = {!!}
+          α = let open ≅-Reasoning in
+             begin
+                S
+             ≡⟨ sym ≡S ⟩
+                tgt ((ᴿ.swap *ᶜ) (E′/E (⊖₁ 𝐸))) ((swap *̃) R)
+             ≡⟨ cong (tgt ((ᴿ.swap *ᶜ) (E′/E (⊖₁ 𝐸))) ∘ᶠ (swap *̃)) (sym ≡R) ⟩
+                tgt ((ᴿ.swap *ᶜ) (E′/E (⊖₁ 𝐸))) ((swap *̃) (tgt E P))
+             ≡⟨ sym (renᶜ-tgt-comm (E′/E (⊖₁ 𝐸)) swap (tgt E P)) ⟩
+                (swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))
+             ≅⟨ ≅-cong✴ ↓_ (≅-to-≡ (≅-trans (≡-to-≅ (γ₁ 𝐸)) (Proc↲ refl (tgt₂ (⊖₁ 𝐸)))))
+                        (swap *̃) (≅-trans (≅-sym (reduce-ˣ∇ˣ {x = ᴺ.suc x} {ᴺ.suc u} (γ₁ 𝐸) _)) (≡-to-≅ IH)) ⟩
+                (swap *̃) (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))
+             ≡⟨ renᶜ-tgt-comm (E/E′ (⊖₁ 𝐸)) swap (tgt E′ P) ⟩
+                tgt ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸))) ((swap *̃) (tgt E′ P))
+             ≡⟨ cong (tgt ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸))) ∘ᶠ (swap *̃)) ≡R′ ⟩
+                tgt ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸))) ((swap *̃) R′)
+             ≡⟨ ≡S′ ⟩
+                S′
+             ∎
           open ≅-Reasoning in ≅-to-≡ (
       begin
          braiding (ˣ∇ˣ {x = x} {u}) (cong ν_ (cong (ᴿ.swap *) (γ₁ 𝐸))) [ ν S ]
