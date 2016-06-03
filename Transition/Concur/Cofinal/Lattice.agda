@@ -318,10 +318,9 @@ module Transition.Concur.Cofinal.Lattice where
       gamma₁-ᶜ│• E 𝐹 P Q R S′ Q′ y† y‡ (,-inj₂ ≡R) (,-inj₂ ≡S′) (,-inj₂ ≡Q′) (sym ([•x〈-〉ᶜ]-inj α)) (gamma₁ 𝐹 Q)
 -}
 
-   gamma₁ {E = E ᵇ│ Q₀} {E′ │ᵥ .F} (𝐸 │ᵥᵇ F) P = {!!}
-
 {-
-   gamma₁ (𝐸 │ᵥᶜ F) P₁ = {!!}
+   gamma₁ {E = E ᵇ│ Q₀} {E′ │ᵥ .F} (𝐸 │ᵥᵇ F) P = {!!}
+   gamma₁ {E = E ᶜ│ Q₀} {E′ │ᵥ .F} (𝐸 │ᵥᶜ F) P₁ = {!!}
    gamma₁ (E ᵇ│ᵥ 𝐸) P₁ = {!!}
    gamma₁ (E ᶜ│ᵥ 𝐸) P₁ = {!!}
    gamma₁ (𝐸 │• 𝐸₁) P₁ = {!!}
@@ -336,8 +335,9 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ (νˣˣ 𝐸) P₁ = {!!}
    gamma₁ (νᵇᶜ 𝐸) P₁ = {!!}
    gamma₁ (νᶜᵇ 𝐸) P₁ = {!!}
-   gamma₁ (νᶜᶜ 𝐸) P₁ = {!!}
 -}
+
+   gamma₁ {E = νᶜ E} {νᶜ E′} (νᶜᶜ 𝐸) [ ν P ] = {!!}
 
 {-
    gamma₁ {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ]
