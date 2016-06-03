@@ -428,6 +428,7 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ (νᶜᵇ 𝐸) P = {!!}
 -}
 
+{-
    -- Sub-case 1.
    gamma₁ {a = • x 〈 y 〉 ᶜ} {• x′ 〈 y′ 〉 ᶜ} {E = νᶜ E} {νᶜ E′} (νᶜᶜ 𝐸) [ ν P ]
       with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
@@ -840,7 +841,6 @@ module Transition.Concur.Cofinal.Lattice where
    ... | [ τ ᶜ ] , S | [ τ ᶜ ] , S′ | [ ≡S ] | [ ≡S′ ] =
       gamma₁-νᶜᶜ 𝐸 P R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
 
-{-
    gamma₁ {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ]
       with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
    ... | ◻ , R′ | ◻ , R | [ ≡R′ ] | [ ≡R ]
