@@ -72,6 +72,11 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                 _≅_ {A = ↓_ {A = Proc Γ} _} [ P │ Q ] {↓_ {A = Proc Γ} _} [ P′ │ Q′ ]
    [-│-]-cong refl ≅-refl refl ≅-refl = ≅-refl
 
+   [ν-]-cong : ∀ {Γ} {P₀ P₁ : Proc (Γ + 1)} {P : ↓ P₀} {P′ : ↓ P₁} → P₀ ≡ P₁ → P ≅ P′ →
+               _≅_ {A = ↓_ {A = Proc Γ} _} [ ν P ] {↓_ {A = Proc Γ} _} [ ν P′ ]
+   [ν-]-cong refl ≅-refl = ≅-refl
+
+
 {-
    ᴬgamma₁-│•ᵇ : ∀ {Γ x y P₀ R₀ R′₀ S₀ Q₀} {a : Actionᵇ Γ} {E : P₀ —[ a ᵇ - _ ]→ R₀} {E′ : P₀ —[ (x •) ᵇ - _ ]→ R′₀}
                 (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (F : Q₀ —[ • x 〈 y 〉 ᶜ - _ ]→ S₀) (P : ↓ P₀) (R′ : ↓ R′₀) →
@@ -304,16 +309,15 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       ∎)
 -}
 
-   postulate
-    gamma₁-νˣˣ : ∀ {Γ} {x u : Name Γ} {P₀ R₀ R′₀} {E : P₀ —[ (• ᴺ.suc x) ᵇ - _ ]→ R₀}
+   gamma₁-νˣˣ : ∀ {Γ} {x u : Name Γ} {P₀ R₀ R′₀} {E : P₀ —[ (• ᴺ.suc x) ᵇ - _ ]→ R₀}
                {E′ : P₀ —[ (• ᴺ.suc u) ᵇ - _ ]→ R′₀} (𝐸 : E ⌣₁[ ˣ∇ˣ ] E′) (P : ↓ P₀) (R : ↓ R₀) (R′ : ↓ R′₀)
                (S : ↓ (ᴿ.swap *) (tgt₁ (⊖₁ 𝐸))) (S′ : ↓ (ᴿ.swap *) (tgt₂ (⊖₁ 𝐸))) → tgt E P ≡ R → tgt E′ P ≡ R′ →
                tgt ((ᴿ.swap *ᶜ) (E′/E (⊖₁ 𝐸))) ((swap *̃) R) ≡ S → tgt ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸))) ((swap *̃) R′) ≡ S′ →
                braiding (ˣ∇ˣ {x = ᴺ.suc x} {ᴺ.suc u}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)) ≡ tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P) →
                braiding (ˣ∇ˣ {x = x} {u}) {0} (cong ν_ (cong (ᴿ.swap *) (γ₁ 𝐸)))
                [ ν S ] ≡ [ ν S′ ]
-{-
-   gamma₁-νˣˣ {x = x} {u} 𝐸 S S′ =
+
+   gamma₁-νˣˣ {x = x} {u} 𝐸 P R R′ S S′ ≡R ≡R′ ≡S ≡S′ IH =
       let open ≅-Reasoning in ≅-to-≡ (
       begin
          braiding (ˣ∇ˣ {x = x} {u}) (cong ν_ (cong (ᴿ.swap *) (γ₁ 𝐸))) [ ν S ]
@@ -322,7 +326,6 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       ≅⟨ {!!} ⟩
          [ ν S′ ]
       ∎)
--}
 
 {-
    gamma₁-νᵛᵛ : ∀ {Γ} {P₀ : Proc (Γ + 1)} {R₀ R′₀} {E : P₀ —[ τ ᶜ - _ ]→ R₀} {E′ : P₀ —[ τ ᶜ - _ ]→ R′₀}
