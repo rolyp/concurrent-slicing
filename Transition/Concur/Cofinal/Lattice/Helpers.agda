@@ -305,7 +305,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
 -}
 
    postulate
-    gamma₁-νˣˣ : ∀ {Γ} {x u : Name (Γ + 1)} {P₀ R₀ R′₀} {E : P₀ —[ (• ᴺ.suc x) ᵇ - _ ]→ R₀}
+    gamma₁-νˣˣ : ∀ {Γ} {x u : Name Γ} {P₀ R₀ R′₀} {E : P₀ —[ (• ᴺ.suc x) ᵇ - _ ]→ R₀}
                {E′ : P₀ —[ (• ᴺ.suc u) ᵇ - _ ]→ R′₀} (𝐸 : E ⌣₁[ ˣ∇ˣ ] E′) (S : ↓ (ᴿ.swap *) (tgt₁ (⊖₁ 𝐸)))
                 (S′ : ↓ (ᴿ.swap *) (tgt₂ (⊖₁ 𝐸))) →
                (braiding (ˣ∇ˣ {x = x} {u}) {0} (cong ν_ (cong (ᴿ.swap *) (γ₁ 𝐸))))
