@@ -306,7 +306,17 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       ≅⟨ [-│-]-cong refl (≡-to-≅ (cong (λ y → (pop y *̃) R) (sym ≡y†))) (γ₁ 𝐹) α ⟩
          [ (pop y† *̃) R │ tgt (E/E′ (⊖₁ 𝐹)) S′ ]
       ∎)
+-}
 
+   postulate
+    gamma₁-ν• : ∀ {Γ} {x u : Name Γ} {P₀ R₀ R′₀} {E : P₀ —[ • ᴺ.suc x 〈 ᴺ.zero 〉 ᶜ - _ ]→ R₀}
+               {E′ : P₀ —[ • ᴺ.suc u 〈 ᴺ.zero 〉 ᶜ - _ ]→ R′₀} (𝐸 : E ⌣₁[ ᶜ∇ᶜ ] E′) (P : ↓ P₀) (R : ↓ R₀) (R′ : ↓ R′₀) →
+               tgt E P ≡ R → tgt E′ P ≡ R′ →
+               braiding (ᶜ∇ᶜ {a = • (ᴺ.suc x) 〈 ᴺ.zero 〉} {• ᴺ.suc u 〈 ᴺ.zero 〉}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)) ≡
+               tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P) →
+               braiding (ˣ∇ˣ {x = x} {u}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) R) ≡ tgt (E/E′ (⊖₁ 𝐸)) R′
+
+{-
    gamma₁-ν•ᶜ : ∀ {Γ x P₀ R₀ R′₀} {a : Actionᶜ Γ} {E : P₀ —[ • ᴺ.suc x 〈 ᴺ.zero 〉 ᶜ - _ ]→ R₀}
                 {E′ : P₀ —[ (ᴿ.push *) a ᶜ - _ ]→ R′₀} (𝐸 : E ⌣₁[ ᶜ∇ᶜ ] E′) (P : ↓ P₀) (R : ↓ R₀) (R′ : ↓ R′₀)
                 (S′ : ↓ tgt₂ (⊖₁ 𝐸)) → tgt E P ≡ R → tgt E′ P ≡ R′ → tgt (E/E′ (⊖₁ 𝐸)) R′ ≡ S′ →
@@ -330,7 +340,6 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       ≡⟨ ≡S′ ⟩
          S′
       ∎)
--}
 
    gamma₁-ν•ᵇ : ∀ {Γ x P₀ R₀ R′₀} {a : Actionᵇ Γ} {E : P₀ —[ • ᴺ.suc x 〈 ᴺ.zero 〉 ᶜ - _ ]→ R₀}
                 {E′ : P₀ —[ (ᴿ.push *) a ᵇ - _ ]→ R′₀} (𝐸 : E ⌣₁[ ᶜ∇ᵇ ] E′) (P : ↓ P₀) (R : ↓ R₀) (R′ : ↓ R′₀)
@@ -359,7 +368,6 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
          S′
       ∎)
 
-{-
    gamma₁-νᵇᵇ : ∀ {Γ P₀ R₀ R′₀} {a a′ : Actionᵇ Γ} {E : P₀ —[ (ᴿ.push *) a ᵇ - _ ]→ R₀}
                {E′ : P₀ —[ (ᴿ.push *) a′ ᵇ - _ ]→ R′₀} (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (P : ↓ P₀) (R : ↓ R₀) (R′ : ↓ R′₀)
                (S : ↓ (ᴿ.suc ᴿ.swap *) (tgt₁ (⊖₁ 𝐸))) (S′ : ↓ (ᴿ.suc ᴿ.swap *) (tgt₂ (⊖₁ 𝐸))) →
