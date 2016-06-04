@@ -332,14 +332,32 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       ∎)
 -}
 
-   postulate
-    gamma₁-ν•ᵇ : ∀ {Γ x P₀ R₀ R′₀} {a : Actionᵇ Γ} {E : P₀ —[ • ᴺ.suc x 〈 ᴺ.zero 〉 ᶜ - _ ]→ R₀}
+   gamma₁-ν•ᵇ : ∀ {Γ x P₀ R₀ R′₀} {a : Actionᵇ Γ} {E : P₀ —[ • ᴺ.suc x 〈 ᴺ.zero 〉 ᶜ - _ ]→ R₀}
                 {E′ : P₀ —[ (ᴿ.push *) a ᵇ - _ ]→ R′₀} (𝐸 : E ⌣₁[ ᶜ∇ᵇ ] E′) (P : ↓ P₀) (R : ↓ R₀) (R′ : ↓ R′₀)
                 (S′ : ↓ (ᴿ.swap *) (tgt₂ (⊖₁ 𝐸))) → tgt E P ≡ R → tgt E′ P ≡ R′ →
                 tgt ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸))) ((swap *̃) R′) ≡ S′ →
                 braiding (ᶜ∇ᵇ {a = • ᴺ.suc x 〈 ᴺ.zero 〉} {(ᴿ.push *) a}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)) ≡
                 tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P) →
                 braiding (ᵇ∇ᵇ {a = • x} {a}) {0} (cong (ᴿ.swap *) (γ₁ 𝐸)) (tgt (E′/E (⊖₁ 𝐸)) R) ≡ S′
+   gamma₁-ν•ᵇ {x = x} {a = a} {E} {E′} 𝐸 P R R′ S′ ≡R ≡R′ ≡S′ IH =
+      let open ≅-Reasoning in ≅-to-≡ (
+      begin
+         braiding ᵇ∇ᵇ {0} (cong (ᴿ.swap *) (γ₁ 𝐸)) (tgt (E′/E (⊖₁ 𝐸)) R)
+      ≅⟨ reduce-ᵇ∇ᵇ (cong (ᴿ.swap *) (γ₁ 𝐸)) _ ⟩
+         (swap *̃) (tgt (E′/E (⊖₁ 𝐸)) R)
+      ≡⟨ cong ((swap *̃) ∘ᶠ tgt (E′/E (⊖₁ 𝐸))) (sym ≡R) ⟩
+         (swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))
+      ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) (swap *̃) (≅-sym (reduce-ᶜ∇ᵇ (γ₁ 𝐸) _)) ⟩
+         (swap *̃) (braiding (ᶜ∇ᵇ {a = • ᴺ.suc x 〈 ᴺ.zero 〉} {(ᴿ.push *) a}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
+      ≡⟨ cong (swap *̃) IH ⟩
+         (swap *̃) (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))
+      ≡⟨ renᶜ-tgt-comm (E/E′ (⊖₁ 𝐸)) swap (tgt E′ P) ⟩
+         tgt ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸))) ((swap *̃) (tgt E′ P))
+      ≡⟨ cong (tgt ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸))) ∘ᶠ (swap *̃)) ≡R′ ⟩
+         tgt ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸))) ((swap *̃) R′)
+      ≡⟨ ≡S′ ⟩
+         S′
+      ∎)
 
 {-
    gamma₁-νᵇᵇ : ∀ {Γ P₀ R₀ R′₀} {a a′ : Actionᵇ Γ} {E : P₀ —[ (ᴿ.push *) a ᵇ - _ ]→ R₀}
