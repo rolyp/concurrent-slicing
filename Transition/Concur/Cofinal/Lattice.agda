@@ -297,7 +297,6 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ (E ᶜ│ᵥ 𝐸) P₁ = {!!}
    gamma₁ (𝐸 │• 𝐹) P₁ = {!!}
    gamma₁ (𝐸 │•ᵥ 𝐹) P₁ = {!!}1
-   gamma₁ (𝐸 │ᵥ• 𝐹) P₁ = {!!}
    gamma₁ (𝐸 │ᵥ 𝐹) P₁ = {!!}
    gamma₁ (𝐸 │ᵥ′ 𝐹) P₁ = {!!}
    gamma₁ (ν• 𝐸) P = {!!}
@@ -305,7 +304,8 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ (ν•ᶜ 𝐸) P₁ = {!!}
    gamma₁ (νᵇᵇ 𝐸) P₁ = {!!}
 
-   gamma₁ {E = νᵇ E} {νᵇ E′} (νˣˣ 𝐸) [ ν P ]
+   gamma₁ {E = νᵇ E} {νᵇ E′} (νˣˣ 𝐸) [ ν P ] = ?
+{-
       with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
    ... | ◻ , R′ | ◻ , R | [ ≡R′ ] | [ ≡R ]
       with step ((ᴿ.swap *ᶜ) (E′/E (⊖₁ 𝐸))) ((swap *̃) R) | step ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸))) ((swap *̃) R′) |
@@ -391,9 +391,11 @@ module Transition.Concur.Cofinal.Lattice where
       gamma₁-νˣˣ 𝐸 P R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
    ... | [ • ._ 〈 [ .(ᴺ.suc ᴺ.zero) ] 〉 ᶜ ] , S | [ • ._ 〈 [ .(ᴺ.suc ᴺ.zero) ] 〉 ᶜ ] , S′ | [ ≡S ] | [ ≡S′ ] =
       gamma₁-νˣˣ 𝐸 P R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
+-}
 
    -- Sub-case 1.
-   gamma₁ {a = (x •) ᵇ} {• x′ 〈 y 〉 ᶜ} {E = νᵇ E} {νᶜ E′} (νᵇᶜ 𝐸) [ ν P ]
+   gamma₁ {a = (x •) ᵇ} {• x′ 〈 y 〉 ᶜ} {E = νᵇ E} {νᶜ E′} (νᵇᶜ 𝐸) [ ν P ] = ?
+{-
       with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
    gamma₁ {a = x • ᵇ} {• x′ 〈 _ 〉 ᶜ} {E = νᵇ E} {νᶜ E′} (νᵇᶜ 𝐸) [ ν P ] | ◻ , R′ | ◻ , R | [ ≡R′ ] | [ ≡R ]
       with step ((ᴿ.swap *ᶜ) (E′/E (⊖₁ 𝐸))) ((swap *̃) R) | step (E/E′ (⊖₁ 𝐸)) R′ |
@@ -679,11 +681,11 @@ module Transition.Concur.Cofinal.Lattice where
       gamma₁-νᵇᶜ 𝐸 P R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
    ... | [ τ ᶜ ] , S | [ (• ._) ᵇ ] , S′ | [ ≡S ] | [ ≡S′ ] =
       gamma₁-νᵇᶜ 𝐸 P R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-
-   gamma₁ (νᶜᵇ 𝐸) P = {!!}
+-}
 
    -- Sub-case 1.
-   gamma₁ {a = • x 〈 y 〉 ᶜ} {• x′ 〈 y′ 〉 ᶜ} {E = νᶜ E} {νᶜ E′} (νᶜᶜ 𝐸) [ ν P ]
+   gamma₁ {a = • x 〈 y 〉 ᶜ} {• x′ 〈 y′ 〉 ᶜ} {E = νᶜ E} {νᶜ E′} (νᶜᶜ 𝐸) [ ν P ] = ?
+{-
       with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
    gamma₁ {a = • x 〈 y 〉 ᶜ} {• x′ 〈 y′ 〉 ᶜ} {E = νᶜ E} {νᶜ E′} (νᶜᶜ 𝐸) [ ν P ] | ◻ , R′ | ◻ , R | [ ≡R′ ] | [ ≡R ]
       with step (E′/E (⊖₁ 𝐸)) R | step (E/E′ (⊖₁ 𝐸)) R′ | inspect (step (E′/E (⊖₁ 𝐸))) R | inspect (step (E/E′ (⊖₁ 𝐸))) R′
@@ -1093,8 +1095,10 @@ module Transition.Concur.Cofinal.Lattice where
       gamma₁-νᶜᶜ 𝐸 P R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
    ... | [ τ ᶜ ] , S | [ τ ᶜ ] , S′ | [ ≡S ] | [ ≡S′ ] =
       gamma₁-νᶜᶜ 𝐸 P R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
+-}
 
-   gamma₁ {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ]
+   gamma₁ {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] = ?
+{-
       with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
    ... | ◻ , R′ | ◻ , R | [ ≡R′ ] | [ ≡R ]
       with step (E/E′ (⊖₁ 𝐸)) R′ | step (E′/E (⊖₁ 𝐸)) R | inspect (step (E/E′ (⊖₁ 𝐸))) R′ | inspect (step (E′/E (⊖₁ 𝐸))) R
@@ -1136,6 +1140,8 @@ module Transition.Concur.Cofinal.Lattice where
       gamma₁-νᵛᵛ 𝐸 P R R′ S† S‡ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S†) (,-inj₂ ≡S‡) (gamma₁ 𝐸 P)
    ... | [ τ ᶜ ] , S‡ | [ τ ᶜ ] , S† | [ ≡S‡ ] | [ ≡S† ] =
       gamma₁-νᵛᵛ 𝐸 P R R′ S† S‡ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S†) (,-inj₂ ≡S‡) (gamma₁ 𝐸 P)
+-}
+
    gamma₁ (! 𝐸) [ ! P ] = gamma₁ 𝐸 [ P │ [ ! P ] ]
 
    gamma₁ _ _ = {!!}
