@@ -355,12 +355,31 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                braiding (ᵇ∇ᶜ {a = a} {a′}) {0} (cong ν_ (cong (ᴿ.swap *) (γ₁ 𝐸)))
                [ ν S ] ≡ [ ν (swap *̃) S′ ]
    gamma₁-νᵇᶜ {a = a} {a′} {E} {E′} 𝐸 P R R′ S S′ ≡R ≡R′ ≡S ≡S′ IH =
-      let open ≅-Reasoning in ≅-to-≡ (
+      let α : S ≅ (swap *̃) S′
+          α = let open ≅-Reasoning in
+             begin
+                S
+             ≡⟨ sym ≡S ⟩
+                tgt ((ᴿ.swap *ᶜ) (E′/E (⊖₁ 𝐸))) ((swap *̃) R)
+             ≡⟨ cong (tgt ((ᴿ.swap *ᶜ) (E′/E (⊖₁ 𝐸))) ∘ᶠ (swap *̃)) (sym ≡R) ⟩
+                tgt ((ᴿ.swap *ᶜ) (E′/E (⊖₁ 𝐸))) ((swap *̃) (tgt E P))
+             ≡⟨ sym (renᶜ-tgt-comm (E′/E (⊖₁ 𝐸)) swap (tgt E P)) ⟩
+                (swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))
+             ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) (swap *̃) (≅-sym (reduce-ᵇ∇ᶜ (γ₁ 𝐸) _)) ⟩
+                (swap *̃) (braiding ᵇ∇ᶜ {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
+             ≡⟨ cong (swap *̃) IH ⟩
+                (swap *̃) (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))
+             ≡⟨ cong ((swap *̃) ∘ᶠ tgt (E/E′ (⊖₁ 𝐸))) ≡R′ ⟩
+                (swap *̃) (tgt (E/E′ (⊖₁ 𝐸)) R′)
+             ≡⟨ cong (swap *̃) ≡S′ ⟩
+                (swap *̃) S′
+             ∎
+          open ≅-Reasoning in ≅-to-≡ (
       begin
          braiding ᵇ∇ᶜ (cong ν_ (cong (ᴿ.swap *) (γ₁ 𝐸))) [ ν S ]
       ≅⟨ reduce-ᵇ∇ᶜ (cong ν_ (cong (ᴿ.swap *) (γ₁ 𝐸))) _  ⟩
          [ ν S ]
-      ≅⟨ [ν-]-cong ? ? ⟩
+      ≅⟨ [ν-]-cong (cong (ᴿ.swap *) (γ₁ 𝐸)) α ⟩
          [ ν (swap *̃) S′ ]
       ∎)
 
