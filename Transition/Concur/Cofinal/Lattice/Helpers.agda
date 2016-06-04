@@ -101,6 +101,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
          action E P
       ∎)
 
+{-
    gamma₁-│•ᵇ : ∀ {Γ x y P₀ R₀ R′₀ S₀ Q₀} {a : Actionᵇ Γ} {E : P₀ —[ a ᵇ - _ ]→ R₀} {E′ : P₀ —[ (x •) ᵇ - _ ]→ R′₀}
                 (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (F : Q₀ —[ • x 〈 y 〉 ᶜ - _ ]→ S₀) (P : ↓ P₀) (Q : ↓ Q₀) (S† : ↓ (ᴿ.push *) S₀)
                 (S‡ : ↓ S₀) (R′ : ↓ R′₀) (P′ : ↓ tgt₁ (⊖₁ 𝐸)) (y† : ↓ ᴺ.suc y) (y‡ : ↓ y) →
@@ -343,9 +344,9 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       ≅⟨ [ν-]-cong (cong (ᴿ.swap *) (γ₁ 𝐸)) α ⟩
          [ ν S′ ]
       ∎)
+-}
 
-   postulate
-    gamma₁-νᵇᶜ : ∀ {Γ P₀ R₀ R′₀} {a : Actionᵇ Γ} {a′ : Actionᶜ Γ} {E : P₀ —[ (ᴿ.push *) a ᵇ - _ ]→ R₀}
+   gamma₁-νᵇᶜ : ∀ {Γ P₀ R₀ R′₀} {a : Actionᵇ Γ} {a′ : Actionᶜ Γ} {E : P₀ —[ (ᴿ.push *) a ᵇ - _ ]→ R₀}
                {E′ : P₀ —[ (ᴿ.push *) a′ ᶜ - _ ]→ R′₀} (𝐸 : E ⌣₁[ ᵇ∇ᶜ ] E′) (P : ↓ P₀) (R : ↓ R₀) (R′ : ↓ R′₀)
                (S : ↓ (ᴿ.swap *) (tgt₁ (⊖₁ 𝐸))) (S′ : ↓ tgt₂ (⊖₁ 𝐸)) →
                tgt E P ≡ R → tgt E′ P ≡ R′ → tgt ((ᴿ.swap *ᶜ) (E′/E (⊖₁ 𝐸))) ((swap *̃) R) ≡ S → tgt (E/E′ (⊖₁ 𝐸)) R′ ≡ S′ →
@@ -353,8 +354,17 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P) →
                braiding (ᵇ∇ᶜ {a = a} {a′}) {0} (cong ν_ (cong (ᴿ.swap *) (γ₁ 𝐸)))
                [ ν S ] ≡ [ ν (swap *̃) S′ ]
---   gamma₁-νᵇᶜ {a = a} {a′} {E} {E′} 𝐸 P R R′ S S′ ≡R ≡R′ ≡S ≡S′ IH = {!!}
+   gamma₁-νᵇᶜ {a = a} {a′} {E} {E′} 𝐸 P R R′ S S′ ≡R ≡R′ ≡S ≡S′ IH =
+      let open ≅-Reasoning in ≅-to-≡ (
+      begin
+         braiding ᵇ∇ᶜ (cong ν_ (cong (ᴿ.swap *) (γ₁ 𝐸))) [ ν S ]
+      ≅⟨ reduce-ᵇ∇ᶜ (cong ν_ (cong (ᴿ.swap *) (γ₁ 𝐸))) _  ⟩
+         [ ν S ]
+      ≅⟨ [ν-]-cong ? ? ⟩
+         [ ν (swap *̃) S′ ]
+      ∎)
 
+{-
    gamma₁-νᶜᶜ : ∀ {Γ P₀ R₀ R′₀} {a a′ : Actionᶜ Γ} {E : P₀ —[ (ᴿ.push *) a ᶜ - _ ]→ R₀} {E′ : P₀ —[ (ᴿ.push *) a′ ᶜ - _ ]→ R′₀}
                (𝐸 : E ⌣₁[ ᶜ∇ᶜ ] E′) (P : ↓ P₀) (R : ↓ R₀) (R′ : ↓ R′₀) (S : ↓ tgt₁ (⊖₁ 𝐸)) (S′ : ↓ tgt₂ (⊖₁ 𝐸)) →
                tgt E P ≡ R → tgt E′ P ≡ R′ → tgt (E′/E (⊖₁ 𝐸)) R ≡ S → tgt (E/E′ (⊖₁ 𝐸)) R′ ≡ S′ →
@@ -407,3 +417,4 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       ≡⟨ ≡S‡ ⟩
          S‡
       ∎))
+-}
