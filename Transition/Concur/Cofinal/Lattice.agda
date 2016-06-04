@@ -304,8 +304,45 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ (𝐸 │ᵥ′ 𝐹) P₁ = {!!}
    gamma₁ (ν• 𝐸) P = {!!}
    gamma₁ (ν•ᵇ 𝐸) P₁ = {!!}
-   gamma₁ (ν•ᶜ 𝐸) P₁ = {!!}
 -}
+
+   gamma₁ {a′ = • x 〈 _ 〉 ᶜ} {E = ν• E} {νᶜ E′} (ν•ᶜ 𝐸) [ ν P ]
+      with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
+   gamma₁ {a′ = • x 〈 _ 〉 ᶜ} {E = ν• E} {νᶜ E′} (ν•ᶜ 𝐸) [ ν P ] | ◻ , R′ | ◻ , R | [ ≡R′ ] | [ ≡R ] = {!!}
+   gamma₁ {a′ = • x 〈 _ 〉 ᶜ} {E = ν• E} {νᶜ E′} (ν•ᶜ 𝐸) [ ν P ] | ◻ , R′ | [ • ._ 〈 ◻ 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ] = {!!}
+   gamma₁ {a′ = • x 〈 _ 〉 ᶜ} {E = ν• E} {νᶜ E′} (ν•ᶜ 𝐸) [ ν P ] | ◻ , R′ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ] = {!!}
+   gamma₁ {a′ = • x 〈 _ 〉 ᶜ} {E = ν• E} {νᶜ E′} (ν•ᶜ 𝐸) [ ν P ] | [ • ._ 〈 ◻ 〉 ᶜ ] , R′ | ◻ , R | [ ≡R′ ] | [ ≡R ] = {!!}
+   gamma₁ {a′ = • x 〈 _ 〉 ᶜ} {E = ν• E} {νᶜ E′} (ν•ᶜ 𝐸) [ ν P ] | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R′ | ◻ , R | [ ≡R′ ] | [ ≡R ] = {!!}
+   gamma₁ {a′ = • x 〈 _ 〉 ᶜ} {E = ν• E} {νᶜ E′} (ν•ᶜ 𝐸) [ ν P ] | [ • ._ 〈 ◻ 〉 ᶜ ] , R′ | [ • ._ 〈 ◻ 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ] = {!!}
+   gamma₁ {a′ = • x 〈 _ 〉 ᶜ} {E = ν• E} {νᶜ E′} (ν•ᶜ 𝐸) [ ν P ] | [ • ._ 〈 ◻ 〉 ᶜ ] , R′ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ] = {!!}
+   gamma₁ {a′ = • x 〈 _ 〉 ᶜ} {E = ν• E} {νᶜ E′} (ν•ᶜ 𝐸) [ ν P ] | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R′ | [ • ._ 〈 ◻ 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ] = {!!}
+   gamma₁ {a′ = • x 〈 _ 〉 ᶜ} {E = ν• E} {νᶜ E′} (ν•ᶜ 𝐸) [ ν P ] |
+          [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R′ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ]
+      with step (E/E′ (⊖₁ 𝐸)) R′ | inspect (step (E/E′ (⊖₁ 𝐸))) R′
+   ... | ◻ , S′ | [ ≡S′ ] =
+      let open ≅-Reasoning in ≅-to-≡ (
+      begin
+         braiding ᵇ∇ᶜ {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) R)
+      ≅⟨ reduce-ᵇ∇ᶜ (γ₁ 𝐸) _ ⟩
+         tgt (E′/E (⊖₁ 𝐸)) R
+      ≡⟨ cong (tgt (E′/E (⊖₁ 𝐸))) (sym (,-inj₂ ≡R)) ⟩
+         tgt (E′/E (⊖₁ 𝐸)) (tgt E P)
+      ≅⟨ {!!} ⟩
+         tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P)
+      ≡⟨ cong (tgt (E/E′ (⊖₁ 𝐸))) (,-inj₂ ≡R′) ⟩
+         tgt (E/E′ (⊖₁ 𝐸)) R′
+      ≡⟨ ,-inj₂ ≡S′ ⟩
+         S′
+      ∎)
+   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , S′ | [ ≡S′ ] = {!!}
+   ... | [ • ._ 〈 [ .ᴺ.zero ] 〉 ᶜ ] , S′ | [ ≡S′ ] = {!!}
+
+   gamma₁ {a′ = τ ᶜ} {E = ν• E} {νᶜ E′} (ν•ᶜ 𝐸) [ ν P ]
+      with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
+   gamma₁ {a′ = τ ᶜ} {E = ν• E} {νᶜ E′} (ν•ᶜ 𝐸) [ ν P ] | ◻ , R′ | ◻ , R₂ | [ ≡R′ ] | [ ≡R ] = {!!}
+   gamma₁ {a′ = τ ᶜ} {E = ν• E} {νᶜ E′} (ν•ᶜ 𝐸) [ ν P ] | ◻ , R′ | [ x₁ ] , R₂ | [ ≡R′ ] | [ ≡R ] = {!!}
+   gamma₁ {a′ = τ ᶜ} {E = ν• E} {νᶜ E′} (ν•ᶜ 𝐸) [ ν P ] | [ τ ᶜ ] , R′ | ◻ , R₂ | [ ≡R′ ] | [ ≡R ] = {!!}
+   gamma₁ {a′ = τ ᶜ} {E = ν• E} {νᶜ E′} (ν•ᶜ 𝐸) [ ν P ] | [ τ ᶜ ] , R′ | [ x₂ ] , R₂ | [ ≡R′ ] | [ ≡R ] = {!!}
 
 {-
    -- Sub-case 1.
