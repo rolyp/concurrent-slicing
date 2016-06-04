@@ -392,7 +392,6 @@ module Transition.Concur.Cofinal.Lattice where
    ... | ◻ , S′ | [ ≡S′ ] = gamma₁-ν•ᶜ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
    ... | [ • ._ 〈 ◻ 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᶜ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
    ... | [ • ._ 〈 [ .ᴺ.zero ] 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᶜ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
--}
 
    -- Sub-case 1.
    gamma₁ {a′ = (x •) ᵇ} {E = ν• E} {νᵇ E′} (ν•ᵇ 𝐸) [ ν P ]
@@ -462,7 +461,6 @@ module Transition.Concur.Cofinal.Lattice where
    ... | [ • ._ 〈 ◻ 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
    ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
 
-{-
    -- Sub-case 1.
    gamma₁ {a = x • ᵇ} {x′ • ᵇ} {E = νᵇ E} {νᵇ E′} (νᵇᵇ 𝐸) [ ν P ]
       with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
