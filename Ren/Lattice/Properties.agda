@@ -55,6 +55,9 @@ module Ren.Lattice.Properties where
    -- More of the same; trivial but tedious, so leave for now. TODO: abstract over ↓ A for any Renameable A.
    postulate
       swap∘push∘push̃ : ∀ {Γ} {P : Proc Γ} (P′ : ↓ P) → (ᴿ̃.swap *̃) ((ᴿ̃.push *̃) ((ᴿ̃.push *̃) P′)) ≅ (ᴿ̃.push *̃) ((ᴿ̃.push *̃) P′)
+      swap∘suc-swap∘swap̃ : ∀ {Γ} {P : Proc (Γ + 3)} (P′ : ↓ P) →
+                           (ᴿ̃.swap {Γ + 1} *̃) ((ᴿ̃.suc ᴿ̃.swap *̃) ((ᴿ̃.swap *̃) P′)) ≅
+                           (ᴿ̃.suc ᴿ̃.swap *̃) ((ᴿ̃.swap *̃) ((ᴿ̃.suc ᴿ̃.swap *̃) P′))
       pop∘push̃ : ∀ {Γ} {y : Name Γ} (y′ : ↓ y) {P : Proc Γ} (P′ : ↓ P) → (ᴿ̃.pop y′ *̃) ((ᴿ̃.push *̃) P′) ≅ P′
       ᴬpop∘push̃ : ∀ {Γ} {y : Name Γ} (y′ : ↓ y) {a : Action Γ} (a′ : ↓ a) → (ᴿ̃.pop y′ ᴬ*̃) ((ᴿ̃.push ᴬ*̃) a′) ≅ a′
       swap∘suc-push̃ : ∀ {Γ} {P : Proc (Γ + 1)} (P′ : ↓ P) → (ᴿ̃.push *̃) P′ ≅ (ᴿ̃.swap *̃) ((ᴿ̃.suc ᴿ̃.push *̃) P′)
