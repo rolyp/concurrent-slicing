@@ -76,8 +76,6 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                _≅_ {A = ↓_ {A = Proc Γ} _} [ ν P ] {↓_ {A = Proc Γ} _} [ ν P′ ]
    [ν-]-cong refl ≅-refl = ≅-refl
 
-
-{-
    ᴬgamma₁-│•ᵇ : ∀ {Γ x y P₀ R₀ R′₀ S₀ Q₀} {a : Actionᵇ Γ} {E : P₀ —[ a ᵇ - _ ]→ R₀} {E′ : P₀ —[ (x •) ᵇ - _ ]→ R′₀}
                 (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (F : Q₀ —[ • x 〈 y 〉 ᶜ - _ ]→ S₀) (P : ↓ P₀) (R′ : ↓ R′₀) →
                 tgt E′ P ≡ R′ → action (E/E′ (⊖₁ 𝐸)) (tgt E′ P) ≡ (push ᴬ*̃) (action E P) →
@@ -307,7 +305,6 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       ≅⟨ [-│-]-cong refl (≡-to-≅ (cong (λ y → (pop y *̃) R) (sym ≡y†))) (γ₁ 𝐹) α ⟩
          [ (pop y† *̃) R │ tgt (E/E′ (⊖₁ 𝐹)) S′ ]
       ∎)
--}
 
    gamma₁-νˣˣ : ∀ {Γ} {x u : Name Γ} {P₀ R₀ R′₀} {E : P₀ —[ (• ᴺ.suc x) ᵇ - _ ]→ R₀}
                {E′ : P₀ —[ (• ᴺ.suc u) ᵇ - _ ]→ R′₀} (𝐸 : E ⌣₁[ ˣ∇ˣ ] E′) (P : ↓ P₀) (R : ↓ R₀) (R′ : ↓ R′₀)
@@ -392,7 +389,6 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
          [ ν S′ ]
       ∎)
 
-{-
    gamma₁-νᵛᵛ : ∀ {Γ} {P₀ : Proc (Γ + 1)} {R₀ R′₀} {E : P₀ —[ τ ᶜ - _ ]→ R₀} {E′ : P₀ —[ τ ᶜ - _ ]→ R′₀}
                (𝐸 : E ⌣₁[ ᵛ∇ᵛ ] E′) (P : ↓ P₀) (R : ↓ R₀) (R′ : ↓ R′₀) (S† : ↓ tgt₁ (⊖₁ 𝐸)) (S‡ : ↓ tgt₂ (⊖₁ 𝐸)) →
                tgt E P ≡ R → tgt E′ P ≡ R′ → tgt (E′/E (⊖₁ 𝐸)) R ≡ S† → tgt (E/E′ (⊖₁ 𝐸)) R′ ≡ S‡ →
@@ -411,4 +407,3 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       ≡⟨ ≡S‡ ⟩
          S‡
       ∎))
--}
