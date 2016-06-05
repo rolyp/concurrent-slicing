@@ -12,7 +12,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
    open import Braiding.Proc.Lattice using (braid̂)
    open import Lattice using (Lattices); open Lattice.Prefixes ⦃...⦄
    open import Name as ᴺ using (Name; Cxt; _+_)
-   open import Name.Lattice as ᴺ̃ using (); open ᴺ̃.↓_
+   open import Name.Lattice as ᴺ̃ using (zero); open ᴺ̃.↓_
    open import Proc as ᴾ using (Proc; Proc↱; Proc↲); open ᴾ.Proc
    open import Proc.Lattice as ᴾ̃ using (); open ᴾ̃.↓_; open ᴾ̃.↓⁻_
    open import Proc.Ren.Lattice using () renaming (_* to _*̃)
@@ -386,12 +386,25 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
          {!!}
       ... | [ (._ •) ᵇ ] , P′ | [ • ._ 〈 y 〉 ᶜ ] , Q′ | [ (._ •) ᵇ ] , P″ | ◻ , Q″ | [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ] =
          {!!}
-      ... | [ (._ •) ᵇ ] , P′ | [ • ._ 〈 y 〉 ᶜ ] , Q′ | [ (._ •) ᵇ ] , P″ | [ • ._ 〈 y′ 〉 ᶜ ] , Q″ |
+      ... | [ (._ •) ᵇ ] , P′ | [ • .(ᴺ.suc u) 〈 y 〉 ᶜ ] , Q′ | [ (._ •) ᵇ ] , P″ | [ • .(ᴺ.suc x) 〈 y′ 〉 ᶜ ] , Q″ |
          [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ] =
-         let α : [ • ᴺ.suc x 〈 y 〉 ᶜ ] ≡ [ • ᴺ.suc x 〈 y′ 〉 ᶜ ]
-             α = trans {!!} (,-inj₁ {!≡Q″!}) in
+         let α : [ • (ᴺ.suc u) 〈 y 〉 ᶜ ] ≡ [ • (ᴺ.suc u) 〈 zero 〉 ᶜ ]
+             α = let open EqReasoning (setoid _) in
+                begin
+                   [ • (ᴺ.suc u) 〈 y 〉 ᶜ ]
+                ≡⟨ sym (,-inj₁ ≡Q′) ⟩
+                   action (E′/E (⊖₁ 𝐹)) S
+                ≡⟨ cong (action (E′/E (⊖₁ 𝐹))) (sym ≡S) ⟩
+                   action (E′/E (⊖₁ 𝐹)) (tgt F Q)
+                ≡⟨ ᴬgamma₁ 𝐹 Q ⟩
+                   residual ˣ∇ˣ (action F′ Q)
+                ≡⟨ {!!} ⟩
+                   residual (ˣ∇ˣ {x = u} {x}) [ (• u) ᵇ ]
+                ≡⟨ refl ⟩
+                   [ • (ᴺ.suc u) 〈 zero 〉 ᶜ ]
+                ∎ in
 --          trans (sym (,-inj₁ ≡Q′)) (trans (ᴬgamma₁ 𝐹 Q) (,-inj₁ ≡S′)) in
-         subcase P′ Q′ P″ Q″ y y′ (,-inj₂ ≡P′) (,-inj₂ ≡Q′) (,-inj₂ ≡P″) (,-inj₂ ≡Q″) ([•x〈-〉ᶜ]-inj α)
+         subcase P′ Q′ P″ Q″ y y′ (,-inj₂ ≡P′) (,-inj₂ ≡Q′) (,-inj₂ ≡P″) (,-inj₂ ≡Q″) {!!}
 
 {-
    module │ᵥ′
