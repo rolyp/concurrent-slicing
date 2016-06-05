@@ -46,6 +46,13 @@ module Action.Lattice where
    to-↓ (• x 〈 y 〉 ᶜ) = • x 〈 [ y ] 〉 ᶜ
    to-↓ (τ ᶜ) = τ ᶜ
 
+   -- Least prefix of a.
+   ᴬ◻ : ∀ {Γ} {a : Action Γ} → ↓ a
+   ᴬ◻ {a = (x •) ᵇ} = x • ᵇ
+   ᴬ◻ {a = (• x) ᵇ} = (• x) ᵇ
+   ᴬ◻ {a = • x 〈 y 〉 ᶜ} = • x 〈 ᴺ̃.◻ 〉 ᶜ
+   ᴬ◻ {a = τ ᶜ} = τ ᶜ
+
    top : ∀ {Γ} (a : Action Γ) {a′ : ↓ a} → a′ ≤ to-↓ a
    top (x • ᵇ) {.x • ᵇ} = x • ᵇ
    top ((• x) ᵇ) {(• .x) ᵇ} = (• x) ᵇ
