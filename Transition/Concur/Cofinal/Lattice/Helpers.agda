@@ -406,8 +406,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
          ≡⟨ ,-inj₁ ≡Q′ ⟩
             [ • (ᴺ.suc u) 〈 y 〉 ᶜ ]
          ∎))
-      ... | [ (• .u) ᵇ ] | [ ≡a ] = {!!}
-{-
+      ... | [ (• .u) ᵇ ] | [ ≡a ] =
          let α : [ • (ᴺ.suc u) 〈 y 〉 ᶜ ] ≡ [ • (ᴺ.suc u) 〈 zero 〉 ᶜ ]
              α = let open EqReasoning (setoid _) in
                 begin
@@ -418,13 +417,12 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                    action (E′/E (⊖₁ 𝐹)) (tgt F Q)
                 ≡⟨ ᴬgamma₁ 𝐹 Q ⟩
                    residual ˣ∇ˣ (action F′ Q)
-                ≡⟨ {!!} ⟩
+                ≡⟨ cong (residual ˣ∇ˣ) ≡a ⟩
                    residual (ˣ∇ˣ {x = u} {x}) [ (• u) ᵇ ]
                 ≡⟨ refl ⟩
                    [ • (ᴺ.suc u) 〈 zero 〉 ᶜ ]
                 ∎ in
          subcase P′ Q′ P″ Q″ y y′ (,-inj₂ ≡P′) (,-inj₂ ≡Q′) (,-inj₂ ≡P″) (,-inj₂ ≡Q″) {!!}
--}
       case | _ | _ | _ | _ | _ | _ | _ | _ = {!!}
 
 {-
