@@ -5,6 +5,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
 
    open import Action as ᴬ using (Action; Actionᵇ; Actionᶜ); open ᴬ.Action; open ᴬ.Actionᵇ; open ᴬ.Actionᶜ
    open import Action.Concur using (_ᴬ⌣_; module _ᴬ⌣_); open _ᴬ⌣_
+   open import Action.Lattice as ᴬ̃ using (); open ᴬ̃.↓_; open ᴬ̃.↓⁻_; open ᴬ̃.↓ᵇ⁻_; open ᴬ̃.↓ᶜ⁻_
    open import Action.Ren.Lattice renaming (_* to _ᴬ*̃)
    open import Braiding.Proc.Lattice using (braid̂)
    open import Lattice using (Lattices); open Lattice.Prefixes ⦃...⦄
@@ -17,10 +18,10 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
    open import Ren.Lattice as ᴿ̃ using (swap; pop; push; _ᴿ+_; suc)
    open import Ren.Lattice.Properties
    open import Ren.Properties
-   open import Transition as ᵀ using (_—[_-_]→_)
+   open import Transition as ᵀ using (_—[_-_]→_); open ᵀ._—[_-_]→_
    open import Transition.Concur using (Concur₁; module Concur₁; module Delta′; ⊖₁); open Concur₁
    open import Transition.Concur.Cofinal using (⋈̂[_,_,_]; γ₁)
-   open import Transition.Lattice using (tgt; action)
+   open import Transition.Lattice using (tgt; action; step⁻; step)
    open import Transition.Ren using (_*ᵇ; _*ᶜ)
    open import Transition.Ren.Lattice using (renᵇ-tgt-comm; renᵇ-action-comm; renᶜ-tgt-comm; renᶜ-action-comm)
 
@@ -308,14 +309,38 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       ∎)
 -}
 
-{-
+   gamma₁-│ᵥ′ : ∀ {Γ} {x u : Name Γ} {P₀ Q₀ R₀ R′₀ S₀ S′₀} {E : P₀ —[ x • ᵇ - _ ]→ R₀} {E′ : P₀ —[ u • ᵇ - _ ]→ R′₀}
+               {F : Q₀ —[ (• x) ᵇ - _ ]→ S₀} {F′ : Q₀ —[ (• u) ᵇ - _ ]→ S′₀} (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (𝐹 : F ⌣₁[ ᵇ∇ᵇ ] F′)
+               (R : ↓ R₀) (R′ : ↓ R′₀) (S : ↓ S₀) (S′ : ↓ S′₀) →
+               braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹))
+               (π₂ (step⁻ (νᶜ (E′/E (⊖₁ 𝐸) │ᵥ E′/E (⊖₁ 𝐹))) (ν [ R │ S ]))) ≡
+               π₂ (step⁻ (νᶜ (E/E′ (⊖₁ 𝐸) │ᵥ E/E′ (⊖₁ 𝐹))) (ν [ R′ │ S′ ]))
+   gamma₁-│ᵥ′ 𝐸 𝐹 R R′ S S′
+      with step (E′/E (⊖₁ 𝐸)) R | step (E′/E (⊖₁ 𝐹)) S | step (E/E′ (⊖₁ 𝐸)) R′ | step (E/E′ (⊖₁ 𝐹)) S′
+   ... | ◻ , P′ | ◻ , Q′ | ◻ , P″ | ◻ , Q″ = {!!}
+   ... | ◻ , P′ | ◻ , Q′ | ◻ , P″ | [ (• ._) ᵇ ] , Q″ = {!!}
+   ... | ◻ , P′ | ◻ , Q′ | [ (._ •) ᵇ ] , P″ | ◻ , Q″ = {!!}
+   ... | ◻ , P′ | ◻ , Q′ | [ (._ •) ᵇ ] , P″ | [ (• ._) ᵇ ] , Q″ = {!!}
+   ... | ◻ , P′ | [ (• ._) ᵇ ] , Q′ | ◻ , P″ | ◻ , Q″ = {!!}
+   ... | ◻ , P′ | [ (• ._) ᵇ ] , Q′ | ◻ , P″ | [ (• ._) ᵇ ] , Q″ = {!!}
+   ... | ◻ , P′ | [ (• ._) ᵇ ] , Q′ | [ (._ •) ᵇ ] , P″ | ◻ , Q″ = {!!}
+   ... | ◻ , P′ | [ (• ._) ᵇ ] , Q′ | [ (._ •) ᵇ ] , P″ | [ (• ._) ᵇ ] , Q″ = {!!}
+   ... | [ (._ •) ᵇ ] , P′ | ◻ , Q′ | ◻ , P″ | ◻ , Q″ = {!!}
+   ... | [ (._ •) ᵇ ] , P′ | ◻ , Q′ | ◻ , P″ | [ (• ._) ᵇ ] , Q″ = {!!}
+   ... | [ (._ •) ᵇ ] , P′ | ◻ , Q′ | [ (._ •) ᵇ ] , P″ | ◻ , Q″ = {!!}
+   ... | [ (._ •) ᵇ ] , P′ | ◻ , Q′ | [ (._ •) ᵇ ] , P″ | [ (• ._) ᵇ ] , Q″ = {!!}
+   ... | [ (._ •) ᵇ ] , P′ | [ (• ._) ᵇ ] , Q′ | ◻ , P″ | ◻ , Q″ = {!!}
+   ... | [ (._ •) ᵇ ] , P′ | [ (• ._) ᵇ ] , Q′ | ◻ , P″ | [ (• ._) ᵇ ] , Q″ = {!!}
+   ... | [ (._ •) ᵇ ] , P′ | [ (• ._) ᵇ ] , Q′ | [ (._ •) ᵇ ] , P″ | ◻ , Q″ = {!!}
+   ... | [ (._ •) ᵇ ] , P′ | [ (• ._) ᵇ ] , Q′ | [ (._ •) ᵇ ] , P″ | [ (• ._) ᵇ ] , Q″ = {!!}
+
    postulate
       gamma₁-│ᵥ′-subcase : ∀ {Γ} {x u : Name Γ} {P₀ Q₀ R₀ R′₀ S₀ S′₀} {E : P₀ —[ x • ᵇ - _ ]→ R₀}
                           {E′ : P₀ —[ u • ᵇ - _ ]→ R′₀} {F : Q₀ —[ (• x) ᵇ - _ ]→ S₀} {F′ : Q₀ —[ (• u) ᵇ - _ ]→ S′₀}
-                          (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (𝐹 : F ⌣₁[ ᵇ∇ᵇ ] F′) (P′ : ) →
+                          (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (𝐹 : F ⌣₁[ ᵇ∇ᵇ ] F′) (P′ : ↓ tgt₁ (⊖₁ 𝐸)) (Q′ : ↓ tgt₁ (⊖₁ 𝐹))
+                          (P″ : ↓ tgt₂ (⊖₁ 𝐸)) (Q″ : ↓ tgt₂ (⊖₁ 𝐹)) →
                           braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹))
                           [ ν [ ν [ P′ │ Q′ ] ] ] ≡ [ ν [ ν [ P″ │ Q″ ] ] ]
--}
 
    gamma₁-ν• : ∀ {Γ} {x u : Name Γ} {P₀ R₀ R′₀} {E : P₀ —[ • ᴺ.suc x 〈 ᴺ.zero 〉 ᶜ - _ ]→ R₀}
                {E′ : P₀ —[ • ᴺ.suc u 〈 ᴺ.zero 〉 ᶜ - _ ]→ R′₀} (𝐸 : E ⌣₁[ ᶜ∇ᶜ ] E′) (P : ↓ P₀) (R : ↓ R₀) (R′ : ↓ R′₀) →
