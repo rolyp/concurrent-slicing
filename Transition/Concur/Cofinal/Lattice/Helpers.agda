@@ -7,6 +7,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
    open import Action.Concur using (_ᴬ⌣_; module _ᴬ⌣_); open _ᴬ⌣_
    open import Action.Lattice as ᴬ̃ using (); open ᴬ̃.↓_; open ᴬ̃.↓⁻_; open ᴬ̃.↓ᵇ⁻_; open ᴬ̃.↓ᶜ⁻_
    open import Action.Ren.Lattice renaming (_* to _ᴬ*̃)
+   open import Braiding.Proc using (module _⋉̂_); open _⋉̂_
    open import Braiding.Proc.Lattice using (braid̂)
    open import Lattice using (Lattices); open Lattice.Prefixes ⦃...⦄
    open import Name as ᴺ using (Name; Cxt; _+_)
@@ -322,8 +323,21 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
          braiding (ᵇ∇ᵇ {a = • x} {• u}) {0} (γ₁ 𝐹) (tgt (E′/E (⊖₁ 𝐹)) (tgt F Q)) ≡ tgt (E/E′ (⊖₁ 𝐹)) (tgt F′ Q) →
          braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹))
          [ ν [ ν [ P′ │ Q′ ] ] ] ≡ [ ν [ ν [ P″ │ Q″ ] ] ]
-      subcase-│ᵥ′ 𝐸 𝐹 P Q R R′ S S′ ≡R ≡R′ ≡S ≡S′ IH₁ IH₂ = ?
+      subcase-│ᵥ′ 𝐸 𝐹 P Q R R′ S S′ P′ Q′ P″ Q″ ≡R ≡R′ ≡S ≡S′ ≡P′ ≡Q′ ≡P″ ≡Q″ IH₁ IH₂ =
+         let α : γ₁ (𝐸 │ᵥ′ 𝐹) ≅ νν-swapᵣ (tgt₁ (⊖₁ 𝐸) │ tgt₁ (⊖₁ 𝐹))
+             α = {!!}
+             open ≅-Reasoning in ≅-to-≡ (
+         begin
+            braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ P′ │ Q′ ] ] ]
+         ≅⟨ {!!} ⟩
+            braid̂ (νν-swapᵣ (tgt₁ (⊖₁ 𝐸) │ tgt₁ (⊖₁ 𝐹))) [ ν [ ν [ P′ │ Q′ ] ] ]
+         ≡⟨ refl ⟩
+            [ ν [ ν [ (swap *̃) P′ │ (swap *̃) Q′ ] ] ]
+         ≅⟨ {!!} ⟩
+            [ ν [ ν [ P″ │ Q″ ] ] ]
+         ∎)
 
+{-
    gamma₁-│ᵥ′ : ∀ {Γ} {x u : Name Γ} {P₀ Q₀ R₀ R′₀ S₀ S′₀} {E : P₀ —[ x • ᵇ - _ ]→ R₀} {E′ : P₀ —[ u • ᵇ - _ ]→ R′₀}
                {F : Q₀ —[ (• x) ᵇ - _ ]→ S₀} {F′ : Q₀ —[ (• u) ᵇ - _ ]→ S′₀} (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (𝐹 : F ⌣₁[ ᵇ∇ᵇ ] F′)
                (P : ↓ P₀) (Q : ↓ Q₀) (R : ↓ R₀) (R′ : ↓ R′₀) (S : ↓ S₀) (S′ : ↓ S′₀) →
@@ -393,7 +407,6 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
          tgt (E/E′ (⊖₁ 𝐸)) R′
       ∎)
 
-{-
    gamma₁-ν•ᶜ : ∀ {Γ x P₀ R₀ R′₀} {a : Actionᶜ Γ} {E : P₀ —[ • ᴺ.suc x 〈 ᴺ.zero 〉 ᶜ - _ ]→ R₀}
                 {E′ : P₀ —[ (ᴿ.push *) a ᶜ - _ ]→ R′₀} (𝐸 : E ⌣₁[ ᶜ∇ᶜ ] E′) (P : ↓ P₀) (R : ↓ R₀) (R′ : ↓ R′₀)
                 (S′ : ↓ tgt₂ (⊖₁ 𝐸)) → tgt E P ≡ R → tgt E′ P ≡ R′ → tgt (E/E′ (⊖₁ 𝐸)) R′ ≡ S′ →
