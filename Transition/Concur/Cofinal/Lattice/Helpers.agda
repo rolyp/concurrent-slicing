@@ -4,7 +4,8 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
    import Relation.Binary.EqReasoning as EqReasoning
 
    open import Action as ᴬ using (Action; Actionᵇ; Actionᶜ); open ᴬ.Action; open ᴬ.Actionᵇ; open ᴬ.Actionᶜ
-   open import Action.Concur using (_ᴬ⌣_; module _ᴬ⌣_); open _ᴬ⌣_
+   open import Action.Concur using (_ᴬ⌣_; module _ᴬ⌣_; ᴬ⊖; ᴬ⌣-sym; ᴬ⌣-sym-involutive; ᴬγ); open _ᴬ⌣_
+   open import Action.Concur.Lattice using (residual)
    open import Action.Lattice as ᴬ̃ using (); open ᴬ̃.↓_; open ᴬ̃.↓⁻_; open ᴬ̃.↓ᵇ⁻_; open ᴬ̃.↓ᶜ⁻_
    open import Action.Ren.Lattice renaming (_* to _ᴬ*̃)
    open import Braiding.Proc using (module _⋉̂_); open _⋉̂_
@@ -81,6 +82,16 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
    [•x〈-〉ᶜ]-inj : ∀ {Γ} {x y : Name Γ} {y′ y″ : ↓ y} →
                  _≡_ {A = ↓_ {A = Action Γ} (• x 〈 y 〉 ᶜ)} [ • x 〈 y′ 〉 ᶜ ] [ • x 〈 y″ 〉 ᶜ ] → y′ ≡ y″
    [•x〈-〉ᶜ]-inj {y′ = y′} {.y′} refl = refl
+
+   coerceAction : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) → ↓ π₂ (ᴬ⊖ (ᴬ⌣-sym 𝑎)) → ↓ π₁ (ᴬ⊖ 𝑎)
+   coerceAction 𝑎 rewrite sym (ᴬγ 𝑎) | ᴬ⌣-sym-involutive 𝑎 = idᶠ
+
+   postulate
+      ᴬgamma₁ : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
+                (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ →
+                action (E′/E (⊖₁ 𝐸)) (tgt E P′) ≡ coerceAction 𝑎 (residual (ᴬ⌣-sym 𝑎) (action E′ P′))
+--              ×
+--              action (E/E′ (⊖₁ 𝐸)) (tgt E′ P′) ≡ residual 𝑎 (action E P′)
 
    ᴬgamma₁-│•ᵇ : ∀ {Γ x y P₀ R₀ R′₀ S₀ Q₀} {a : Actionᵇ Γ} {E : P₀ —[ a ᵇ - _ ]→ R₀} {E′ : P₀ —[ (x •) ᵇ - _ ]→ R′₀}
                 (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (F : Q₀ —[ • x 〈 y 〉 ᶜ - _ ]→ S₀) (P : ↓ P₀) (R′ : ↓ R′₀) →
@@ -378,7 +389,8 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       ... | [ (._ •) ᵇ ] , P′ | [ • ._ 〈 y 〉 ᶜ ] , Q′ | [ (._ •) ᵇ ] , P″ | [ • ._ 〈 y′ 〉 ᶜ ] , Q″ |
          [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ] =
          let α : [ • ᴺ.suc x 〈 y 〉 ᶜ ] ≡ [ • ᴺ.suc x 〈 y′ 〉 ᶜ ]
-             α = {!!} in
+             α = trans {!!} (,-inj₁ {!≡Q″!}) in
+--          trans (sym (,-inj₁ ≡Q′)) (trans (ᴬgamma₁ 𝐹 Q) (,-inj₁ ≡S′)) in
          subcase P′ Q′ P″ Q″ y y′ (,-inj₂ ≡P′) (,-inj₂ ≡Q′) (,-inj₂ ≡P″) (,-inj₂ ≡Q″) ([•x〈-〉ᶜ]-inj α)
 
 {-
