@@ -18,7 +18,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
    open import Ren.Lattice.Properties
    open import Ren.Properties
    open import Transition as ᵀ using (_—[_-_]→_)
-   open import Transition.Concur using (Concur₁; module Delta′; ⊖₁)
+   open import Transition.Concur using (Concur₁; module Concur₁; module Delta′; ⊖₁); open Concur₁
    open import Transition.Concur.Cofinal using (⋈̂[_,_,_]; γ₁)
    open import Transition.Lattice using (tgt; action)
    open import Transition.Ren using (_*ᵇ; _*ᶜ)
@@ -308,13 +308,22 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       ∎)
 -}
 
+{-
    postulate
-    gamma₁-ν• : ∀ {Γ} {x u : Name Γ} {P₀ R₀ R′₀} {E : P₀ —[ • ᴺ.suc x 〈 ᴺ.zero 〉 ᶜ - _ ]→ R₀}
+      gamma₁-│ᵥ′-subcase : ∀ {Γ} {x u : Name Γ} {P₀ Q₀ R₀ R′₀ S₀ S′₀} {E : P₀ —[ x • ᵇ - _ ]→ R₀}
+                          {E′ : P₀ —[ u • ᵇ - _ ]→ R′₀} {F : Q₀ —[ (• x) ᵇ - _ ]→ S₀} {F′ : Q₀ —[ (• u) ᵇ - _ ]→ S′₀}
+                          (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (𝐹 : F ⌣₁[ ᵇ∇ᵇ ] F′) (P′ : ) →
+                          braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹))
+                          [ ν [ ν [ P′ │ Q′ ] ] ] ≡ [ ν [ ν [ P″ │ Q″ ] ] ]
+-}
+
+   gamma₁-ν• : ∀ {Γ} {x u : Name Γ} {P₀ R₀ R′₀} {E : P₀ —[ • ᴺ.suc x 〈 ᴺ.zero 〉 ᶜ - _ ]→ R₀}
                {E′ : P₀ —[ • ᴺ.suc u 〈 ᴺ.zero 〉 ᶜ - _ ]→ R′₀} (𝐸 : E ⌣₁[ ᶜ∇ᶜ ] E′) (P : ↓ P₀) (R : ↓ R₀) (R′ : ↓ R′₀) →
                tgt E P ≡ R → tgt E′ P ≡ R′ →
                braiding (ᶜ∇ᶜ {a = • (ᴺ.suc x) 〈 ᴺ.zero 〉} {• ᴺ.suc u 〈 ᴺ.zero 〉}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)) ≡
                tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P) →
                braiding (ˣ∇ˣ {x = x} {u}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) R) ≡ tgt (E/E′ (⊖₁ 𝐸)) R′
+   gamma₁-ν• 𝐸 P R R′ ≡R ≡R′ IH = {!!}
 
 {-
    gamma₁-ν•ᶜ : ∀ {Γ x P₀ R₀ R′₀} {a : Actionᶜ Γ} {E : P₀ —[ • ᴺ.suc x 〈 ᴺ.zero 〉 ᶜ - _ ]→ R₀}
