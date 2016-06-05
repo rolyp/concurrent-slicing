@@ -421,6 +421,19 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                    residual (ˣ∇ˣ {x = u} {x}) [ (• u) ᵇ ]
                 ≡⟨ refl ⟩
                    [ • (ᴺ.suc u) 〈 zero 〉 ᶜ ]
+                ∎
+             β : [ • (ᴺ.suc x) 〈 y′ 〉 ᶜ ] ≡ [ • (ᴺ.suc x) 〈 zero 〉 ᶜ ]
+             β = let open EqReasoning (setoid _) in
+                begin
+                   [ • (ᴺ.suc x) 〈 y′ 〉 ᶜ ]
+                ≡⟨ sym (,-inj₁ ≡Q″) ⟩
+                   action (E/E′ (⊖₁ 𝐹)) S′
+                ≡⟨ cong (action (E/E′ (⊖₁ 𝐹))) (sym ≡S′) ⟩
+                   action (E/E′ (⊖₁ 𝐹)) (tgt F′ Q)
+                ≡⟨ ? ⟩
+                   residual (ˣ∇ˣ {x = x} {u}) [ (• x) ᵇ ]
+                ≡⟨ refl ⟩
+                   [ • (ᴺ.suc x) 〈 zero 〉 ᶜ ]
                 ∎ in
          subcase P′ Q′ P″ Q″ y y′ (,-inj₂ ≡P′) (,-inj₂ ≡Q′) (,-inj₂ ≡P″) (,-inj₂ ≡Q″) {!!}
       case | _ | _ | _ | _ | _ | _ | _ | _ = {!!}
