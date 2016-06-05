@@ -316,9 +316,8 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (𝐹 : F ⌣₁[ ˣ∇ˣ ] F′) (P : ↓ P₀) (Q : ↓ Q₀) (R : ↓ R₀) (R′ : ↓ R′₀) (S : ↓ S₀) (S′ : ↓ S′₀)
       (≡R : tgt E P ≡ R) (≡R′ : tgt E′ P ≡ R′) (≡S : tgt F Q ≡ S) (≡S′ : tgt F′ Q ≡ S′)
       (IH₁ : braiding (ᵇ∇ᵇ {a = x •} {u •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)) ≡ tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))
-      (IH₂ : braiding (ˣ∇ˣ {x = x} {u}) {0} (γ₁ 𝐹) (tgt (E′/E (⊖₁ 𝐹)) (tgt F Q)) ≡ tgt (E/E′ (⊖₁ 𝐹)) (tgt F′ Q)) where
-
-      case : let α = let open EqReasoning (setoid _) in
+      (IH₂ : braiding (ˣ∇ˣ {x = x} {u}) {0} (γ₁ 𝐹) (tgt (E′/E (⊖₁ 𝐹)) (tgt F Q)) ≡ tgt (E/E′ (⊖₁ 𝐹)) (tgt F′ Q))
+      (let α = let open EqReasoning (setoid _) in
                     cong ν_ (cong₂ _│_ (
                     begin
                        (ᴿ.pop ᴺ.zero *) (tgt₁ (⊖₁ 𝐸))
@@ -326,8 +325,9 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                        (ᴿ.pop ᴺ.zero *) ((ᴿ.swap *) (tgt₁ (⊖₁ 𝐸)))
                     ≡⟨ cong (ᴿ.pop ᴺ.zero *) (γ₁ 𝐸) ⟩
                        (ᴿ.pop ᴺ.zero *) (tgt₂(⊖₁ 𝐸))
-                    ∎) (γ₁ 𝐹)) in
-             braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} α
+                    ∎) (γ₁ 𝐹))) where
+
+      case : braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} α
              (π₂ (step⁻ (νᶜ (E′/E (⊖₁ 𝐸) │• E′/E (⊖₁ 𝐹))) (ν [ R │ S ]))) ≡
              π₂ (step⁻ (νᶜ (E/E′ (⊖₁ 𝐸) │• E/E′ (⊖₁ 𝐹))) (ν [ R′ │ S′ ]))
       case
