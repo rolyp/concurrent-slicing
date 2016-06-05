@@ -323,7 +323,21 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                braiding (ᶜ∇ᶜ {a = • (ᴺ.suc x) 〈 ᴺ.zero 〉} {• ᴺ.suc u 〈 ᴺ.zero 〉}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)) ≡
                tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P) →
                braiding (ˣ∇ˣ {x = x} {u}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) R) ≡ tgt (E/E′ (⊖₁ 𝐸)) R′
-   gamma₁-ν• 𝐸 P R R′ ≡R ≡R′ IH = {!!}
+   gamma₁-ν• {x = x} {u} {E = E} {E′} 𝐸 P R R′ ≡R ≡R′ IH =
+      let open ≅-Reasoning in ≅-to-≡ (
+      begin
+         braiding (ˣ∇ˣ {x = x} {u}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) R)
+      ≅⟨ reduce-ˣ∇ˣ {x = x} {u} (γ₁ 𝐸) _ ⟩
+         tgt (E′/E (⊖₁ 𝐸)) R
+      ≡⟨ cong (tgt (E′/E (⊖₁ 𝐸))) (sym ≡R) ⟩
+         tgt (E′/E (⊖₁ 𝐸)) (tgt E P)
+      ≅⟨ ≅-sym (reduce-ᶜ∇ᶜ (γ₁ 𝐸) _) ⟩
+         braiding (ᶜ∇ᶜ {a = • (ᴺ.suc x) 〈 ᴺ.zero 〉} {• ᴺ.suc u 〈 ᴺ.zero 〉}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))
+      ≡⟨ IH ⟩
+         tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P)
+      ≡⟨ cong (tgt (E/E′ (⊖₁ 𝐸))) ≡R′ ⟩
+         tgt (E/E′ (⊖₁ 𝐸)) R′
+      ∎)
 
 {-
    gamma₁-ν•ᶜ : ∀ {Γ x P₀ R₀ R′₀} {a : Actionᶜ Γ} {E : P₀ —[ • ᴺ.suc x 〈 ᴺ.zero 〉 ᶜ - _ ]→ R₀}
