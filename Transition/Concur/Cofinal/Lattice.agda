@@ -42,10 +42,6 @@ module Transition.Concur.Cofinal.Lattice where
    ◻≢[-] : ∀ {Γ} {a : Action Γ} {a′ : ↓⁻ a} → _≡_ {A = ↓_ {A = Action Γ} a} ◻ [ a′ ] → ⊥
    ◻≢[-] ()
 
-   [•x〈-〉ᶜ]-inj : ∀ {Γ} {x y : Name Γ} {y′ y″ : ↓ y} →
-                 _≡_ {A = ↓_ {A = Action Γ} (• x 〈 y 〉 ᶜ)} [ • x 〈 y′ 〉 ᶜ ] [ • x 〈 y″ 〉 ᶜ ] → y′ ≡ y″
-   [•x〈-〉ᶜ]-inj = λ { {y′ = y′} {.y′} refl → refl }
-
    postulate
       ᴬgamma₁ : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
                 (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ →
