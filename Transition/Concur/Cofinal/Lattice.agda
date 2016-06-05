@@ -306,8 +306,8 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ {E = E │ᵥ F} {E′ │ᵥ F′} (𝐸 │ᵥ′ 𝐹) [ P │ Q ]
       with step E′ P | step E P | step F′ Q | step F Q |
            inspect (step E′) P | inspect (step E) P | inspect (step F′) Q | inspect (step F) Q
-   ... | ◻ , R′ | ◻ , R | ◻ , S′ | ◻ , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
-      gamma₁-│ᵥ′ 𝐸 𝐹 R R′ S S′
+   ... | ◻ , R′ | ◻ , R | ◻ , S′ | ◻ , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] = {!!}
+--      gamma₁-│ᵥ′ 𝐸 𝐹 R R′ S S′
    ... | ◻ , R′ | ◻ , R | ◻ , S′ | [ (• ._) ᵇ ] , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
       gamma₁-│ᵥ′ 𝐸 𝐹 R R′ S S′
    ... | ◻ , R′ | ◻ , R | [ (• ._) ᵇ ] , S′ | ◻ , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
