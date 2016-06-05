@@ -300,9 +300,11 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ (E ᶜ│ᵥ 𝐸) P₁ = {!!}
    gamma₁ (𝐸 │• 𝐹) P₁ = {!!}
    gamma₁ (𝐸 │•ᵥ 𝐹) P₁ = {!!}
-   gamma₁ (𝐸 │ᵥ 𝐹) P₁ = {!!}
 -}
 
+   gamma₁ (𝐸 │ᵥ 𝐹) P₁ = {!!}
+
+{-
    gamma₁ {E = E │ᵥ F} {E′ │ᵥ F′} (𝐸 │ᵥ′ 𝐹) [ P │ Q ]
       with step E′ P | step E P | step F′ Q | step F Q |
            inspect (step E′) P | inspect (step E) P | inspect (step F′) Q | inspect (step F) Q
@@ -339,7 +341,6 @@ module Transition.Concur.Cofinal.Lattice where
    ... | [ _ • ᵇ ] , R′ | [ _ • ᵇ ] , R | [ (• ._) ᵇ ] , S′ | [ (• ._) ᵇ ] , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
       gamma₁-│ᵥ′ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q)
 
-{-
    gamma₁ {E = ν• E} {ν• E′} (ν• 𝐸) [ ν P ]
       with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
    ... | ◻ , R′ | ◻ , R | [ ≡R′ ] | [ ≡R ] =
