@@ -37,6 +37,13 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
    braiding ᶜ∇ᶜ refl = idᶠ
    braiding ᵛ∇ᵛ = braid̂
 
+   ◻≢[-] : ∀ {Γ} {a : Action Γ} {a′ : ↓⁻ a} → _≡_ {A = ↓_ {A = Action Γ} a} ◻ [ a′ ] → ⊥
+   ◻≢[-] ()
+
+   [•x〈-〉ᶜ]-inj : ∀ {Γ} {x y : Name Γ} {y′ y″ : ↓ y} →
+                 _≡_ {A = ↓_ {A = Action Γ} (• x 〈 y 〉 ᶜ)} [ • x 〈 y′ 〉 ᶜ ] [ • x 〈 y″ 〉 ᶜ ] → y′ ≡ y″
+   [•x〈-〉ᶜ]-inj {y′ = y′} {.y′} refl = refl
+
    -- Helpers arise from need to pattern-match on an equality to get braiding to reduce.
    reduce-ˣ∇ˣ : ∀ {Γ P P′} {x u : Name Γ} (γ : P ≡ P′) (P† : ↓ P) →
                 braiding (ˣ∇ˣ {x = x} {u}) {0} γ P† ≅ P†
@@ -78,10 +85,6 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
    [ν-]-cong : ∀ {Γ} {P₀ P₁ : Proc (Γ + 1)} {P : ↓ P₀} {P′ : ↓ P₁} → P₀ ≡ P₁ → P ≅ P′ →
                _≅_ {A = ↓_ {A = Proc Γ} _} [ ν P ] {↓_ {A = Proc Γ} _} [ ν P′ ]
    [ν-]-cong refl ≅-refl = ≅-refl
-
-   [•x〈-〉ᶜ]-inj : ∀ {Γ} {x y : Name Γ} {y′ y″ : ↓ y} →
-                 _≡_ {A = ↓_ {A = Action Γ} (• x 〈 y 〉 ᶜ)} [ • x 〈 y′ 〉 ᶜ ] [ • x 〈 y″ 〉 ᶜ ] → y′ ≡ y″
-   [•x〈-〉ᶜ]-inj {y′ = y′} {.y′} refl = refl
 
    coerceAction : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) → ↓ π₂ (ᴬ⊖ (ᴬ⌣-sym 𝑎)) → ↓ π₁ (ᴬ⊖ 𝑎)
    coerceAction 𝑎 rewrite sym (ᴬγ 𝑎) | ᴬ⌣-sym-involutive 𝑎 = idᶠ
@@ -390,7 +393,19 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       case | [ (._ •) ᵇ ] , P′ | [ • .(ᴺ.suc u) 〈 y 〉 ᶜ ] , Q′ | [ (._ •) ᵇ ] , P″ | [ • .(ᴺ.suc x) 〈 y′ 〉 ᶜ ] , Q″ |
          [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ]
          with action F′ Q | inspect (action F′) Q
-      ... | ◻ | [ ≡a ] = {!!}
+      ... | ◻ | [ ≡a ] = ⊥-elim (◻≢[-] (
+         let open EqReasoning (setoid _) in
+         begin
+            ◻
+         ≡⟨ cong (residual ˣ∇ˣ) (sym ≡a) ⟩
+            residual ˣ∇ˣ (action F′ Q)
+         ≡⟨ sym (ᴬgamma₁ 𝐹 Q) ⟩
+            action (E′/E (⊖₁ 𝐹)) (tgt F Q)
+         ≡⟨ cong (action (E′/E (⊖₁ 𝐹))) ≡S ⟩
+            action (E′/E (⊖₁ 𝐹)) S
+         ≡⟨ ,-inj₁ ≡Q′ ⟩
+            [ • (ᴺ.suc u) 〈 y 〉 ᶜ ]
+         ∎))
       ... | [ (• .u) ᵇ ] | [ ≡a ] = {!!}
 {-
          let α : [ • (ᴺ.suc u) 〈 y 〉 ᶜ ] ≡ [ • (ᴺ.suc u) 〈 zero 〉 ᶜ ]
