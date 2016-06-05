@@ -93,8 +93,8 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       ᴬgamma₁ : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
                 (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ →
                 action (E′/E (⊖₁ 𝐸)) (tgt E P′) ≡ coerceAction 𝑎 (residual (ᴬ⌣-sym 𝑎) (action E′ P′))
---              ×
---              action (E/E′ (⊖₁ 𝐸)) (tgt E′ P′) ≡ residual 𝑎 (action E P′)
+                ×
+                action (E/E′ (⊖₁ 𝐸)) (tgt E′ P′) ≡ residual 𝑎 (action E P′)
 
    ᴬgamma₁-│•ᵇ : ∀ {Γ x y P₀ R₀ R′₀ S₀ Q₀} {a : Actionᵇ Γ} {E : P₀ —[ a ᵇ - _ ]→ R₀} {E′ : P₀ —[ (x •) ᵇ - _ ]→ R′₀}
                 (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (F : Q₀ —[ • x 〈 y 〉 ᶜ - _ ]→ S₀) (P : ↓ P₀) (R′ : ↓ R′₀) →
@@ -399,14 +399,29 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
             ◻
          ≡⟨ cong (residual ˣ∇ˣ) (sym ≡a) ⟩
             residual ˣ∇ˣ (action F′ Q)
-         ≡⟨ sym (ᴬgamma₁ 𝐹 Q) ⟩
+         ≡⟨ sym (π₁ (ᴬgamma₁ 𝐹 Q)) ⟩
             action (E′/E (⊖₁ 𝐹)) (tgt F Q)
          ≡⟨ cong (action (E′/E (⊖₁ 𝐹))) ≡S ⟩
             action (E′/E (⊖₁ 𝐹)) S
          ≡⟨ ,-inj₁ ≡Q′ ⟩
             [ • (ᴺ.suc u) 〈 y 〉 ᶜ ]
          ∎))
-      ... | [ (• .u) ᵇ ] | [ ≡a ] =
+      ... | [ (• .u) ᵇ ] | [ ≡a ]
+         with action F Q | inspect (action F) Q
+      ... | ◻ | [ ≡a′ ] = ⊥-elim (◻≢[-] (
+         let open EqReasoning (setoid _) in
+         begin
+            ◻
+         ≡⟨ cong (residual ˣ∇ˣ) (sym ≡a′) ⟩
+            residual ˣ∇ˣ (action F Q)
+         ≡⟨ sym (π₂ (ᴬgamma₁ 𝐹 Q)) ⟩
+            action (E/E′ (⊖₁ 𝐹)) (tgt F′ Q)
+         ≡⟨ cong (action (E/E′ (⊖₁ 𝐹))) ≡S′ ⟩
+            action (E/E′ (⊖₁ 𝐹)) S′
+         ≡⟨ ,-inj₁ ≡Q″ ⟩
+            [ • (ᴺ.suc x) 〈 y′ 〉 ᶜ ]
+         ∎))
+      ... | [ (• .x) ᵇ ] | [ ≡a′ ] =
          let α : [ • (ᴺ.suc u) 〈 y 〉 ᶜ ] ≡ [ • (ᴺ.suc u) 〈 zero 〉 ᶜ ]
              α = let open EqReasoning (setoid _) in
                 begin
@@ -415,7 +430,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                    action (E′/E (⊖₁ 𝐹)) S
                 ≡⟨ cong (action (E′/E (⊖₁ 𝐹))) (sym ≡S) ⟩
                    action (E′/E (⊖₁ 𝐹)) (tgt F Q)
-                ≡⟨ ᴬgamma₁ 𝐹 Q ⟩
+                ≡⟨ π₁ (ᴬgamma₁ 𝐹 Q) ⟩
                    residual ˣ∇ˣ (action F′ Q)
                 ≡⟨ cong (residual ˣ∇ˣ) ≡a ⟩
                    residual (ˣ∇ˣ {x = u} {x}) [ (• u) ᵇ ]
@@ -430,12 +445,16 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                    action (E/E′ (⊖₁ 𝐹)) S′
                 ≡⟨ cong (action (E/E′ (⊖₁ 𝐹))) (sym ≡S′) ⟩
                    action (E/E′ (⊖₁ 𝐹)) (tgt F′ Q)
-                ≡⟨ ? ⟩
+                ≡⟨ π₂ (ᴬgamma₁ 𝐹 Q) ⟩
+                   residual ˣ∇ˣ (action F Q)
+                ≡⟨ cong (residual ˣ∇ˣ) ≡a′ ⟩
                    residual (ˣ∇ˣ {x = x} {u}) [ (• x) ᵇ ]
                 ≡⟨ refl ⟩
                    [ • (ᴺ.suc x) 〈 zero 〉 ᶜ ]
-                ∎ in
-         subcase P′ Q′ P″ Q″ y y′ (,-inj₂ ≡P′) (,-inj₂ ≡Q′) (,-inj₂ ≡P″) (,-inj₂ ≡Q″) {!!}
+                ∎
+             δ : y ≡ y′
+             δ = trans ([•x〈-〉ᶜ]-inj α) (sym ([•x〈-〉ᶜ]-inj β)) in
+         subcase P′ Q′ P″ Q″ y y′ (,-inj₂ ≡P′) (,-inj₂ ≡Q′) (,-inj₂ ≡P″) (,-inj₂ ≡Q″) δ
       case | _ | _ | _ | _ | _ | _ | _ | _ = {!!}
 
 {-
