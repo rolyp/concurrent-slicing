@@ -318,19 +318,18 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       (IH₁ : braiding (ᵇ∇ᵇ {a = x •} {u •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)) ≡ tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))
       (IH₂ : braiding (ˣ∇ˣ {x = x} {u}) {0} (γ₁ 𝐹) (tgt (E′/E (⊖₁ 𝐹)) (tgt F Q)) ≡ tgt (E/E′ (⊖₁ 𝐹)) (tgt F′ Q)) where
 
-      case :
-            let α = let open EqReasoning (setoid _) in
-                 cong ν_ (cong₂ _│_ (
-                  begin
-                     (ᴿ.pop ᴺ.zero *) (tgt₁ (⊖₁ 𝐸))
-                  ≡⟨ sym (pop-swap _) ⟩
-                     (ᴿ.pop ᴺ.zero *) ((ᴿ.swap *) (tgt₁ (⊖₁ 𝐸)))
-                  ≡⟨ cong (ᴿ.pop ᴺ.zero *) (γ₁ 𝐸) ⟩
-                     (ᴿ.pop ᴺ.zero *) (tgt₂(⊖₁ 𝐸))
-                  ∎) (γ₁ 𝐹)) in
-            braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} α
-            (π₂ (step⁻ (νᶜ (E′/E (⊖₁ 𝐸) │• E′/E (⊖₁ 𝐹))) (ν [ R │ S ]))) ≡
-            π₂ (step⁻ (νᶜ (E/E′ (⊖₁ 𝐸) │• E/E′ (⊖₁ 𝐹))) (ν [ R′ │ S′ ]))
+      case : let α = let open EqReasoning (setoid _) in
+                    cong ν_ (cong₂ _│_ (
+                    begin
+                       (ᴿ.pop ᴺ.zero *) (tgt₁ (⊖₁ 𝐸))
+                    ≡⟨ sym (pop-swap _) ⟩
+                       (ᴿ.pop ᴺ.zero *) ((ᴿ.swap *) (tgt₁ (⊖₁ 𝐸)))
+                    ≡⟨ cong (ᴿ.pop ᴺ.zero *) (γ₁ 𝐸) ⟩
+                       (ᴿ.pop ᴺ.zero *) (tgt₂(⊖₁ 𝐸))
+                    ∎) (γ₁ 𝐹)) in
+             braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} α
+             (π₂ (step⁻ (νᶜ (E′/E (⊖₁ 𝐸) │• E′/E (⊖₁ 𝐹))) (ν [ R │ S ]))) ≡
+             π₂ (step⁻ (νᶜ (E/E′ (⊖₁ 𝐸) │• E/E′ (⊖₁ 𝐹))) (ν [ R′ │ S′ ]))
       case
          with step (E′/E (⊖₁ 𝐸)) R | step (E′/E (⊖₁ 𝐹)) S | step (E/E′ (⊖₁ 𝐸)) R′ | step (E/E′ (⊖₁ 𝐹)) S′ |
               inspect (step (E′/E (⊖₁ 𝐸))) R | inspect (step (E′/E (⊖₁ 𝐹))) S |
