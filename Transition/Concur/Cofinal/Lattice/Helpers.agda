@@ -356,6 +356,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
          with step (E′/E (⊖₁ 𝐸)) R | step (E′/E (⊖₁ 𝐹)) S | step (E/E′ (⊖₁ 𝐸)) R′ | step (E/E′ (⊖₁ 𝐹)) S′ |
               inspect (step (E′/E (⊖₁ 𝐸))) R | inspect (step (E′/E (⊖₁ 𝐹))) S |
               inspect (step (E/E′ (⊖₁ 𝐸))) R′ | inspect (step (E/E′ (⊖₁ 𝐹))) S′
+{-
       ... | ◻ , P′ | ◻ , Q′ | ◻ , P″ | ◻ , Q″ | [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ] =
          subcase P′ Q′ P″ Q″ ◻ ◻ (,-inj₂ ≡P′) (,-inj₂ ≡Q′) (,-inj₂ ≡P″) (,-inj₂ ≡Q″) refl
       ... | ◻ , P′ | ◻ , Q′ | ◻ , P″ | [ q ᶜ ] , Q″ | [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ] =
@@ -386,6 +387,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
          {!!}
       ... | [ (._ •) ᵇ ] , P′ | [ • ._ 〈 y 〉 ᶜ ] , Q′ | [ (._ •) ᵇ ] , P″ | ◻ , Q″ | [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ] =
          {!!}
+-}
       ... | [ (._ •) ᵇ ] , P′ | [ • .(ᴺ.suc u) 〈 y 〉 ᶜ ] , Q′ | [ (._ •) ᵇ ] , P″ | [ • .(ᴺ.suc x) 〈 y′ 〉 ᶜ ] , Q″ |
          [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ] =
          let α : [ • (ᴺ.suc u) 〈 y 〉 ᶜ ] ≡ [ • (ᴺ.suc u) 〈 zero 〉 ᶜ ]
@@ -403,8 +405,8 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                 ≡⟨ refl ⟩
                    [ • (ᴺ.suc u) 〈 zero 〉 ᶜ ]
                 ∎ in
---          trans (sym (,-inj₁ ≡Q′)) (trans (ᴬgamma₁ 𝐹 Q) (,-inj₁ ≡S′)) in
          subcase P′ Q′ P″ Q″ y y′ (,-inj₂ ≡P′) (,-inj₂ ≡Q′) (,-inj₂ ≡P″) (,-inj₂ ≡Q″) {!!}
+      ... | _ | _ | _ | _ | _ | _ | _ | _ = ?
 
 {-
    module │ᵥ′
