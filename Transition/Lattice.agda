@@ -18,7 +18,7 @@ module Transition.Lattice where
    import Proc.Lattice as ᴾ̃; open ᴾ̃.↓_; open ᴾ̃.↓⁻_; open ᴾ̃._≤_; open ᴾ̃._≤⁻_
    open import Proc.Ren.Lattice renaming (_* to _*̃)
    open import Ren as ᴿ using (module Renameable); open Renameable ⦃...⦄
-   open import Ren.Lattice as ᴿ̃ using (pop; popᴹ; push; swap)
+   open import Ren.Lattice as ᴿ̃ using (pop; popᴹ; id; id-◻; push; swap)
    open import Transition as ᵀ using (_—[_-_]→_; module _—[_-_]→_); open _—[_-_]→_
 
    open module Action×Proc {Γ} = Lattice.Product (Action Γ) (Proc ∘ᶠ ᴬ.tgt) using (×-prefixes)
@@ -46,8 +46,8 @@ module Transition.Lattice where
    ... | [ (x •) ᵇ ] , R | ◻ , S = ◻ , [ (pop ◻ *̃) R │ S ]
    ... | [ (x •) ᵇ ] , R | [ • .x 〈 y 〉 ᶜ ] , S = [ τ ᶜ ] , [ (pop y *̃) R │ S ]
    step⁻ (E │ᵥ F) (P │ Q) with step E P | step F Q
-   ... | [ x • ᵇ ] , R | [ (• .x) ᵇ ] , S = [ τ ᶜ ] , [ ν [ R │ S ] ]
-   ... | _ , R | _ , S = ◻ , [ ν [ R │ S ] ]
+   ... | [ x • ᵇ ] , R | [ (• .x) ᵇ ] , S = [ τ ᶜ ] , [ ν [ (id *̃) R │ S ] ]
+   ... | _ , R | _ , S = ◻ , [ ν [ (id-◻ *̃) R │ S ] ]
    step⁻ (ν•_ {x = x} E) (ν P) with step E P
    ... | [ • .(ᴺ.suc x) 〈 [ .ᴺ.zero ] 〉 ᶜ ] , R = [ (• x) ᵇ ] , R
    ... | _ , R = ◻ , R
