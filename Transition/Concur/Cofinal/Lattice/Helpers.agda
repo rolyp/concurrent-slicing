@@ -435,7 +435,40 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
          ≡⟨ ≡a† ⟩
             [ • (ᴺ.suc x) 〈 y′ 〉 ᶜ ]
          ∎))
-      ... | [ (• .x) ᵇ ] | [ ≡a′ ] = ?
+      ... | [ (• .x) ᵇ ] | [ ≡a′ ] =
+         let α : [ • (ᴺ.suc u) 〈 y 〉 ᶜ ] ≡ [ • (ᴺ.suc u) 〈 zero 〉 ᶜ ]
+             α = let open EqReasoning (setoid _) in
+                begin
+                   [ • (ᴺ.suc u) 〈 y 〉 ᶜ ]
+                ≡⟨ sym ≡a‡ ⟩
+                   action (E′/E (⊖₁ 𝐹)) S
+                ≡⟨ cong (action (E′/E (⊖₁ 𝐹))) (sym ≡S) ⟩
+                   action (E′/E (⊖₁ 𝐹)) (tgt F Q)
+                ≡⟨ π₁ (ᴬgamma₁ 𝐹 Q) ⟩
+                   residual ˣ∇ˣ (action F′ Q)
+                ≡⟨ cong (residual ˣ∇ˣ) ≡a ⟩
+                   residual (ˣ∇ˣ {x = u} {x}) [ (• u) ᵇ ]
+                ≡⟨ refl ⟩
+                   [ • (ᴺ.suc u) 〈 zero 〉 ᶜ ]
+                ∎
+             β : [ • (ᴺ.suc x) 〈 y′ 〉 ᶜ ] ≡ [ • (ᴺ.suc x) 〈 zero 〉 ᶜ ]
+             β = let open EqReasoning (setoid _) in
+                begin
+                   [ • (ᴺ.suc x) 〈 y′ 〉 ᶜ ]
+                ≡⟨ sym ≡a† ⟩
+                   action (E/E′ (⊖₁ 𝐹)) S′
+                ≡⟨ cong (action (E/E′ (⊖₁ 𝐹))) (sym ≡S′) ⟩
+                   action (E/E′ (⊖₁ 𝐹)) (tgt F′ Q)
+                ≡⟨ π₂ (ᴬgamma₁ 𝐹 Q) ⟩
+                   residual ˣ∇ˣ (action F Q)
+                ≡⟨ cong (residual ˣ∇ˣ) ≡a′ ⟩
+                   residual (ˣ∇ˣ {x = x} {u}) [ (• x) ᵇ ]
+                ≡⟨ refl ⟩
+                   [ • (ᴺ.suc x) 〈 zero 〉 ᶜ ]
+                ∎
+             y≡y′ : y ≡ y′
+             y≡y′ = trans ([•x〈-〉ᶜ]-inj α) (sym ([•x〈-〉ᶜ]-inj β)) in
+         (y , y′) , y≡y′
 
       case : braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} α
              (π₂ (step⁻ (νᶜ (E′/E (⊖₁ 𝐸) │• E′/E (⊖₁ 𝐹))) (ν [ R │ S ]))) ≡
