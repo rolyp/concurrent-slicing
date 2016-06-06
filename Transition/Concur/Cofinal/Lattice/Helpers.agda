@@ -406,7 +406,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       bib ◻ [ _ ] ≡a† ≡a‡
          with action F′ Q | inspect (action F′) Q
       ... | ◻ | [ ≡a ] = {!!}
-      ... | q | [ ≡a ] = {!!}
+      ... | [ (• .u) ᵇ ] | [ ≡a ] = {!!}
       bib [ _ ] ◻ ≡a† ≡a‡ = {!!}
       bib [ • .(ᴺ.suc x) 〈 y′ 〉 ᶜ ] [ • .(ᴺ.suc u) 〈 y 〉 ᶜ ] ≡a† ≡a‡
          with action F′ Q | inspect (action F′) Q
@@ -576,6 +576,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                 ∎
              y≡y′ : y ≡ y′
              y≡y′ = trans ([•x〈-〉ᶜ]-inj α) (sym ([•x〈-〉ᶜ]-inj β)) in
+         let yy′ , y≡y′ = bib ? ? ? ? in
          subcase P′ Q′ P″ Q″ y y′ (,-inj₂ ≡P′) (,-inj₂ ≡Q′) (,-inj₂ ≡P″) (,-inj₂ ≡Q″) y≡y′
       case | _ | _ | _ | _ | _ | _ | _ | _ = {!!}
 
