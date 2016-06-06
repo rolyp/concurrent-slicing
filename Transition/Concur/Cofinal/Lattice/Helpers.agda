@@ -576,8 +576,8 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                 ∎
              y≡y′ : y ≡ y′
              y≡y′ = trans ([•x〈-〉ᶜ]-inj α) (sym ([•x〈-〉ᶜ]-inj β)) in
-         let yy′ , y≡y′ = bib ? ? ? ? in
-         subcase P′ Q′ P″ Q″ y y′ (,-inj₂ ≡P′) (,-inj₂ ≡Q′) (,-inj₂ ≡P″) (,-inj₂ ≡Q″) y≡y′
+         let (y , y′) , y≡y′₂ = bib [ • ᴺ.suc x 〈 y′ 〉 ᶜ ] [ • ᴺ.suc u 〈 y 〉 ᶜ ] (,-inj₁ ≡Q″) (,-inj₁ ≡Q′) in
+         subcase P′ Q′ P″ Q″ y y′ (,-inj₂ ≡P′) (,-inj₂ ≡Q′) (,-inj₂ ≡P″) (,-inj₂ ≡Q″) y≡y′₂
       case | _ | _ | _ | _ | _ | _ | _ | _ = {!!}
 
 {-
