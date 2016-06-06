@@ -5,7 +5,7 @@ module Transition.Lattice where
    open import Action as ᴬ using (Action; module Action; Actionᵇ; module Actionᵇ; Actionᶜ; module Actionᶜ);
       open Action; open Actionᵇ; open Actionᶜ
    import Action.Lattice as ᴬ̃;
-      open ᴬ̃.↓_; open ᴬ̃.↓⁻_; open ᴬ̃.↓ᵇ⁻_; open ᴬ̃.↓ᶜ⁻_; open ᴬ̃._≤_; open ᴬ̃._≤⁻_; open ᴬ̃._≤ᵇ⁻_; open ᴬ̃._≤ᶜ⁻_
+      open ᴬ̃.↓_; open ᴬ̃.↓⁻_; open ᴬ̃.↓ᵇ_; open ᴬ̃.↓ᶜ_; open ᴬ̃._≤_; open ᴬ̃._≤⁻_; open ᴬ̃._≤ᵇ_; open ᴬ̃._≤ᶜ_
    open import Action.Ren
    open import Lattice using (Lattices; Prefixes);
       open Lattice.Prefixes ⦃...⦄

@@ -15,33 +15,33 @@ module Action.Lattice where
    open import Name as ᴺ using (Cxt; Name)
    open import Name.Lattice as ᴺ̃ using ([_])
 
-   data ↓ᵇ⁻_ {Γ : Cxt} : Actionᵇ Γ → Set where
-      _• : (x : Name Γ) → ↓ᵇ⁻ x •
-      •_ : (x : Name Γ) → ↓ᵇ⁻ • x
+   data ↓ᵇ_ {Γ : Cxt} : Actionᵇ Γ → Set where
+      _• : (x : Name Γ) → ↓ᵇ x •
+      •_ : (x : Name Γ) → ↓ᵇ • x
 
-   data ↓ᶜ⁻_ {Γ : Cxt} : Actionᶜ Γ → Set where
-      •_〈_〉 : (x : Name Γ) {y : Name Γ} → ↓′ y → ↓ᶜ⁻ • x 〈 y 〉
-      τ : ↓ᶜ⁻ τ {Γ}
+   data ↓ᶜ_ {Γ : Cxt} : Actionᶜ Γ → Set where
+      •_〈_〉 : (x : Name Γ) {y : Name Γ} → ↓′ y → ↓ᶜ • x 〈 y 〉
+      τ : ↓ᶜ τ {Γ}
 
    data ↓⁻_ {Γ : Cxt} : Action Γ → Set where
-      _ᵇ : {a : Actionᵇ Γ} → ↓ᵇ⁻ a → ↓⁻ a ᵇ
-      _ᶜ : {a : Actionᶜ Γ} → ↓ᶜ⁻ a → ↓⁻ a ᶜ
+      _ᵇ : {a : Actionᵇ Γ} → ↓ᵇ a → ↓⁻ a ᵇ
+      _ᶜ : {a : Actionᶜ Γ} → ↓ᶜ a → ↓⁻ a ᶜ
 
    data ↓_ {Γ : Cxt} : Action Γ → Set where
       ◻ : {a : Action Γ} → ↓ a
       [_] : ∀ {a : Action Γ} → ↓⁻ a → ↓ a
 
-   data _≤ᵇ⁻_ {Γ : Cxt} : {a : Actionᵇ Γ} → ↓ᵇ⁻ a → ↓ᵇ⁻ a → Set where
-      _• : (x : Name Γ) → x • ≤ᵇ⁻ x •
-      •_ : (x : Name Γ) → • x ≤ᵇ⁻ • x
+   data _≤ᵇ_ {Γ : Cxt} : {a : Actionᵇ Γ} → ↓ᵇ a → ↓ᵇ a → Set where
+      _• : (x : Name Γ) → x • ≤ᵇ x •
+      •_ : (x : Name Γ) → • x ≤ᵇ • x
 
-   data _≤ᶜ⁻_ {Γ : Cxt} : {a : Actionᶜ Γ} → ↓ᶜ⁻ a → ↓ᶜ⁻ a → Set where
-      •_〈_〉 : (x : Name Γ) {y : Name Γ} {y′ y″ : ↓′ y} → y′ ≤′ y″ → • x 〈 y′ 〉 ≤ᶜ⁻ • x 〈 y″ 〉
-      τ : τ ≤ᶜ⁻ τ
+   data _≤ᶜ_ {Γ : Cxt} : {a : Actionᶜ Γ} → ↓ᶜ a → ↓ᶜ a → Set where
+      •_〈_〉 : (x : Name Γ) {y : Name Γ} {y′ y″ : ↓′ y} → y′ ≤′ y″ → • x 〈 y′ 〉 ≤ᶜ • x 〈 y″ 〉
+      τ : τ ≤ᶜ τ
 
    data _≤⁻_ {Γ : Cxt} : ∀ {a : Action Γ} → ↓⁻ a → ↓⁻ a → Set where
-      _ᵇ : {a : Actionᵇ Γ} {a′ a″ : ↓ᵇ⁻ a} → a′ ≤ᵇ⁻ a″ → a′ ᵇ ≤⁻ a″ ᵇ
-      _ᶜ : {a : Actionᶜ Γ} {a′ a″ : ↓ᶜ⁻ a} → a′ ≤ᶜ⁻ a″ → a′ ᶜ ≤⁻ a″ ᶜ
+      _ᵇ : {a : Actionᵇ Γ} {a′ a″ : ↓ᵇ a} → a′ ≤ᵇ a″ → a′ ᵇ ≤⁻ a″ ᵇ
+      _ᶜ : {a : Actionᶜ Γ} {a′ a″ : ↓ᶜ a} → a′ ≤ᶜ a″ → a′ ᶜ ≤⁻ a″ ᶜ
 
    data _≤_ {Γ : Cxt} : ∀ {a : Action Γ} → ↓ a → ↓ a → Set where
       ◻ : {a : Action Γ} {a′ : ↓ a} → ◻ ≤ a′
