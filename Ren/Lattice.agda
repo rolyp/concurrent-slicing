@@ -183,6 +183,11 @@ module Ren.Lattice where
    id : ∀ {Γ} → ↓ (idᶠ {A = Name Γ})
    id = to-↓ idᶠ
 
+   -- Maps 0 to ◻ and otherwise as id.
+   id-◻ : ∀ {Γ} → ↓ (idᶠ {A = Name Γ})
+   id-◻ ᴺ.zero = ᴺ̃.◻
+   id-◻ x = [ x ]
+
    *-preserves-id : ∀ {Γ} {x₀ : Name Γ} (x : ↓′ x₀) → (id *) x ≡ x
    *-preserves-id ᴺ̃.◻ = refl
    *-preserves-id [ _ ] = refl
