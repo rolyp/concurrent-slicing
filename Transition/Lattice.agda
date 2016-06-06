@@ -18,7 +18,7 @@ module Transition.Lattice where
    import Proc.Lattice as ᴾ̃; open ᴾ̃.↓_; open ᴾ̃.↓⁻_; open ᴾ̃._≤_; open ᴾ̃._≤⁻_
    open import Proc.Ren.Lattice renaming (_* to _*̃)
    open import Ren as ᴿ using (module Renameable); open Renameable ⦃...⦄
-   open import Ren.Lattice as ᴿ̃ using (pop; popᴹ; id; id-◻; push; swap)
+   open import Ren.Lattice as ᴿ̃ using (pop; popᴹ; id; id-top; id-◻; push; swap)
    open import Transition as ᵀ using (_—[_-_]→_; module _—[_-_]→_); open _—[_-_]→_
 
    open module Action×Proc {Γ} = Lattice.Product (Action Γ) (Proc ∘ᶠ ᴬ.tgt) using (×-prefixes)
@@ -97,18 +97,18 @@ module Transition.Lattice where
 
    step⁻ᴹ (E │ᵥ F) {P │ Q} {P′ │ Q′} (P† │ Q†)
       with step E P | step E P′ | stepᴹ E P†
-   ... | ◻ , _ | ◻ , _ | _ , R† = let _ , S† = stepᴹ F Q† in ◻ , [ ν [ R† │ S† ] ]
+   ... | ◻ , _ | ◻ , _ | _ , R† = let _ , S† = stepᴹ F Q† in ◻ , [ ν [ (ᴹ id-◻ *ᴹ) R† │ S† ] ]
    ... | ◻ , _ | [ (x •) ᵇ ] , _ | _ , R†
       with step F Q′ | stepᴹ F Q†
-   ... | ◻ , _ | _ , S† = ◻ , [ ν [ R† │ S† ] ]
-   ... | [ (• .x) ᵇ ] , _ | _ , S† = ◻ , [ ν [ R† │ S† ] ]
+   ... | ◻ , _ | _ , S† = ◻ , [ ν [ (ᴹ id-◻ *ᴹ) R† │ S† ] ]
+   ... | [ (• .x) ᵇ ] , _ | _ , S† = ◻ , [ ν [ (id-top *ᴹ) R† │ S† ] ]
    step⁻ᴹ (E │ᵥ F) {P │ Q} {P′ │ Q′} (P† │ Q†) | [ _ ] , _ | ◻ , _ | () , _
    step⁻ᴹ (E │ᵥ F) {P │ Q} {P′ │ Q′} (P† │ Q†) | [ ( x •) ᵇ ] , _ | [ (.x •) ᵇ ] , _ | _ , R†
       with step F Q | step F Q′ | stepᴹ F Q†
-   ... | ◻ , _ | ◻ , _ | _ , S† = ◻ , [ ν [ R† │ S† ] ]
-   ... | ◻ , _ | [ (• .x) ᵇ ] , _ | _ , S† = ◻ , [ ν [ R† │ S† ] ]
+   ... | ◻ , _ | ◻ , _ | _ , S† = ◻ , [ ν [ (ᴹ id-◻ *ᴹ) R† │ S† ] ]
+   ... | ◻ , _ | [ (• .x) ᵇ ] , _ | _ , S† = ◻ , [ ν [ (id-top *ᴹ) R† │ S† ] ]
    ... | [ (• .x) ᵇ ] , _ | ◻ , _ | () , _
-   ... | [ (• .x) ᵇ ] , _ | [ (• .x) ᵇ ] , _ | _ , S† = [ τ ᶜ ] , [ ν [ R† │ S† ] ]
+   ... | [ (• .x) ᵇ ] , _ | [ (• .x) ᵇ ] , _ | _ , S† = [ τ ᶜ ] , [ ν [ (ᴹ id *ᴹ) R† │ S† ] ]
 
    step⁻ᴹ (ν•_ {x = x} E) {ν P} {ν P′} (ν P†)
       with step E P | step E P′ | stepᴹ E P†
@@ -167,7 +167,7 @@ module Transition.Lattice where
 
    tgtᴹ : ∀ {Γ P₀} {a : Action Γ} {R} (E : P₀ —[ a - _ ]→ R) {P P′ : ↓′ P₀} → P ≤′ P′ → tgt E P ≤′ tgt E P′
    tgtᴹ E = π₂ ∘ᶠ stepᴹ E
-
+{-
    -- unstep reflects ◻. The unstep-◻ variant slices with a ◻ process and a non-◻ action. The recursion case
    -- is simpler than in the paper, because we don't specify here the slice of the source process.
    unstep : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) → ↓′ a → ↓′ P′ → ↓′ P
@@ -310,3 +310,4 @@ module Transition.Lattice where
    ... | _ │ ◻ | P │ [ ! P′ ] | P† │ _ = ! ≤-trans P† (P ⊔ʳ P′)
    ... | _ │ [ ! _ ] | _ │ ◻ | _ │ ()
    ... | _ │ [ ! _ ] | _ │ [ ! _ ] | P │ [ ! P′ ] = ! (P ⊔ᴹ P′)
+-}
