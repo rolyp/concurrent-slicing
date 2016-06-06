@@ -466,8 +466,11 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       case | [ (._ •) ᵇ ] , P′ | [ • ._ 〈 y 〉 ᶜ ] , Q′ | ◻ , P″ | [ q′ ᶜ ] , Q″ | [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ] =
          {!!}
 -}
-      case | [ (._ •) ᵇ ] , P′ | [ • ._ 〈 y 〉 ᶜ ] , Q′ | [ (._ •) ᵇ ] , P″ | ◻ , Q″ | [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ] =
-         {!!}
+      case | [ (._ •) ᵇ ] , P′ | [ • .(ᴺ.suc u) 〈 y 〉 ᶜ ] , Q′ | [ (._ •) ᵇ ] , P″ | ◻ , Q″ | [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ]
+         with action F′ Q | action F Q | inspect (action F′) Q | inspect (action F) Q
+      ... | ◻ | _ | [ ≡a ] | _ = ⊥-elim (bib y ≡a (,-inj₁ ≡Q′))
+      ... | [ (• .u) ᵇ ] | ◻ | _ | [ ≡a′ ] = {!!}
+      ... | [ (• .u) ᵇ ] | [ (• .x) ᵇ ] | [ ≡a ] | [ ≡a′ ] = {!!}
       case | [ (._ •) ᵇ ] , P′ | [ • .(ᴺ.suc u) 〈 y 〉 ᶜ ] , Q′ | [ (._ •) ᵇ ] , P″ | [ • .(ᴺ.suc x) 〈 y′ 〉 ᶜ ] , Q″ |
          [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ]
          with action F′ Q | action F Q | inspect (action F′) Q | inspect (action F) Q
