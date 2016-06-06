@@ -470,12 +470,10 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
          {!!}
       case | [ (._ •) ᵇ ] , P′ | [ • .(ᴺ.suc u) 〈 y 〉 ᶜ ] , Q′ | [ (._ •) ᵇ ] , P″ | [ • .(ᴺ.suc x) 〈 y′ 〉 ᶜ ] , Q″ |
          [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ]
-         with action F′ Q | inspect (action F′) Q
-      ... | ◻ | [ ≡a ] = ⊥-elim (bib y ≡a (,-inj₁ ≡Q′))
-      ... | [ (• .u) ᵇ ] | [ ≡a ]
-         with action F Q | inspect (action F) Q
-      ... | ◻ | [ ≡a′ ] = ⊥-elim (bib₂ y′ ≡a′ (,-inj₁ ≡Q″))
-      ... | [ (• .x) ᵇ ] | [ ≡a′ ] =
+         with action F′ Q | action F Q | inspect (action F′) Q | inspect (action F) Q
+      ... | ◻ | _ | [ ≡a ] | _ = ⊥-elim (bib y ≡a (,-inj₁ ≡Q′))
+      ... | [ (• .u) ᵇ ] | ◻ | _ | [ ≡a′ ] = ⊥-elim (bib₂ y′ ≡a′ (,-inj₁ ≡Q″))
+      ... | [ (• .u) ᵇ ] | [ (• .x) ᵇ ] | [ ≡a ] | [ ≡a′ ] =
          let α : [ • (ᴺ.suc u) 〈 y 〉 ᶜ ] ≡ [ • (ᴺ.suc u) 〈 zero 〉 ᶜ ]
              α = let open EqReasoning (setoid _) in
                 begin
