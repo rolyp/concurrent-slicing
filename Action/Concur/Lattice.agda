@@ -4,7 +4,7 @@ module Action.Concur.Lattice where
 
    open import Action using (Action)
    open import Action.Concur using (_ᴬ⌣_; module _ᴬ⌣_; ᴬ⊖); open _ᴬ⌣_
-   open import Action.Lattice as ᴬ̃ using (); open ᴬ̃.↓_; open ᴬ̃.↓⁻_; open ᴬ̃.↓ᵇ⁻_; open ᴬ̃.↓ᶜ⁻_
+   open import Action.Lattice as ᴬ̃ using (); open ᴬ̃.↓_; open ᴬ̃.↓⁻_; open ᴬ̃.↓ᵇ_; open ᴬ̃.↓ᶜ_
    open import Action.Ren.Lattice using (_*)
    open import Lattice using (Lattices); open Lattice.Prefixes ⦃...⦄
    open import Name as ᴺ using ()

@@ -3,7 +3,7 @@ module Transition.Ren.Lattice where
 
    open import ConcurrentSlicingCommon
    open import Action using (Actionᵇ; Actionᶜ; _ᵇ; _ᶜ)
-   open import Action.Ren.Lattice renaming (_* to _ᴬ*̃)
+   open import Action.Ren.Lattice using () renaming (_* to _ᴬ*̃)
    import Lattice; open Lattice.Prefixes ⦃...⦄ using (↓_)
    open import Proc.Ren
    open import Proc.Ren.Lattice renaming (_* to _*̃)

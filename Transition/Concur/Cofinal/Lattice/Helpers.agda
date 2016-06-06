@@ -6,8 +6,8 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
    open import Action as ᴬ using (Action; Actionᵇ; Actionᶜ); open ᴬ.Action; open ᴬ.Actionᵇ; open ᴬ.Actionᶜ
    open import Action.Concur using (_ᴬ⌣_; module _ᴬ⌣_; ᴬ⊖; ᴬ⌣-sym; ᴬ⌣-sym-involutive; ᴬγ); open _ᴬ⌣_
    open import Action.Concur.Lattice using (residual)
-   open import Action.Lattice as ᴬ̃ using (); open ᴬ̃.↓_; open ᴬ̃.↓⁻_; open ᴬ̃.↓ᵇ⁻_; open ᴬ̃.↓ᶜ⁻_
-   open import Action.Ren.Lattice renaming (_* to _ᴬ*̃)
+   open import Action.Lattice as ᴬ̃ using (); open ᴬ̃.↓_; open ᴬ̃.↓⁻_; open ᴬ̃.↓ᵇ_; open ᴬ̃.↓ᶜ_
+   open import Action.Ren.Lattice using () renaming (_* to _ᴬ*̃)
    open import Braiding.Proc using (module _⋉̂_); open _⋉̂_
    open import Braiding.Proc.Lattice using (braid̂)
    open import Lattice using (Lattices); open Lattice.Prefixes ⦃...⦄
