@@ -402,7 +402,25 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       bib : ∀ (a : ↓ • ᴺ.suc x 〈 ᴺ.zero 〉 ᶜ) (a′ : ↓ • ᴺ.suc u 〈 ᴺ.zero 〉 ᶜ) →
             action (E/E′ (⊖₁ 𝐹)) S′ ≡ a → action (E′/E (⊖₁ 𝐹)) S ≡ a′ →
             Σ[ yy′ ∈ ↓_ {A = Name (Γ + 1)} ᴺ.zero × ↓ ᴺ.zero ] π₁ yy′ ≡ π₂ yy′
-      bib = {!!}
+      bib ◻ ◻ _ _ = (◻ , ◻) , refl
+      bib ◻ [ a′ ] ≡a† ≡a‡ = {!!}
+      bib [ a ] ◻ ≡a† ≡a‡ = {!!}
+      bib [ • ._ 〈 y 〉 ᶜ ] [ • ._ 〈 y′ 〉 ᶜ ] ≡a† ≡a‡
+         with action F Q | inspect (action F) Q
+      ... | ◻ | [ ≡a′ ] = ⊥-elim (◻≢[-] (
+         let open EqReasoning (setoid _) in
+         begin
+            ◻
+         ≡⟨ cong (residual ˣ∇ˣ) (sym ≡a′) ⟩
+            residual ˣ∇ˣ (action F Q)
+         ≡⟨ sym (π₂ (ᴬgamma₁ 𝐹 Q)) ⟩
+            action (E/E′ (⊖₁ 𝐹)) (tgt F′ Q)
+         ≡⟨ cong (action (E/E′ (⊖₁ 𝐹))) ≡S′ ⟩
+            action (E/E′ (⊖₁ 𝐹)) S′
+         ≡⟨ ≡a† ⟩
+            [ • ᴺ.suc x 〈 y 〉 ᶜ ]
+         ∎))
+      ... | [ x₁ ] | [ ≡a′ ] = {!!}
 {-
       bib ≡Q′ ≡Q″ with action F Q | inspect (action F) Q
       ... | ◻ | [ ≡a′ ] = ⊥-elim (◻≢[-] (
