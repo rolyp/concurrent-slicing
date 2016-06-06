@@ -403,8 +403,11 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
             action (E/E′ (⊖₁ 𝐹)) S′ ≡ a → action (E′/E (⊖₁ 𝐹)) S ≡ a′ →
             Σ[ yy′ ∈ ↓_ {A = Name (Γ + 1)} ᴺ.zero × ↓ ᴺ.zero ] π₁ yy′ ≡ π₂ yy′
       bib ◻ ◻ _ _ = (◻ , ◻) , refl
-      bib ◻ [ a′ ] ≡a† ≡a‡ = {!!}
-      bib [ a ] ◻ ≡a† ≡a‡ = {!!}
+      bib ◻ [ _ ] ≡a† ≡a‡
+         with action F′ Q | inspect (action F′) Q
+      ... | ◻ | [ ≡a ] = {!!}
+      ... | q | [ ≡a ] = {!!}
+      bib [ _ ] ◻ ≡a† ≡a‡ = {!!}
       bib [ • .(ᴺ.suc x) 〈 y′ 〉 ᶜ ] [ • .(ᴺ.suc u) 〈 y 〉 ᶜ ] ≡a† ≡a‡
          with action F′ Q | inspect (action F′) Q
       ... | ◻ | [ ≡a ] = ⊥-elim (◻≢[-] (
