@@ -353,44 +353,48 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
            α = cong ν_ (cong₂ _│_ γ (γ₁ 𝐹))) where
 
       private
-         subcase : (p′ : ↓ (ᴿ.suc idᶠ *) p′₀) (q′ : ↓ q′₀) (p″ : ↓ (ᴿ.suc idᶠ *) p″₀) (q″ : ↓ q″₀)
-                   (y y′ : ↓ ᴺ.zero) → tgt ((idᶠ *ᵇ) (e′/e (⊖₁ 𝐸))) ((repl y *̃) r) ≡ p′ → tgt (e′/e (⊖₁ 𝐹)) s ≡ q′ →
-                   tgt ((idᶠ *ᵇ) (e/e′ (⊖₁ 𝐸))) ((repl y′ *̃) r′) ≡ p″ → tgt (e/e′ (⊖₁ 𝐹)) s′ ≡ q″ → (y† y‡ : ↓ ᴺ.zero) →
+         subcase : (P′ : ↓ (ᴿ.suc idᶠ *) P′₀) (Q′ : ↓ Q′₀) (P″ : ↓ (ᴿ.suc idᶠ *) P″₀) (Q″ : ↓ Q″₀)
+                   (y y′ : ↓ ᴺ.zero) → tgt ((idᶠ *ᵇ) (E′/E (⊖₁ 𝐸))) ((repl y *̃) R) ≡ P′ → tgt (E′/E (⊖₁ 𝐹)) S ≡ Q′ →
+                   tgt ((idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸))) ((repl y′ *̃) R′) ≡ P″ → tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″ → (y† y‡ : ↓ ᴺ.zero) →
                    braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} α
-                   [ ν [ (pop y† *̃) p′ │ q′ ] ] ≡ [ ν [ (pop y‡ *̃) p″ │ q″ ] ]
-         subcase p′ q′ p″ q″ y y′ ≡p′ ≡q′ ≡p″ ≡q″ y† y‡ =
-            let β : (pop y† *̃) p′ ≅ (pop y‡ *̃) p″
-                β = let open ≅-reasoning in
+                   [ ν [ (pop y† *̃) P′ │ Q′ ] ] ≡ [ ν [ (pop y‡ *̃) P″ │ Q″ ] ]
+         subcase P′ Q′ P″ Q″ y y′ ≡P′ ≡Q′ ≡P″ ≡Q″ y† y‡ =
+            let β : (pop y† *̃) P′ ≅ (pop y‡ *̃) P″
+                β = let open ≅-Reasoning in
                    begin
-                      {!!}
+                      (pop y† *̃) P′
+                   ≡⟨ cong (pop y† *̃) (sym ≡P′) ⟩
+                      (pop y† *̃) (tgt ((idᶠ *ᵇ) (E′/E (⊖₁ 𝐸))) ((repl y *̃) R))
                    ≅⟨ {!!} ⟩
-                      {!!}
+                      (pop y‡ *̃) (tgt ((idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸))) ((repl y′ *̃) R′))
+                   ≡⟨ cong (pop y‡ *̃) ≡P″ ⟩
+                      (pop y‡ *̃) P″
                    ∎
 {-
-                      (pop y *̃) p′
-                   ≡⟨ cong (λ y† → (pop y† *̃) p′) y≡y′ ⟩
-                      (pop y′ *̃) p′
-                   ≡⟨ cong (pop y′ *̃) (sym ≡p′) ⟩
-                      (pop y′ *̃) (tgt (e′/e (⊖₁ 𝐸)) r)
-                   ≡⟨ cong ((pop y′ *̃) ∘ᶠ (tgt (e′/e (⊖₁ 𝐸)))) (sym ≡r) ⟩
-                      (pop y′ *̃) (tgt (e′/e (⊖₁ 𝐸)) (tgt e p))
+                      (pop y *̃) P′
+                   ≡⟨ cong (λ y† → (pop y† *̃) P′) y≡y′ ⟩
+                      (pop y′ *̃) P′
+                   ≡⟨ cong (pop y′ *̃) (sym ≡P′) ⟩
+                      (pop y′ *̃) (tgt (E′/E (⊖₁ 𝐸)) R)
+                   ≡⟨ cong ((pop y′ *̃) ∘ᶠ (tgt (E′/E (⊖₁ 𝐸)))) (sym ≡R) ⟩
+                      (pop y′ *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))
                    ≅⟨ {!!} ⟩
-                      (pop y′ *̃) ((swap *̃) (tgt (e′/e (⊖₁ 𝐸)) (tgt e p)))
+                      (pop y′ *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
                    ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) (pop y′ *̃) (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _)) ⟩
-                      (pop y′ *̃) (braiding (ᵇ∇ᵇ {a = x •} {u •}) {0} (γ₁ 𝐸) (tgt (e′/e (⊖₁ 𝐸)) (tgt e p)))
-                   ≡⟨ cong (pop y′ *̃) ih₁ ⟩
-                      (pop y′ *̃) (tgt (e/e′ (⊖₁ 𝐸)) (tgt e′ p))
-                   ≡⟨ cong ((pop y′ *̃) ∘ᶠ (tgt (e/e′ (⊖₁ 𝐸)))) ≡r′ ⟩
-                      (pop y′ *̃) (tgt (e/e′ (⊖₁ 𝐸)) r′)
-                   ≡⟨ cong (pop y′ *̃) ≡p″ ⟩
-                      (pop y′ *̃) p″
+                      (pop y′ *̃) (braiding (ᵇ∇ᵇ {a = x •} {u •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
+                   ≡⟨ cong (pop y′ *̃) IH₁ ⟩
+                      (pop y′ *̃) (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))
+                   ≡⟨ cong ((pop y′ *̃) ∘ᶠ (tgt (E/E′ (⊖₁ 𝐸)))) ≡R′ ⟩
+                      (pop y′ *̃) (tgt (E/E′ (⊖₁ 𝐸)) R′)
+                   ≡⟨ cong (pop y′ *̃) ≡P″ ⟩
+                      (pop y′ *̃) P″
                    ∎
 -}
-                δ = q′ ≅ q″
-                δ = let open ≅-reasoning in
+                δ = Q′ ≅ Q″
+                δ = let open ≅-Reasoning in
                    begin
-                      q′
-                   ≡⟨ sym ≡q′ ⟩
+                      Q′
+                   ≡⟨ sym ≡Q′ ⟩
                       tgt (E′/E (⊖₁ 𝐹)) S
                    ≡⟨ cong (tgt (E′/E (⊖₁ 𝐹))) (sym ≡S) ⟩
                       tgt (E′/E (⊖₁ 𝐹)) (tgt F Q)
@@ -411,36 +415,6 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
             ≅⟨ [ν-]-cong (cong₂ _│_ γ (γ₁ 𝐹)) ([-│-]-cong γ β (γ₁ 𝐹) δ) ⟩
                [ ν [ (pop y‡ *̃) P″ │ Q″ ] ]
             ∎)
-
-      bib : (y : ↓ ᴺ.zero) → action F′ Q ≡ ◻ → action (E′/E (⊖₁ 𝐹)) S ≡ [ • (ᴺ.suc u) 〈 y 〉 ᶜ ] → ⊥
-      bib y ≡a ≡a′ = ◻≢[-] (
-         let open EqReasoning (setoid _) in
-         begin
-            ◻
-         ≡⟨ cong (residual ˣ∇ˣ) (sym ≡a) ⟩
-            residual ˣ∇ˣ (action F′ Q)
-         ≡⟨ sym (π₁ (ᴬgamma₁ 𝐹 Q)) ⟩
-            action (E′/E (⊖₁ 𝐹)) (tgt F Q)
-         ≡⟨ cong (action (E′/E (⊖₁ 𝐹))) ≡S ⟩
-            action (E′/E (⊖₁ 𝐹)) S
-         ≡⟨ ≡a′ ⟩
-            [ • (ᴺ.suc u) 〈 y 〉 ᶜ ]
-         ∎)
-
-      bib₂ : (y : ↓ ᴺ.zero) → action F Q ≡ ◻ → action (E/E′ (⊖₁ 𝐹)) S′ ≡ [ • (ᴺ.suc x) 〈 y 〉 ᶜ ] → ⊥
-      bib₂ y ≡a ≡a′ = ◻≢[-] (
-         let open EqReasoning (setoid _) in
-         begin
-            ◻
-         ≡⟨ cong (residual ˣ∇ˣ) (sym ≡a) ⟩
-            residual ˣ∇ˣ (action F Q)
-         ≡⟨ sym (π₂ (ᴬgamma₁ 𝐹 Q)) ⟩
-            action (E/E′ (⊖₁ 𝐹)) (tgt F′ Q)
-         ≡⟨ cong (action (E/E′ (⊖₁ 𝐹))) ≡S′ ⟩
-            action (E/E′ (⊖₁ 𝐹)) S′
-         ≡⟨ ≡a′ ⟩
-            [ • (ᴺ.suc x) 〈 y 〉 ᶜ ]
-         ∎)
 
       case : (y y′ : ↓ ᴺ.zero) →
               braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} α
@@ -484,54 +458,6 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       ... | [ (._ •) ᵇ ] , P′ | [ • ._ 〈 y† 〉 ᶜ ] , Q′ | [ (._ •) ᵇ ] , P″ | [ • ._ 〈 y‡ 〉 ᶜ ] , Q″ |
          [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ] =
          subcase P′ Q′ P″ Q″ y y′ (,-inj₂ ≡P′) (,-inj₂ ≡Q′) (,-inj₂ ≡P″) (,-inj₂ ≡Q″) y† y‡
-
-{-
-      case | [ (._ •) ᵇ ] , P′ | [ • .(ᴺ.suc u) 〈 y 〉 ᶜ ] , Q′ | [ (._ •) ᵇ ] , P″ | ◻ , Q″ | [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ]
-         with action F′ Q | action F Q | inspect (action F′) Q | inspect (action F) Q
-      ... | ◻ | _ | [ ≡a ] | _ = ⊥-elim (bib y ≡a (,-inj₁ ≡Q′))
-      ... | [ (• .u) ᵇ ] | ◻ | _ | [ ≡a′ ] = {!!}
-      ... | [ (• .u) ᵇ ] | [ (• .x) ᵇ ] | [ ≡a ] | [ ≡a′ ] = {!!}
-      case | [ (._ •) ᵇ ] , P′ | [ • .(ᴺ.suc u) 〈 y 〉 ᶜ ] , Q′ | [ (._ •) ᵇ ] , P″ | [ • .(ᴺ.suc x) 〈 y′ 〉 ᶜ ] , Q″ |
-         [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ]
-         with action F′ Q | action F Q | inspect (action F′) Q | inspect (action F) Q
-      ... | ◻ | _ | [ ≡a ] | _ = ⊥-elim (bib y ≡a (,-inj₁ ≡Q′))
-      ... | [ (• .u) ᵇ ] | ◻ | _ | [ ≡a′ ] = ⊥-elim (bib₂ y′ ≡a′ (,-inj₁ ≡Q″))
-      ... | [ (• .u) ᵇ ] | [ (• .x) ᵇ ] | [ ≡a ] | [ ≡a′ ] =
-         let α : [ • (ᴺ.suc u) 〈 y 〉 ᶜ ] ≡ [ • (ᴺ.suc u) 〈 zero 〉 ᶜ ]
-             α = let open EqReasoning (setoid _) in
-                begin
-                   [ • (ᴺ.suc u) 〈 y 〉 ᶜ ]
-                ≡⟨ sym (,-inj₁ ≡Q′) ⟩
-                   action (E′/E (⊖₁ 𝐹)) S
-                ≡⟨ cong (action (E′/E (⊖₁ 𝐹))) (sym ≡S) ⟩
-                   action (E′/E (⊖₁ 𝐹)) (tgt F Q)
-                ≡⟨ π₁ (ᴬgamma₁ 𝐹 Q) ⟩
-                   residual ˣ∇ˣ (action F′ Q)
-                ≡⟨ cong (residual ˣ∇ˣ) ≡a ⟩
-                   residual (ˣ∇ˣ {x = u} {x}) [ (• u) ᵇ ]
-                ≡⟨ refl ⟩
-                   [ • (ᴺ.suc u) 〈 zero 〉 ᶜ ]
-                ∎
-             β : [ • (ᴺ.suc x) 〈 y′ 〉 ᶜ ] ≡ [ • (ᴺ.suc x) 〈 zero 〉 ᶜ ]
-             β = let open EqReasoning (setoid _) in
-                begin
-                   [ • (ᴺ.suc x) 〈 y′ 〉 ᶜ ]
-                ≡⟨ sym (,-inj₁ ≡Q″) ⟩
-                   action (E/E′ (⊖₁ 𝐹)) S′
-                ≡⟨ cong (action (E/E′ (⊖₁ 𝐹))) (sym ≡S′) ⟩
-                   action (E/E′ (⊖₁ 𝐹)) (tgt F′ Q)
-                ≡⟨ π₂ (ᴬgamma₁ 𝐹 Q) ⟩
-                   residual ˣ∇ˣ (action F Q)
-                ≡⟨ cong (residual ˣ∇ˣ) ≡a′ ⟩
-                   residual (ˣ∇ˣ {x = x} {u}) [ (• x) ᵇ ]
-                ≡⟨ refl ⟩
-                   [ • (ᴺ.suc x) 〈 zero 〉 ᶜ ]
-                ∎
-             y≡y′ : y ≡ y′
-             y≡y′ = trans ([•x〈-〉ᶜ]-inj α) (sym ([•x〈-〉ᶜ]-inj β)) in
-         subcase P′ Q′ P″ Q″ y y′ (,-inj₂ ≡P′) (,-inj₂ ≡Q′) (,-inj₂ ≡P″) (,-inj₂ ≡Q″) y≡y′
-      case | _ | _ | _ | _ | _ | _ | _ | _ = {!!}
--}
 
 {-
    module │ᵥ′
