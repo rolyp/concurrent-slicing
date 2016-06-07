@@ -18,7 +18,7 @@ module Transition.Lattice where
    import Proc.Lattice as ᴾ̃; open ᴾ̃.↓_; open ᴾ̃.↓⁻_; open ᴾ̃._≤_; open ᴾ̃._≤⁻_
    open import Proc.Ren.Lattice renaming (_* to _*̃)
    open import Ren as ᴿ using (module Renameable); open Renameable ⦃...⦄
-   open import Ren.Lattice as ᴿ̃ using (pop; popᴹ; id; id-top; id-◻; push; swap)
+   open import Ren.Lattice as ᴿ̃ using (pop; popᴹ; id; repl; repl-zero-top; push; swap)
    open import Transition as ᵀ using (_—[_-_]→_; module _—[_-_]→_); open _—[_-_]→_
 
    open module Action×Proc {Γ} = Lattice.Product (Action Γ) (Proc ∘ᶠ ᴬ.tgt) using (×-prefixes)
@@ -46,8 +46,8 @@ module Transition.Lattice where
    ... | [ (x •) ᵇ ] , R | ◻ , S = ◻ , [ (pop ◻ *̃) R │ S ]
    ... | [ (x •) ᵇ ] , R | [ • .x 〈 y 〉 ᶜ ] , S = [ τ ᶜ ] , [ (pop y *̃) R │ S ]
    step⁻ (E │ᵥ F) (P │ Q) with step E P | step F Q
-   ... | [ x • ᵇ ] , R | [ (• .x) ᵇ ] , S = [ τ ᶜ ] , [ ν [ (id *̃) R │ S ] ]
-   ... | _ , R | _ , S = ◻ , [ ν [ (id-◻ *̃) R │ S ] ]
+   ... | [ x • ᵇ ] , R | [ (• .x) ᵇ ] , S = [ τ ᶜ ] , [ ν [ (repl zero *̃) R │ S ] ]
+   ... | _ , R | _ , S = ◻ , [ ν [ (repl ◻ *̃) R │ S ] ]
    step⁻ (ν•_ {x = x} E) (ν P) with step E P
    ... | [ • .(ᴺ.suc x) 〈 [ .ᴺ.zero ] 〉 ᶜ ] , R = [ (• x) ᵇ ] , R
    ... | _ , R = ◻ , R
@@ -97,18 +97,18 @@ module Transition.Lattice where
 
    step⁻ᴹ (E │ᵥ F) {P │ Q} {P′ │ Q′} (P† │ Q†)
       with step E P | step E P′ | stepᴹ E P†
-   ... | ◻ , _ | ◻ , _ | _ , R† = let _ , S† = stepᴹ F Q† in ◻ , [ ν [ (ᴹ id-◻ *ᴹ) R† │ S† ] ]
+   ... | ◻ , _ | ◻ , _ | _ , R† = let _ , S† = stepᴹ F Q† in ◻ , [ ν [ (ᴹ (repl ◻) *ᴹ) R† │ S† ] ]
    ... | ◻ , _ | [ (x •) ᵇ ] , _ | _ , R†
       with step F Q′ | stepᴹ F Q†
-   ... | ◻ , _ | _ , S† = ◻ , [ ν [ (ᴹ id-◻ *ᴹ) R† │ S† ] ]
-   ... | [ (• .x) ᵇ ] , _ | _ , S† = ◻ , [ ν [ (id-top *ᴹ) R† │ S† ] ]
+   ... | ◻ , _ | _ , S† = ◻ , [ ν [ (ᴹ (repl ◻) *ᴹ) R† │ S† ] ]
+   ... | [ (• .x) ᵇ ] , _ | _ , S† = ◻ , [ ν [ (repl-zero-top ◻ *ᴹ) R† │ S† ] ]
    step⁻ᴹ (E │ᵥ F) {P │ Q} {P′ │ Q′} (P† │ Q†) | [ _ ] , _ | ◻ , _ | () , _
    step⁻ᴹ (E │ᵥ F) {P │ Q} {P′ │ Q′} (P† │ Q†) | [ ( x •) ᵇ ] , _ | [ (.x •) ᵇ ] , _ | _ , R†
       with step F Q | step F Q′ | stepᴹ F Q†
-   ... | ◻ , _ | ◻ , _ | _ , S† = ◻ , [ ν [ (ᴹ id-◻ *ᴹ) R† │ S† ] ]
-   ... | ◻ , _ | [ (• .x) ᵇ ] , _ | _ , S† = ◻ , [ ν [ (id-top *ᴹ) R† │ S† ] ]
+   ... | ◻ , _ | ◻ , _ | _ , S† = ◻ , [ ν [ (ᴹ (repl ◻) *ᴹ) R† │ S† ] ]
+   ... | ◻ , _ | [ (• .x) ᵇ ] , _ | _ , S† = ◻ , [ ν [ (repl-zero-top ◻ *ᴹ) R† │ S† ] ]
    ... | [ (• .x) ᵇ ] , _ | ◻ , _ | () , _
-   ... | [ (• .x) ᵇ ] , _ | [ (• .x) ᵇ ] , _ | _ , S† = [ τ ᶜ ] , [ ν [ (ᴹ id *ᴹ) R† │ S† ] ]
+   ... | [ (• .x) ᵇ ] , _ | [ (• .x) ᵇ ] , _ | _ , S† = [ τ ᶜ ] , [ ν [ (ᴹ (repl zero) *ᴹ) R† │ S† ] ]
 
    step⁻ᴹ (ν•_ {x = x} E) {ν P} {ν P′} (ν P†)
       with step E P | step E P′ | stepᴹ E P†

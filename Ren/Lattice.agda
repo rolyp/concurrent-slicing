@@ -193,6 +193,10 @@ module Ren.Lattice where
    repl y ᴺ.zero = y
    repl y x = [ x ]
 
+   replᴹ : ∀ {Γ} {y y′ : ↓′ ᴺ.zero} → y ≤′ y′ → repl {Γ} y ≤ repl y′
+   replᴹ x ᴺ.zero = x
+   replᴹ _ (ᴺ.suc y) = [ ᴺ.suc y ]
+
    *-preserves-id : ∀ {Γ} {x₀ : Name Γ} (x : ↓′ x₀) → (id *) x ≡ x
    *-preserves-id ᴺ̃.◻ = refl
    *-preserves-id [ _ ] = refl
