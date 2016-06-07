@@ -17,7 +17,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
    open import Proc.Lattice as ᴾ̃ using (); open ᴾ̃.↓_; open ᴾ̃.↓⁻_
    open import Proc.Ren.Lattice using () renaming (_* to _*̃)
    open import Ren as ᴿ using (); open ᴿ.Renameable ⦃...⦄
-   open import Ren.Lattice as ᴿ̃ using (swap; pop; push; repl; _ᴿ+_; suc)
+   open import Ren.Lattice as ᴿ̃ using (swap; pop; push; id; repl; _ᴿ+_; suc)
    open import Ren.Lattice.Properties
    open import Ren.Properties
    open import Transition as ᵀ using (_—[_-_]→_); open ᵀ._—[_-_]→_
@@ -444,7 +444,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
               (π₂ (step⁻ (νᶜ ((idᶠ *ᵇ) (E′/E (⊖₁ 𝐸)) │• E′/E (⊖₁ 𝐹))) (ν [ (repl y *̃) R │ S ]))) ≡
               π₂ (step⁻ (νᶜ ((idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸)) │• E/E′ (⊖₁ 𝐹))) (ν [ (repl y′ *̃) R′ │ S′ ]))
       case y y′
-         with step (E′/E (⊖₁ 𝐸)) R | step (E′/E (⊖₁ 𝐹)) S | step (E/E′ (⊖₁ 𝐸)) R′ | step (E/E′ (⊖₁ 𝐹)) S′ |
+         with step ((idᶠ *ᵇ) (E′/E (⊖₁ 𝐸))) ((repl y *̃) R) | step (E′/E (⊖₁ 𝐹)) S | step (E/E′ (⊖₁ 𝐸)) R′ | step (E/E′ (⊖₁ 𝐹)) S′ |
               inspect (step (E′/E (⊖₁ 𝐸))) R | inspect (step (E′/E (⊖₁ 𝐹))) S |
               inspect (step (E/E′ (⊖₁ 𝐸))) R′ | inspect (step (E/E′ (⊖₁ 𝐹))) S′
       ... | ◻ , P′ | ◻ , Q′ | ◻ , P″ | ◻ , Q″ | [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ] =
