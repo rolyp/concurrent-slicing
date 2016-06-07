@@ -288,10 +288,8 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ {E = E │ᵥ F} {E′ │ᵥ F′} (𝐸 │ᵥ 𝐹) [ P │ Q ]
       with step E′ P | step E P | step F′ Q | step F Q |
            inspect (step E′) P | inspect (step E) P | inspect (step F′) Q | inspect (step F) Q
-   ... | ◻ , R′ | ◻ , R | ◻ , S′ | ◻ , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] = {!!}
---      let open │ᵥ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case
-   ... | _ | _ | _ | _ | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] = {!!}
-{-
+   ... | ◻ , R′ | ◻ , R | ◻ , S′ | ◻ , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
+      let open │ᵥ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case
    ... | ◻ , R′ | ◻ , R | ◻ , S′ | [ (• ._) ᵇ ] , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
       let open │ᵥ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case
    ... | ◻ , R′ | ◻ , R | [ (• ._) ᵇ ] , S′ | ◻ , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
@@ -322,7 +320,6 @@ module Transition.Concur.Cofinal.Lattice where
       let open │ᵥ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case
    ... | [ _ • ᵇ ] , R′ | [ _ • ᵇ ] , R | [ (• ._) ᵇ ] , S′ | [ (• ._) ᵇ ] , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
       let open │ᵥ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case
--}
 
 {-
    gamma₁ {E = E │ᵥ F} {E′ │ᵥ F′} (𝐸 │ᵥ′ 𝐹) [ P │ Q ]
