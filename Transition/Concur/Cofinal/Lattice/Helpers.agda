@@ -351,17 +351,21 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                 (ᴿ.pop ᴺ.zero *) ((ᴿ.suc idᶠ *) P″₀)
              ∎) (γ₁ 𝐹))) where
 
-      postulate
+      private
          subcase : (P′ : ↓ (ᴿ.suc idᶠ *) P′₀) (Q′ : ↓ Q′₀) (P″ : ↓ (ᴿ.suc idᶠ *) P″₀) (Q″ : ↓ Q″₀)
                    (y y′ : ↓ ᴺ.zero) → tgt ((idᶠ *ᵇ) (E′/E (⊖₁ 𝐸))) ((repl y *̃) R) ≡ P′ → tgt (E′/E (⊖₁ 𝐹)) S ≡ Q′ →
                    tgt ((idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸))) ((repl y′ *̃) R′) ≡ P″ → tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″ → (y† y‡ : ↓ ᴺ.zero) →
                    braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} α
                    [ ν [ (pop y† *̃) P′ │ Q′ ] ] ≡ [ ν [ (pop y‡ *̃) P″ │ Q″ ] ]
-{-
-         subcase P′ Q′ P″ Q″ y y′ ≡P′ ≡Q′ ≡P″ ≡Q″ y≡y′ =
+         subcase P′ Q′ P″ Q″ y y′ ≡P′ ≡Q′ ≡P″ ≡Q″ y† y‡ =
             let β : (pop y *̃) P′ ≅ (pop y′ *̃) P″
                 β = let open ≅-Reasoning in
                    begin
+                      {!!}
+                   ≅⟨ {!!} ⟩
+                      {!!}
+                   ∎
+{-
                       (pop y *̃) P′
                    ≡⟨ cong (λ y† → (pop y† *̃) P′) y≡y′ ⟩
                       (pop y′ *̃) P′
@@ -380,6 +384,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                    ≡⟨ cong (pop y′ *̃) ≡P″ ⟩
                       (pop y′ *̃) P″
                    ∎
+-}
                 δ = Q′ ≅ Q″
                 δ = let open ≅-Reasoning in
                    begin
@@ -399,14 +404,12 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                    ∎
                 open ≅-Reasoning in ≅-to-≡ (
             begin
-               braiding ᶜ∇ᶜ {0} α [ ν [ (pop y *̃) P′ │ Q′ ] ]
+               braiding ᶜ∇ᶜ {0} α [ ν [ (pop y† *̃) P′ │ Q′ ] ]
             ≅⟨ reduce-ᶜ∇ᶜ α _ ⟩
-               [ ν [ (pop y *̃) P′ │ Q′ ] ]
-            ≅⟨ [ν-]-cong (cong₂ _│_ (trans (sym {!!}) (cong (ᴿ.pop ᴺ.zero *) (γ₁ 𝐸))) (γ₁ 𝐹))
-                         ([-│-]-cong (trans (sym {!!}) (cong (ᴿ.pop ᴺ.zero *) (γ₁ 𝐸))) {!!} (γ₁ 𝐹) δ) ⟩
-               [ ν [ (pop y′ *̃) P″ │ Q″ ] ]
+               [ ν [ (pop y† *̃) P′ │ Q′ ] ]
+            ≅⟨ [ν-]-cong (cong₂ _│_ {!!} (γ₁ 𝐹)) ([-│-]-cong {!!} {!!} (γ₁ 𝐹) δ) ⟩
+               [ ν [ (pop y‡ *̃) P″ │ Q″ ] ]
             ∎)
--}
 
       bib : (y : ↓ ᴺ.zero) → action F′ Q ≡ ◻ → action (E′/E (⊖₁ 𝐹)) S ≡ [ • (ᴺ.suc u) 〈 y 〉 ᶜ ] → ⊥
       bib y ≡a ≡a′ = ◻≢[-] (
