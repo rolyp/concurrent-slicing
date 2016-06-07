@@ -12,7 +12,7 @@ module Transition.Concur.Cofinal.Lattice where
    open import Braiding.Proc.Lattice using (braid̂)
    open import Lattice using (Lattices); open Lattice.Prefixes ⦃...⦄
    open import Name as ᴺ using (Name; Cxt; _+_)
-   open import Name.Lattice as ᴺ̃ using (); open ᴺ̃.↓_
+   open import Name.Lattice as ᴺ̃ using (zero); open ᴺ̃.↓_
    open import Proc as ᴾ using (Proc; Proc↱; Proc↲); open ᴾ.Proc
    open import Proc.Lattice as ᴾ̃ using (); open ᴾ̃.↓_; open ᴾ̃.↓⁻_
    import Proc.Ren
@@ -299,27 +299,27 @@ module Transition.Concur.Cofinal.Lattice where
    ... | ◻ , R′ | [ _ • ᵇ ] , R | ◻ , S′ | ◻ , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
       let open │ᵥ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case ◻ ◻
    ... | ◻ , R′ | [ _ • ᵇ ] , R | ◻ , S′ | [ (• ._) ᵇ ] , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
-      let open │ᵥ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in {!!} --case
+      let open │ᵥ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case zero ◻
    ... | ◻ , R′ | [ _ • ᵇ ] , R | [ (• _) ᵇ ] , S′ | ◻ , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
       let open │ᵥ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case ◻ ◻
    ... | ◻ , R′ | [ _ • ᵇ ] , R | [ (• _) ᵇ ] , S′ | [ (• ._) ᵇ ] , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
-      let open │ᵥ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in {!!} --case
+      let open │ᵥ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case zero ◻
    ... | [ _ • ᵇ ] , R′ | ◻ , R | ◻ , S′ | ◻ , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
       let open │ᵥ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case ◻ ◻
    ... | [ _ • ᵇ ] , R′ | ◻ , R | ◻ , S′ | [ (• _) ᵇ ] , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
       let open │ᵥ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case ◻ ◻
    ... | [ _ • ᵇ ] , R′ | ◻ , R | [ (• ._) ᵇ ] , S′ | ◻ , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
-      let open │ᵥ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in {!!} --case
+      let open │ᵥ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case ◻ zero
    ... | [ _ • ᵇ ] , R′ | ◻ , R | [ (• ._) ᵇ ] , S′ | [ (• ._) ᵇ ] , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
-      let open │ᵥ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in {!!} --case
+      let open │ᵥ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case ◻ zero
    ... | [ _ • ᵇ ] , R′ | [ _ • ᵇ ] , R | ◻ , S′ | ◻ , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
       let open │ᵥ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case ◻ ◻
    ... | [ _ • ᵇ ] , R′ | [ _ • ᵇ ] , R | ◻ , S′ | [ (• ._) ᵇ ] , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
-      let open │ᵥ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in {!!} --case
+      let open │ᵥ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case zero ◻
    ... | [ _ • ᵇ ] , R′ | [ _ • ᵇ ] , R | [ (• ._) ᵇ ] , S′ | ◻ , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
-      let open │ᵥ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in {!!} --case
+      let open │ᵥ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case ◻ zero
    ... | [ _ • ᵇ ] , R′ | [ _ • ᵇ ] , R | [ (• ._) ᵇ ] , S′ | [ (• ._) ᵇ ] , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
-      let open │ᵥ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in {!!} --case
+      let open │ᵥ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case zero zero
 
 {-
    gamma₁ {E = E │ᵥ F} {E′ │ᵥ F′} (𝐸 │ᵥ′ 𝐹) [ P │ Q ]
