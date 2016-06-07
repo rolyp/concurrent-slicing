@@ -18,7 +18,7 @@ module Transition.Lattice where
    import Proc.Lattice as ᴾ̃; open ᴾ̃.↓_; open ᴾ̃.↓⁻_; open ᴾ̃._≤_; open ᴾ̃._≤⁻_
    open import Proc.Ren.Lattice renaming (_* to _*̃)
    open import Ren as ᴿ using (module Renameable); open Renameable ⦃...⦄
-   open import Ren.Lattice as ᴿ̃ using (pop; popᴹ; id; repl; repl-zero-top; push; swap)
+   open import Ren.Lattice as ᴿ̃ using (pop; popᴹ; id; repl; replᴹ; push; swap)
    open import Transition as ᵀ using (_—[_-_]→_; module _—[_-_]→_); open _—[_-_]→_
 
    open module Action×Proc {Γ} = Lattice.Product (Action Γ) (Proc ∘ᶠ ᴬ.tgt) using (×-prefixes)
@@ -101,12 +101,12 @@ module Transition.Lattice where
    ... | ◻ , _ | [ (x •) ᵇ ] , _ | _ , R†
       with step F Q′ | stepᴹ F Q†
    ... | ◻ , _ | _ , S† = ◻ , [ ν [ (ᴹ (repl ◻) *ᴹ) R† │ S† ] ]
-   ... | [ (• .x) ᵇ ] , _ | _ , S† = ◻ , [ ν [ (repl-zero-top ◻ *ᴹ) R† │ S† ] ]
+   ... | [ (• .x) ᵇ ] , _ | _ , S† = ◻ , [ ν [ (replᴹ ◻ *ᴹ) R† │ S† ] ]
    step⁻ᴹ (E │ᵥ F) {P │ Q} {P′ │ Q′} (P† │ Q†) | [ _ ] , _ | ◻ , _ | () , _
    step⁻ᴹ (E │ᵥ F) {P │ Q} {P′ │ Q′} (P† │ Q†) | [ ( x •) ᵇ ] , _ | [ (.x •) ᵇ ] , _ | _ , R†
       with step F Q | step F Q′ | stepᴹ F Q†
    ... | ◻ , _ | ◻ , _ | _ , S† = ◻ , [ ν [ (ᴹ (repl ◻) *ᴹ) R† │ S† ] ]
-   ... | ◻ , _ | [ (• .x) ᵇ ] , _ | _ , S† = ◻ , [ ν [ (repl-zero-top ◻ *ᴹ) R† │ S† ] ]
+   ... | ◻ , _ | [ (• .x) ᵇ ] , _ | _ , S† = ◻ , [ ν [ (replᴹ ◻ *ᴹ) R† │ S† ] ]
    ... | [ (• .x) ᵇ ] , _ | ◻ , _ | () , _
    ... | [ (• .x) ᵇ ] , _ | [ (• .x) ᵇ ] , _ | _ , S† = [ τ ᶜ ] , [ ν [ (ᴹ (repl zero) *ᴹ) R† │ S† ] ]
 

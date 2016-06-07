@@ -183,11 +183,6 @@ module Ren.Lattice where
    id : ∀ {Γ} → ↓ (idᶠ {A = Name Γ})
    id = to-↓ idᶠ
 
-   id-top : ∀ {Γ} {ρ : ↓ idᶠ} → ρ ≤ id {Γ}
-   id-top {ρ = ρ} x with ρ x
-   id-top y | ᴺ̃.◻ = ᴺ̃.◻
-   id-top y | [ .y ] = [ y ]
-
    -- Maps 0 to y ≤ 0 and otherwise as id.
    repl : ∀ {Γ} (y : ↓′_ {A = Name (Γ + 1)} ᴺ.zero) → ↓ idᶠ
    repl y ᴺ.zero = y
