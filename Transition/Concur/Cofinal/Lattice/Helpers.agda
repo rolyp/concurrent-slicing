@@ -336,10 +336,9 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       (let P′₀ = tgt₁ (⊖₁ 𝐸); P″₀ = tgt₂(⊖₁ 𝐸); Q′₀ = tgt₁ (⊖₁ 𝐹); Q″₀ = tgt₂(⊖₁ 𝐹))
       (IH₁ : braiding (ᵇ∇ᵇ {a = x •} {u •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)) ≡ tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))
       (IH₂ : braiding (ˣ∇ˣ {x = x} {u}) {0} (γ₁ 𝐹) (tgt (E′/E (⊖₁ 𝐹)) (tgt F Q)) ≡ tgt (E/E′ (⊖₁ 𝐹)) (tgt F′ Q))
-      (let α : ν ((ᴿ.pop ᴺ.zero *) ((ᴿ.suc idᶠ *) P′₀) │ Q′₀) ≡ Proc↱ refl (ν ((ᴿ.pop ᴺ.zero *) ((ᴿ.suc idᶠ *) P″₀) │ Q″₀))
-           α = let open EqReasoning (setoid _) in
-              cong ν_ (cong₂ _│_ (
-              begin
+      (let γ : (ᴿ.pop ᴺ.zero *) ((ᴿ.suc idᶠ *) P′₀) ≡ (ᴿ.pop ᴺ.zero *) ((ᴿ.suc idᶠ *) P″₀)
+           γ = let open EqReasoning (setoid _) in
+             begin
                 (ᴿ.pop ᴺ.zero *) ((ᴿ.suc idᶠ *) P′₀)
              ≡⟨ cong (ᴿ.pop ᴺ.zero *) (+-id-elim 1 P′₀) ⟩
                 (ᴿ.pop ᴺ.zero *) P′₀
@@ -349,47 +348,49 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                 (ᴿ.pop ᴺ.zero *) P″₀
              ≡⟨ cong (ᴿ.pop ᴺ.zero *) (sym (+-id-elim 1 P″₀)) ⟩
                 (ᴿ.pop ᴺ.zero *) ((ᴿ.suc idᶠ *) P″₀)
-             ∎) (γ₁ 𝐹))) where
+             ∎
+           α : ν ((ᴿ.pop ᴺ.zero *) ((ᴿ.suc idᶠ *) P′₀) │ Q′₀) ≡ Proc↱ refl (ν ((ᴿ.pop ᴺ.zero *) ((ᴿ.suc idᶠ *) P″₀) │ Q″₀))
+           α = cong ν_ (cong₂ _│_ γ (γ₁ 𝐹))) where
 
       private
-         subcase : (P′ : ↓ (ᴿ.suc idᶠ *) P′₀) (Q′ : ↓ Q′₀) (P″ : ↓ (ᴿ.suc idᶠ *) P″₀) (Q″ : ↓ Q″₀)
-                   (y y′ : ↓ ᴺ.zero) → tgt ((idᶠ *ᵇ) (E′/E (⊖₁ 𝐸))) ((repl y *̃) R) ≡ P′ → tgt (E′/E (⊖₁ 𝐹)) S ≡ Q′ →
-                   tgt ((idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸))) ((repl y′ *̃) R′) ≡ P″ → tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″ → (y† y‡ : ↓ ᴺ.zero) →
+         subcase : (p′ : ↓ (ᴿ.suc idᶠ *) p′₀) (q′ : ↓ q′₀) (p″ : ↓ (ᴿ.suc idᶠ *) p″₀) (q″ : ↓ q″₀)
+                   (y y′ : ↓ ᴺ.zero) → tgt ((idᶠ *ᵇ) (e′/e (⊖₁ 𝐸))) ((repl y *̃) r) ≡ p′ → tgt (e′/e (⊖₁ 𝐹)) s ≡ q′ →
+                   tgt ((idᶠ *ᵇ) (e/e′ (⊖₁ 𝐸))) ((repl y′ *̃) r′) ≡ p″ → tgt (e/e′ (⊖₁ 𝐹)) s′ ≡ q″ → (y† y‡ : ↓ ᴺ.zero) →
                    braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} α
-                   [ ν [ (pop y† *̃) P′ │ Q′ ] ] ≡ [ ν [ (pop y‡ *̃) P″ │ Q″ ] ]
-         subcase P′ Q′ P″ Q″ y y′ ≡P′ ≡Q′ ≡P″ ≡Q″ y† y‡ =
-            let β : (pop y *̃) P′ ≅ (pop y′ *̃) P″
-                β = let open ≅-Reasoning in
+                   [ ν [ (pop y† *̃) p′ │ q′ ] ] ≡ [ ν [ (pop y‡ *̃) p″ │ q″ ] ]
+         subcase p′ q′ p″ q″ y y′ ≡p′ ≡q′ ≡p″ ≡q″ y† y‡ =
+            let β : (pop y† *̃) p′ ≅ (pop y‡ *̃) p″
+                β = let open ≅-reasoning in
                    begin
                       {!!}
                    ≅⟨ {!!} ⟩
                       {!!}
                    ∎
 {-
-                      (pop y *̃) P′
-                   ≡⟨ cong (λ y† → (pop y† *̃) P′) y≡y′ ⟩
-                      (pop y′ *̃) P′
-                   ≡⟨ cong (pop y′ *̃) (sym ≡P′) ⟩
-                      (pop y′ *̃) (tgt (E′/E (⊖₁ 𝐸)) R)
-                   ≡⟨ cong ((pop y′ *̃) ∘ᶠ (tgt (E′/E (⊖₁ 𝐸)))) (sym ≡R) ⟩
-                      (pop y′ *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))
+                      (pop y *̃) p′
+                   ≡⟨ cong (λ y† → (pop y† *̃) p′) y≡y′ ⟩
+                      (pop y′ *̃) p′
+                   ≡⟨ cong (pop y′ *̃) (sym ≡p′) ⟩
+                      (pop y′ *̃) (tgt (e′/e (⊖₁ 𝐸)) r)
+                   ≡⟨ cong ((pop y′ *̃) ∘ᶠ (tgt (e′/e (⊖₁ 𝐸)))) (sym ≡r) ⟩
+                      (pop y′ *̃) (tgt (e′/e (⊖₁ 𝐸)) (tgt e p))
                    ≅⟨ {!!} ⟩
-                      (pop y′ *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
+                      (pop y′ *̃) ((swap *̃) (tgt (e′/e (⊖₁ 𝐸)) (tgt e p)))
                    ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) (pop y′ *̃) (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _)) ⟩
-                      (pop y′ *̃) (braiding (ᵇ∇ᵇ {a = x •} {u •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
-                   ≡⟨ cong (pop y′ *̃) IH₁ ⟩
-                      (pop y′ *̃) (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))
-                   ≡⟨ cong ((pop y′ *̃) ∘ᶠ (tgt (E/E′ (⊖₁ 𝐸)))) ≡R′ ⟩
-                      (pop y′ *̃) (tgt (E/E′ (⊖₁ 𝐸)) R′)
-                   ≡⟨ cong (pop y′ *̃) ≡P″ ⟩
-                      (pop y′ *̃) P″
+                      (pop y′ *̃) (braiding (ᵇ∇ᵇ {a = x •} {u •}) {0} (γ₁ 𝐸) (tgt (e′/e (⊖₁ 𝐸)) (tgt e p)))
+                   ≡⟨ cong (pop y′ *̃) ih₁ ⟩
+                      (pop y′ *̃) (tgt (e/e′ (⊖₁ 𝐸)) (tgt e′ p))
+                   ≡⟨ cong ((pop y′ *̃) ∘ᶠ (tgt (e/e′ (⊖₁ 𝐸)))) ≡r′ ⟩
+                      (pop y′ *̃) (tgt (e/e′ (⊖₁ 𝐸)) r′)
+                   ≡⟨ cong (pop y′ *̃) ≡p″ ⟩
+                      (pop y′ *̃) p″
                    ∎
 -}
-                δ = Q′ ≅ Q″
-                δ = let open ≅-Reasoning in
+                δ = q′ ≅ q″
+                δ = let open ≅-reasoning in
                    begin
-                      Q′
-                   ≡⟨ sym ≡Q′ ⟩
+                      q′
+                   ≡⟨ sym ≡q′ ⟩
                       tgt (E′/E (⊖₁ 𝐹)) S
                    ≡⟨ cong (tgt (E′/E (⊖₁ 𝐹))) (sym ≡S) ⟩
                       tgt (E′/E (⊖₁ 𝐹)) (tgt F Q)
@@ -407,7 +408,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                braiding ᶜ∇ᶜ {0} α [ ν [ (pop y† *̃) P′ │ Q′ ] ]
             ≅⟨ reduce-ᶜ∇ᶜ α _ ⟩
                [ ν [ (pop y† *̃) P′ │ Q′ ] ]
-            ≅⟨ [ν-]-cong (cong₂ _│_ {!!} (γ₁ 𝐹)) ([-│-]-cong {!!} {!!} (γ₁ 𝐹) δ) ⟩
+            ≅⟨ [ν-]-cong (cong₂ _│_ γ (γ₁ 𝐹)) ([-│-]-cong γ β (γ₁ 𝐹) δ) ⟩
                [ ν [ (pop y‡ *̃) P″ │ Q″ ] ]
             ∎)
 
