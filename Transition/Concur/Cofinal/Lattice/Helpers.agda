@@ -370,7 +370,11 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                    ≡⟨ cong ((pop y† *̃) ∘ᶠ (suc (repl y) *̃) ∘ᶠ tgt (E′/E (⊖₁ 𝐸))) (sym ≡R) ⟩
                       (pop y† *̃) ((suc (repl y) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
                    ≅⟨ {!!} ⟩
-                      (pop y‡ *̃) ((suc (repl y′) *̃) (braiding (ᵇ∇ᵇ {a = x •} {u •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
+                      (pop y′ *̃) ((suc (repl y‡) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
+                   ≅⟨ ≅-sym (pop-swap̃ y′ y‡ _) ⟩
+                      (pop y‡ *̃) ((suc (repl y′) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
+                   ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) ((pop y‡ *̃) ∘ᶠ (suc (repl y′) *̃)) (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _)) ⟩
+                      (pop y‡ *̃) ((suc (repl y′) *̃) (braiding ᵇ∇ᵇ {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
                    ≡⟨ cong ((pop y‡ *̃) ∘ᶠ (suc (repl y′) *̃)) IH₁ ⟩
                       (pop y‡ *̃) ((suc (repl y′) *̃) (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P)))
                    ≡⟨ cong ((pop y‡ *̃) ∘ᶠ ((suc (repl y′) *̃) ∘ᶠ tgt (E/E′ (⊖₁ 𝐸)))) ≡R′ ⟩
@@ -380,26 +384,6 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                    ≡⟨ cong (pop y‡ *̃) ≡P″ ⟩
                       (pop y‡ *̃) P″
                    ∎
-{-
-                      (pop y *̃) P′
-                   ≡⟨ cong (λ y† → (pop y† *̃) P′) y≡y′ ⟩
-                      (pop y′ *̃) P′
-                   ≡⟨ cong (pop y′ *̃) (sym ≡P′) ⟩
-                      (pop y′ *̃) (tgt (E′/E (⊖₁ 𝐸)) R)
-                   ≡⟨ cong ((pop y′ *̃) ∘ᶠ (tgt (E′/E (⊖₁ 𝐸)))) (sym ≡R) ⟩
-                      (pop y′ *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))
-                   ≅⟨ {!!} ⟩
-                      (pop y′ *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
-                   ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) (pop y′ *̃) (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _)) ⟩
-                      (pop y′ *̃) (braiding (ᵇ∇ᵇ {a = x •} {u •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
-                   ≡⟨ cong (pop y′ *̃) IH₁ ⟩
-                      (pop y′ *̃) (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))
-                   ≡⟨ cong ((pop y′ *̃) ∘ᶠ (tgt (E/E′ (⊖₁ 𝐸)))) ≡R′ ⟩
-                      (pop y′ *̃) (tgt (E/E′ (⊖₁ 𝐸)) R′)
-                   ≡⟨ cong (pop y′ *̃) ≡P″ ⟩
-                      (pop y′ *̃) P″
-                   ∎
--}
                 δ = Q′ ≅ Q″
                 δ = let open ≅-Reasoning in
                    begin
