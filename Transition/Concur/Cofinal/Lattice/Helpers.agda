@@ -17,7 +17,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
    open import Proc.Lattice as ᴾ̃ using (); open ᴾ̃.↓_; open ᴾ̃.↓⁻_
    open import Proc.Ren.Lattice using () renaming (_* to _*̃)
    open import Ren as ᴿ using (); open ᴿ.Renameable ⦃...⦄
-   open import Ren.Lattice as ᴿ̃ using (swap; pop; push; id-◻; _ᴿ+_; suc)
+   open import Ren.Lattice as ᴿ̃ using (swap; pop; push; repl; _ᴿ+_; suc)
    open import Ren.Lattice.Properties
    open import Ren.Properties
    open import Transition as ᵀ using (_—[_-_]→_); open ᵀ._—[_-_]→_
