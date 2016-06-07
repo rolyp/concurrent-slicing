@@ -188,10 +188,10 @@ module Ren.Lattice where
    id-top y | ᴺ̃.◻ = ᴺ̃.◻
    id-top y | [ .y ] = [ y ]
 
-   -- Maps 0 to ◻ and otherwise as id.
-   id-◻ : ∀ {Γ} → ↓ (idᶠ {A = Name Γ})
-   id-◻ ᴺ.zero = ᴺ̃.◻
-   id-◻ x = [ x ]
+   -- Maps 0 to y ≤ 0 and otherwise as id.
+   repl : ∀ {Γ} (y : ↓′_ {A = Name (Γ + 1)} ᴺ.zero) → ↓ idᶠ
+   repl y ᴺ.zero = y
+   repl y x = [ x ]
 
    *-preserves-id : ∀ {Γ} {x₀ : Name Γ} (x : ↓′ x₀) → (id *) x ≡ x
    *-preserves-id ᴺ̃.◻ = refl

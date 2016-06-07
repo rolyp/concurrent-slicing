@@ -436,7 +436,8 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
          ∎)
 
       postulate
-       case : braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} α
+       case : (y y′ : ↓ ᴺ.zero) →
+              braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} α
               (π₂ (step⁻ (νᶜ ((idᶠ *ᵇ) (E′/E (⊖₁ 𝐸)) │• E′/E (⊖₁ 𝐹))) (ν [ (id-◻ *̃) R │ S ]))) ≡
               π₂ (step⁻ (νᶜ ((idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸)) │• E/E′ (⊖₁ 𝐹))) (ν [ (id-◻ *̃) R′ │ S′ ]))
 {-
