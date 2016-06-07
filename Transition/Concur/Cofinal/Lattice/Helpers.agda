@@ -351,11 +351,12 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                 (ᴿ.pop ᴺ.zero *) ((ᴿ.suc idᶠ *) P″₀)
              ∎) (γ₁ 𝐹))) where
 
-{-
+      postulate
          subcase : (P′ : ↓ P′₀) (Q′ : ↓ Q′₀) (P″ : ↓ P″₀) (Q″ : ↓ Q″₀)
                    (y y′ : ↓ ᴺ.zero) → tgt (E′/E (⊖₁ 𝐸)) R ≡ P′ → tgt (E′/E (⊖₁ 𝐹)) S ≡ Q′ →
                    tgt (E/E′ (⊖₁ 𝐸)) R′ ≡ P″ → tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″ → y ≡ y′ →
                    braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} α [ ν [ {!!} │ Q′ ] ] ≡ [ ν [ {!!} │ Q″ ] ]
+{-
          subcase P′ Q′ P″ Q″ y y′ ≡P′ ≡Q′ ≡P″ ≡Q″ y≡y′ =
             let β : (pop y *̃) P′ ≅ (pop y′ *̃) P″
                 β = let open ≅-Reasoning in
@@ -405,6 +406,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                [ ν [ (pop y′ *̃) P″ │ Q″ ] ]
             ∎)
 -}
+
       bib : (y : ↓ ᴺ.zero) → action F′ Q ≡ ◻ → action (E′/E (⊖₁ 𝐹)) S ≡ [ • (ᴺ.suc u) 〈 y 〉 ᶜ ] → ⊥
       bib y ≡a ≡a′ = ◻≢[-] (
          let open EqReasoning (setoid _) in
@@ -435,19 +437,18 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
             [ • (ᴺ.suc x) 〈 y 〉 ᶜ ]
          ∎)
 
-      postulate
-       case : (y y′ : ↓ ᴺ.zero) →
+      case : (y y′ : ↓ ᴺ.zero) →
               braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} α
               (π₂ (step⁻ (νᶜ ((idᶠ *ᵇ) (E′/E (⊖₁ 𝐸)) │• E′/E (⊖₁ 𝐹))) (ν [ (repl y *̃) R │ S ]))) ≡
               π₂ (step⁻ (νᶜ ((idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸)) │• E/E′ (⊖₁ 𝐹))) (ν [ (repl y′ *̃) R′ │ S′ ]))
-{-
-      case
+      case y y′
          with step (E′/E (⊖₁ 𝐸)) R | step (E′/E (⊖₁ 𝐹)) S | step (E/E′ (⊖₁ 𝐸)) R′ | step (E/E′ (⊖₁ 𝐹)) S′ |
               inspect (step (E′/E (⊖₁ 𝐸))) R | inspect (step (E′/E (⊖₁ 𝐹))) S |
               inspect (step (E/E′ (⊖₁ 𝐸))) R′ | inspect (step (E/E′ (⊖₁ 𝐹))) S′
+      ... | ◻ , P′ | ◻ , Q′ | ◻ , P″ | ◻ , Q″ | [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ] =
+         {!!} -- subcase P′ Q′ P″ Q″ ◻ ◻ (,-inj₂ ≡P′) (,-inj₂ ≡Q′) (,-inj₂ ≡P″) (,-inj₂ ≡Q″) refl
+      ... | _ , P′ | _ , Q′ | _ , P″ | _ , Q″ | [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ] = {!!}
 {-
-      case | ◻ , P′ | ◻ , Q′ | ◻ , P″ | ◻ , Q″ | [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ] =
-         subcase P′ Q′ P″ Q″ ◻ ◻ (,-inj₂ ≡P′) (,-inj₂ ≡Q′) (,-inj₂ ≡P″) (,-inj₂ ≡Q″) refl
       case | ◻ , P′ | ◻ , Q′ | ◻ , P″ | [ q ᶜ ] , Q″ | [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ] =
          {!!}
       case | ◻ , P′ | ◻ , Q′ | [ (._ •) ᵇ ] , P″ | ◻ , Q″ | [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ] =
@@ -474,7 +475,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
          {!!}
       case | [ (._ •) ᵇ ] , P′ | [ • ._ 〈 y 〉 ᶜ ] , Q′ | ◻ , P″ | [ q′ ᶜ ] , Q″ | [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ] =
          {!!}
--}
+
       case | [ (._ •) ᵇ ] , P′ | [ • .(ᴺ.suc u) 〈 y 〉 ᶜ ] , Q′ | [ (._ •) ᵇ ] , P″ | ◻ , Q″ | [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ]
          with action F′ Q | action F Q | inspect (action F′) Q | inspect (action F) Q
       ... | ◻ | _ | [ ≡a ] | _ = ⊥-elim (bib y ≡a (,-inj₁ ≡Q′))
