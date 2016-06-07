@@ -345,11 +345,12 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                  (ᴿ.pop ᴺ.zero *) (tgt₂(⊖₁ 𝐸))
               ∎) (γ₁ 𝐹))) where
 
-      private
+      postulate
          subcase : (P′ : ↓ tgt₁ (⊖₁ 𝐸)) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) (P″ : ↓ tgt₂ (⊖₁ 𝐸)) (Q″ : ↓ tgt₂ (⊖₁ 𝐹))
                    (y y′ : ↓ ᴺ.zero) → tgt (E′/E (⊖₁ 𝐸)) R ≡ P′ → tgt (E′/E (⊖₁ 𝐹)) S ≡ Q′ →
                    tgt (E/E′ (⊖₁ 𝐸)) R′ ≡ P″ → tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″ → y ≡ y′ →
                    braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} α [ ν [ (pop y *̃) P′ │ Q′ ] ] ≡ [ ν [ (pop y′ *̃) P″ │ Q″ ] ]
+{-
          subcase P′ Q′ P″ Q″ y y′ ≡P′ ≡Q′ ≡P″ ≡Q″ y≡y′ =
             let β : (pop y *̃) P′ ≅ (pop y′ *̃) P″
                 β = let open ≅-Reasoning in
@@ -361,7 +362,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                       (pop y′ *̃) (tgt (E′/E (⊖₁ 𝐸)) R)
                    ≡⟨ cong ((pop y′ *̃) ∘ᶠ (tgt (E′/E (⊖₁ 𝐸)))) (sym ≡R) ⟩
                       (pop y′ *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))
-                   ≅⟨ ≅-sym (pop-swap̃ _) ⟩
+                   ≅⟨ {!!} ⟩
                       (pop y′ *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
                    ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) (pop y′ *̃) (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _)) ⟩
                       (pop y′ *̃) (braiding (ᵇ∇ᵇ {a = x •} {u •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
@@ -394,11 +395,11 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                braiding ᶜ∇ᶜ {0} α [ ν [ (pop y *̃) P′ │ Q′ ] ]
             ≅⟨ reduce-ᶜ∇ᶜ α _ ⟩
                [ ν [ (pop y *̃) P′ │ Q′ ] ]
-            ≅⟨ [ν-]-cong (cong₂ _│_ (trans (sym (pop-swap _)) (cong (ᴿ.pop ᴺ.zero *) (γ₁ 𝐸))) (γ₁ 𝐹))
-                         ([-│-]-cong (trans (sym (pop-swap _)) (cong (ᴿ.pop ᴺ.zero *) (γ₁ 𝐸))) β (γ₁ 𝐹) δ) ⟩
+            ≅⟨ [ν-]-cong (cong₂ _│_ (trans (sym {!!}) (cong (ᴿ.pop ᴺ.zero *) (γ₁ 𝐸))) (γ₁ 𝐹))
+                         ([-│-]-cong (trans (sym {!!}) (cong (ᴿ.pop ᴺ.zero *) (γ₁ 𝐸))) {!!} (γ₁ 𝐹) δ) ⟩
                [ ν [ (pop y′ *̃) P″ │ Q″ ] ]
             ∎)
-
+-}
       bib : (y : ↓ ᴺ.zero) → action F′ Q ≡ ◻ → action (E′/E (⊖₁ 𝐹)) S ≡ [ • (ᴺ.suc u) 〈 y 〉 ᶜ ] → ⊥
       bib y ≡a ≡a′ = ◻≢[-] (
          let open EqReasoning (setoid _) in
@@ -429,9 +430,11 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
             [ • (ᴺ.suc x) 〈 y 〉 ᶜ ]
          ∎)
 
-      case : braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} α
+      postulate
+       case : braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} α
              (π₂ (step⁻ (νᶜ (E′/E (⊖₁ 𝐸) │• E′/E (⊖₁ 𝐹))) (ν [ R │ S ]))) ≡
              π₂ (step⁻ (νᶜ (E/E′ (⊖₁ 𝐸) │• E/E′ (⊖₁ 𝐹))) (ν [ R′ │ S′ ]))
+{-
       case
          with step (E′/E (⊖₁ 𝐸)) R | step (E′/E (⊖₁ 𝐹)) S | step (E/E′ (⊖₁ 𝐸)) R′ | step (E/E′ (⊖₁ 𝐹)) S′ |
               inspect (step (E′/E (⊖₁ 𝐸))) R | inspect (step (E′/E (⊖₁ 𝐹))) S |
@@ -511,6 +514,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
              y≡y′ = trans ([•x〈-〉ᶜ]-inj α) (sym ([•x〈-〉ᶜ]-inj β)) in
          subcase P′ Q′ P″ Q″ y y′ (,-inj₂ ≡P′) (,-inj₂ ≡Q′) (,-inj₂ ≡P″) (,-inj₂ ≡Q″) y≡y′
       case | _ | _ | _ | _ | _ | _ | _ | _ = {!!}
+-}
 
 {-
    module │ᵥ′
