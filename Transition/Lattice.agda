@@ -14,7 +14,7 @@ module Transition.Lattice where
    import Lattice.Product
    open import Name as ᴺ using (Name; _+_)
    open import Name.Lattice as ᴺ̃ using (zero; suc; sucᴹ); open ᴺ̃.↓_; open ᴺ̃._≤_
-   open import Proc using (Proc; module Proc); open Proc.Proc
+   open import Proc as ᴾ using (Proc; module Proc); open ᴾ.Proc
    import Proc.Lattice as ᴾ̃; open ᴾ̃.↓_; open ᴾ̃.↓⁻_; open ᴾ̃._≤_; open ᴾ̃._≤⁻_
    open import Proc.Ren.Lattice renaming (_* to _*̃)
    open import Ren as ᴿ using (module Renameable); open Renameable ⦃...⦄
