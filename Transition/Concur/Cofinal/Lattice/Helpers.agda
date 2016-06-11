@@ -17,7 +17,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
    open import Proc.Lattice as ᴾ̃ using (); open ᴾ̃.↓_; open ᴾ̃.↓⁻_
    open import Proc.Ren.Lattice using () renaming (_* to _*̃)
    open import Ren as ᴿ using (); open ᴿ.Renameable ⦃...⦄
-   open import Ren.Lattice as ᴿ̃ using (swap; pop; push; id; repl; _ᴿ+_; suc)
+   open import Ren.Lattice as ᴿ̃ using (swap; pop; push; id; repl; weaken; _ᴿ+_; suc)
    open import Ren.Lattice.Properties
    open import Ren.Properties
    open import Transition as ᵀ using (_—[_-_]→_); open ᵀ._—[_-_]→_
@@ -347,12 +347,19 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
 
       case :
          braiding (ᵇ∇ᶜ {a = x′ •} {τ}) {0} (cong ν_ (cong₂ _│_ α (swap∘push S₀)))
-         [ ν [ (ᴿ̃.repl ((ᴿ̃.weaken ᴿ̃.*) y) *̃) P′ │ S′ ] ]
+         [ ν [ (ᴿ̃.repl ((weaken ᴿ̃.*) y) *̃) P′ │ S′ ] ]
          ≡
          π₂ (step⁻ (νᵇ (id*E/E′ ᵇ│ S₀)) (ν [ (ᴿ̃.repl y *̃) R′ │ S ]))
       case
          with step id*E/E′ ((ᴿ̃.repl y *̃) R′)
-      ... | ◻ , P″ = {!!}
+      ... | ◻ , P″ = ≅-to-≡ (
+         let open ≅-Reasoning in
+         begin
+            braiding ᵇ∇ᶜ (cong ν_ (cong₂ _│_ α (swap∘push S₀)))
+            [ ν [ (repl ((weaken ᴿ̃.*) y) *̃) P′ │ S′ ] ]
+         ≅⟨ {!!} ⟩
+            [ ν [ (swap *̃) P″ │ (swap *̃) ((push *̃) S) ] ]
+         ∎)
       ... | [ (.(ᴺ.suc x′) •) ᵇ ] , P″ = {!!}
 
 {-

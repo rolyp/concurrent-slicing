@@ -285,7 +285,7 @@ module Transition.Concur.Cofinal.Lattice where
    ... | id*E/E′ | [ ._ • ᵇ ] , R′ | ◻ , S | [ ._ • ᵇ ] , P′ | ◻ , S′ =
       let open │ᵥᵇ 𝐸 F P′ S′ id*E/E′ S R′ ◻ in case
    ... | id*E/E′ | [ ._ • ᵇ ] , R′ | [ (• ._) ᵇ ] , S | [ ._ • ᵇ ] , P′ | [ (• ._) ᵇ ] , S′ =
-      let open │ᵥᵇ 𝐸 F P′ S′ id*E/E′ S R′ [ ᴺ.zero ] in {!case!}
+      let open │ᵥᵇ 𝐸 F P′ S′ id*E/E′ S R′ [ ᴺ.zero ] in case
    ... | id*E/E′ | [ ._ • ᵇ ] , R′ | _ , S | ◻ , P′ | _ , S′ = {!!} -- impossible
    ... | id*E/E′ | ◻ , R′ | _ , S | [ ._ • ᵇ ] , P′ | _ , S′ = {!!} -- impossible
    ... | id*E/E′ | _ , R′ | [ (• ._) ᵇ ] , S | _ , P′ | ◻ , S′ = {!!} -- impossible
