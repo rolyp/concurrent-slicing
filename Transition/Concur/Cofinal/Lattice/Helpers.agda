@@ -511,7 +511,16 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
          braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} (cong ν_ (cong₂ _│_ (cong (idᶠ *) (γ₁ 𝐸)) refl))
          [ ν [ (repl y *̃) P′ │ S ] ] ≡
          [ ν [ P″ │ S ] ]
-      subcase P″ ≡P″ = {!!}
+      subcase P″ ≡P″ = ≅-to-≡ (
+         let open ≅-Reasoning in
+         begin
+            braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} (cong ν_ (cong₂ _│_ (cong (idᶠ *) (γ₁ 𝐸)) refl))
+            [ ν [ (repl y *̃) P′ │ S ] ]
+         ≅⟨ reduce-ᶜ∇ᶜ (cong ν_ (cong₂ _│_ (cong (idᶠ *) (γ₁ 𝐸)) refl)) _ ⟩
+            [ ν [ (repl y *̃) P′ │ S ] ]
+         ≅⟨ [ν-]-cong (cong₂ _│_ (cong (idᶠ *) (γ₁ 𝐸)) refl) ([-│]-cong S (cong (idᶠ *) (γ₁ 𝐸)) {!!}) ⟩
+            [ ν [ P″ │ S ] ]
+         ∎)
 
       case :
          braiding (ᶜ∇ᶜ {a = τ} {τ}) {0}
