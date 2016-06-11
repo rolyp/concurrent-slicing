@@ -332,7 +332,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       {Γ} {x x′ : Name Γ} {P₀ R₀ R′₀ S₀ Q₀} {E : P₀ —[ x′ • ᵇ - _ ]→ R₀} {E′ : P₀ —[ x • ᵇ - _ ]→ R′₀}
       (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (F : Q₀ —[ (• x) ᵇ - _ ]→ S₀)
       (let P′₀ = tgt₁ (⊖₁ 𝐸); P″₀ = tgt₂ (⊖₁ 𝐸)) (P′ : ↓ P′₀) (S′ : ↓ (ᴿ.suc ᴿ.push *) S₀)
-      (id*E/E′ : (idᶠ *) R′₀ —[ (ᴺ.suc x′ •) ᵇ - _ ]→ (ᴿ.suc idᶠ *) P″₀) (S : ↓ S₀) (R′ : ↓ R′₀)
+      (id*E/E′ : (idᶠ *) R′₀ —[ (ᴺ.suc x′ •) ᵇ - _ ]→ (ᴿ.suc idᶠ *) P″₀) (S : ↓ S₀) (R′ : ↓ R′₀) (y : ↓ ᴺ.zero)
       (let α : (idᶠ *) P′₀ ≡ (ᴿ.swap *) ((ᴿ.suc idᶠ *) P″₀)
            α = (let open EqReasoning (setoid _) in
              begin
@@ -347,11 +347,10 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
 
       postulate
        case :
-         braiding (ᵇ∇ᶜ {a = x′ •} {τ}) {0}
-         (cong ν_ (cong₂ _│_ α (swap∘push S₀)))
-         [ ν [ (ᴿ̃.repl ◻ *̃) P′ │ S′ ] ]
+         braiding (ᵇ∇ᶜ {a = x′ •} {τ}) {0} (cong ν_ (cong₂ _│_ α (swap∘push S₀)))
+         [ ν [ (ᴿ̃.repl ((ᴿ̃.weaken ᴿ̃.*) y) *̃) P′ │ S′ ] ]
          ≡
-         π₂ (step⁻ (νᵇ (id*E/E′ ᵇ│ S₀)) (ν [ (ᴿ̃.repl ◻ *̃) R′ │ S ]))
+         π₂ (step⁻ (νᵇ (id*E/E′ ᵇ│ S₀)) (ν [ (ᴿ̃.repl y *̃) R′ │ S ]))
 {-
       case
          with step id*E/E′ ((ᴿ̃.repl ◻ *̃) R′)

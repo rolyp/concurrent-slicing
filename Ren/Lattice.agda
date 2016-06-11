@@ -220,3 +220,6 @@ module Ren.Lattice where
 
    swap : ∀ {Γ} → ↓ (ᴿ.swap {Γ})
    swap = to-↓ ᴿ.swap
+
+   weaken : ∀ {Γ} → ↓ (ᴿ.weaken {Γ})
+   weaken = to-↓ ᴿ.weaken
