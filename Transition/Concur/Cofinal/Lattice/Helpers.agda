@@ -332,7 +332,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       {Γ} {x x′ : Name Γ} {P₀ R₀ R′₀ S₀ Q₀} {E : P₀ —[ x′ • ᵇ - _ ]→ R₀} {E′ : P₀ —[ x • ᵇ - _ ]→ R′₀}
       (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (F : Q₀ —[ (• x) ᵇ - _ ]→ S₀)
       (let P′₀ = tgt₁ (⊖₁ 𝐸); P″₀ = tgt₂ (⊖₁ 𝐸)) (P′ : ↓ P′₀) (S′ : ↓ (ᴿ.suc ᴿ.push *) S₀)
-      (id*E/E′ : (idᶠ *) R₀ —[ (ᴺ.suc x •) ᵇ - _ ]→ (ᴿ.suc idᶠ *) P″₀) (S : ↓ S₀) (R′ : ↓ R₀)
+      (id*E/E′ : (idᶠ *) R′₀ —[ (ᴺ.suc x •) ᵇ - _ ]→ (ᴿ.suc idᶠ *) P″₀) (S : ↓ S₀) (R′ : ↓ R′₀)
       (let α : (idᶠ *) P′₀ ≡ (ᴿ.swap *) ((ᴿ.suc idᶠ *) P″₀)
            α = (let open EqReasoning (setoid _) in
              begin
@@ -352,6 +352,12 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
          [ ν [ (ᴿ̃.repl ◻ *̃) P′ │ S′ ] ]
          ≡
          π₂ (step⁻ (νᵇ (id*E/E′ ᵇ│ S₀)) (ν [ (ᴿ̃.repl ◻ *̃) R′ │ S ]))
+{-
+      case
+         with step id*E/E′ ((ᴿ̃.repl ◻ *̃) R′)
+      ... | ◻ , P″ = {!!}
+      ... | [ (.(ᴺ.suc x) •) ᵇ ] , P″ = {!!}
+-}
 
 {-
    module │ᵥ
