@@ -349,14 +349,12 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       (IH : braiding (ᵇ∇ᵇ {a = x′ •} {x •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)) ≡ tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))
       where
 
-      case :
+      subcase :
+         (P″ : ↓ (ᴿ.suc idᶠ *) P″₀) (≡P″ : tgt id*E/E′ ((repl y *̃) R′) ≡ P″) →
          braiding (ᵇ∇ᶜ {a = x′ •} {τ}) {0} (cong ν_ (cong₂ _│_ α (swap∘push S₀)))
-         [ ν [ (repl ((weaken ᴿ̃.*) y) *̃) P′ │ S′ ] ]
-         ≡
-         π₂ (step⁻ (νᵇ (id*E/E′ ᵇ│ S₀)) (ν [ (repl y *̃) R′ │ S ]))
-      case
-         with step id*E/E′ ((repl y *̃) R′) | inspect (step id*E/E′) ((repl y *̃) R′)
-      ... | ◻ , P″ | [ ≡P″ ] = ≅-to-≡ (
+         [ ν [ (repl ((weaken ᴿ̃.*) y) *̃) P′ │ S′ ] ] ≡
+         [ ν [ (swap *̃) P″ │ (swap *̃) ((push *̃) S) ] ]
+      subcase P″ ≡P″ = ≅-to-≡ (
          let β = (repl ((weaken ᴿ̃.*) y) *̃) P′ ≅ (swap *̃) P″
              β = let open ≅-Reasoning in
                 begin
@@ -379,7 +377,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                    (swap *̃) (tgt id*E/E′ ((repl y *̃) (tgt E′ P)))
                 ≡⟨ cong ((swap *̃) ∘ᶠ tgt id*E/E′ ∘ᶠ (repl y *̃)) ≡R′ ⟩
                    (swap *̃) (tgt id*E/E′ ((repl y *̃) R′))
-                ≡⟨ cong (swap *̃) (,-inj₂ ≡P″) ⟩
+                ≡⟨ cong (swap *̃) ≡P″ ⟩
                    (swap *̃) P″
                 ∎
              δ : S′ ≅ (swap *̃) ((push *̃) S)
@@ -404,7 +402,15 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
          ≅⟨ [ν-]-cong (cong₂ _│_ α (swap∘push S₀)) ([-│-]-cong α β (swap∘push S₀) δ) ⟩
             [ ν [ (swap *̃) P″ │ (swap *̃) ((push *̃) S) ] ]
          ∎)
-      ... | [ (.(ᴺ.suc x′) •) ᵇ ] , P″ | [ ≡P″ ] = {!!}
+
+      case :
+         braiding (ᵇ∇ᶜ {a = x′ •} {τ}) {0} (cong ν_ (cong₂ _│_ α (swap∘push S₀)))
+         [ ν [ (repl ((weaken ᴿ̃.*) y) *̃) P′ │ S′ ] ] ≡
+         π₂ (step⁻ (νᵇ (id*E/E′ ᵇ│ S₀)) (ν [ (repl y *̃) R′ │ S ]))
+      case
+         with step id*E/E′ ((repl y *̃) R′) | inspect (step id*E/E′) ((repl y *̃) R′)
+      ... | ◻ , P″ | [ ≡P″ ] = subcase P″ (,-inj₂ ≡P″)
+      ... | [ (.(ᴺ.suc x′) •) ᵇ ] , P″ | [ ≡P″ ] = subcase P″ (,-inj₂ ≡P″)
 
 {-
    module │ᵥ
