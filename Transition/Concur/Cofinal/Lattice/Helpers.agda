@@ -358,9 +358,11 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
              β = let open ≅-Reasoning in
                 begin
                    (repl ((weaken ᴿ̃.*) y) *̃) P′
+                ≡⟨ cong (repl ((weaken ᴿ̃.*) y) *̃) (sym {!≡P′!}) ⟩
+                   (repl ((weaken ᴿ̃.*) y) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))
                 ≅⟨ {!!} ⟩
-                   (swap *̃) (step id*E/E′ ((repl y *̃) R′))
-                ≅⟨ {!!} ⟩
+                   (swap *̃) (tgt id*E/E′ ((repl y *̃) R′))
+                ≡⟨ cong (swap *̃) (,-inj₂ ≡P″) ⟩
                    (swap *̃) P″
                 ∎
              δ : S′ ≅ (swap *̃) ((push *̃) S)
