@@ -326,6 +326,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       ≅⟨ [-│-]-cong refl (≡-to-≅ (cong (λ y → (pop y *̃) R) (sym ≡y†))) (γ₁ 𝐹) α ⟩
          [ (pop y† *̃) R │ tgt (E/E′ (⊖₁ 𝐹)) S′ ]
       ∎)
+-}
 
    module │ᵥᵇ-x•
       {Γ} {x x′ : Name Γ} {P₀ R₀ R′₀ S₀ Q₀} {E : P₀ —[ x′ • ᵇ - _ ]→ R₀} {E′ : P₀ —[ x • ᵇ - _ ]→ R′₀}
@@ -409,8 +410,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       case
          with step id*E/E′ ((repl y *̃) R′) | inspect (step id*E/E′) ((repl y *̃) R′)
       ... | ◻ , P″ | [ ≡P″ ] = subcase P″ (,-inj₂ ≡P″)
-      ... | [ (.ᴺ.suc x′) • ᵇ ] , P″ | [ ≡P″ ] = subcase P″ (,-inj₂ ≡P″)
--}
+      ... | [ ._ • ᵇ ] , P″ | [ ≡P″ ] = subcase P″ (,-inj₂ ≡P″)
 
    module │ᵥᵇ-•x
       {Γ} {x x′ : Name Γ} {P₀ R₀ R′₀ S₀ Q₀} {E : P₀ —[ (• x′) ᵇ - _ ]→ R₀} {E′ : P₀ —[ x • ᵇ - _ ]→ R′₀}
@@ -430,12 +430,12 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
              ≡⟨ cong (ᴿ.swap *) (sym (+-id-elim 1 P″₀)) ⟩
                 (ᴿ.swap *) ((ᴿ.suc idᶠ *) P″₀)
              ∎))
-      (IH : braiding (ᵇ∇ᵇ {a = x′ •} {x •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)) ≡ tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))
+      (IH : braiding (ᵇ∇ᵇ {a = • x′} {x •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)) ≡ tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))
       where
 
       subcase :
          (P″ : ↓ (ᴿ.suc idᶠ *) P″₀) (≡P″ : tgt id*E/E′ ((repl y *̃) R′) ≡ P″) →
-         braiding (ᵇ∇ᶜ {a = x′ •} {τ}) {0} (cong ν_ (cong₂ _│_ α (swap∘push S₀)))
+         braiding (ᵇ∇ᶜ {a = • x′} {τ}) {0} (cong ν_ (cong₂ _│_ α (swap∘push S₀)))
          [ ν [ (repl ((weaken ᴿ̃.*) y) *̃) P′ │ S′ ] ] ≡
          [ ν [ (swap *̃) P″ │ (swap *̃) ((push *̃) S) ] ]
       subcase P″ ≡P″ = ≅-to-≡ (
@@ -450,7 +450,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                    (repl ((weaken ᴿ̃.*) y) *̃) ((swap *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
                 ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) ((repl ((weaken ᴿ̃.*) y) *̃) ∘ᶠ (swap *̃)) (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _)) ⟩
                    (repl ((weaken ᴿ̃.*) y) *̃)
-                   ((swap *̃) (braiding (ᵇ∇ᵇ {a = x′ •} {x •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
+                   ((swap *̃) (braiding (ᵇ∇ᵇ {a = • x′} {x •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
                 ≡⟨ cong ((repl ((weaken ᴿ̃.*) y) *̃) ∘ᶠ (swap *̃)) IH ⟩
                    (repl ((weaken ᴿ̃.*) y) *̃) ((swap *̃) (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P)))
                 ≅⟨ id-swap-id̃ y (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P)) ⟩
@@ -488,13 +488,13 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
          ∎)
 
       case :
-         braiding (ᵇ∇ᶜ {a = x′ •} {τ}) {0} (cong ν_ (cong₂ _│_ α (swap∘push S₀)))
+         braiding (ᵇ∇ᶜ {a = • x′} {τ}) {0} (cong ν_ (cong₂ _│_ α (swap∘push S₀)))
          [ ν [ (repl ((weaken ᴿ̃.*) y) *̃) P′ │ S′ ] ] ≡
          π₂ (step⁻ (νᵇ (id*E/E′ ᵇ│ S₀)) (ν [ (repl y *̃) R′ │ S ]))
       case
          with step id*E/E′ ((repl y *̃) R′) | inspect (step id*E/E′) ((repl y *̃) R′)
       ... | ◻ , P″ | [ ≡P″ ] = subcase P″ (,-inj₂ ≡P″)
-      ... | [ (.(• ᴺ.suc x′)) ᵇ ] , P″ | [ ≡P″ ] = subcase P″ (,-inj₂ ≡P″)
+      ... | [ (• ._) ᵇ ] , P″ | [ ≡P″ ] = subcase P″ (,-inj₂ ≡P″)
 
 {-
    module │ᵥ
