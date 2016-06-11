@@ -349,13 +349,11 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       (IH : braiding (ᵇ∇ᵇ {a = x′ •} {x •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)) ≡ tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))
       where
 
-      postulate
-       case :
+      case :
          braiding (ᵇ∇ᶜ {a = x′ •} {τ}) {0} (cong ν_ (cong₂ _│_ α (swap∘push S₀)))
          [ ν [ (repl ((weaken ᴿ̃.*) y) *̃) P′ │ S′ ] ]
          ≡
          π₂ (step⁻ (νᵇ (id*E/E′ ᵇ│ S₀)) (ν [ (repl y *̃) R′ │ S ]))
-{-
       case
          with step id*E/E′ ((repl y *̃) R′) | inspect (step id*E/E′) ((repl y *̃) R′)
       ... | ◻ , P″ | [ ≡P″ ] = ≅-to-≡ (
@@ -365,6 +363,14 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                    (repl ((weaken ᴿ̃.*) y) *̃) P′
                 ≡⟨ cong (repl ((weaken ᴿ̃.*) y) *̃) (sym ≡P′) ⟩
                    (repl ((weaken ᴿ̃.*) y) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))
+                ≅⟨ ≅-cong✴ ↓_ (sym ((swap-involutive P′₀)))
+                           (repl ((weaken ᴿ̃.*) y) *̃) (≅-sym (swap-involutivẽ (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))) ⟩
+                   (repl ((weaken ᴿ̃.*) y) *̃) ((swap *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
+                ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) ((repl ((weaken ᴿ̃.*) y) *̃) ∘ᶠ (swap *̃)) (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _)) ⟩
+                   (repl ((weaken ᴿ̃.*) y) *̃)
+                   ((swap *̃) (braiding (ᵇ∇ᵇ {a = x′ •} {x •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
+                ≡⟨ cong ((repl ((weaken ᴿ̃.*) y) *̃) ∘ᶠ (swap *̃)) IH ⟩
+                   (repl ((weaken ᴿ̃.*) y) *̃) ((swap *̃) (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P)))
                 ≅⟨ {!!} ⟩
                    (swap *̃) (tgt id*E/E′ ((repl y *̃) (tgt E′ P)))
                 ≡⟨ cong ((swap *̃) ∘ᶠ tgt id*E/E′ ∘ᶠ (repl y *̃)) ≡R′ ⟩
@@ -395,7 +401,6 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
             [ ν [ (swap *̃) P″ │ (swap *̃) ((push *̃) S) ] ]
          ∎)
       ... | [ (.(ᴺ.suc x′) •) ᵇ ] , P″ | [ ≡P″ ] = {!!}
--}
 
 {-
    module │ᵥ
