@@ -331,9 +331,9 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
    module │ᵥᵇ
       {Γ} {x x′ : Name Γ} {P₀ R₀ R′₀ S₀ Q₀} {E : P₀ —[ x′ • ᵇ - _ ]→ R₀} {E′ : P₀ —[ x • ᵇ - _ ]→ R′₀}
       (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (F : Q₀ —[ (• x) ᵇ - _ ]→ S₀)
-      (let P′₀ = tgt₁ (⊖₁ 𝐸); P″₀ = tgt₂ (⊖₁ 𝐸)) (Q : ↓ Q₀) (P′ : ↓ P′₀) (S′ : ↓ (ᴿ.suc ᴿ.push *) S₀)
+      (let P′₀ = tgt₁ (⊖₁ 𝐸); P″₀ = tgt₂ (⊖₁ 𝐸)) (P : ↓ P₀) (Q : ↓ Q₀) (P′ : ↓ P′₀) (S′ : ↓ (ᴿ.suc ᴿ.push *) S₀)
       (id*E/E′ : (idᶠ *) R′₀ —[ (ᴺ.suc x′ •) ᵇ - _ ]→ (ᴿ.suc idᶠ *) P″₀) (S : ↓ S₀) (R′ : ↓ R′₀) (y : ↓ ᴺ.zero)
-      (≡S : tgt F Q ≡ S) (≡S′ : tgt ((ᴿ.push *ᵇ) F) ((push *̃) Q) ≡ S′)
+      (≡P′ : tgt (E′/E (⊖₁ 𝐸)) (tgt E P) ≡ P′) (≡S : tgt F Q ≡ S) (≡S′ : tgt ((ᴿ.push *ᵇ) F) ((push *̃) Q) ≡ S′)
       (let α : (idᶠ *) P′₀ ≡ (ᴿ.swap *) ((ᴿ.suc idᶠ *) P″₀)
            α = (let open EqReasoning (setoid _) in
              begin
@@ -348,14 +348,21 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
 
       case :
          braiding (ᵇ∇ᶜ {a = x′ •} {τ}) {0} (cong ν_ (cong₂ _│_ α (swap∘push S₀)))
-         [ ν [ (ᴿ̃.repl ((weaken ᴿ̃.*) y) *̃) P′ │ S′ ] ]
+         [ ν [ (repl ((weaken ᴿ̃.*) y) *̃) P′ │ S′ ] ]
          ≡
-         π₂ (step⁻ (νᵇ (id*E/E′ ᵇ│ S₀)) (ν [ (ᴿ̃.repl y *̃) R′ │ S ]))
+         π₂ (step⁻ (νᵇ (id*E/E′ ᵇ│ S₀)) (ν [ (repl y *̃) R′ │ S ]))
       case
-         with step id*E/E′ ((ᴿ̃.repl y *̃) R′)
-      ... | ◻ , P″ = ≅-to-≡ (
+         with step id*E/E′ ((repl y *̃) R′) | inspect (step id*E/E′) ((repl y *̃) R′)
+      ... | ◻ , P″ | [ ≡P″ ] = ≅-to-≡ (
          let β = (repl ((weaken ᴿ̃.*) y) *̃) P′ ≅ (swap *̃) P″
-             β = {!!}
+             β = let open ≅-Reasoning in
+                begin
+                   (repl ((weaken ᴿ̃.*) y) *̃) P′
+                ≅⟨ {!!} ⟩
+                   (swap *̃) (step id*E/E′ ((repl y *̃) R′))
+                ≅⟨ {!!} ⟩
+                   (swap *̃) P″
+                ∎
              δ : S′ ≅ (swap *̃) ((push *̃) S)
              δ = let open ≅-Reasoning in
                 begin
@@ -378,7 +385,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
          ≅⟨ [ν-]-cong (cong₂ _│_ α (swap∘push S₀)) ([-│-]-cong α β (swap∘push S₀) δ) ⟩
             [ ν [ (swap *̃) P″ │ (swap *̃) ((push *̃) S) ] ]
          ∎)
-      ... | [ (.(ᴺ.suc x′) •) ᵇ ] , P″ = {!!}
+      ... | [ (.(ᴺ.suc x′) •) ᵇ ] , P″ | [ ≡P″ ] = {!!}
 
 {-
    module │ᵥ
