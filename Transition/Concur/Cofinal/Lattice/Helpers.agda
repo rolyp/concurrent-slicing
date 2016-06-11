@@ -345,18 +345,15 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                 (ᴿ.swap *) ((ᴿ.suc idᶠ *) P″₀)
              ∎)) where
 
-      postulate
-       case :
+      case :
          braiding (ᵇ∇ᶜ {a = x′ •} {τ}) {0} (cong ν_ (cong₂ _│_ α (swap∘push S₀)))
          [ ν [ (ᴿ̃.repl ((ᴿ̃.weaken ᴿ̃.*) y) *̃) P′ │ S′ ] ]
          ≡
          π₂ (step⁻ (νᵇ (id*E/E′ ᵇ│ S₀)) (ν [ (ᴿ̃.repl y *̃) R′ │ S ]))
-{-
       case
-         with step id*E/E′ ((ᴿ̃.repl ◻ *̃) R′)
+         with step id*E/E′ ((ᴿ̃.repl y *̃) R′)
       ... | ◻ , P″ = {!!}
-      ... | [ (.(ᴺ.suc x) •) ᵇ ] , P″ = {!!}
--}
+      ... | [ (.(ᴺ.suc x′) •) ᵇ ] , P″ = {!!}
 
 {-
    module │ᵥ
