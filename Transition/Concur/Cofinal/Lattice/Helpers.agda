@@ -326,7 +326,6 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       ≅⟨ [-│-]-cong refl (≡-to-≅ (cong (λ y → (pop y *̃) R) (sym ≡y†))) (γ₁ 𝐹) α ⟩
          [ (pop y† *̃) R │ tgt (E/E′ (⊖₁ 𝐹)) S′ ]
       ∎)
--}
 
    module │ᵥᵇ-x•
       {Γ} {x x′ : Name Γ} {P₀ R₀ R′₀ S₀ Q₀} {E : P₀ —[ x′ • ᵇ - _ ]→ R₀} {E′ : P₀ —[ x • ᵇ - _ ]→ R′₀}
@@ -495,6 +494,17 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
          with step id*E/E′ ((repl y *̃) R′) | inspect (step id*E/E′) ((repl y *̃) R′)
       ... | ◻ , P″ | [ ≡P″ ] = subcase P″ (,-inj₂ ≡P″)
       ... | [ (• ._) ᵇ ] , P″ | [ ≡P″ ] = subcase P″ (,-inj₂ ≡P″)
+-}
+
+   module │ᵥᶜ-τ
+      {Γ} {x : Name Γ} {P₀ R₀ R′₀ S₀ Q₀} {E : P₀ —[ τ ᶜ - _ ]→ R₀} {E′ : P₀ —[ x • ᵇ - _ ]→ R′₀}
+      (𝐸 : E ⌣₁[ ᶜ∇ᵇ ] E′) (F : Q₀ —[ (• x) ᵇ - _ ]→ S₀)
+      (let P′₀ = tgt₁ (⊖₁ 𝐸); P″₀ = tgt₂ (⊖₁ 𝐸)) (P : ↓ P₀) (Q : ↓ Q₀) (P′ : ↓ P′₀) (S′ : ↓ (ᴿ.suc ᴿ.push *) S₀)
+      (id*E/E′ : (idᶠ *) R′₀ —[ τ ᶜ - _ ]→ (idᶠ *) P″₀) (S : ↓ S₀) (R′ : ↓ R′₀) --(y : ↓ ᴺ.zero)
+      (≡id*E/E′ : (idᶠ *ᶜ) (E/E′ (⊖₁ 𝐸)) ≡ id*E/E′) (≡P′ : tgt (E′/E (⊖₁ 𝐸)) (tgt E P) ≡ P′) (≡S : tgt F Q ≡ S)
+      (≡S′ : tgt ((ᴿ.push *ᵇ) F) ((push *̃) Q) ≡ S′) (≡R′ : tgt E′ P ≡ R′)
+      (IH : braiding (ᶜ∇ᵇ {a = τ} {x •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)) ≡ tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))
+      where
 
 {-
    module │ᵥ
