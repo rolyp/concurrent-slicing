@@ -334,6 +334,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       (let P′₀ = tgt₁ (⊖₁ 𝐸); P″₀ = tgt₂ (⊖₁ 𝐸)) (P : ↓ P₀) (Q : ↓ Q₀) (P′ : ↓ P′₀) (S′ : ↓ (ᴿ.suc ᴿ.push *) S₀)
       (id*E/E′ : (idᶠ *) R′₀ —[ (ᴺ.suc x′ •) ᵇ - _ ]→ (ᴿ.suc idᶠ *) P″₀) (S : ↓ S₀) (R′ : ↓ R′₀) (y : ↓ ᴺ.zero)
       (≡P′ : tgt (E′/E (⊖₁ 𝐸)) (tgt E P) ≡ P′) (≡S : tgt F Q ≡ S) (≡S′ : tgt ((ᴿ.push *ᵇ) F) ((push *̃) Q) ≡ S′)
+      (≡R′ : tgt E′ P ≡ R′)
       (let α : (idᶠ *) P′₀ ≡ (ᴿ.swap *) ((ᴿ.suc idᶠ *) P″₀)
            α = (let open EqReasoning (setoid _) in
              begin
@@ -358,9 +359,11 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
              β = let open ≅-Reasoning in
                 begin
                    (repl ((weaken ᴿ̃.*) y) *̃) P′
-                ≡⟨ cong (repl ((weaken ᴿ̃.*) y) *̃) (sym {!≡P′!}) ⟩
+                ≡⟨ cong (repl ((weaken ᴿ̃.*) y) *̃) (sym ≡P′) ⟩
                    (repl ((weaken ᴿ̃.*) y) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))
                 ≅⟨ {!!} ⟩
+                   (swap *̃) (tgt id*E/E′ ((repl y *̃) (tgt E′ P)))
+                ≡⟨ cong ((swap *̃) ∘ᶠ tgt id*E/E′ ∘ᶠ (repl y *̃)) {!≡R′!} ⟩
                    (swap *̃) (tgt id*E/E′ ((repl y *̃) R′))
                 ≡⟨ cong (swap *̃) (,-inj₂ ≡P″) ⟩
                    (swap *̃) P″
