@@ -357,7 +357,18 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
          let β = (repl ((weaken ᴿ̃.*) y) *̃) P′ ≅ (swap *̃) P″
              β = {!!}
              δ : S′ ≅ (swap *̃) ((push *̃) S)
-             δ = {!!}
+             δ = let open ≅-Reasoning in
+                begin
+                   S′
+                ≡⟨ sym ≡S′ ⟩
+                   tgt ((ᴿ.push *ᵇ) F) ((push *̃) Q)
+                ≡⟨ sym (renᵇ-tgt-comm F push Q) ⟩
+                   (suc push *̃) (tgt F Q)
+                ≅⟨ swap∘push̃ _ ⟩
+                   (swap *̃) ((push *̃) (tgt F Q))
+                ≡⟨ cong ((swap *̃) ∘ᶠ (push *̃)) ≡S ⟩
+                   (swap *̃) ((push *̃) S)
+                ∎
              open ≅-Reasoning in
          begin
             braiding ᵇ∇ᶜ (cong ν_ (cong₂ _│_ α (swap∘push S₀)))
