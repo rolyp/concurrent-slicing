@@ -354,14 +354,17 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       case
          with step id*E/E′ ((ᴿ̃.repl y *̃) R′)
       ... | ◻ , P″ = ≅-to-≡ (
-         let β = ?
+         let β = (repl ((weaken ᴿ̃.*) y) *̃) P′ ≅ (swap *̃) P″
+             β = {!!}
              δ : S′ ≅ (swap *̃) ((push *̃) S)
-             δ = ?
+             δ = {!!}
              open ≅-Reasoning in
          begin
             braiding ᵇ∇ᶜ (cong ν_ (cong₂ _│_ α (swap∘push S₀)))
             [ ν [ (repl ((weaken ᴿ̃.*) y) *̃) P′ │ S′ ] ]
-         ≅⟨ {!!} ⟩
+         ≅⟨ reduce-ᵇ∇ᶜ (cong ν_ (cong₂ _│_ α (swap∘push S₀))) _ ⟩
+            [ ν [ (repl ((weaken ᴿ̃.*) y) *̃) P′ │ S′ ] ]
+         ≅⟨ [ν-]-cong (cong₂ _│_ α (swap∘push S₀)) ([-│-]-cong α β (swap∘push S₀) δ) ⟩
             [ ν [ (swap *̃) P″ │ (swap *̃) ((push *̃) S) ] ]
          ∎)
       ... | [ (.(ᴺ.suc x′) •) ᵇ ] , P″ = {!!}
