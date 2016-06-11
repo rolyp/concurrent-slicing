@@ -345,7 +345,9 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                 (ᴿ.swap *) P″₀
              ≡⟨ cong (ᴿ.swap *) (sym (+-id-elim 1 P″₀)) ⟩
                 (ᴿ.swap *) ((ᴿ.suc idᶠ *) P″₀)
-             ∎)) where
+             ∎))
+      (IH : braiding (ᵇ∇ᵇ {a = x′ •} {x •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)) ≡ tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))
+      where
 
       postulate
        case :
