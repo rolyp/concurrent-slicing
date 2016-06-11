@@ -494,7 +494,6 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
          with step id*E/E′ ((repl y *̃) R′) | inspect (step id*E/E′) ((repl y *̃) R′)
       ... | ◻ , P″ | [ ≡P″ ] = subcase P″ (,-inj₂ ≡P″)
       ... | [ (• ._) ᵇ ] , P″ | [ ≡P″ ] = subcase P″ (,-inj₂ ≡P″)
--}
 
    module │ᵥᶜ-τ
       {Γ} {x : Name Γ} {P₀ R₀ R′₀ S₀ Q₀} {E : P₀ —[ τ ᶜ - _ ]→ R₀} {E′ : P₀ —[ x • ᵇ - _ ]→ R′₀}
@@ -606,6 +605,11 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       ... | ◻ , P″ | [ ≡P″ ] = subcase P″ (,-inj₂ ≡P″)
       ... | [ • ._ 〈 ◻ 〉 ᶜ ] , P″ | [ ≡P″ ] = subcase P″ (,-inj₂ ≡P″)
       ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , P″ | [ ≡P″ ] = subcase P″ (,-inj₂ ≡P″)
+-}
+
+   module ᵇ│ᵥ-ᵇ∇ᵇ
+      {Γ} {x : Name Γ} {P₀ Q₀ R₀ S₀ S′₀} {a : Actionᵇ Γ} {F : Q₀ —[ a ᵇ - _ ]→ S₀} {F′ : Q₀ —[ (• x) ᵇ - _ ]→ S′₀}
+      (E : P₀ —[ x • ᵇ - _ ]→ R₀) (𝐹 : F ⌣₁[ ᵇ∇ᵇ ] F′) where
 
 {-
    module │ᵥ

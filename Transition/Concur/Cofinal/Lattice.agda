@@ -334,7 +334,6 @@ module Transition.Concur.Cofinal.Lattice where
       let open │ᵥᵇ-•x 𝐸 F P Q P′ S′ id*E/E′ S R′ [ ᴺ.zero ]
                      ≡id*E/E′ (,-inj₂ ≡P′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (,-inj₂ ≡R′) (gamma₁ 𝐸 P) in
       case
--}
 
    gamma₁ {E = E ᶜ│ Q₀} {E′ │ᵥ .F} (_│ᵥᶜ_ {a = τ} 𝐸 F) [ P │ Q ]
       with (idᶠ *ᶜ) (E/E′ (⊖₁ 𝐸)) | step E′ P | step F Q | step (E′/E (⊖₁ 𝐸)) (tgt E P) |
@@ -369,9 +368,12 @@ module Transition.Concur.Cofinal.Lattice where
       let open │ᵥᶜ-•x〈y〉 𝐸 F P Q P′ id*E/E S R′ ◻ ≡id*E/E′ (,-inj₂ ≡P′) (,-inj₂ ≡S) (,-inj₂ ≡R′) (gamma₁ 𝐸 P) in case
    ... | id*E/E | [ ._ • ᵇ ] , R′ | [ (• ._) ᵇ ] , S | [ ._ • ᵇ ] , P′ | [ ≡id*E/E′ ] | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] =
       let open │ᵥᶜ-•x〈y〉 𝐸 F P Q P′ id*E/E S R′ [ ᴺ.zero ] ≡id*E/E′ (,-inj₂ ≡P′) (,-inj₂ ≡S) (,-inj₂ ≡R′) (gamma₁ 𝐸 P) in case
+-}
+
+   gamma₁ {E = P₀ │ᵇ F} {.E │ᵥ F′} (_ᵇ│ᵥ_ {𝑎 = ˣ∇ˣ} E 𝐸) [ P │ Q ] = {!!}
+   gamma₁ {E = P₀ │ᵇ F} {.E │ᵥ F′} (_ᵇ│ᵥ_ {𝑎 = ᵇ∇ᵇ} E 𝐸) [ P │ Q ] = {!!}
 
 {-
-   gamma₁ (E ᵇ│ᵥ 𝐸) P = {!!}
    gamma₁ (E ᶜ│ᵥ 𝐸) P = {!!}
    gamma₁ (𝐸 │• 𝐹) P = {!!}
    gamma₁ (𝐸 │•ᵥ 𝐹) P = {!!}
