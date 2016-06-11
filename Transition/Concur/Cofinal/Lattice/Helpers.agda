@@ -331,8 +331,9 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
    module │ᵥᵇ
       {Γ} {x x′ : Name Γ} {P₀ R₀ R′₀ S₀ Q₀} {E : P₀ —[ x′ • ᵇ - _ ]→ R₀} {E′ : P₀ —[ x • ᵇ - _ ]→ R′₀}
       (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (F : Q₀ —[ (• x) ᵇ - _ ]→ S₀)
-      (let P′₀ = tgt₁ (⊖₁ 𝐸); P″₀ = tgt₂ (⊖₁ 𝐸)) (P′ : ↓ P′₀) (S′ : ↓ (ᴿ.suc ᴿ.push *) S₀)
+      (let P′₀ = tgt₁ (⊖₁ 𝐸); P″₀ = tgt₂ (⊖₁ 𝐸)) (Q : ↓ Q₀) (P′ : ↓ P′₀) (S′ : ↓ (ᴿ.suc ᴿ.push *) S₀)
       (id*E/E′ : (idᶠ *) R′₀ —[ (ᴺ.suc x′ •) ᵇ - _ ]→ (ᴿ.suc idᶠ *) P″₀) (S : ↓ S₀) (R′ : ↓ R′₀) (y : ↓ ᴺ.zero)
+      (≡S : tgt F Q ≡ S) (≡S′ : tgt ((ᴿ.push *ᵇ) F) ((push *̃) Q) ≡ S′)
       (let α : (idᶠ *) P′₀ ≡ (ᴿ.swap *) ((ᴿ.suc idᶠ *) P″₀)
            α = (let open EqReasoning (setoid _) in
              begin
@@ -353,7 +354,10 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       case
          with step id*E/E′ ((ᴿ̃.repl y *̃) R′)
       ... | ◻ , P″ = ≅-to-≡ (
-         let open ≅-Reasoning in
+         let β = ?
+             δ : S′ ≅ (swap *̃) ((push *̃) S)
+             δ = ?
+             open ≅-Reasoning in
          begin
             braiding ᵇ∇ᶜ (cong ν_ (cong₂ _│_ α (swap∘push S₀)))
             [ ν [ (repl ((weaken ᴿ̃.*) y) *̃) P′ │ S′ ] ]
