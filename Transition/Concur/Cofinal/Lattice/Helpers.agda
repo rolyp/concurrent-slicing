@@ -512,13 +512,32 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
          [ ν [ (repl y *̃) P′ │ S ] ] ≡
          [ ν [ P″ │ S ] ]
       subcase P″ ≡P″ = ≅-to-≡ (
-         let open ≅-Reasoning in
+         let α : (repl y *̃) P′ ≅ P″
+             α = let open ≅-Reasoning in
+                begin
+                   (repl y *̃) P′
+                ≡⟨ cong (repl y *̃) (sym ≡P′) ⟩
+                   (repl y *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))
+                ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) ((repl y *̃)) (≅-sym (reduce-ᶜ∇ᵇ (γ₁ 𝐸) _)) ⟩
+                   (repl y *̃) (braiding (ᶜ∇ᵇ {a = τ} {x •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
+                ≡⟨ cong (repl y *̃) IH ⟩
+                   (repl y *̃) (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))
+                ≡⟨ renᶜ-tgt-comm (E/E′ (⊖₁ 𝐸)) (repl y) (tgt E′ P) ⟩
+                   tgt ((idᶠ *ᶜ) (E/E′ (⊖₁ 𝐸))) ((repl y *̃) (tgt E′ P))
+                ≡⟨ cong (λ E† → tgt E† ((repl y *̃) (tgt E′ P))) ≡id*E/E′ ⟩
+                   tgt id*E/E′ ((repl y *̃) (tgt E′ P))
+                ≡⟨ cong (tgt id*E/E′ ∘ᶠ (repl y *̃)) ≡R′  ⟩
+                   tgt id*E/E′ ((repl y *̃) R′)
+                ≡⟨ ≡P″ ⟩
+                   P″
+                ∎
+             open ≅-Reasoning in
          begin
             braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} (cong ν_ (cong₂ _│_ (cong (idᶠ *) (γ₁ 𝐸)) refl))
             [ ν [ (repl y *̃) P′ │ S ] ]
          ≅⟨ reduce-ᶜ∇ᶜ (cong ν_ (cong₂ _│_ (cong (idᶠ *) (γ₁ 𝐸)) refl)) _ ⟩
             [ ν [ (repl y *̃) P′ │ S ] ]
-         ≅⟨ [ν-]-cong (cong₂ _│_ (cong (idᶠ *) (γ₁ 𝐸)) refl) ([-│]-cong S (cong (idᶠ *) (γ₁ 𝐸)) {!!}) ⟩
+         ≅⟨ [ν-]-cong (cong₂ _│_ (cong (idᶠ *) (γ₁ 𝐸)) refl) ([-│]-cong S (cong (idᶠ *) (γ₁ 𝐸)) α) ⟩
             [ ν [ P″ │ S ] ]
          ∎)
 
