@@ -326,9 +326,8 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       ≅⟨ [-│-]-cong refl (≡-to-≅ (cong (λ y → (pop y *̃) R) (sym ≡y†))) (γ₁ 𝐹) α ⟩
          [ (pop y† *̃) R │ tgt (E/E′ (⊖₁ 𝐹)) S′ ]
       ∎)
--}
 
-   module │ᵥ•ᵇ
+   module │ᵥᵇ-x•
       {Γ} {x x′ : Name Γ} {P₀ R₀ R′₀ S₀ Q₀} {E : P₀ —[ x′ • ᵇ - _ ]→ R₀} {E′ : P₀ —[ x • ᵇ - _ ]→ R′₀}
       (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (F : Q₀ —[ (• x) ᵇ - _ ]→ S₀)
       (let P′₀ = tgt₁ (⊖₁ 𝐸); P″₀ = tgt₂ (⊖₁ 𝐸)) (P : ↓ P₀) (Q : ↓ Q₀) (P′ : ↓ P′₀) (S′ : ↓ (ᴿ.suc ᴿ.push *) S₀)
@@ -410,9 +409,10 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       case
          with step id*E/E′ ((repl y *̃) R′) | inspect (step id*E/E′) ((repl y *̃) R′)
       ... | ◻ , P″ | [ ≡P″ ] = subcase P″ (,-inj₂ ≡P″)
-      ... | [ (.(ᴺ.suc x′) •) ᵇ ] , P″ | [ ≡P″ ] = subcase P″ (,-inj₂ ≡P″)
+      ... | [ (.ᴺ.suc x′) • ᵇ ] , P″ | [ ≡P″ ] = subcase P″ (,-inj₂ ≡P″)
+-}
 
-   module │ᵥᵇ•
+   module │ᵥᵇ-•x
       {Γ} {x x′ : Name Γ} {P₀ R₀ R′₀ S₀ Q₀} {E : P₀ —[ (• x′) ᵇ - _ ]→ R₀} {E′ : P₀ —[ x • ᵇ - _ ]→ R′₀}
       (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (F : Q₀ —[ (• x) ᵇ - _ ]→ S₀)
       (let P′₀ = tgt₁ (⊖₁ 𝐸); P″₀ = tgt₂ (⊖₁ 𝐸)) (P : ↓ P₀) (Q : ↓ Q₀) (P′ : ↓ P′₀) (S′ : ↓ (ᴿ.suc ᴿ.push *) S₀)
@@ -494,7 +494,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       case
          with step id*E/E′ ((repl y *̃) R′) | inspect (step id*E/E′) ((repl y *̃) R′)
       ... | ◻ , P″ | [ ≡P″ ] = subcase P″ (,-inj₂ ≡P″)
-      ... | [ (.(ᴺ.suc x′) •) ᵇ ] , P″ | [ ≡P″ ] = subcase P″ (,-inj₂ ≡P″)
+      ... | [ (.(• ᴺ.suc x′)) ᵇ ] , P″ | [ ≡P″ ] = subcase P″ (,-inj₂ ≡P″)
 
 {-
    module │ᵥ
