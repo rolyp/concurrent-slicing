@@ -610,7 +610,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
    module ᵇ│ᵥ-ᵇ∇ᵇ-x•
       {Γ} {x x′ : Name Γ} {P₀ Q₀ R₀ S₀ S′₀} {F : Q₀ —[ x′ • ᵇ - _ ]→ S₀} {F′ : Q₀ —[ (• x) ᵇ - _ ]→ S′₀}
       (E : P₀ —[ x • ᵇ - _ ]→ R₀) (𝐹 : F ⌣₁[ ᵇ∇ᵇ ] F′) (let Q′₀ = tgt₁ (⊖₁ 𝐹); Q″₀ = tgt₂ (⊖₁ 𝐹))
-      (P : ↓ P₀) (Q : ↓ Q₀) (R : ↓ R₀) (S′ : ↓ S′₀) (P″ : ↓ (ᴿ.suc ᴿ.push *) R₀) (P′ : ↓ Q′₀) (y : ↓ ᴺ.zero)
+      (P : ↓ P₀) (Q : ↓ Q₀) (R : ↓ R₀) (S′ : ↓ S′₀) (P″ : ↓ (ᴿ.suc ᴿ.push *) R₀) (P′ : ↓ Q′₀) (y : ↓ (ᴺ.zero {Γ}))
       (let α : (idᶠ *) ((ᴿ.suc ᴿ.push *) R₀) ≡ (ᴿ.swap *) ((ᴿ.push *) ((idᶠ *) R₀))
            α = let open EqReasoning (setoid _) in
              begin
@@ -625,14 +625,29 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
            β : ν ((idᶠ *) ((ᴿ.suc ᴿ.push *) R₀) │ Q′₀) ≡ ᵀ.tgt (νᵇ ((idᶠ *) R₀ │ᵇ E/E′ (⊖₁ 𝐹)))
            β = cong ν_ (cong₂ _│_ α (swap-swap (γ₁ 𝐹)))) where
 
+      subcase :
+         (Q″ : ↓ Q″₀) →
+         braiding (ᵇ∇ᶜ {a = x′ •} {τ}) {0} β
+         [ ν [ (repl ((weaken ᴿ̃.*) y) *̃) P″ │ P′ ] ] ≡
+         [ ν [ (swap *̃) ((push *̃) ((repl y *̃) R)) │ (swap *̃) Q″ ] ]
+      subcase Q″ = ≅-to-≡ (
+         let open ≅-Reasoning in
+         begin
+            braiding (ᵇ∇ᶜ {a = x′ •} {τ}) {0} β [ ν [ (repl ((weaken ᴿ̃.*) y) *̃) P″ │ P′ ] ]
+         ≅⟨ reduce-ᵇ∇ᶜ β _ ⟩
+            [ ν [ (repl ((weaken ᴿ̃.*) y) *̃) P″ │ P′ ] ]
+         ≅⟨ [ν-]-cong (cong₂ _│_ α (swap-swap (γ₁ 𝐹))) ([-│-]-cong α {!!} (swap-swap (γ₁ 𝐹)) {!!}) ⟩
+            [ ν [ (swap *̃) ((push *̃) ((repl y *̃) R)) │ (swap *̃) Q″ ] ]
+         ∎)
+
       case :
          braiding (ᵇ∇ᶜ {a = x′ •} {τ}) {0} β
          [ ν [ (ᴿ̃.repl ((weaken ᴿ̃.*) y) *̃) P″ │ P′ ] ] ≡
          π₂ (step⁻ (νᵇ ((idᶠ *) R₀ │ᵇ E/E′ (⊖₁ 𝐹))) (ν [ (ᴿ̃.repl y *̃) R │ S′ ]))
       case
          with step (E/E′ (⊖₁ 𝐹)) S′
-      ... | ◻ , P″₁ = {!!}
-      ... | [ ._ • ᵇ ] , P″₁ = {!!}
+      ... | ◻ , Q″ = subcase Q″
+      ... | [ ._ • ᵇ ] , Q″ = subcase Q″
 {-
    module │ᵥ
       {Γ} {x u : Name Γ} {P₀ Q₀ R₀ R′₀ S₀ S′₀} {E : P₀ —[ x • ᵇ - _ ]→ R₀}
