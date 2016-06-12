@@ -763,7 +763,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       case
          with step (E/E′ (⊖₁ 𝐹)) S′ | inspect (step (E/E′ (⊖₁ 𝐹))) S′
       ... | ◻ , Q″ | [ ≡Q″ ] = subcase Q″ (,-inj₂ ≡Q″)
-      ... | [ ._ • ᵇ ] , Q″ | [ ≡Q″ ] = subcase Q″ (,-inj₂ ≡Q″)
+      ... | [ (• ._) ᵇ ] , Q″ | [ ≡Q″ ] = subcase Q″ (,-inj₂ ≡Q″)
 
 {-
    module │ᵥ
