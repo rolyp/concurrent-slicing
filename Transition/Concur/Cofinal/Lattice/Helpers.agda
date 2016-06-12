@@ -612,7 +612,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                       (pop y *̃) (tgt ((ᴺ.suc *ᵇ) E) ((push *̃) P))
                    ≡⟨ cong (pop y *̃) (sym (renᵇ-tgt-comm E push P)) ⟩
                       (pop y *̃) ((suc push *̃) (tgt E P))
-                   ≅⟨ ? ⟩
+                   ≅⟨ pop-zero∘suc-push̃ y _ ⟩
                       (repl y *̃) (tgt E P)
                    ≡⟨ cong ((repl y *̃)) ≡R ⟩
                       (repl y *̃) R
@@ -623,7 +623,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                       Q′
                    ≡⟨ sym ≡Q′ ⟩
                       tgt (E′/E (⊖₁ 𝐹)) (tgt F Q)
-                   ≅⟨ ≅-sym (reduce-ˣ∇ˣ (γ₁ 𝐹) _) ⟩
+                   ≅⟨ ≅-sym (reduce-ˣ∇ˣ {x = x′} {x} (γ₁ 𝐹) _) ⟩
                       braiding (ˣ∇ˣ {x = x′} {x}) {0} (γ₁ 𝐹) (tgt (E′/E (⊖₁ 𝐹)) (tgt F Q))
                    ≡⟨ IH ⟩
                       tgt (E/E′ (⊖₁ 𝐹)) (tgt F′ Q)
