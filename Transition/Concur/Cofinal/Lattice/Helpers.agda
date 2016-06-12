@@ -634,12 +634,14 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
             braiding (ᵇ∇ᶜ {a = x′ •} {τ}) {0} β
             [ ν [ (repl ((weaken ᴿ̃.*) y) *̃) P″ │ P′ ] ] ≡
             [ ν [ (swap *̃) ((push *̃) ((repl y *̃) R)) │ (swap *̃) Q″ ] ]
-         subcase Q″ ≡Q″ = ≅-to-≡ (
-            let β : (repl ((weaken ᴿ̃.*) y) *̃) P″ ≅ (swap *̃) ((push *̃) ((repl y *̃) R))
-                β = let open ≅-Reasoning in
+         subcase Q″ ≡Q″ =
+            let γ : (repl ((weaken ᴿ̃.*) y) *̃) P″ ≅ (swap *̃) ((push *̃) ((repl y *̃) R))
+                γ = let open ≅-Reasoning in
                    begin
                       (repl ((weaken ᴿ̃.*) y) *̃) P″
-                   ≅⟨ ? ⟩
+                   ≡⟨ {!cong (repl ((weaken ᴿ̃.*) y) *̃) (sym ≡P″)!} ⟩
+                      (repl ((weaken ᴿ̃.*) y) *̃) (tgt ((ᴺ.suc *ᵇ) E) ((push *̃) P))
+                   ≅⟨ {!!} ⟩
                       (swap *̃) ((push *̃) ((repl y *̃) R))
                    ∎
                 δ : P′ ≅ (swap *̃) Q″
@@ -648,17 +650,21 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                       P′
                    ≡⟨ sym ≡P′ ⟩
                       tgt (E′/E (⊖₁ 𝐹)) (tgt F Q)
-                   ≅⟨ ? ⟩
+                   ≅⟨ {!!} ⟩
+                      (swap *̃) (braiding (ᵇ∇ᵇ {a = x′ •} {• x}) {0} (γ₁ 𝐹) (tgt (E′/E (⊖₁ 𝐹)) (tgt F Q)))
+                   ≡⟨ {!cong (swap *̃) IH!} ⟩
+                      (swap *̃) (tgt (E/E′ (⊖₁ 𝐹)) (tgt F′ Q))
+                   ≡⟨ {!cong ((swap *̃) ∘ᶠ tgt (E/E′ (⊖₁ 𝐹))) (sym ≡S′)!} ⟩
                       (swap *̃) (tgt (E/E′ (⊖₁ 𝐹)) S′)
                    ≡⟨ cong (swap *̃) ≡Q″ ⟩
                       (swap *̃) Q″
                    ∎
-                open ≅-Reasoning in
+                open ≅-Reasoning in ≅-to-≡ (
             begin
                braiding (ᵇ∇ᶜ {a = x′ •} {τ}) {0} β [ ν [ (repl ((weaken ᴿ̃.*) y) *̃) P″ │ P′ ] ]
             ≅⟨ reduce-ᵇ∇ᶜ β _ ⟩
                [ ν [ (repl ((weaken ᴿ̃.*) y) *̃) P″ │ P′ ] ]
-            ≅⟨ [ν-]-cong (cong₂ _│_ α (swap-swap (γ₁ 𝐹))) ([-│-]-cong α {!!} (swap-swap (γ₁ 𝐹)) {!!}) ⟩
+            ≅⟨ [ν-]-cong (cong₂ _│_ α (swap-swap (γ₁ 𝐹))) ([-│-]-cong α γ (swap-swap (γ₁ 𝐹)) δ) ⟩
                [ ν [ (swap *̃) ((push *̃) ((repl y *̃) R)) │ (swap *̃) Q″ ] ]
             ∎)
 
