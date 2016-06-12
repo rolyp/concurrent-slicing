@@ -379,7 +379,8 @@ module Transition.Concur.Cofinal.Lattice where
    ... | _ , R | _ , R′ | [ _ ] , S′ | ◻ , Q′ | [ ≡R ] | [ ≡R′ ] | [ ≡S′ ] | [ ≡Q′ ] = {!!}
    ... | ◻ , R | [ _ ] , R′ | _ , S′ | _ , Q′ | [ ≡R ] | [ ≡R′ ] | [ ≡S′ ] | [ ≡Q′ ] =
       ⊥-elim (◻≢[-] (trans (cong (push ᴬ*̃) (sym (,-inj₁ ≡R))) (trans (renᵇ-action-comm E push P) (,-inj₁ ≡R′))))
-   ... | [ _ ] , R | ◻ , R′ | _ , S′ | _ , Q′ | [ ≡R ] | [ ≡R′ ] | [ ≡S′ ] | [ ≡Q′ ] = {!!}
+   ... | [ ._ • ᵇ ] , R | ◻ , R′ | _ , S′ | _ , Q′ | [ ≡R ] | [ ≡R′ ] | [ ≡S′ ] | [ ≡Q′ ] =
+      ⊥-elim (◻≢[-] (trans (sym (,-inj₁ ≡R′)) (trans (sym (renᵇ-action-comm E push P)) (cong (push ᴬ*̃) (,-inj₁ ≡R)))))
    ... | ◻ , R | ◻ , R′ | ◻ , S′ | ◻ , Q′ | [ ≡R ] | [ ≡R′ ] | [ ≡S′ ] | [ ≡Q′ ] = {!!}
    ... | ◻ , R | ◻ , R′ | [ x₁ ] , S′ | [ x₂ ] , Q′ | [ ≡R ] | [ ≡R′ ] | [ ≡S′ ] | [ ≡Q′ ] = {!!}
    ... | [ ._ • ᵇ ] , R | [ ._ • ᵇ ] , R′ | ◻ , S′ | ◻ , Q′ | [ ≡R ] | [ ≡R′ ] | [ ≡S′ ] | [ ≡Q′ ] = {!!}
