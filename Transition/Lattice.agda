@@ -60,7 +60,7 @@ module Transition.Lattice where
    step⁻ {a = • x 〈 y 〉 ᶜ} (νᶜ E) (ν P) with step E P
    ... | [ • .(ᴺ.suc x) 〈 [ .(ᴺ.suc y) ] 〉 ᶜ ] , R = [ • x 〈 [ y ] 〉 ᶜ ] , [ ν R ]
    ... | _ , R = ◻ , [ ν R ]
-   -- Explicitly match the action to translate it by (+ 1).
+   -- Explicitly match the action to translate it by (- 1).
    step⁻ {a = τ ᶜ} (νᶜ E) (ν P) with step E P
    ... | [ τ ᶜ ] , R = [ τ ᶜ ] , [ ν R ]
    ... | ◻ , R = ◻ , [ ν R ]
