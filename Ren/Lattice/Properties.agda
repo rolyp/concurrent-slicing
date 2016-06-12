@@ -14,40 +14,41 @@ module Ren.Lattice.Properties where
    open import Proc.Ren.Lattice renaming (
          _* to _*̃; *-preserves-≃ₑ to *̃-preserves-≃ₑ; *-preserves-∘ to *̃-preserves-∘; *-preserves-id to *̃-preserves-id
       )
-   open import Ren as ᴿ using (Ren; +-preserves-involutivity; swap); open ᴿ.Renameable ⦃...⦄
-   open import Ren.Lattice as ᴿ̃ using (_ᴿ+_; to-↓; to-↓-preserves-≃ₑ; to-↓-preserves-+)
+   open import Ren as ᴿ using (Ren; +-preserves-involutivity); open ᴿ.Renameable ⦃...⦄
+   open import Ren.Lattice as ᴿ̃
+      using (_ᴿ+_; to-↓; to-↓-preserves-≃ₑ; to-↓-preserves-+; suc; swap; push; id; pop; repl; weaken)
    open import Ren.Properties
 
    -- Should be able to generalise along the lines of Ren.Properties, but tricky.
-   swap-involutivẽ : ∀ {Γ} {P : Proc (Γ + 2)} (P′ : ↓ P) → (ᴿ̃.swap *̃) ((ᴿ̃.swap *̃) P′) ≅ P′
+   swap-involutivẽ : ∀ {Γ} {P : Proc (Γ + 2)} (P′ : ↓ P) → (swap *̃) ((swap *̃) P′) ≅ P′
    swap-involutivẽ P =
       let open ≅-Reasoning in
       begin
-         (to-↓ swap *̃) ((to-↓ swap *̃) P)
+         (to-↓ ᴿ.swap *̃) ((to-↓ ᴿ.swap *̃) P)
       ≅⟨ *̃-preserves-∘ P ⟩
-         (((to-↓ swap ᴿ̃.*) ∘ᶠ to-↓ swap) *̃) P
+         (((to-↓ ᴿ.swap ᴿ̃.*) ∘ᶠ to-↓ ᴿ.swap) *̃) P
       ≅⟨ *̃-preserves-≃ₑ (λ _ → ≡-to-≅ refl) P ⟩
-         ((to-↓ (swap ∘ᶠ swap)) *̃) P
+         ((to-↓ (ᴿ.swap ∘ᶠ ᴿ.swap)) *̃) P
       ≅⟨ *̃-preserves-≃ₑ (to-↓-preserves-≃ₑ swap-involutive) P ⟩
-         (ᴿ̃.id *̃) P
+         (id *̃) P
       ≅⟨ *̃-preserves-id P ⟩
          P
       ∎
 
-   swap+-involutivẽ : ∀ {Γ} Δ {P : Proc (Γ + 2 + Δ)} (P′ : ↓ P) → ((ᴿ̃.swap ᴿ+ Δ) *̃) (((ᴿ̃.swap ᴿ+ Δ) *̃) P′) ≅ P′
+   swap+-involutivẽ : ∀ {Γ} Δ {P : Proc (Γ + 2 + Δ)} (P′ : ↓ P) → ((swap ᴿ+ Δ) *̃) (((swap ᴿ+ Δ) *̃) P′) ≅ P′
    swap+-involutivẽ Δ P =
       let open ≅-Reasoning in
       begin
-         ((to-↓ swap ᴿ+ Δ) *̃) (((to-↓ swap ᴿ+ Δ) *̃) P)
-      ≅⟨ ≅-cong ((to-↓ swap ᴿ+ Δ) *̃) (*̃-preserves-≃ₑ (≅-sym ∘ᶠ ≡-to-≅ ∘ᶠ to-↓-preserves-+ Δ swap) P) ⟩
-         ((to-↓ swap ᴿ+ Δ) *̃) (((to-↓ (swap ᴿ.ᴿ+ Δ)) *̃) P)
-      ≅⟨ *̃-preserves-≃ₑ (≅-sym ∘ᶠ ≡-to-≅ ∘ᶠ to-↓-preserves-+ Δ swap) _ ⟩
-         ((to-↓ (swap ᴿ.ᴿ+ Δ)) *̃) (((to-↓ (swap ᴿ.ᴿ+ Δ)) *̃) P)
+         ((to-↓ ᴿ.swap ᴿ+ Δ) *̃) (((to-↓ ᴿ.swap ᴿ+ Δ) *̃) P)
+      ≅⟨ ≅-cong ((to-↓ ᴿ.swap ᴿ+ Δ) *̃) (*̃-preserves-≃ₑ (≅-sym ∘ᶠ ≡-to-≅ ∘ᶠ to-↓-preserves-+ Δ ᴿ.swap) P) ⟩
+         ((to-↓ ᴿ.swap ᴿ+ Δ) *̃) (((to-↓ (ᴿ.swap ᴿ.ᴿ+ Δ)) *̃) P)
+      ≅⟨ *̃-preserves-≃ₑ (≅-sym ∘ᶠ ≡-to-≅ ∘ᶠ to-↓-preserves-+ Δ ᴿ.swap) _ ⟩
+         ((to-↓ (ᴿ.swap ᴿ.ᴿ+ Δ)) *̃) (((to-↓ (ᴿ.swap ᴿ.ᴿ+ Δ)) *̃) P)
       ≅⟨ *̃-preserves-∘ P ⟩
-         ((((to-↓ (swap ᴿ.ᴿ+ Δ)) ᴿ̃.*) ∘ᶠ (to-↓ (swap ᴿ.ᴿ+ Δ))) *̃) P
+         ((((to-↓ (ᴿ.swap ᴿ.ᴿ+ Δ)) ᴿ̃.*) ∘ᶠ (to-↓ (ᴿ.swap ᴿ.ᴿ+ Δ))) *̃) P
       ≅⟨ *̃-preserves-≃ₑ (λ x → ≅-refl) P ⟩
-         ((to-↓ ((swap ᴿ.ᴿ+ Δ) ∘ᶠ (swap ᴿ.ᴿ+ Δ))) *̃) P
-      ≅⟨ *̃-preserves-≃ₑ (to-↓-preserves-≃ₑ (+-preserves-involutivity swap Δ swap-involutive)) P ⟩
+         ((to-↓ ((ᴿ.swap ᴿ.ᴿ+ Δ) ∘ᶠ (ᴿ.swap ᴿ.ᴿ+ Δ))) *̃) P
+      ≅⟨ *̃-preserves-≃ₑ (to-↓-preserves-≃ₑ (+-preserves-involutivity ᴿ.swap Δ swap-involutive)) P ⟩
          (to-↓ idᶠ *̃) P
       ≅⟨ *̃-preserves-id P ⟩
          P
@@ -55,25 +56,25 @@ module Ren.Lattice.Properties where
 
    -- More of the same; trivial but tedious, so leave for now. TODO: abstract over ↓ A for any Renameable A.
    postulate
-      swap∘push∘push̃ : ∀ {Γ} {P : Proc Γ} (P′ : ↓ P) → (ᴿ̃.swap *̃) ((ᴿ̃.push *̃) ((ᴿ̃.push *̃) P′)) ≅ (ᴿ̃.push *̃) ((ᴿ̃.push *̃) P′)
+      swap∘push∘push̃ : ∀ {Γ} {P : Proc Γ} (P′ : ↓ P) → (swap *̃) ((push *̃) ((push *̃) P′)) ≅ (push *̃) ((push *̃) P′)
       swap∘suc-swap∘swap̃ : ∀ {Γ} {P : Proc (Γ + 3)} (P′ : ↓ P) →
-                           (ᴿ̃.swap {Γ + 1} *̃) ((ᴿ̃.suc ᴿ̃.swap *̃) ((ᴿ̃.swap *̃) P′)) ≅
-                           (ᴿ̃.suc ᴿ̃.swap *̃) ((ᴿ̃.swap *̃) ((ᴿ̃.suc ᴿ̃.swap *̃) P′))
-      pop∘push̃ : ∀ {Γ} {y : Name Γ} (y′ : ↓ y) {P : Proc Γ} (P′ : ↓ P) → (ᴿ̃.pop y′ *̃) ((ᴿ̃.push *̃) P′) ≅ P′
-      ᴬpop∘push̃ : ∀ {Γ} {y : Name Γ} (y′ : ↓ y) {a : Action Γ} (a′ : ↓ a) → (ᴿ̃.pop y′ ᴬ*̃) ((ᴿ̃.push ᴬ*̃) a′) ≅ a′
-      swap∘suc-push̃ : ∀ {Γ} {P : Proc (Γ + 1)} (P′ : ↓ P) → (ᴿ̃.push *̃) P′ ≅ (ᴿ̃.swap *̃) ((ᴿ̃.suc ᴿ̃.push *̃) P′)
-      swap∘push̃ : ∀ {Γ} {P : Proc (Γ + 1)} (P′ : ↓ P) → (ᴿ̃.suc ᴿ̃.push *̃) P′ ≅ (ᴿ̃.swap *̃) ((ᴿ̃.push *̃) P′)
+                           (swap {Γ + 1} *̃) ((suc swap *̃) ((swap *̃) P′)) ≅
+                           (suc swap *̃) ((swap *̃) ((suc swap *̃) P′))
+      pop∘push̃ : ∀ {Γ} {y : Name Γ} (y′ : ↓ y) {P : Proc Γ} (P′ : ↓ P) → (pop y′ *̃) ((push *̃) P′) ≅ P′
+      ᴬpop∘push̃ : ∀ {Γ} {y : Name Γ} (y′ : ↓ y) {a : Action Γ} (a′ : ↓ a) → (pop y′ ᴬ*̃) ((push ᴬ*̃) a′) ≅ a′
+      swap∘suc-push̃ : ∀ {Γ} {P : Proc (Γ + 1)} (P′ : ↓ P) → (push *̃) P′ ≅ (swap *̃) ((suc push *̃) P′)
+      swap∘push̃ : ∀ {Γ} {P : Proc (Γ + 1)} (P′ : ↓ P) → (suc push *̃) P′ ≅ (swap *̃) ((push *̃) P′)
       pop∘swap̃ : ∀ {Γ} {y : Name Γ} (y′ : ↓ y) {P : Proc (Γ + 2)} (P′ : ↓ P) →
-                  (ᴿ̃.suc (ᴿ̃.pop y′) *̃) P′ ≅ ((ᴿ̃.pop ((ᴿ̃.push ᴿ̃.*) y′)) *̃) ((ᴿ̃.swap *̃) P′)
+                  (suc (pop y′) *̃) P′ ≅ ((pop ((push ᴿ̃.*) y′)) *̃) ((swap *̃) P′)
       pop-swap̃ : ∀ {Γ} (y y′ : ↓ ᴺ.zero) {P : Proc (Γ + 2)} (P′ : ↓ P) →
-                  (ᴿ̃.pop y′ *̃) ((ᴿ̃.suc (ᴿ̃.repl y) *̃) ((ᴿ̃.swap {Γ} *̃) P′)) ≅ (ᴿ̃.pop y *̃) ((ᴿ̃.suc (ᴿ̃.repl y′) *̃) P′)
+                  (pop y′ *̃) ((suc (repl y) *̃) ((swap {Γ} *̃) P′)) ≅ (pop y *̃) ((suc (repl y′) *̃) P′)
       pop∘suc-push̃ : ∀ {Γ} {y : Name Γ} (y′ : ↓ y) {P : Proc (Γ + 1)} (P′ : ↓ P) →
-                     (ᴿ̃.push *̃) ((ᴿ̃.pop y′ *̃) P′)≅ (ᴿ̃.pop ((ᴿ̃.push ᴿ̃.*) y′) *̃) ((ᴿ̃.suc ᴿ̃.push *̃) P′)
-      swap-swap̃ : ∀ {Γ} {P P′ : Proc (Γ + 2)} {P† : ↓ P} {P‡ : ↓ P′} → (ᴿ̃.swap *̃) P† ≅ P‡ → P† ≅ (ᴿ̃.swap *̃) P‡
+                     (push *̃) ((pop y′ *̃) P′)≅ (pop ((push ᴿ̃.*) y′) *̃) ((suc push *̃) P′)
+      swap-swap̃ : ∀ {Γ} {P P′ : Proc (Γ + 2)} {P† : ↓ P} {P‡ : ↓ P′} → (swap *̃) P† ≅ P‡ → P† ≅ (swap *̃) P‡
 
       -- Corresponds to id ∘ swap = swap ∘ id, which is too trivial to have a Ren.Properties counterpart.
       id-swap-id̃ : ∀ {Γ} (y : ↓ ᴺ.zero) {P : Proc (Γ + 2)} (P′ : ↓ P) →
-                    (ᴿ̃.repl ((ᴿ̃.weaken ᴿ̃.*) y) *̃) ((ᴿ̃.swap *̃) P′) ≅ (ᴿ̃.swap *̃) ((ᴿ̃.suc (ᴿ̃.repl y) *̃) P′)
+                    (repl ((weaken ᴿ̃.*) y) *̃) ((swap *̃) P′) ≅ (swap *̃) ((suc (repl y) *̃) P′)
       -- Corresponds to id ∘ suc push ≡ swap ∘ push ∘ id, which we prove inline rather than as a lemma.
       id∘suc-push̃ : ∀ {Γ} {y : ↓ ᴺ.zero} {P : Proc (Γ + 1)} (P′ : ↓ P) →
-                    (ᴿ̃.repl ((ᴿ̃.weaken ᴿ̃.*) y) *̃) ((ᴿ̃.suc ᴿ̃.push *̃) P′) ≅ (ᴿ̃.suc ᴿ̃.push *̃) ((ᴿ̃.repl y *̃) P′)
+                    (repl ((weaken ᴿ̃.*) y) *̃) ((suc push *̃) P′) ≅ (suc push *̃) ((repl y *̃) P′)
