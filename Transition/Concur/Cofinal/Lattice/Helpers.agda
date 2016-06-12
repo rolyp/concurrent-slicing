@@ -607,21 +607,13 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , P″ | [ ≡P″ ] = subcase P″ (,-inj₂ ≡P″)
 -}
 
+{-
    module ᵇ│ᵥ-ᵇ∇ᵇ
       {Γ} {x : Name Γ} {P₀ Q₀ R₀ S₀ S′₀} {a : Actionᵇ Γ} {F : Q₀ —[ a ᵇ - _ ]→ S₀} {F′ : Q₀ —[ (• x) ᵇ - _ ]→ S′₀}
       (E : P₀ —[ x • ᵇ - _ ]→ R₀) (𝐹 : F ⌣₁[ ᵇ∇ᵇ ] F′) (let Q′₀ = tgt₁ (⊖₁ 𝐹); Q″₀ = tgt₂ (⊖₁ 𝐹))
       (P : ↓ P₀) (Q : ↓ Q₀) (R : ↓ R₀) (S′ : ↓ S′₀) (P″ : ↓ (ᴿ.suc ᴿ.push *) R₀) (P′ : ↓ Q′₀)
-      (let α : (idᶠ *) ((ᴿ.suc ᴿ.push *) R₀) ≡ (ᴿ.swap *) ((ᴿ.push *) ((idᶠ *) R₀))
-           α = let open EqReasoning (setoid _) in
-             begin
-                (idᶠ *) ((ᴿ.suc ᴿ.push *) R₀)
-             ≡⟨ *-preserves-id _ ⟩
-                (ᴿ.suc ᴿ.push *) R₀
-             ≡⟨ swap∘push _ ⟩
-                (ᴿ.swap *) ((ᴿ.push *) R₀)
-             ≡⟨ cong ((ᴿ.swap *) ∘ᶠ (ᴿ.push *)) (sym (*-preserves-id R₀)) ⟩
-                (ᴿ.swap *) ((ᴿ.push *) ((idᶠ *) R₀))
-             ∎
+      (let α : _
+           α = ?
            β : ν ((idᶠ *) ((ᴿ.suc ᴿ.push *) R₀) │ Q′₀) ≡ ᵀ.tgt (νᵇ ((idᶠ *) R₀ │ᵇ E/E′ (⊖₁ 𝐹)))
            β = cong ν_ (cong₂ _│_ α (swap-swap (γ₁ 𝐹)))) where
 
@@ -630,6 +622,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
          braiding (ᵇ∇ᶜ {a = a} {τ}) {0} β
          [ ν [ (ᴿ̃.repl ◻ *̃) P″ │ P′ ] ] ≡
          π₂ (step⁻ (νᵇ ((idᶠ *) R₀ │ᵇ E/E′ (⊖₁ 𝐹))) (ν [ (ᴿ̃.repl ◻ *̃) R │ S′ ]))
+-}
 
 {-
    module │ᵥ
