@@ -375,8 +375,8 @@ module Transition.Concur.Cofinal.Lattice where
       with step E P | step ((ᴿ.push *ᵇ) E) ((push *̃) P) | step F′ Q | step (E′/E (⊖₁ 𝐹)) (tgt F Q) |
            inspect (step E) P | inspect (step ((ᴿ.push *ᵇ) E)) ((push *̃) P) |
            inspect (step F′) Q | inspect (step (E′/E (⊖₁ 𝐹))) (tgt F Q)
-   ... | _ , R | _ , R′ | ◻ , S′ | [ _ ] , Q′ | [ ≡R ] | [ ≡R′ ] | [ ≡S′ ] | [ ≡Q′ ] =
-      ⊥-elim (◻≢[-] ?)
+   ... | _ , R | _ , R′ | ◻ , S′ | [ • ._ 〈 y 〉 ᶜ ] , Q′ | [ ≡R ] | [ ≡R′ ] | [ ≡S′ ] | [ ≡Q′ ] =
+      ⊥-elim (◻≢[-] (trans (cong (residual ˣ∇ˣ) (sym (,-inj₁ ≡S′))) (trans (sym (π₁ (ᴬgamma₁ 𝐹 Q))) (,-inj₁ ≡Q′))))
    ... | _ , R | _ , R′ | [ (• ._) ᵇ ] , S′ | ◻ , Q′ | [ ≡R ] | [ ≡R′ ] | [ ≡S′ ] | [ ≡Q′ ] =
       ⊥-elim (◻≢[-] (trans (sym (,-inj₁ ≡Q′)) (trans (π₁ (ᴬgamma₁ 𝐹 Q)) (cong (residual ˣ∇ˣ) (,-inj₁ ≡S′)))))
    ... | ◻ , R | [ _ ] , R′ | _ , S′ | _ , Q′ | [ ≡R ] | [ ≡R′ ] | [ ≡S′ ] | [ ≡Q′ ] =
