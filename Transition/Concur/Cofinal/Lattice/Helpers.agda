@@ -590,7 +590,17 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
       (≡R : tgt E P ≡ R) (≡S′ : tgt F′ Q ≡ S′) (≡R′ : tgt ((ᴺ.suc *ᵇ) E) ((push *̃) P) ≡ R′)
       (≡Q′ : tgt (E′/E (⊖₁ 𝐹)) (tgt F Q) ≡ Q′)
       (IH : (braiding (ˣ∇ˣ {x = x′} {x}) {0} (γ₁ 𝐹) (tgt (E′/E (⊖₁ 𝐹)) (tgt F Q)) ≡ tgt (E/E′ (⊖₁ 𝐹)) (tgt F′ Q)))
+      (let α : (ᴿ.pop ᴺ.zero *) ((ᴿ.suc ᴿ.push *) R₀) ≡ (idᶠ *) R₀
+           α = trans (pop-zero∘suc-push R₀) (sym (*-preserves-id R₀)))
       where
+
+{-
+      postulate
+       case :
+         braiding (ᵇ∇ᶜ {a = {!!}} {{!!}}) {0} (cong₂ _│_ α (γ₁ 𝐹))
+         [ (pop ◻ *̃) R′ │ Q′ ] ≡
+         π₂ (step⁻ (ν• ((idᶠ *) R₀ │ᶜ E/E′ (⊖₁ 𝐹))) (ν [ (ᴿ̃.repl ◻ *̃) R │ S′ ]))
+-}
 
 {-
    module ᵇ│ᵥ-ᵇ∇ᵇ-x•
