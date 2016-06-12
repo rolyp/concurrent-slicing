@@ -40,6 +40,10 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
    ◻≢[-] : ∀ {Γ} {a : Action Γ} {a′ : ↓⁻ a} → _≡_ {A = ↓_ {A = Action Γ} a} ◻ [ a′ ] → ⊥
    ◻≢[-] ()
 
+   [•x〈[◻]〉ᶜ]≢[•x〈[-]〉ᶜ] : ∀ {Γ} {x y : Name Γ} →
+                         _≡_ {A = ↓_ {A = Action Γ} (• x 〈 y 〉 ᶜ)} [ • x 〈 ◻ 〉 ᶜ ] [ • x 〈 [ y ] 〉 ᶜ ] → ⊥
+   [•x〈[◻]〉ᶜ]≢[•x〈[-]〉ᶜ] ()
+
    [•x〈-〉ᶜ]-inj : ∀ {Γ} {x y : Name Γ} {y′ y″ : ↓ y} →
                  _≡_ {A = ↓_ {A = Action Γ} (• x 〈 y 〉 ᶜ)} [ • x 〈 y′ 〉 ᶜ ] [ • x 〈 y″ 〉 ᶜ ] → y′ ≡ y″
    [•x〈-〉ᶜ]-inj {y′ = y′} {.y′} refl = refl
