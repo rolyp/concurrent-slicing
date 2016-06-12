@@ -628,18 +628,31 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
            β : ν ((idᶠ *) ((ᴿ.suc ᴿ.push *) R₀) │ Q′₀) ≡ ᵀ.tgt (νᵇ ((idᶠ *) R₀ │ᵇ E/E′ (⊖₁ 𝐹)))
            β = cong ν_ (cong₂ _│_ α (swap-swap (γ₁ 𝐹)))) where
 
-{-
       private
          subcase :
-            (Q″ : ↓ Q″₀) →
+            (Q″ : ↓ Q″₀) (≡Q″ : tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″) →
             braiding (ᵇ∇ᶜ {a = x′ •} {τ}) {0} β
             [ ν [ (repl ((weaken ᴿ̃.*) y) *̃) P″ │ P′ ] ] ≡
             [ ν [ (swap *̃) ((push *̃) ((repl y *̃) R)) │ (swap *̃) Q″ ] ]
-         subcase Q″ = ≅-to-≡ (
+         subcase Q″ ≡Q″ = ≅-to-≡ (
             let β : (repl ((weaken ᴿ̃.*) y) *̃) P″ ≅ (swap *̃) ((push *̃) ((repl y *̃) R))
-                β = ?
+                β = let open ≅-Reasoning in
+                   begin
+                      (repl ((weaken ᴿ̃.*) y) *̃) P″
+                   ≅⟨ ? ⟩
+                      (swap *̃) ((push *̃) ((repl y *̃) R))
+                   ∎
                 δ : P′ ≅ (swap *̃) Q″
-                δ = ?
+                δ = let open ≅-Reasoning in
+                   begin
+                      P′
+                   ≡⟨ sym ≡P′ ⟩
+                      tgt (E′/E (⊖₁ 𝐹)) (tgt F Q)
+                   ≅⟨ ? ⟩
+                      (swap *̃) (tgt (E/E′ (⊖₁ 𝐹)) S′)
+                   ≡⟨ cong (swap *̃) ≡Q″ ⟩
+                      (swap *̃) Q″
+                   ∎
                 open ≅-Reasoning in
             begin
                braiding (ᵇ∇ᶜ {a = x′ •} {τ}) {0} β [ ν [ (repl ((weaken ᴿ̃.*) y) *̃) P″ │ P′ ] ]
@@ -648,19 +661,15 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
             ≅⟨ [ν-]-cong (cong₂ _│_ α (swap-swap (γ₁ 𝐹))) ([-│-]-cong α {!!} (swap-swap (γ₁ 𝐹)) {!!}) ⟩
                [ ν [ (swap *̃) ((push *̃) ((repl y *̃) R)) │ (swap *̃) Q″ ] ]
             ∎)
--}
 
-      postulate
-       case :
+      case :
          braiding (ᵇ∇ᶜ {a = x′ •} {τ}) {0} β
          [ ν [ (ᴿ̃.repl ((weaken ᴿ̃.*) y) *̃) P″ │ P′ ] ] ≡
          π₂ (step⁻ (νᵇ ((idᶠ *) R₀ │ᵇ E/E′ (⊖₁ 𝐹))) (ν [ (ᴿ̃.repl y *̃) R │ S′ ]))
-{-
       case
-         with step (E/E′ (⊖₁ 𝐹)) S′
-      ... | ◻ , Q″ = subcase Q″
-      ... | [ ._ • ᵇ ] , Q″ = subcase Q″
--}
+         with step (E/E′ (⊖₁ 𝐹)) S′ | inspect (step (E/E′ (⊖₁ 𝐹))) S′
+      ... | ◻ , Q″ | [ ≡Q″ ] = subcase Q″ (,-inj₂ ≡Q″)
+      ... | [ ._ • ᵇ ] , Q″ | [ ≡Q″ ] = subcase Q″ (,-inj₂ ≡Q″)
 
 {-
    module │ᵥ
