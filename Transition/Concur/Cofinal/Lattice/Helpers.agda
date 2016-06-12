@@ -608,7 +608,8 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
 -}
 
    module ᵇ│ᵥ-ᵇ∇ᵇ-x•
-      {Γ} {x x′ : Name Γ} {P₀ Q₀ R₀ S₀ S′₀} {F : Q₀ —[ x′ • ᵇ - _ ]→ S₀} {F′ : Q₀ —[ (• x) ᵇ - _ ]→ S′₀}
+      {Γ} {x x′ : Name Γ} {P₀ Q₀ : Proc Γ} {R₀ S₀ S′₀ : Proc (Γ + 1)}
+      {F : Q₀ —[ x′ • ᵇ - _ ]→ S₀} {F′ : Q₀ —[ (• x) ᵇ - _ ]→ S′₀}
       (E : P₀ —[ x • ᵇ - _ ]→ R₀) (𝐹 : F ⌣₁[ ᵇ∇ᵇ ] F′) (let Q′₀ = tgt₁ (⊖₁ 𝐹); Q″₀ = tgt₂ (⊖₁ 𝐹))
       (P : ↓ P₀) (Q : ↓ Q₀) (R : ↓ R₀) (S′ : ↓ S′₀) (P″ : ↓ (ᴿ.suc ᴿ.push *) R₀) (P′ : ↓ Q′₀) (y : ↓ (ᴺ.zero {Γ}))
       (≡R : tgt E P ≡ R) (≡S′ : tgt F′ Q ≡ S′) (≡P″ : tgt ((ᴺ.suc *ᵇ) E) ((push *̃) P) ≡ P″)
@@ -639,9 +640,15 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                 γ = let open ≅-Reasoning in
                    begin
                       (repl ((weaken ᴿ̃.*) y) *̃) P″
-                   ≡⟨ {!cong (repl ((weaken ᴿ̃.*) y) *̃) (sym ≡P″)!} ⟩
-                      (repl ((weaken ᴿ̃.*) y) *̃) (tgt ((ᴺ.suc *ᵇ) E) ((push *̃) P))
+                   ≡⟨ cong (repl ((weaken ᴿ̃.*) y) *̃) (sym ≡P″) ⟩
+                      (repl ((weaken ᴿ̃.*) y) *̃) (tgt ((ᴿ.push *ᵇ) E) ((push *̃) P))
+                   ≡⟨ cong (repl ((weaken ᴿ̃.*) y) *̃) (sym (renᵇ-tgt-comm E push P)) ⟩
+                      (repl ((weaken ᴿ̃.*) y) *̃) ((suc push *̃) (tgt E P))
                    ≅⟨ {!!} ⟩
+                      (suc push *̃) ((repl y *̃) (tgt E P))
+                   ≅⟨ {!swap∘push̃ _!} ⟩
+                      (swap *̃) ((push *̃) ((repl y *̃) (tgt E P)))
+                   ≡⟨ cong ((swap *̃) ∘ᶠ (push *̃) ∘ᶠ (repl y *̃)) ≡R ⟩
                       (swap *̃) ((push *̃) ((repl y *̃) R))
                    ∎
                 δ : P′ ≅ (swap *̃) Q″
@@ -650,11 +657,13 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
                       P′
                    ≡⟨ sym ≡P′ ⟩
                       tgt (E′/E (⊖₁ 𝐹)) (tgt F Q)
-                   ≅⟨ {!!} ⟩
+                   ≅⟨ ≅-sym (swap-involutivẽ _) ⟩
+                      (swap *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐹)) (tgt F Q)))
+                   ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐹) (swap *̃) (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐹) _)) ⟩
                       (swap *̃) (braiding (ᵇ∇ᵇ {a = x′ •} {• x}) {0} (γ₁ 𝐹) (tgt (E′/E (⊖₁ 𝐹)) (tgt F Q)))
-                   ≡⟨ {!cong (swap *̃) IH!} ⟩
+                   ≡⟨ cong (swap *̃) IH ⟩
                       (swap *̃) (tgt (E/E′ (⊖₁ 𝐹)) (tgt F′ Q))
-                   ≡⟨ {!cong ((swap *̃) ∘ᶠ tgt (E/E′ (⊖₁ 𝐹))) (sym ≡S′)!} ⟩
+                   ≡⟨ cong ((swap *̃) ∘ᶠ tgt (E/E′ (⊖₁ 𝐹))) ≡S′ ⟩
                       (swap *̃) (tgt (E/E′ (⊖₁ 𝐹)) S′)
                    ≡⟨ cong (swap *̃) ≡Q″ ⟩
                       (swap *̃) Q″
