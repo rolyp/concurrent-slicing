@@ -24,19 +24,29 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-nu-nu where
          S‡
       ∎))
 
-   module wurble
+   module ⋆
       {Γ} {P₀ : Proc (Γ + 1)} {R₀ R′₀} {E : P₀ —[ τ ᶜ - _ ]→ R₀} {E′ : P₀ —[ τ ᶜ - _ ]→ R′₀} (𝐸 : E ⌣₁[ ᵛ∇ᵛ ] E′)
-      (P : ↓ P₀)
+      (P : ↓ P₀) (IH : braid̂ (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)) ≡ tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))
       where
 
       private
          module sub
             (R : ↓ R₀) (R′ : ↓ R′₀) (≡R : tgt E P ≡ R) (≡R′ : tgt E′ P ≡ R′) where
 
-            postulate
-             case′ :
+            case′ :
                braid̂ (ν γ₁ 𝐸)
                (tgt (νᶜ E′/E (⊖₁ 𝐸)) [ ν R ]) ≡ tgt (νᶜ E/E′ (⊖₁ 𝐸)) [ ν R′ ]
+            case′
+               with step (E/E′ (⊖₁ 𝐸)) R′ | step (E′/E (⊖₁ 𝐸)) R |
+                    inspect (step (E/E′ (⊖₁ 𝐸))) R′ | inspect (step (E′/E (⊖₁ 𝐸))) R
+            ... | ◻ , S‡ | ◻ , S† | [ ≡S‡ ] | [ ≡S† ] =
+               base 𝐸 P R R′ S† S‡ ≡R ≡R′ (,-inj₂ ≡S†) (,-inj₂ ≡S‡) IH
+            ... | ◻ , S‡ | [ τ ᶜ ] , S† | [ ≡S‡ ] | [ ≡S† ] =
+               base 𝐸 P R R′ S† S‡ ≡R ≡R′ (,-inj₂ ≡S†) (,-inj₂ ≡S‡) IH
+            ... | [ τ ᶜ ] , S‡ | ◻ , S† | [ ≡S‡ ] | [ ≡S† ] =
+               base 𝐸 P R R′ S† S‡ ≡R ≡R′ (,-inj₂ ≡S†) (,-inj₂ ≡S‡) IH
+            ... | [ τ ᶜ ] , S‡ | [ τ ᶜ ] , S† | [ ≡S‡ ] | [ ≡S† ] =
+               base 𝐸 P R R′ S† S‡ ≡R ≡R′ (,-inj₂ ≡S†) (,-inj₂ ≡S‡) IH
 
       open sub
 

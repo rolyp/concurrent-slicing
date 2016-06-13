@@ -348,9 +348,8 @@ module Transition.Concur.Cofinal.Lattice where
       let open │ᵥᶜ-•x〈y〉 𝐸 F P Q P′ id*E/E S R′ ◻ ≡id*E/E′ (,-inj₂ ≡P′) (,-inj₂ ≡S) (,-inj₂ ≡R′) (gamma₁ 𝐸 P) in case
    ... | id*E/E | [ ._ • ᵇ ] , R′ | [ (• ._) ᵇ ] , S | [ ._ • ᵇ ] , P′ | [ ≡id*E/E′ ] | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] =
       let open │ᵥᶜ-•x〈y〉 𝐸 F P Q P′ id*E/E S R′ [ ᴺ.zero ] ≡id*E/E′ (,-inj₂ ≡P′) (,-inj₂ ≡S) (,-inj₂ ≡R′) (gamma₁ 𝐸 P) in case
--}
 
-   -- Sub-case 1. tgt (ν• ((idᶠ *) (ᵀ.tgt E) │ᶜ E/E′ (⊖₁ 𝐹))) (tgt (E │ᵥ F′) [ P │ Q ])
+   -- Sub-case 1.
    gamma₁ {E = P₀ │ᵇ F} {.E │ᵥ F′} (_ᵇ│ᵥ_ {a = • x′} {𝑎 = ˣ∇ˣ} E 𝐹) [ P │ Q ]
       with step E P | step ((ᴿ.push *ᵇ) E) ((push *̃) P) | step F′ Q | step (E′/E (⊖₁ 𝐹)) (tgt F Q) |
            inspect (step E) P | inspect (step ((ᴿ.push *ᵇ) E)) ((push *̃) P) |
@@ -375,7 +374,6 @@ module Transition.Concur.Cofinal.Lattice where
    ... | [ ._ • ᵇ ] , R | [ ._ • ᵇ ] , R′ | [ (• ._) ᵇ ] , S′ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , Q′ | [ ≡R ] | [ ≡R′ ] | [ ≡S′ ] | [ ≡Q′ ] =
       let open ᵇ│ᵥ-ˣ∇ˣ E 𝐹 P Q R R′ S′ Q′ [ ᴺ.zero ] (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (,-inj₂ ≡Q′) (gamma₁ 𝐹 Q) in case
 
-{-
    -- Sub-case 2.
    gamma₁ {E = P₀ │ᵇ F} {.E │ᵥ F′} (_ᵇ│ᵥ_ {a = • x′} {ᵇ∇ᵇ} E 𝐹) [ P │ Q ]
       with step E P | step ((ᴿ.push *ᵇ) E) ((push *̃) P) | step F′ Q | step (E′/E (⊖₁ 𝐹)) (tgt F Q) |
@@ -1018,7 +1016,7 @@ module Transition.Concur.Cofinal.Lattice where
       let open νᶜᶜ.τ-τ in case 𝐸 P (gamma₁ 𝐸 P)
 
    gamma₁ {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] =
-      let open νᵛᵛ.wurble in case 𝐸 P
+      let open νᵛᵛ.⋆ in case 𝐸 P (gamma₁ 𝐸 P)
 
 {-
    gamma₁ {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ]
