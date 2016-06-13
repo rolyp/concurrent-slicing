@@ -7,9 +7,9 @@ module Transition.Concur.Cofinal.Lattice where
    import Ren as ᴿ
    open import Transition.Concur.Cofinal.Lattice.Common
    open import Transition.Concur.Cofinal.Lattice.Helpers
-   open import Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-c-c as νᶜᶜ
-   open import Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-b-c as νᵇᶜ
-   open import Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-nu-nu as νᵛᵛ
+   import Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-c-c as νᶜᶜ
+   import Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-b-c as νᵇᶜ
+   import Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-nu-nu as νᵛᵛ
 
    private
       coerceCxt : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) →
@@ -1016,7 +1016,7 @@ module Transition.Concur.Cofinal.Lattice where
       let open νᶜᶜ.τ-τ in case 𝐸 P (gamma₁ 𝐸 P)
 
    gamma₁ {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] =
-      let open νᵛᵛ.⋆ in case 𝐸 P (gamma₁ 𝐸 P)
+      let open νᵛᵛ in case 𝐸 P (gamma₁ 𝐸 P)
 
    gamma₁ (! 𝐸) [ ! P ] = gamma₁ 𝐸 [ P │ [ ! P ] ]
    gamma₁ _ _ = {!!}
