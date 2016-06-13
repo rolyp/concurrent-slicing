@@ -1285,8 +1285,10 @@ module Transition.Concur.Cofinal.Lattice where
       gamma₁-νᵇᶜ 𝐸 P R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
 -}
 
-   gamma₁ {a = • x 〈 y 〉 ᶜ} {• x′ 〈 y′ 〉 ᶜ} {E = νᶜ E} {νᶜ E′} (νᶜᶜ 𝐸) [ ν P ] =
-      let open νᶜᶜ 𝐸 P in case
+   gamma₁ {E = νᶜ E} {νᶜ E′} (νᶜᶜ 𝐸) [ ν P ] = {!!}
+
+--   gamma₁ {a = • x 〈 y 〉 ᶜ} {• x′ 〈 y′ 〉 ᶜ} {E = νᶜ E} {νᶜ E′} (νᶜᶜ 𝐸) [ ν P ] =
+--      let open νᶜᶜ 𝐸 P in case
 
 {-
    -- Sub-case 1.
