@@ -8,6 +8,7 @@ module Transition.Concur.Cofinal.Lattice where
    open import Transition.Concur.Cofinal.Lattice.Common
    open import Transition.Concur.Cofinal.Lattice.Helpers
    import Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-c-c as νᶜᶜ
+   import Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-b-b as νᵇᵇ
    import Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-b-c as νᵇᶜ
    import Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-nu-nu as νᵛᵛ
 
@@ -700,9 +701,12 @@ module Transition.Concur.Cofinal.Lattice where
    ... | ◻ , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
    ... | [ • ._ 〈 ◻ 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
    ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
+-}
+
+   gamma₁ {a = x • ᵇ} {x′ • ᵇ} {E = νᵇ E} {νᵇ E′} (νᵇᵇ 𝐸) [ ν P ] = {!!}
 
    -- Sub-case 1.
-   gamma₁ {a = x • ᵇ} {x′ • ᵇ} {E = νᵇ E} {νᵇ E′} (νᵇᵇ 𝐸) [ ν P ]
+{-
       with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
    gamma₁ {a = x • ᵇ} {x′ • ᵇ} {E = νᵇ E} {νᵇ E′} (νᵇᵇ 𝐸) [ ν P ] | ◻ , R′ | ◻ , R | [ ≡R′ ] | [ ≡R ]
       with step ((ᴿ.swap *ᵇ) (E′/E (⊖₁ 𝐸))) ((swap *̃) R) | step ((ᴿ.swap *ᵇ) (E/E′ (⊖₁ 𝐸))) ((swap *̃) R′) |
@@ -1005,7 +1009,6 @@ module Transition.Concur.Cofinal.Lattice where
       let open νᵇᶜ.•x-•x〈y〉 in case 𝐸 P (gamma₁ 𝐸 P)
    gamma₁ {a = (• x) ᵇ} {τ ᶜ} {E = νᵇ E} {νᶜ E′} (νᵇᶜ 𝐸) [ ν P ] =
       let open νᵇᶜ.•x-τ in case 𝐸 P (gamma₁ 𝐸 P)
-
    gamma₁ {a = • x 〈 y 〉 ᶜ} {• x′ 〈 y′ 〉 ᶜ} {E = νᶜ E} {νᶜ E′} (νᶜᶜ 𝐸) [ ν P ] =
       let open νᶜᶜ.•x〈y〉-•x〈y〉 in case 𝐸 P (gamma₁ 𝐸 P)
    gamma₁ {a = • x 〈 y 〉 ᶜ} {τ ᶜ} {E = νᶜ E} {νᶜ E′} (νᶜᶜ 𝐸) [ ν P ] =
@@ -1014,9 +1017,7 @@ module Transition.Concur.Cofinal.Lattice where
       let open νᶜᶜ.τ-•x〈y〉 in case 𝐸 P (gamma₁ 𝐸 P)
    gamma₁ {a = τ ᶜ} {τ ᶜ} {E = νᶜ E} {νᶜ E′} (νᶜᶜ 𝐸) [ ν P ] =
       let open νᶜᶜ.τ-τ in case 𝐸 P (gamma₁ 𝐸 P)
-
    gamma₁ {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] =
       let open νᵛᵛ in case 𝐸 P (gamma₁ 𝐸 P)
-
    gamma₁ (! 𝐸) [ ! P ] = gamma₁ 𝐸 [ P │ [ ! P ] ]
    gamma₁ _ _ = {!!}
