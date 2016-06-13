@@ -3,34 +3,11 @@ module Transition.Concur.Cofinal.Lattice where
    open import ConcurrentSlicingCommon
    import Relation.Binary.EqReasoning as EqReasoning
 
-   open import Action as ᴬ using (Action; Actionᵇ; Actionᶜ; inc); open ᴬ.Action; open ᴬ.Actionᵇ; open ᴬ.Actionᶜ
-   open import Action.Concur using (_ᴬ⌣_; ᴬ⌣-sym; ᴬ⌣-sym-involutive; module _ᴬ⌣_; ᴬ⊖; ᴬγ); open _ᴬ⌣_
-   open import Action.Concur.Lattice using (residual)
-   open import Action.Lattice as ᴬ̃ using (↓ᵇ_; ↓ᶜ_); open ᴬ̃.↓_; open ᴬ̃.↓⁻_; open ᴬ̃.↓ᵇ_; open ᴬ̃.↓ᶜ_
-   open import Action.Ren.Lattice using () renaming (_* to _ᴬ*̃)
-   open import Braiding.Proc using (_⋉̂_)
-   open import Braiding.Proc.Lattice using (braid̂)
-   open import Lattice using (Lattices); open Lattice.Prefixes ⦃...⦄
-   open import Name as ᴺ using (Name; Cxt; _+_)
-   open import Name.Lattice as ᴺ̃ using (zero); open ᴺ̃.↓_
-   open import Proc as ᴾ using (Proc; Proc↱; Proc↲); open ᴾ.Proc
-   open import Proc.Lattice as ᴾ̃ using (); open ᴾ̃.↓_; open ᴾ̃.↓⁻_
-   import Proc.Ren
-   open import Proc.Ren.Lattice using () renaming (_* to _*̃)
-   open import Ren as ᴿ using (Ren); open ᴿ.Renameable ⦃...⦄
-   open import Ren.Lattice as ᴿ̃ using (_ᴿ+_; swap; push; pop; suc)
-   open import Ren.Lattice.Properties
-   open import Ren.Properties
-   open import Transition as ᵀ using (_—[_-_]→_); open ᵀ._—[_-_]→_
-   open import Transition.Concur using (Concur₁; Concur; module Concur₁; module Delta′; Delta; ⊖₁; ⊖); open Concur₁
-   open import Transition.Concur.Cofinal using (⋈̂[_,_,_]; γ₁; γ)
+   import Name as ᴺ
+   import Ren as ᴿ
+   open import Transition.Concur.Cofinal.Lattice.Common
    open import Transition.Concur.Cofinal.Lattice.Helpers
    open import Transition.Concur.Cofinal.Lattice.Helpers.All
-   open import Transition.Lattice as ᵀ̃ using (step; step⁻; action; tgt)
-   open import Transition.Ren using (_*ᵇ; _*ᶜ)
-   open import Transition.Ren.Lattice using (renᶜ-tgt-comm; renᶜ-action-comm; renᵇ-tgt-comm; renᵇ-action-comm)
-
-   open Delta′
 
    private
       coerceCxt : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) →

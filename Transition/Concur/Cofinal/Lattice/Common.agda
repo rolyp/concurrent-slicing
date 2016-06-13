@@ -2,7 +2,7 @@ module Transition.Concur.Cofinal.Lattice.Common where
 
    open import ConcurrentSlicingCommon
 
-   open import Action as ᴬ using (Action; Actionᵇ; Actionᶜ) public;
+   open import Action as ᴬ using (Action; Actionᵇ; Actionᶜ; inc) public;
       open ᴬ.Action public; open ᴬ.Actionᵇ public; open ᴬ.Actionᶜ public
    open import Action.Concur  using (_ᴬ⌣_; module _ᴬ⌣_; ᴬ⊖; ᴬ⌣-sym; ᴬ⌣-sym-involutive; ᴬγ) public;
       open _ᴬ⌣_ public
