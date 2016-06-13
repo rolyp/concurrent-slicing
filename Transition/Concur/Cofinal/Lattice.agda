@@ -999,9 +999,9 @@ module Transition.Concur.Cofinal.Lattice where
 -}
 
    gamma₁ {a = x • ᵇ} {• x′ 〈 y 〉 ᶜ} {E = νᵇ E} {νᶜ E′} (νᵇᶜ 𝐸) [ ν P ] =
-      let open νᵇᶜ.x•-•x〈y〉 in {!!}
-   gamma₁ {a = (• x) ᵇ} {• x′ 〈 y 〉 ᶜ} {E = νᵇ E} {νᶜ E′} (νᵇᶜ 𝐸) [ ν P ] =
       let open νᵇᶜ.x•-•x〈y〉 in case 𝐸 P (gamma₁ 𝐸 P)
+   gamma₁ {a = (• x) ᵇ} {• x′ 〈 y 〉 ᶜ} {E = νᵇ E} {νᶜ E′} (νᵇᶜ 𝐸) [ ν P ] =
+      let open νᵇᶜ.•x-•x〈y〉 in case 𝐸 P (gamma₁ 𝐸 P)
 
 {-
    -- Sub-case 1.
