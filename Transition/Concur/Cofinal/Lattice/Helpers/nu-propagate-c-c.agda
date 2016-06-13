@@ -53,7 +53,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-c-c where
 
             case′ :
                braiding (ᶜ∇ᶜ {a = • x 〈 y 〉} {• x′ 〈 y′ 〉}) {0} (cong ν_ (γ₁ 𝐸))
-               (π₂ (step⁻ (νᶜ E′/E (⊖₁ 𝐸)) (ν R))) ≡ π₂ (step⁻ (νᶜ E/E′ (⊖₁ 𝐸)) (ν R′))
+               (tgt (νᶜ E′/E (⊖₁ 𝐸)) [ ν R ]) ≡ tgt (νᶜ E/E′ (⊖₁ 𝐸)) [ ν R′ ]
             case′
                with step (E′/E (⊖₁ 𝐸)) R | step (E/E′ (⊖₁ 𝐸)) R′ |
                     inspect (step (E′/E (⊖₁ 𝐸))) R | inspect (step (E/E′ (⊖₁ 𝐸))) R′
@@ -107,7 +107,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-c-c where
 
             case′ :
                braiding (ᶜ∇ᶜ {a = • x 〈 y 〉} {τ}) {0} (cong ν_ (γ₁ 𝐸))
-               (π₂ (step⁻ (νᶜ E′/E (⊖₁ 𝐸)) (ν R))) ≡ π₂ (step⁻ (νᶜ E/E′ (⊖₁ 𝐸)) (ν R′))
+               (tgt (νᶜ E′/E (⊖₁ 𝐸)) [ ν R ]) ≡ tgt (νᶜ E/E′ (⊖₁ 𝐸)) [ ν R′ ]
             case′
                with step (E′/E (⊖₁ 𝐸)) R | step (E/E′ (⊖₁ 𝐸)) R′ |
                     inspect (step (E′/E (⊖₁ 𝐸))) R | inspect (step (E/E′ (⊖₁ 𝐸))) R′
@@ -152,7 +152,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-c-c where
 
             case′ :
                braiding (ᶜ∇ᶜ {a = τ} {• x′ 〈 y′ 〉}) {0} (cong ν_ (γ₁ 𝐸))
-               (π₂ (step⁻ (νᶜ E′/E (⊖₁ 𝐸)) (ν R))) ≡ π₂ (step⁻ (νᶜ E/E′ (⊖₁ 𝐸)) (ν R′))
+               (tgt (νᶜ E′/E (⊖₁ 𝐸)) [ ν R ]) ≡ tgt (νᶜ E/E′ (⊖₁ 𝐸)) [ ν R′ ]
             case′
                with step (E′/E (⊖₁ 𝐸)) R | step (E/E′ (⊖₁ 𝐸)) R′ |
                     inspect (step (E′/E (⊖₁ 𝐸))) R | inspect (step (E/E′ (⊖₁ 𝐸))) R′
@@ -196,7 +196,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-c-c where
 
             case′ :
                braiding {Γ} (ᶜ∇ᶜ {a = τ} {τ}) {0} (cong ν_ (γ₁ 𝐸))
-               (π₂ (step⁻ (νᶜ E′/E (⊖₁ 𝐸)) (ν R))) ≡ π₂ (step⁻ (νᶜ E/E′ (⊖₁ 𝐸)) (ν R′))
+               (tgt (νᶜ E′/E (⊖₁ 𝐸)) [ ν R ]) ≡ tgt (νᶜ E/E′ (⊖₁ 𝐸)) [ ν R′ ]
             case′
                with step (E′/E (⊖₁ 𝐸)) R | step (E/E′ (⊖₁ 𝐸)) R′ |
                     inspect (step (E′/E (⊖₁ 𝐸))) R | inspect (step (E/E′ (⊖₁ 𝐸))) R′

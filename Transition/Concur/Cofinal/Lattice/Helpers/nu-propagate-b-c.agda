@@ -56,7 +56,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-b-c where
 
             case′ :
                braiding (ᵇ∇ᶜ {a = x •} {• x′ 〈 y 〉}) {0} (cong ν_ (cong (ᴿ.swap *) (γ₁ 𝐸)))
-               (π₂ (step⁻ (νᶜ (ᴿ.swap *ᶜ) (E′/E (⊖₁ 𝐸))) (ν (swap *̃) R))) ≡ π₂ (step⁻ (νᵇ E/E′ (⊖₁ 𝐸)) (ν R′))
+               (tgt (νᶜ (ᴿ.swap *ᶜ) (E′/E (⊖₁ 𝐸))) [ ν (swap *̃) R ]) ≡ tgt (νᵇ E/E′ (⊖₁ 𝐸)) [ ν R′ ]
             case′
                with step ((ᴿ.swap *ᶜ) (E′/E (⊖₁ 𝐸))) ((swap *̃) R) | step (E/E′ (⊖₁ 𝐸)) R′ |
                     inspect (step ((ᴿ.swap *ᶜ) (E′/E (⊖₁ 𝐸)))) ((swap *̃) R) | inspect (step (E/E′ (⊖₁ 𝐸))) R′
@@ -101,7 +101,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-b-c where
 
             case′ :
                braiding (ᵇ∇ᶜ {a = x •} {τ}) {0} (cong ν_ (cong (ᴿ.swap *) (γ₁ 𝐸)))
-               (π₂ (step⁻ (νᶜ (ᴿ.swap *ᶜ) (E′/E (⊖₁ 𝐸))) (ν (swap *̃) R))) ≡ π₂ (step⁻ (νᵇ E/E′ (⊖₁ 𝐸)) (ν R′))
+               (tgt (νᶜ (ᴿ.swap *ᶜ) (E′/E (⊖₁ 𝐸))) [ ν (swap *̃) R ]) ≡ tgt (νᵇ E/E′ (⊖₁ 𝐸)) [ ν R′ ]
             case′
                with step ((ᴿ.swap *ᶜ) (E′/E (⊖₁ 𝐸))) ((swap *̃) R) | step (E/E′ (⊖₁ 𝐸)) R′ |
                     inspect (step ((ᴿ.swap *ᶜ) (E′/E (⊖₁ 𝐸)))) ((swap *̃) R) | inspect (step (E/E′ (⊖₁ 𝐸))) R′
@@ -140,7 +140,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-b-c where
 
             case′ :
                braiding (ᵇ∇ᶜ {a = • x} {• x′ 〈 y 〉}) {0} (cong ν_ (cong (ᴿ.swap *) (γ₁ 𝐸)))
-               (π₂ (step⁻ (νᶜ (ᴿ.swap *ᶜ) (E′/E (⊖₁ 𝐸))) (ν (swap *̃) R))) ≡ π₂ (step⁻ (νᵇ E/E′ (⊖₁ 𝐸)) (ν R′))
+               (tgt (νᶜ (ᴿ.swap *ᶜ) (E′/E (⊖₁ 𝐸))) [ ν (swap *̃) R ]) ≡ tgt (νᵇ E/E′ (⊖₁ 𝐸)) [ ν R′ ]
             case′
                with step ((ᴿ.swap *ᶜ) (E′/E (⊖₁ 𝐸))) ((swap *̃) R) | step (E/E′ (⊖₁ 𝐸)) R′ |
                     inspect (step ((ᴿ.swap *ᶜ) (E′/E (⊖₁ 𝐸)))) ((swap *̃) R) | inspect (step (E/E′ (⊖₁ 𝐸))) R′
@@ -185,7 +185,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-b-c where
 
             case′ :
                braiding (ᵇ∇ᶜ {a = • x} {τ}) {0} (cong ν_ (cong (ᴿ.swap *) (γ₁ 𝐸)))
-               (π₂ (step⁻ (νᶜ (ᴿ.swap *ᶜ) (E′/E (⊖₁ 𝐸))) (ν (swap *̃) R))) ≡ π₂ (step⁻ (νᵇ E/E′ (⊖₁ 𝐸)) (ν R′))
+               (tgt (νᶜ (ᴿ.swap *ᶜ) (E′/E (⊖₁ 𝐸))) [ ν (swap *̃) R ]) ≡ tgt (νᵇ E/E′ (⊖₁ 𝐸)) [ ν R′ ]
             case′
                with step ((ᴿ.swap *ᶜ) (E′/E (⊖₁ 𝐸))) ((swap *̃) R) | step (E/E′ (⊖₁ 𝐸)) R′ |
                     inspect (step ((ᴿ.swap *ᶜ) (E′/E (⊖₁ 𝐸)))) ((swap *̃) R) | inspect (step (E/E′ (⊖₁ 𝐸))) R′
