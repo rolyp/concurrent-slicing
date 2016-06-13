@@ -7,7 +7,8 @@ module Transition.Concur.Cofinal.Lattice where
    import Ren as ᴿ
    open import Transition.Concur.Cofinal.Lattice.Common
    open import Transition.Concur.Cofinal.Lattice.Helpers
-   open import Transition.Concur.Cofinal.Lattice.Helpers.All
+   open import Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-c-c as νᶜᶜ
+   open import Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-b-c as νᵇᶜ
 
    private
       coerceCxt : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) →
@@ -995,7 +996,14 @@ module Transition.Concur.Cofinal.Lattice where
       gamma₁-νˣˣ 𝐸 P R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
    ... | [ • ._ 〈 [ .(ᴺ.suc ᴺ.zero) ] 〉 ᶜ ] , S | [ • ._ 〈 [ .(ᴺ.suc ᴺ.zero) ] 〉 ᶜ ] , S′ | [ ≡S ] | [ ≡S′ ] =
       gamma₁-νˣˣ 𝐸 P R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
+-}
 
+   gamma₁ {a = x • ᵇ} {• x′ 〈 y 〉 ᶜ} {E = νᵇ E} {νᶜ E′} (νᵇᶜ 𝐸) [ ν P ] =
+      let open νᵇᶜ.x•-•x〈y〉 in {!case 𝐸 ? ?!}
+   gamma₁ {a = (• x) ᵇ} {• x′ 〈 y 〉 ᶜ} {E = νᵇ E} {νᶜ E′} (νᵇᶜ 𝐸) [ ν P ] =
+      let open νᵇᶜ.x•-•x〈y〉 in case 𝐸 P (gamma₁ 𝐸 P)
+
+{-
    -- Sub-case 1.
    gamma₁ {a = (x •) ᵇ} {• x′ 〈 y 〉 ᶜ} {E = νᵇ E} {νᶜ E′} (νᵇᶜ 𝐸) [ ν P ]
       with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
@@ -1286,13 +1294,13 @@ module Transition.Concur.Cofinal.Lattice where
 -}
 
    gamma₁ {a = • x 〈 y 〉 ᶜ} {• x′ 〈 y′ 〉 ᶜ} {E = νᶜ E} {νᶜ E′} (νᶜᶜ 𝐸) [ ν P ] =
-      let open •x〈y〉-•x〈y〉 in case 𝐸 P (gamma₁ 𝐸 P)
+      let open νᶜᶜ.•x〈y〉-•x〈y〉 in case 𝐸 P (gamma₁ 𝐸 P)
    gamma₁ {a = • x 〈 y 〉 ᶜ} {τ ᶜ} {E = νᶜ E} {νᶜ E′} (νᶜᶜ 𝐸) [ ν P ] =
-      let open •x〈y〉-τ in case 𝐸 P (gamma₁ 𝐸 P)
+      let open νᶜᶜ.•x〈y〉-τ in case 𝐸 P (gamma₁ 𝐸 P)
    gamma₁ {a = τ ᶜ} {• x 〈 y 〉 ᶜ} {E = νᶜ E} {νᶜ E′} (νᶜᶜ 𝐸) [ ν P ] =
-      let open τ-•x〈y〉 in case 𝐸 P (gamma₁ 𝐸 P)
+      let open νᶜᶜ.τ-•x〈y〉 in case 𝐸 P (gamma₁ 𝐸 P)
    gamma₁ {a = τ ᶜ} {τ ᶜ} {E = νᶜ E} {νᶜ E′} (νᶜᶜ 𝐸) [ ν P ] =
-      let open τ-τ in case 𝐸 P (gamma₁ 𝐸 P)
+      let open νᶜᶜ.τ-τ in case 𝐸 P (gamma₁ 𝐸 P)
 
 {-
    gamma₁ {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ]
@@ -1338,7 +1346,6 @@ module Transition.Concur.Cofinal.Lattice where
    ... | [ τ ᶜ ] , S‡ | [ τ ᶜ ] , S† | [ ≡S‡ ] | [ ≡S† ] =
       gamma₁-νᵛᵛ 𝐸 P R R′ S† S‡ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S†) (,-inj₂ ≡S‡) (gamma₁ 𝐸 P)
 
-   gamma₁ (! 𝐸) [ ! P ] = gamma₁ 𝐸 [ P │ [ ! P ] ]
 -}
-
+   gamma₁ (! 𝐸) [ ! P ] = gamma₁ 𝐸 [ P │ [ ! P ] ]
    gamma₁ _ _ = {!!}
