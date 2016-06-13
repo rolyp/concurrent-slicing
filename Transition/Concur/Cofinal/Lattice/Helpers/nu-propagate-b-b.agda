@@ -75,8 +75,9 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-b-b where
 
       postulate
        case :
-         braiding (ᵇ∇ᵇ {a = x •} {x •}) {0} (γ₁ (νᵇᵇ 𝐸))
+         braiding (ᵇ∇ᵇ {a = x •} {x′ •}) {0} (γ₁ (νᵇᵇ 𝐸))
          (tgt (E′/E (⊖₁ (νᵇᵇ 𝐸))) (tgt (νᵇ E) [ ν P ])) ≡ tgt (E/E′ (⊖₁ (νᵇᵇ 𝐸))) (tgt (νᵇ E′) [ ν P ])
+
 {-
       case
          with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
