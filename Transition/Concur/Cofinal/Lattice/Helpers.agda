@@ -3,39 +3,10 @@ module Transition.Concur.Cofinal.Lattice.Helpers where
    open import ConcurrentSlicingCommon
    import Relation.Binary.EqReasoning as EqReasoning
 
-   open import Action as ᴬ using (Action; Actionᵇ; Actionᶜ); open ᴬ.Action; open ᴬ.Actionᵇ; open ᴬ.Actionᶜ
-   open import Action.Concur using (_ᴬ⌣_; module _ᴬ⌣_; ᴬ⊖; ᴬ⌣-sym; ᴬ⌣-sym-involutive; ᴬγ); open _ᴬ⌣_
-   open import Action.Concur.Lattice using (residual)
-   open import Action.Lattice as ᴬ̃ using (); open ᴬ̃.↓_; open ᴬ̃.↓⁻_; open ᴬ̃.↓ᵇ_; open ᴬ̃.↓ᶜ_
-   open import Action.Ren.Lattice using () renaming (_* to _ᴬ*̃)
-   open import Braiding.Proc using (module _⋉̂_); open _⋉̂_
-   open import Braiding.Proc.Lattice using (braid̂)
-   open import Lattice using (Lattices); open Lattice.Prefixes ⦃...⦄
-   open import Name as ᴺ using (Name; Cxt; _+_)
-   open import Name.Lattice as ᴺ̃ using (zero); open ᴺ̃.↓_
-   open import Proc as ᴾ using (Proc; Proc↱; Proc↲); open ᴾ.Proc
-   open import Proc.Lattice as ᴾ̃ using (); open ᴾ̃.↓_; open ᴾ̃.↓⁻_
-   open import Proc.Ren.Lattice using () renaming (_* to _*̃)
-   open import Ren as ᴿ using (); open ᴿ.Renameable ⦃...⦄
-   open import Ren.Lattice as ᴿ̃ using (swap; pop; push; id; repl; weaken; _ᴿ+_; suc)
-   open import Ren.Lattice.Properties
-   open import Ren.Properties
-   open import Transition as ᵀ using (_—[_-_]→_); open ᵀ._—[_-_]→_
-   open import Transition.Concur using (Concur₁; module Concur₁; module Delta′; ⊖₁); open Concur₁
-   open import Transition.Concur.Cofinal using (⋈̂[_,_,_]; γ₁)
-   open import Transition.Lattice using (tgt; action; step⁻; step)
-   open import Transition.Ren using (_*ᵇ; _*ᶜ)
-   open import Transition.Ren.Lattice using (renᵇ-tgt-comm; renᵇ-action-comm; renᶜ-tgt-comm; renᶜ-action-comm)
-
-   open Delta′
-
-   braiding : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) {Δ : Cxt} {P P′} (γ : ⋈̂[ Γ , 𝑎 , Δ ] P P′) → ↓ P → ↓ P′
-   braiding ˣ∇ˣ eq rewrite eq = idᶠ
-   braiding ᵇ∇ᵇ {Δ} refl = (swap ᴿ+ Δ) *̃
-   braiding ᵇ∇ᶜ refl = idᶠ
-   braiding ᶜ∇ᵇ refl = idᶠ
-   braiding ᶜ∇ᶜ refl = idᶠ
-   braiding ᵛ∇ᵛ = braid̂
+   import Name as ᴺ
+   import Ren as ᴿ
+   import Ren.Lattice as ᴿ̃
+   open import Transition.Concur.Cofinal.Lattice.Common
 
    ◻≢[-] : ∀ {Γ} {a : Action Γ} {a′ : ↓⁻ a} → _≡_ {A = ↓_ {A = Action Γ} a} ◻ [ a′ ] → ⊥
    ◻≢[-] ()
