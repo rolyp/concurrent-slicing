@@ -76,6 +76,8 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-c-c where
          case′ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , P′ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , P″ | [ ≡P′ ] | [ ≡P″ ] =
             wibble 𝐸 P R R′ P′ P″ ≡R ≡R′ (,-inj₂ ≡P′) (,-inj₂ ≡P″) IH
 
+      open sub
+
       case :
          braiding (ᶜ∇ᶜ {a = • x 〈 y 〉} {• x′ 〈 y′ 〉}) {0} (cong ν_ (γ₁ 𝐸))
          (tgt (νᶜ E′/E (⊖₁ 𝐸)) (tgt (νᶜ E) [ ν P ])) ≡
@@ -83,20 +85,20 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-c-c where
       case
          with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
       ... | ◻ , R′ | ◻ , R | [ ≡R′ ] | [ ≡R ] =
-         let open sub R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′) in case′
+         case′ R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′)
       ... | ◻ , R′ | [ • ._ 〈 ◻ 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ] =
-         let open sub R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′) in case′
+         case′ R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′)
       ... | ◻ , R′ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ] =
-         let open sub R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′) in case′
+         case′ R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′)
       ... | [ • ._ 〈 ◻ 〉 ᶜ ] , R′ | ◻ , R | [ ≡R′ ] | [ ≡R ] =
-         let open sub R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′) in case′
+         case′ R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′)
       ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R′ | ◻ , R | [ ≡R′ ] | [ ≡R ] =
-         let open sub R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′) in case′
+         case′ R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′)
       ... | [ • ._ 〈 ◻ 〉 ᶜ ] , R′ | [ • ._ 〈 ◻ 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ] =
-         let open sub R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′) in case′
+         case′ R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′)
       ... | [ • ._ 〈 ◻ 〉 ᶜ ] , R′ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ] =
-         let open sub R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′) in case′
+         case′ R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′)
       ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R′ | [ • ._ 〈 ◻ 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ] =
-         let open sub R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′) in case′
+         case′ R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′)
       ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R′ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ] =
-         let open sub R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′) in case′
+         case′ R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′)
