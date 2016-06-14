@@ -547,7 +547,11 @@ module Transition.Concur.Cofinal.Lattice where
       gamma₁-ν• 𝐸 P R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (gamma₁ 𝐸 P)
    ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R′ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ] =
       gamma₁-ν• 𝐸 P R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (gamma₁ 𝐸 P)
+-}
 
+   gamma₁ {a′ = • x 〈 y 〉 ᶜ} {E = ν• E} {νᶜ E′} (ν•ᶜ 𝐸) [ ν P ] = {!!}
+
+{-
    -- Sub-case 1.
    gamma₁ {a′ = • x 〈 _ 〉 ᶜ} {E = ν• E} {νᶜ E′} (ν•ᶜ 𝐸) [ ν P ]
       with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
