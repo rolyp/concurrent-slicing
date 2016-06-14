@@ -51,7 +51,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-b-c where
       where
 
       private
-         module sub
+         module _
             (R : ↓ R₀) (R′ : ↓ R′₀) (≡R : tgt E P ≡ R) (≡R′ : tgt E′ P ≡ R′) where
 
             case′ :
@@ -72,8 +72,6 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-b-c where
                base 𝐸 P R R′ S S′ ≡R ≡R′ (,-inj₂ ≡S) (,-inj₂ ≡S′) IH
             case′ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , S | [ ._ • ᵇ ] , S′ | [ ≡S ] | [ ≡S′ ] =
                base 𝐸 P R R′ S S′ ≡R ≡R′ (,-inj₂ ≡S) (,-inj₂ ≡S′) IH
-
-      open sub
 
       case :
          braiding (ᵇ∇ᶜ {a = x •} {• x′ 〈 y 〉}) {0} (γ₁ (νᵇᶜ 𝐸))
@@ -96,7 +94,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-b-c where
       where
 
       private
-         module sub
+         module _
             (R : ↓ R₀) (R′ : ↓ R′₀) (≡R : tgt E P ≡ R) (≡R′ : tgt E′ P ≡ R′) where
 
             case′ :
@@ -113,8 +111,6 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-b-c where
                base 𝐸 P R R′ S S′ ≡R ≡R′ (,-inj₂ ≡S) (,-inj₂ ≡S′) IH
             case′ | [ τ ᶜ ] , S | [ ._ • ᵇ ] , S′ | [ ≡S ] | [ ≡S′ ] =
                base 𝐸 P R R′ S S′ ≡R ≡R′ (,-inj₂ ≡S) (,-inj₂ ≡S′) IH
-
-      open sub
 
       case :
          braiding (ᵇ∇ᶜ {a = x •} {τ}) {0} (γ₁ (νᵇᶜ 𝐸))
@@ -135,7 +131,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-b-c where
       where
 
       private
-         module sub
+         module _
             (R : ↓ R₀) (R′ : ↓ R′₀) (≡R : tgt E P ≡ R) (≡R′ : tgt E′ P ≡ R′) where
 
             case′ :
@@ -156,8 +152,6 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-b-c where
                base 𝐸 P R R′ S S′ ≡R ≡R′ (,-inj₂ ≡S) (,-inj₂ ≡S′) IH
             case′ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , S | [ (• ._) ᵇ ] , S′ | [ ≡S ] | [ ≡S′ ] =
                base 𝐸 P R R′ S S′ ≡R ≡R′ (,-inj₂ ≡S) (,-inj₂ ≡S′) IH
-
-      open sub
 
       case :
          braiding (ᵇ∇ᶜ {a = • x} {• x′ 〈 y 〉}) {0} (γ₁ (νᵇᶜ 𝐸))
@@ -180,7 +174,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-b-c where
       where
 
       private
-         module sub
+         module _
             (R : ↓ R₀) (R′ : ↓ R′₀) (≡R : tgt E P ≡ R) (≡R′ : tgt E′ P ≡ R′) where
 
             case′ :
@@ -197,8 +191,6 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-b-c where
                base 𝐸 P R R′ S S′ ≡R ≡R′ (,-inj₂ ≡S) (,-inj₂ ≡S′) IH
             case′ | [ τ ᶜ ] , S | [ (• ._) ᵇ ] , S′ | [ ≡S ] | [ ≡S′ ] =
                base 𝐸 P R R′ S S′ ≡R ≡R′ (,-inj₂ ≡S) (,-inj₂ ≡S′) IH
-
-      open sub
 
       case :
          braiding (ᵇ∇ᶜ {a = • x} {τ}) {0} (γ₁ (νᵇᶜ 𝐸))

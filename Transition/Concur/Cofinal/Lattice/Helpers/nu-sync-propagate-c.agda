@@ -38,7 +38,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-propagate-c where
       where
 
       private
-         module sub
+         module _
             (R : ↓ R₀) (R′ : ↓ R′₀) (≡R : tgt E P ≡ R) (≡R′ : tgt E′ P ≡ R′) where
 
             case′ : braiding (ᵇ∇ᶜ {a = • x} {• x′ 〈 y 〉}) {0} (γ₁ 𝐸)
@@ -48,8 +48,6 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-propagate-c where
             ... | ◻ , S′ | [ ≡S′ ] = base 𝐸 P R R′ S′ ≡R ≡R′ (,-inj₂ ≡S′) IH
             ... | [ • ._ 〈 ◻ 〉 ᶜ ] , S′ | [ ≡S′ ] = base 𝐸 P R R′ S′ ≡R ≡R′ (,-inj₂ ≡S′) IH
             ... | [ • ._ 〈 [ .ᴺ.zero ] 〉 ᶜ ] , S′ | [ ≡S′ ] = base 𝐸 P R R′ S′ ≡R ≡R′ (,-inj₂ ≡S′) IH
-
-      open sub
 
       case :
          braiding (ᵇ∇ᶜ {a = • x} {• x′ 〈 y 〉}) {0} (γ₁ 𝐸)
@@ -65,3 +63,34 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-propagate-c where
       ... | [ • ._ 〈 ◻ 〉 ᶜ ] , R′ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ] = case′ R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′)
       ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R′ | [ • ._ 〈 ◻ 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ] = case′ R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′)
       ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R′ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ] = case′ R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′)
+
+   module τ
+      {Γ} {x : Name Γ} {P₀ R₀ R′₀} {E : P₀ —[ • ᴺ.suc x 〈 ᴺ.zero 〉 ᶜ - _ ]→ R₀}
+      {E′ : P₀ —[ τ ᶜ - _ ]→ R′₀} (𝐸 : E ⌣₁[ ᶜ∇ᶜ ] E′) (P : ↓ P₀)
+      (IH : braiding (ᶜ∇ᶜ {a = • ᴺ.suc x 〈 ᴺ.zero 〉} {τ}) {0} (γ₁ 𝐸)
+            (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)) ≡ tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))
+      where
+
+      private
+         module _
+            (R : ↓ R₀) (R′ : ↓ R′₀) (≡R : tgt E P ≡ R) (≡R′ : tgt E′ P ≡ R′) where
+
+            case′ : braiding (ᵇ∇ᶜ {a = • x} {τ}) {0} (γ₁ 𝐸)
+                   (tgt (E′/E (⊖₁ 𝐸)) R) ≡ tgt (ν• E/E′ (⊖₁ 𝐸)) [ ν R′ ]
+            case′
+               with step (E/E′ (⊖₁ 𝐸)) R′ | inspect (step (E/E′ (⊖₁ 𝐸))) R′
+            ... | ◻ , S′ | [ ≡S′ ] = base 𝐸 P R R′ S′ ≡R ≡R′ (,-inj₂ ≡S′) IH
+            ... | [ • ._ 〈 ◻ 〉 ᶜ ] , S′ | [ ≡S′ ] = base 𝐸 P R R′ S′ ≡R ≡R′ (,-inj₂ ≡S′) IH
+            ... | [ • ._ 〈 [ .ᴺ.zero ] 〉 ᶜ ] , S′ | [ ≡S′ ] = base 𝐸 P R R′ S′ ≡R ≡R′ (,-inj₂ ≡S′) IH
+
+      case :
+         braiding (ᵇ∇ᶜ {a = • x} {τ}) {0} (γ₁ 𝐸)
+         (tgt (E′/E (⊖₁ 𝐸)) (tgt (ν• E) [ ν P ])) ≡ tgt (ν• E/E′ (⊖₁ 𝐸)) (tgt (νᶜ E′) [ ν P ])
+      case
+         with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
+      ... | ◻ , R′ | ◻ , R | [ ≡R′ ] | [ ≡R ] = case′ R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′)
+      ... | ◻ , R′ | [ • ._ 〈 ◻ 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ] = case′ R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′)
+      ... | ◻ , R′ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ] = case′ R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′)
+      ... | [ τ ᶜ ] , R′ | ◻ , R | [ ≡R′ ] | [ ≡R ] = case′ R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′)
+      ... | [ τ ᶜ ] , R′ | [ • ._ 〈 ◻ 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ] = case′ R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′)
+      ... | [ τ ᶜ ] , R′ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ] = case′ R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′)

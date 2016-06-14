@@ -48,7 +48,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-x-x
          ∎)
 
    private
-      module sub
+      module _
          (R : ↓ R₀) (R′ : ↓ R′₀) (≡R : tgt E P ≡ R) (≡R′ : tgt E′ P ≡ R′) where
 
          case′ :
@@ -77,8 +77,6 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-x-x
             base R R′ S S′ ≡R ≡R′ (,-inj₂ ≡S) (,-inj₂ ≡S′)
          ... | [ • ._ 〈 [ .(ᴺ.suc ᴺ.zero) ] 〉 ᶜ ] , S | [ • ._ 〈 [ .(ᴺ.suc ᴺ.zero) ] 〉 ᶜ ] , S′ | [ ≡S ] | [ ≡S′ ] =
             base  R R′ S S′ ≡R ≡R′ (,-inj₂ ≡S) (,-inj₂ ≡S′)
-
-   open sub
 
    case :
       braiding (ˣ∇ˣ {x = x} {u}) {0} (cong ν_ (cong (ᴿ.swap *) (γ₁ 𝐸)))

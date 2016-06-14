@@ -10,7 +10,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-nu-nu
    import Ren as ᴿ
 
    private
-      module sub (R : ↓ R₀) (R′ : ↓ R′₀) (≡R : tgt E P ≡ R) (≡R′ : tgt E′ P ≡ R′) where
+      module _ (R : ↓ R₀) (R′ : ↓ R′₀) (≡R : tgt E P ≡ R) (≡R′ : tgt E′ P ≡ R′) where
 
          base : (S† : ↓ tgt₁ (⊖₁ 𝐸)) (S‡ : ↓ tgt₂ (⊖₁ 𝐸)) →
                 tgt (E′/E (⊖₁ 𝐸)) R ≡ S† → tgt (E/E′ (⊖₁ 𝐸)) R′ ≡ S‡ →
@@ -39,8 +39,6 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-nu-nu
          ... | ◻ , S‡ | [ τ ᶜ ] , S† | [ ≡S‡ ] | [ ≡S† ] = base S† S‡ (,-inj₂ ≡S†) (,-inj₂ ≡S‡)
          ... | [ τ ᶜ ] , S‡ | ◻ , S† | [ ≡S‡ ] | [ ≡S† ] = base S† S‡ (,-inj₂ ≡S†) (,-inj₂ ≡S‡)
          ... | [ τ ᶜ ] , S‡ | [ τ ᶜ ] , S† | [ ≡S‡ ] | [ ≡S† ] = base S† S‡ (,-inj₂ ≡S†) (,-inj₂ ≡S‡)
-
-   open sub
 
    case :
       braid̂ (ν γ₁ 𝐸)
