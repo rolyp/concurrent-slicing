@@ -8,6 +8,7 @@ module Transition.Concur.Cofinal.Lattice where
    open import Transition.Concur.Cofinal.Lattice.Common
    open import Transition.Concur.Cofinal.Lattice.Helpers
 
+   import Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-nu-sync as ν•
    import Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-propagate-c as ν•ᶜ
    import Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-propagate-b as ν•ᵇ
    import Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-b-b as νᵇᵇ
@@ -529,29 +530,10 @@ module Transition.Concur.Cofinal.Lattice where
       let open │ᵥ′ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case
    ... | [ _ • ᵇ ] , R′ | [ _ • ᵇ ] , R | [ (• ._) ᵇ ] , S′ | [ (• ._) ᵇ ] , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
       let open │ᵥ′ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case
-
-   gamma₁ {E = ν• E} {ν• E′} (ν• 𝐸) [ ν P ]
-      with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
-   ... | ◻ , R′ | ◻ , R | [ ≡R′ ] | [ ≡R ] =
-      gamma₁-ν• 𝐸 P R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (gamma₁ 𝐸 P)
-   ... | ◻ , R′ | [ • ._ 〈 ◻ 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ] =
-      gamma₁-ν• 𝐸 P R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (gamma₁ 𝐸 P)
-   ... | ◻ , R′ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ] =
-      gamma₁-ν• 𝐸 P R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , R′ | ◻ , R | [ ≡R′ ] | [ ≡R ] =
-      gamma₁-ν• 𝐸 P R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R′ | ◻ , R | [ ≡R′ ] | [ ≡R ] =
-      gamma₁-ν• 𝐸 P R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , R′ | [ • ._ 〈 ◻ 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ] =
-      gamma₁-ν• 𝐸 P R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , R′ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ] =
-      gamma₁-ν• 𝐸 P R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R′ | [ • ._ 〈 ◻ 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ] =
-      gamma₁-ν• 𝐸 P R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R′ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ] =
-      gamma₁-ν• 𝐸 P R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (gamma₁ 𝐸 P)
 -}
 
+   gamma₁ {E = ν• E} {ν• E′} (ν• 𝐸) [ ν P ] =
+      let open ν• in case 𝐸 P (gamma₁ 𝐸 P)
    gamma₁ {a′ = • x 〈 y 〉 ᶜ} {E = ν• E} {νᶜ E′} (ν•ᶜ 𝐸) [ ν P ] =
       let open ν•ᶜ.•x〈y〉 in case 𝐸 P (gamma₁ 𝐸 P)
    gamma₁ {a′ = τ ᶜ} {E = ν• E} {νᶜ E′} (ν•ᶜ 𝐸) [ ν P ] =
