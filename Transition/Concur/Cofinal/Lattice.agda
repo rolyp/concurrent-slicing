@@ -9,6 +9,7 @@ module Transition.Concur.Cofinal.Lattice where
    open import Transition.Concur.Cofinal.Lattice.Helpers
 
    import Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-propagate-c as ν•ᶜ
+   import Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-propagate-b as ν•ᵇ
    import Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-b-b as νᵇᵇ
    import Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-x-x as νˣˣ
    import Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-c-c as νᶜᶜ
@@ -555,7 +556,9 @@ module Transition.Concur.Cofinal.Lattice where
       let open ν•ᶜ.•x〈y〉 in case 𝐸 P (gamma₁ 𝐸 P)
    gamma₁ {a′ = τ ᶜ} {E = ν• E} {νᶜ E′} (ν•ᶜ 𝐸) [ ν P ] =
       let open ν•ᶜ.τ in case 𝐸 P (gamma₁ 𝐸 P)
-
+   gamma₁ {a′ = x • ᵇ} {E = ν• E} {νᵇ E′} (ν•ᵇ 𝐸) [ ν P ] =
+      let open ν•ᵇ.x• in case 𝐸 P (gamma₁ 𝐸 P)
+   gamma₁ {a′ = (• x) ᵇ} {E = ν• E} {νᵇ E′} (ν•ᵇ 𝐸) [ ν P ] = {!!}
 {-
    -- Sub-case 1.
    gamma₁ {a′ = (x •) ᵇ} {E = ν• E} {νᵇ E′} (ν•ᵇ 𝐸) [ ν P ]
