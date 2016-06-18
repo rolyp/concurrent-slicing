@@ -558,77 +558,8 @@ module Transition.Concur.Cofinal.Lattice where
       let open ν•ᶜ.τ in case 𝐸 P (gamma₁ 𝐸 P)
    gamma₁ {a′ = x • ᵇ} {E = ν• E} {νᵇ E′} (ν•ᵇ 𝐸) [ ν P ] =
       let open ν•ᵇ.x• in case 𝐸 P (gamma₁ 𝐸 P)
-   gamma₁ {a′ = (• x) ᵇ} {E = ν• E} {νᵇ E′} (ν•ᵇ 𝐸) [ ν P ] = {!!}
-{-
-   -- Sub-case 1.
-   gamma₁ {a′ = (x •) ᵇ} {E = ν• E} {νᵇ E′} (ν•ᵇ 𝐸) [ ν P ]
-      with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
-   gamma₁ {a′ = (x •) ᵇ} {E = ν• E} {νᵇ E′} (ν•ᵇ 𝐸) [ ν P ] | ◻ , R′ | ◻ , R | [ ≡R′ ] | [ ≡R ]
-      with step ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸))) ((swap *̃) R′) | inspect (step ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸)))) ((swap *̃) R′)
-   ... | ◻ , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   gamma₁ {a′ = (x •) ᵇ} {E = ν• E} {νᵇ E′} (ν•ᵇ 𝐸) [ ν P ] | ◻ , R′ | [ • ._ 〈 ◻ 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ]
-      with step ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸))) ((swap *̃) R′) | inspect (step ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸)))) ((swap *̃) R′)
-   ... | ◻ , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   gamma₁ {a′ = (x •) ᵇ} {E = ν• E} {νᵇ E′} (ν•ᵇ 𝐸) [ ν P ] | ◻ , R′ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ]
-      with step ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸))) ((swap *̃) R′) | inspect (step ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸)))) ((swap *̃) R′)
-   ... | ◻ , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   gamma₁ {a′ = (x •) ᵇ} {E = ν• E} {νᵇ E′} (ν•ᵇ 𝐸) [ ν P ] | [ ._ • ᵇ ] , R′ | ◻ , R | [ ≡R′ ] | [ ≡R ]
-      with step ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸))) ((swap *̃) R′) | inspect (step ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸)))) ((swap *̃) R′)
-   ... | ◻ , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   gamma₁ {a′ = (x •) ᵇ} {E = ν• E} {νᵇ E′} (ν•ᵇ 𝐸) [ ν P ] | [ ._ • ᵇ ] , R′ | [ • ._ 〈 ◻ 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ]
-      with step ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸))) ((swap *̃) R′) | inspect (step ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸)))) ((swap *̃) R′)
-   ... | ◻ , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   gamma₁ {a′ = (x •) ᵇ} {E = ν• E} {νᵇ E′} (ν•ᵇ 𝐸) [ ν P ] | [ ._ • ᵇ ] , R′ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ]
-      with step ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸))) ((swap *̃) R′) | inspect (step ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸)))) ((swap *̃) R′)
-   ... | ◻ , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-
-   -- Sub-case 2.
-   gamma₁ {a′ = (• x) ᵇ} {E = ν• E} {νᵇ E′} (ν•ᵇ 𝐸) [ ν P ]
-      with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
-   gamma₁ {a′ = (• x) ᵇ} {E = ν• E} {νᵇ E′} (ν•ᵇ 𝐸) [ ν P ] | ◻ , R′ | ◻ , R | [ ≡R′ ] | [ ≡R ]
-      with step ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸))) ((swap *̃) R′) | inspect (step ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸)))) ((swap *̃) R′)
-   ... | ◻ , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   gamma₁ {a′ = (• x) ᵇ} {E = ν• E} {νᵇ E′} (ν•ᵇ 𝐸) [ ν P ] | ◻ , R′ | [ • ._ 〈 ◻ 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ]
-      with step ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸))) ((swap *̃) R′) | inspect (step ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸)))) ((swap *̃) R′)
-   ... | ◻ , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   gamma₁ {a′ = (• x) ᵇ} {E = ν• E} {νᵇ E′} (ν•ᵇ 𝐸) [ ν P ] | ◻ , R′ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ]
-      with step ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸))) ((swap *̃) R′) | inspect (step ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸)))) ((swap *̃) R′)
-   ... | ◻ , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   gamma₁ {a′ = (• x) ᵇ} {E = ν• E} {νᵇ E′} (ν•ᵇ 𝐸) [ ν P ] | [ (• ._) ᵇ ] , R′ | ◻ , R | [ ≡R′ ] | [ ≡R ]
-      with step ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸))) ((swap *̃) R′) | inspect (step ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸)))) ((swap *̃) R′)
-   ... | ◻ , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   gamma₁ {a′ = (• x) ᵇ} {E = ν• E} {νᵇ E′} (ν•ᵇ 𝐸) [ ν P ] | [ (• ._) ᵇ ] , R′ | [ • ._ 〈 ◻ 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ]
-      with step ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸))) ((swap *̃) R′) | inspect (step ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸)))) ((swap *̃) R′)
-   ... | ◻ , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   gamma₁ {a′ = (• x) ᵇ} {E = ν• E} {νᵇ E′} (ν•ᵇ 𝐸) [ ν P ] | [ (• ._) ᵇ ] , R′ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , R | [ ≡R′ ] | [ ≡R ]
-      with step ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸))) ((swap *̃) R′) | inspect (step ((ᴿ.swap *ᶜ) (E/E′ (⊖₁ 𝐸)))) ((swap *̃) R′)
-   ... | ◻ , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
-   ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , S′ | [ ≡S′ ] = gamma₁-ν•ᵇ 𝐸 P R R′ S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (gamma₁ 𝐸 P)
--}
-
+   gamma₁ {a′ = (• x) ᵇ} {E = ν• E} {νᵇ E′} (ν•ᵇ 𝐸) [ ν P ] =
+      let open ν•ᵇ.•x in case 𝐸 P (gamma₁ 𝐸 P)
    gamma₁ {a = x • ᵇ} {x′ • ᵇ} {E = νᵇ E} {νᵇ E′} (νᵇᵇ 𝐸) [ ν P ] =
       let open νᵇᵇ.x•-x• in case 𝐸 P (gamma₁ 𝐸 P)
    gamma₁ {a = x • ᵇ} {(• x′) ᵇ} {E = νᵇ E} {νᵇ E′} (νᵇᵇ 𝐸) [ ν P ] =
