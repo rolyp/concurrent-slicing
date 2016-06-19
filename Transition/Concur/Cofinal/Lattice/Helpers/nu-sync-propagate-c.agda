@@ -100,10 +100,9 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-propagate-c
          (≡P′ : tgt (E′/E (⊖₁ 𝐸)) (tgt E P) ≡ P′) (≡S : tgt F Q ≡ S) (≡R′ : tgt E′ P ≡ R′)
          where
 
-{-
          base :
             (P″ : ↓ (idᶠ *) P″₀) (≡P″ : tgt id*E/E′ ((repl y *̃) R′) ≡ P″) →
-            braiding (ᶜ∇ᶜ {a = • x′ 〈 y 〉} {τ}) {0} (cong ν_ (cong₂ _│_ (cong (idᶠ *) (γ₁ 𝐸)) refl))
+            braiding (ᶜ∇ᶜ {a = • x′ 〈 y₀ 〉} {τ}) {0} (cong ν_ (cong₂ _│_ (cong (idᶠ *) (γ₁ 𝐸)) refl))
             [ ν [ (repl y *̃) P′ │ S ] ] ≡
             [ ν [ P″ │ S ] ]
          base P″ ≡P″ = ≅-to-≡ (
@@ -114,7 +113,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-propagate-c
                    ≡⟨ cong (repl y *̃) (sym ≡P′) ⟩
                       (repl y *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))
                    ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) ((repl y *̃)) (≅-sym (reduce-ᶜ∇ᵇ (γ₁ 𝐸) _)) ⟩
-                      (repl y *̃) (braiding (ᶜ∇ᵇ {a = • x′ 〈 y 〉} {x •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
+                      (repl y *̃) (braiding (ᶜ∇ᵇ {a = • x′ 〈 y₀ 〉} {x •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
                    ≡⟨ cong (repl y *̃) IH ⟩
                       (repl y *̃) (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))
                    ≡⟨ renᶜ-tgt-comm (E/E′ (⊖₁ 𝐸)) (repl y) (tgt E′ P) ⟩
@@ -128,14 +127,13 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-propagate-c
                    ∎
                 open ≅-Reasoning in
             begin
-               braiding (ᶜ∇ᶜ {a = • x′ 〈 y 〉} {τ}) {0} (cong ν_ (cong₂ _│_ (cong (idᶠ *) (γ₁ 𝐸)) refl))
+               braiding (ᶜ∇ᶜ {a = • x′ 〈 y₀ 〉} {τ}) {0} (cong ν_ (cong₂ _│_ (cong (idᶠ *) (γ₁ 𝐸)) refl))
                [ ν [ (repl y *̃) P′ │ S ] ]
             ≅⟨ reduce-ᶜ∇ᶜ (cong ν_ (cong₂ _│_ (cong (idᶠ *) (γ₁ 𝐸)) refl)) _ ⟩
                [ ν [ (repl y *̃) P′ │ S ] ]
             ≅⟨ [ν-]-cong (cong₂ _│_ (cong (idᶠ *) (γ₁ 𝐸)) refl) ([-│]-cong S (cong (idᶠ *) (γ₁ 𝐸)) α) ⟩
                [ ν [ P″ │ S ] ]
             ∎)
--}
 
          subcase :
             braiding (ᶜ∇ᶜ {a = • x′ 〈 y₀ 〉} {τ}) {0}
@@ -145,9 +143,9 @@ module Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-propagate-c
             tgt (νᶜ (id*E/E′ ᶜ│ S₀)) [ ν [ (repl y *̃) R′ │ S ] ]
          subcase
             with step id*E/E′ ((repl y *̃) R′) | inspect (step id*E/E′) ((repl y *̃) R′)
-         ... | ◻ , P″ | [ ≡P″ ] = {!!} -- base P″ (,-inj₂ ≡P″)
-         ... | [ • ._ 〈 ◻ 〉 ᶜ ] , P″ | [ ≡P″ ] = {!!} -- base P″ (,-inj₂ ≡P″)
-         ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , P″ | [ ≡P″ ] = {!!} -- base P″ (,-inj₂ ≡P″)
+         ... | ◻ , P″ | [ ≡P″ ] = base P″ (,-inj₂ ≡P″)
+         ... | [ • ._ 〈 ◻ 〉 ᶜ ] , P″ | [ ≡P″ ] = base P″ (,-inj₂ ≡P″)
+         ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , P″ | [ ≡P″ ] = base P″ (,-inj₂ ≡P″)
 
       case :
          braiding (ᶜ∇ᶜ {a = • x′ 〈 y₀ 〉} {τ}) {0} (γ₁ (𝐸 │ᵥᶜ F))
