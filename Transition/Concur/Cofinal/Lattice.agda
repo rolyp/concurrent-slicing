@@ -9,6 +9,8 @@ module Transition.Concur.Cofinal.Lattice where
    open import Transition.Concur.Cofinal.Lattice.Common
    open import Transition.Concur.Cofinal.Lattice.Helpers
 
+   import Transition.Concur.Cofinal.Lattice.Helpers.propagate-b-par-b as ᵇ│ᵇ
+   import Transition.Concur.Cofinal.Lattice.Helpers.propagate-par-b-b as │ᵇᵇ
    import Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-propagate as ᵇ│ᵥ
    import Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-x-x-nu-sync as │ᵥ
    import Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-nu-sync as │ᵥ′
@@ -31,7 +33,6 @@ module Transition.Concur.Cofinal.Lattice where
             (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ →
             braiding 𝑎 (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P′)) ≡ coerceCxt 𝑎 (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P′))
 
-{-
    gamma₁ {𝑎 = ˣ∇ˣ {x = x} {u}} 𝐸 ◻ =
       ≅-to-≡ (≅-trans (reduce-ˣ∇ˣ {x = x} {u} (γ₁ 𝐸) _) (◻-cong (trans (γ₁ 𝐸) (≅-to-≡ (Proc↲ refl _)))))
    gamma₁ {𝑎 = ᵇ∇ᵇ} 𝐸 ◻ =
@@ -42,44 +43,21 @@ module Transition.Concur.Cofinal.Lattice where
       ≅-to-≡ (≅-trans (reduce-ᶜ∇ᵇ (γ₁ 𝐸) _) (◻-cong (trans (γ₁ 𝐸) (≅-to-≡ (Proc↲ refl _)))))
    gamma₁ {𝑎 = ᶜ∇ᶜ} 𝐸 ◻ =
       ≅-to-≡ (≅-trans (reduce-ᶜ∇ᶜ (γ₁ 𝐸) _) (◻-cong (trans (γ₁ 𝐸) (≅-to-≡ (Proc↲ refl _)))))
-   gamma₁ {𝑎 = ᵛ∇ᵛ} 𝐸 ◻ = refl
-
+   gamma₁ {𝑎 = ᵛ∇ᵛ} 𝐸 ◻ =
+      refl
    gamma₁ {a = a ᵇ} {a′ ᵇ} {E = .E ᵇ│ Q₀} {E′ = P₀ │ᵇ .F} (E ᵇ│ᵇ F) [ P │ Q ] =
-      let S† : π₂ (step ((ᴿ.push *ᵇ) E) ((push *̃) P)) ≅ (swap *̃) ((push *̃) (π₂ (step E P)))
-          S† = ≅-trans (≡-to-≅ (sym (renᵇ-tgt-comm E push P))) (swap∘push̃ _)
-          S‡ : (push *̃) (π₂ (step F Q)) ≅ (swap *̃) (π₂ (step ((ᴿ.push *ᵇ) F) ((push *̃) Q)))
-          S‡ = ≅-trans (swap∘suc-push̃ _) (≡-to-≅ (cong (swap *̃) (renᵇ-tgt-comm F push Q)))
-          open ≅-Reasoning in ≅-to-≡ (
-      begin
-         braiding (ᵇ∇ᵇ {a = a} {a′}) {0} (sym (cong₂ _│_ (swap∘push (ᵀ.tgt E)) (swap∘suc-push (ᵀ.tgt F))))
-                                        [ (push *̃) (π₂ (step E P)) │ π₂ (step ((ᴿ.push *ᵇ) F) ((push *̃) Q)) ]
-      ≅⟨ reduce-ᵇ∇ᵇ (sym (cong₂ _│_ (swap∘push (ᵀ.tgt E)) (swap∘suc-push (ᵀ.tgt F)))) _ ⟩
-         [ (swap *̃) ((push *̃) (π₂ (step E P))) │ (swap *̃) (π₂ (step ((ᴿ.push *ᵇ) F) ((push *̃) Q))) ]
-      ≅⟨ ≅-sym ([-│-]-cong (swap∘push (ᵀ.tgt E)) S† (swap∘suc-push (ᵀ.tgt F)) S‡) ⟩
-         [ π₂ (step ((ᴿ.push *ᵇ) E) ((push *̃) P)) │ (push *̃) (π₂ (step F Q)) ]
-      ∎)
-
-   gamma₁ (E ᵇ│ᶜ F) [ P │ Q ] = cong (λ Q′ → [ _ │ Q′ ]) (sym (renᶜ-tgt-comm F push Q))
-
-   gamma₁ (E ᶜ│ᵇ F) [ P │ Q ] = cong (λ P′ → [ P′ │ _ ]) (renᶜ-tgt-comm E push P)
-
-   gamma₁ (E ᶜ│ᶜ F) [ P │ Q ] = refl
-
-   gamma₁ (𝐸 ➕₁ Q) [ P ➕ _ ] = gamma₁ 𝐸 P
-
+      let open ᵇ│ᵇ in case E F P Q
+   gamma₁ (E ᵇ│ᶜ F) [ P │ Q ] =
+      cong (λ Q′ → [ _ │ Q′ ]) (sym (renᶜ-tgt-comm F push Q))
+   gamma₁ (E ᶜ│ᵇ F) [ P │ Q ] =
+      cong (λ P′ → [ P′ │ _ ]) (renᶜ-tgt-comm E push P)
+   gamma₁ (E ᶜ│ᶜ F) [ P │ Q ] =
+      refl
+   gamma₁ (𝐸 ➕₁ Q) [ P ➕ _ ] =
+      gamma₁ 𝐸 P
    gamma₁ {𝑎 = ˣ∇ˣ {x = x} {u}} {E = _ │ᵇ F} {._ │ᵇ F′} (._ │ᵇᵇ 𝐹) [ P │ Q ] =
-      let S† = π₂ (step (E/E′ (⊖₁ 𝐹)) (π₂ (step F′ Q)))
-          S‡ = π₂ (step (E′/E (⊖₁ 𝐹)) (π₂ (step F Q)))
-          open ≅-Reasoning in ≅-to-≡ (
-      begin
-         braiding (ˣ∇ˣ {x = x} {u}) {0} (cong₂ _│_ refl (γ₁ 𝐹)) [ (push *̃) P │ S‡ ]
-      ≅⟨ reduce-ˣ∇ˣ {x = x} {u} (cong₂ _│_ refl (γ₁ 𝐹)) _ ⟩
-         [ (push *̃) P │ S‡ ]
-      ≅⟨ [│-]-cong _ (trans (γ₁ 𝐹) (≅-to-≡ (Proc↲ refl (tgt₂ (⊖₁ 𝐹)))))
-                     (≅-trans (≅-sym (reduce-ˣ∇ˣ {x = x} {u} (γ₁ 𝐹) _)) (≡-to-≅ (gamma₁ 𝐹 Q))) ⟩
-         [ (push *̃) P │ S† ]
-      ∎)
-
+      let open │ᵇᵇ in case 𝐹 P Q (gamma₁ 𝐹 Q)
+{-
    gamma₁ {𝑎 = ᵇ∇ᵇ} {E = P₀ │ᵇ F} {._ │ᵇ F′} (._ │ᵇᵇ 𝐹) [ P │ Q ] =
       let S† = π₂ (step (E/E′ (⊖₁ 𝐹)) (π₂ (step F′ Q)))
           S‡ = π₂ (step (E′/E (⊖₁ 𝐹)) (π₂ (step F Q)))
@@ -364,36 +342,8 @@ module Transition.Concur.Cofinal.Lattice where
       let open ᵇ│ᵥ.ˣ∇ˣ in case E 𝐹 P Q (gamma₁ 𝐹 Q)
    gamma₁ {E = P₀ │ᵇ F} {.E │ᵥ F′} (_ᵇ│ᵥ_ {a = • x′} {ᵇ∇ᵇ} E 𝐹) [ P │ Q ] =
       let open ᵇ│ᵥ.ᵇ∇ᵇ-•x in case E 𝐹 P Q (gamma₁ 𝐹 Q)
-   gamma₁ {E = P₀ │ᵇ F} {.E │ᵥ F′} (_ᵇ│ᵥ_ {a = x′ •} {ᵇ∇ᵇ} E 𝐹) [ P │ Q ] = {!!}
-
-{-
-   -- Sub-case 3.
-   gamma₁ {E = P₀ │ᵇ F} {.E │ᵥ F′} (_ᵇ│ᵥ_ {a = x′ •} {ᵇ∇ᵇ} E 𝐹) [ P │ Q ]
-      with step E P | step ((ᴺ.suc *ᵇ) E) ((push *̃) P) | step F′ Q | step (E′/E (⊖₁ 𝐹)) (tgt F Q) |
-                inspect (step E) P | inspect (step ((ᴺ.suc *ᵇ) E)) ((push *̃) P) | inspect (step F′) Q |
-                inspect (step (E′/E (⊖₁ 𝐹))) (tgt F Q)
-   ... | ◻ , R | [ ._ • ᵇ ] , P″ | _ , S′ | _ , P′ | [ ≡R ] | [ ≡P″ ] | [ ≡S′ ] | [ ≡P′ ] =
-      ⊥-elim (◻≢[-] (trans (cong (push ᴬ*̃) (sym (,-inj₁ ≡R))) (trans (renᵇ-action-comm E push P) (,-inj₁ ≡P″))))
-   ... | [ ._ • ᵇ ] , R | ◻ , P″ | _ , S′ | _ , P′ | [ ≡R ] | [ ≡P″ ] | [ ≡S′ ] | [ ≡P′ ] =
-      ⊥-elim (◻≢[-] (trans (sym (,-inj₁ ≡P″)) (trans (sym (renᵇ-action-comm E push P)) (cong (push ᴬ*̃) (,-inj₁ ≡R)))))
-   ... | _ , R | _ , P″ | ◻ , S′ | [ _ ] , P′ | [ ≡R ] | [ ≡P″ ] | [ ≡S′ ] | [ ≡P′ ] =
-      ⊥-elim (◻≢[-] (trans (cong (push ᴬ*̃) (sym (,-inj₁ ≡S′))) (trans (sym (π₁ (ᴬgamma₁ 𝐹 Q))) (,-inj₁ ≡P′))))
-   ... | _ , R | _ , P″ | [ (• ._) ᵇ ] , S′ | ◻ , P′ | [ ≡R ] | [ ≡P″ ] | [ ≡S′ ] | [ ≡P′ ] =
-      ⊥-elim (◻≢[-] (trans (,-inj₁ (sym ≡P′)) (trans (π₁ (ᴬgamma₁ 𝐹 Q)) (cong (push ᴬ*̃) (,-inj₁ ≡S′)))))
-   ... | ◻ , R | ◻ , P″ | ◻ , S′ | ◻ , P′ | [ ≡R ] | [ ≡P″ ] | [ ≡S′ ] | [ ≡P′ ] =
-      let open ᵇ│ᵥ-ᵇ∇ᵇ-x• E 𝐹 P Q R S′ P″ P′ ◻ (,-inj₂ ≡R) (,-inj₂ ≡S′) (,-inj₂ ≡P″) (,-inj₂ ≡P′) (gamma₁ 𝐹 Q)
-      in case
-   ... | ◻ , R | ◻ , P″ | [ _ ] , S′ | [ _ ] , P′ | [ ≡R ] | [ ≡P″ ] | [ ≡S′ ] | [ ≡P′ ] =
-      let open ᵇ│ᵥ-ᵇ∇ᵇ-x• E 𝐹 P Q R S′ P″ P′ ◻ (,-inj₂ ≡R) (,-inj₂ ≡S′) (,-inj₂ ≡P″) (,-inj₂ ≡P′) (gamma₁ 𝐹 Q)
-      in case
-   ... | [ ._ • ᵇ ] , R | [ ._ • ᵇ ] , P″ | ◻ , S′ | ◻ , P′ | [ ≡R ] | [ ≡P″ ] | [ ≡S′ ] | [ ≡P′ ] =
-      let open ᵇ│ᵥ-ᵇ∇ᵇ-x• E 𝐹 P Q R S′ P″ P′ ◻ (,-inj₂ ≡R) (,-inj₂ ≡S′) (,-inj₂ ≡P″) (,-inj₂ ≡P′) (gamma₁ 𝐹 Q)
-      in case
-   ... | [ ._ • ᵇ ] , R | [ ._ • ᵇ ] , P″ | [ (• ._) ᵇ ] , S′ | [ (• ._) ᵇ ] , P′ | [ ≡R ] | [ ≡P″ ] | [ ≡S′ ] | [ ≡P′ ] =
-      let open ᵇ│ᵥ-ᵇ∇ᵇ-x• E 𝐹 P Q R S′ P″ P′ [ ᴺ.zero ] (,-inj₂ ≡R) (,-inj₂ ≡S′) (,-inj₂ ≡P″) (,-inj₂ ≡P′) (gamma₁ 𝐹 Q)
-      in case
--}
-
+   gamma₁ {E = P₀ │ᵇ F} {.E │ᵥ F′} (_ᵇ│ᵥ_ {a = x′ •} {ᵇ∇ᵇ} E 𝐹) [ P │ Q ] =
+      let open ᵇ│ᵥ.ᵇ∇ᵇ-x• in case E 𝐹 P Q (gamma₁ 𝐹 Q)
    gamma₁ (E ᶜ│ᵥ 𝐸) P = trustMe
    gamma₁ (𝐸 │• 𝐹) P = trustMe
    gamma₁ (𝐸 │•ᵥ 𝐹) P = trustMe
