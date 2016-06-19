@@ -65,23 +65,12 @@ module Transition.Concur.Cofinal.Lattice where
       cong (λ Q → [ P │ Q ]) (gamma₁ 𝐹 Q)
    gamma₁ {𝑎 = ˣ∇ˣ {x = x} {u}} {E = E ᵇ│ Q₀} {E′ ᵇ│ ._} (𝐸 ᵇᵇ│ ._) [ P │ Q ] =
       let open ᵇᵇ│.ˣ∇ˣ in case 𝐸 P Q (gamma₁ 𝐸 P)
-   gamma₁ {𝑎 = ᵇ∇ᵇ} {E = E ᵇ│ Q₀} {E′ ᵇ│ ._} (𝐸 ᵇᵇ│ ._) [ P │ Q ] = {!!}
+   gamma₁ {𝑎 = ᵇ∇ᵇ} {E = E ᵇ│ Q₀} {E′ ᵇ│ ._} (𝐸 ᵇᵇ│ ._) [ P │ Q ] =
+      let open ᵇᵇ│.ᵇ∇ᵇ in case 𝐸 P Q (gamma₁ 𝐸 P)
    gamma₁ {E = E ᵇ│ _} {E′ ᶜ│ ._} (𝐸 ᵇᶜ│ ._) [ P │ Q ] =
       let open ᵇᶜ│ in case 𝐸 P Q (gamma₁ 𝐸 P)
 
 {-
-      let S† = π₂ (step (E/E′ (⊖₁ 𝐸)) (π₂ (step E′ P)))
-          S‡ = π₂ (step (E′/E (⊖₁ 𝐸)) (π₂ (step E P)))
-          open ≅-Reasoning in ≅-to-≡ (
-      begin
-         braiding ᵇ∇ᵇ {0} (cong₂ _│_ (γ₁ 𝐸) (swap∘push∘push Q₀)) [ S‡ │ (push *̃) ((push *̃) Q) ]
-      ≅⟨ reduce-ᵇ∇ᵇ (cong₂ _│_ (γ₁ 𝐸) (swap∘push∘push Q₀)) _ ⟩
-         [ (swap *̃) S‡ │ (swap *̃) ((push *̃) ((push *̃) Q)) ]
-      ≅⟨ [-│-]-cong (γ₁ 𝐸) (≅-trans (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) S‡)) (≡-to-≅ (gamma₁ 𝐸 P)))
-                    (swap∘push∘push Q₀) (swap∘push∘push̃ Q) ⟩
-         [ S† │ (push *̃) ((push *̃) Q) ]
-      ∎)
-
    gamma₁ {E = E ᶜ│ _} {E′ ᶜ│ ._} (𝐸 ᶜᶜ│ ._) [ P │ Q ] =
       let S† = π₂ (step (E/E′ (⊖₁ 𝐸)) (π₂ (step E′ P)))
           S‡ = π₂ (step (E′/E (⊖₁ 𝐸)) (π₂ (step E P)))
