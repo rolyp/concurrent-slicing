@@ -1,14 +1,8 @@
 module Transition.Concur.Cofinal.Lattice where
 
    open import ConcurrentSlicingCommon
-   import Relation.Binary.EqReasoning as EqReasoning
 
-   import Name as ᴺ
-   import Ren as ᴿ
-   import Transition as ᵀ
    open import Transition.Concur.Cofinal.Lattice.Common
-   open import Transition.Concur.Cofinal.Lattice.Helpers
-
    import Transition.Concur.Cofinal.Lattice.Helpers.propagate-b-par-b as ᵇ│ᵇ
    import Transition.Concur.Cofinal.Lattice.Helpers.propagate-par-b-b as │ᵇᵇ
    import Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-propagate as ᵇ│ᵥ
