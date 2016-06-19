@@ -7,6 +7,7 @@ module Transition.Concur.Cofinal.Lattice where
    import Transition.Concur.Cofinal.Lattice.Helpers.propagate-par-b-b as │ᵇᵇ
    import Transition.Concur.Cofinal.Lattice.Helpers.propagate-par-b-c as │ᵇᶜ
    import Transition.Concur.Cofinal.Lattice.Helpers.propagate-par-c-c as │ᶜᶜ
+   import Transition.Concur.Cofinal.Lattice.Helpers.propagate-b-c-par as ᵇᶜ│
    import Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-propagate as ᵇ│ᵥ
    import Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-x-x-nu-sync as │ᵥ
    import Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-nu-sync as │ᵥ′
@@ -61,9 +62,11 @@ module Transition.Concur.Cofinal.Lattice where
       let open │ᶜᶜ in case 𝐹 P Q (gamma₁ 𝐹 Q)
    gamma₁ {E = P₀ │ᶜ F} {._ │ᶜ F′} (._ │ᵛᵛ 𝐹) [ P │ Q ] =
       cong (λ Q → [ P │ Q ]) (gamma₁ 𝐹 Q)
-{-
+   gamma₁ {𝑎 = ˣ∇ˣ {x = x} {u}} {E = E ᵇ│ Q₀} {E′ ᵇ│ ._} (𝐸 ᵇᵇ│ ._) [ P │ Q ] = {!!}
+   gamma₁ {E = E ᵇ│ _} {E′ ᶜ│ ._} (𝐸 ᵇᶜ│ ._) [ P │ Q ] =
+      let open ᵇᶜ│ in case 𝐸 P Q (gamma₁ 𝐸 P)
 
-   gamma₁ {𝑎 = ˣ∇ˣ {x = x} {u}} {E = E ᵇ│ Q₀} {E′ ᵇ│ ._} (𝐸 ᵇᵇ│ ._) [ P │ Q ] =
+{-
       let S† = π₂ (step (E/E′ (⊖₁ 𝐸)) (π₂ (step E′ P)))
           S‡ = π₂ (step (E′/E (⊖₁ 𝐸)) (π₂ (step E P)))
           open ≅-Reasoning in ≅-to-≡ (
@@ -87,19 +90,6 @@ module Transition.Concur.Cofinal.Lattice where
       ≅⟨ [-│-]-cong (γ₁ 𝐸) (≅-trans (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) S‡)) (≡-to-≅ (gamma₁ 𝐸 P)))
                     (swap∘push∘push Q₀) (swap∘push∘push̃ Q) ⟩
          [ S† │ (push *̃) ((push *̃) Q) ]
-      ∎)
-
-   gamma₁ {E = E ᵇ│ _} {E′ ᶜ│ ._} (𝐸 ᵇᶜ│ ._) [ P │ Q ] =
-      let S† = π₂ (step (E/E′ (⊖₁ 𝐸)) (π₂ (step E′ P)))
-          S‡ = π₂ (step (E′/E (⊖₁ 𝐸)) (π₂ (step E P)))
-          open ≅-Reasoning in ≅-to-≡ (
-      begin
-         braiding ᵇ∇ᶜ (cong₂ _│_ (γ₁ 𝐸) refl) [ S‡ │ (push *̃) Q ]
-      ≅⟨ reduce-ᵇ∇ᶜ (cong₂ _│_ (γ₁ 𝐸) refl) _ ⟩
-         [ S‡ │ (push *̃) Q ]
-      ≅⟨ [-│]-cong _ (trans (γ₁ 𝐸) (≅-to-≡ (Proc↲ refl (tgt₂ (⊖₁ 𝐸)))))
-                     (≅-trans (≅-sym (reduce-ᵇ∇ᶜ (γ₁ 𝐸) _)) (≡-to-≅ (gamma₁ 𝐸 P))) ⟩
-         [ S† │ (push *̃) Q ]
       ∎)
 
    gamma₁ {E = E ᶜ│ _} {E′ ᶜ│ ._} (𝐸 ᶜᶜ│ ._) [ P │ Q ] =
