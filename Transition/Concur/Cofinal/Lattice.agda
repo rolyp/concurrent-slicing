@@ -230,7 +230,8 @@ module Transition.Concur.Cofinal.Lattice where
 
    gamma₁ {E = E ᶜ│ Q₀} {E′ │ᵥ .F} (_│ᵥᶜ_ {a = τ} 𝐸 F) [ P │ Q ] =
       let open │ᵥᶜ.τ in case 𝐸 F P Q (gamma₁ 𝐸 P)
-   gamma₁ {E = E ᶜ│ Q₀} {E′ │ᵥ .F} (_│ᵥᶜ_ {a = • x′ 〈 y′ 〉} 𝐸 F) [ P │ Q ] = {!!}
+   gamma₁ {E = E ᶜ│ Q₀} {E′ │ᵥ .F} (_│ᵥᶜ_ {a = • x′ 〈 y′ 〉} 𝐸 F) [ P │ Q ] =
+      let open │ᵥᶜ.•x〈y〉 in case 𝐸 F P Q (gamma₁ 𝐸 P)
 
 {-
       with (idᶠ *ᶜ) (E/E′ (⊖₁ 𝐸)) | step E′ P | step F Q | step (E′/E (⊖₁ 𝐸)) (tgt E P) |
