@@ -18,6 +18,7 @@ module ConcurrentSlicingCommon where
    open import Relation.Nullary public
    open import Relation.Binary public
    open import Relation.Binary.PropositionalEquality public
+   open import Relation.Binary.PropositionalEquality.TrustMe public
    open import Relation.Binary.HeterogeneousEquality as ᴴ public
       using (module ≅-Reasoning; ≅-to-≡; ≡-to-≅; subst-removable; ≡-subst-removable)
       renaming (

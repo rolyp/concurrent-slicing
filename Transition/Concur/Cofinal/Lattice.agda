@@ -435,12 +435,9 @@ module Transition.Concur.Cofinal.Lattice where
       in case
 -}
 
-{-
-   gamma₁ (E ᶜ│ᵥ 𝐸) P = {!!}
+   gamma₁ (E ᶜ│ᵥ 𝐸) P = trustMe
    gamma₁ (𝐸 │• 𝐹) P = {!!}
    gamma₁ (𝐸 │•ᵥ 𝐹) P = {!!}
--}
-
    gamma₁ {E = E │ᵥ F} {E′ │ᵥ F′} (𝐸 │ᵥ 𝐹) [ P │ Q ] =
       let open │ᵥ in case 𝐸 𝐹 P Q (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q)
    gamma₁ {E = E │ᵥ F} {E′ │ᵥ F′} (𝐸 │ᵥ′ 𝐹) [ P │ Q ] =

@@ -1,7 +1,5 @@
 open import ConcurrentSlicingCommon
 import Relation.Binary.EqReasoning as EqReasoning
-open import Relation.Binary.PropositionalEquality.TrustMe
-
 
 open import Transition.Concur.Cofinal.Lattice.Common
 import Name as ᴺ
