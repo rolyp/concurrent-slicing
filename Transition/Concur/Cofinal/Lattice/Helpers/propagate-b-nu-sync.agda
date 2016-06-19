@@ -1,7 +1,7 @@
 open import ConcurrentSlicingCommon
 open import Transition.Concur.Cofinal.Lattice.Common
 
-module Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-propagate
+module Transition.Concur.Cofinal.Lattice.Helpers.propagate-b-nu-sync
    {Γ} {x x′ : Name Γ} {P₀ Q₀} where
 
    import Relation.Binary.EqReasoning as EqReasoning
