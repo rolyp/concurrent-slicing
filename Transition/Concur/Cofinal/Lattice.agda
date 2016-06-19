@@ -56,21 +56,10 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ (𝐸 ➕₁ Q) [ P ➕ _ ] =
       gamma₁ 𝐸 P
    gamma₁ {𝑎 = ˣ∇ˣ {x = x} {u}} {E = _ │ᵇ F} {._ │ᵇ F′} (._ │ᵇᵇ 𝐹) [ P │ Q ] =
-      let open │ᵇᵇ in case 𝐹 P Q (gamma₁ 𝐹 Q)
-{-
+      let open │ᵇᵇ.ˣ∇ˣ in case 𝐹 P Q (gamma₁ 𝐹 Q)
    gamma₁ {𝑎 = ᵇ∇ᵇ} {E = P₀ │ᵇ F} {._ │ᵇ F′} (._ │ᵇᵇ 𝐹) [ P │ Q ] =
-      let S† = π₂ (step (E/E′ (⊖₁ 𝐹)) (π₂ (step F′ Q)))
-          S‡ = π₂ (step (E′/E (⊖₁ 𝐹)) (π₂ (step F Q)))
-          open ≅-Reasoning in ≅-to-≡ (
-      begin
-         braiding ᵇ∇ᵇ {0} (cong₂ _│_ (swap∘push∘push P₀) (γ₁ 𝐹)) [ (push *̃) ((push *̃) P) │ S‡ ]
-      ≅⟨ reduce-ᵇ∇ᵇ (cong₂ _│_ (swap∘push∘push P₀) (γ₁ 𝐹)) _ ⟩
-         [ (swap *̃) ((push *̃) ((push *̃) P)) │ (swap *̃) S‡ ]
-      ≅⟨ [-│-]-cong (swap∘push∘push P₀) (swap∘push∘push̃ P)
-                    (γ₁ 𝐹) (≅-trans (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐹) S‡)) (≡-to-≅ (gamma₁ 𝐹 Q))) ⟩
-         [ (push *̃) ((push *̃) P) │ S† ]
-      ∎)
-
+      let open │ᵇᵇ.ᵇ∇ᵇ in case 𝐹 P Q (gamma₁ 𝐹 Q)
+{-
    gamma₁ {E = _ │ᵇ F} {._ │ᶜ F′} (._ │ᵇᶜ 𝐹) [ P │ Q ] =
       let S† = π₂ (step (E/E′ (⊖₁ 𝐹)) (π₂ (step F′ Q)))
           S‡ = π₂ (step (E′/E (⊖₁ 𝐹)) (π₂ (step F Q)))
