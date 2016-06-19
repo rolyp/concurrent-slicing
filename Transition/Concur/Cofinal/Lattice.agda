@@ -59,8 +59,9 @@ module Transition.Concur.Cofinal.Lattice where
       let open │ᵇᶜ in case 𝐹 P Q (gamma₁ 𝐹 Q)
    gamma₁ {E = _ │ᶜ F} {._ │ᶜ F′} (._ │ᶜᶜ 𝐹) [ P │ Q ] =
       let open │ᶜᶜ in case 𝐹 P Q (gamma₁ 𝐹 Q)
+   gamma₁ {E = P₀ │ᶜ F} {._ │ᶜ F′} (._ │ᵛᵛ 𝐹) [ P │ Q ] =
+      cong (λ Q → [ P │ Q ]) (gamma₁ 𝐹 Q)
 {-
-   gamma₁ {E = P₀ │ᶜ F} {._ │ᶜ F′} (._ │ᵛᵛ 𝐹) [ P │ Q ] = cong (λ Q → [ P │ Q ]) (gamma₁ 𝐹 Q)
 
    gamma₁ {𝑎 = ˣ∇ˣ {x = x} {u}} {E = E ᵇ│ Q₀} {E′ ᵇ│ ._} (𝐸 ᵇᵇ│ ._) [ P │ Q ] =
       let S† = π₂ (step (E/E′ (⊖₁ 𝐸)) (π₂ (step E′ P)))
