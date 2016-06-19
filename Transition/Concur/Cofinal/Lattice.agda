@@ -6,6 +6,7 @@ module Transition.Concur.Cofinal.Lattice where
    import Transition.Concur.Cofinal.Lattice.Helpers.propagate-b-par-b as ᵇ│ᵇ
    import Transition.Concur.Cofinal.Lattice.Helpers.propagate-par-b-b as │ᵇᵇ
    import Transition.Concur.Cofinal.Lattice.Helpers.propagate-par-b-c as │ᵇᶜ
+   import Transition.Concur.Cofinal.Lattice.Helpers.propagate-par-c-c as │ᶜᶜ
    import Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-propagate as ᵇ│ᵥ
    import Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-x-x-nu-sync as │ᵥ
    import Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-nu-sync as │ᵥ′
@@ -56,21 +57,9 @@ module Transition.Concur.Cofinal.Lattice where
       let open │ᵇᵇ.ᵇ∇ᵇ in case 𝐹 P Q (gamma₁ 𝐹 Q)
    gamma₁ {E = _ │ᵇ F} {._ │ᶜ F′} (._ │ᵇᶜ 𝐹) [ P │ Q ] =
       let open │ᵇᶜ in case 𝐹 P Q (gamma₁ 𝐹 Q)
-
-{-
    gamma₁ {E = _ │ᶜ F} {._ │ᶜ F′} (._ │ᶜᶜ 𝐹) [ P │ Q ] =
-      let S† = π₂ (step (E/E′ (⊖₁ 𝐹)) (π₂ (step F′ Q)))
-          S‡ = π₂ (step (E′/E (⊖₁ 𝐹)) (π₂ (step F Q)))
-          open ≅-Reasoning in ≅-to-≡ (
-      begin
-         braiding ᶜ∇ᶜ (cong₂ _│_ refl (γ₁ 𝐹)) [ P │ S‡ ]
-      ≅⟨ reduce-ᶜ∇ᶜ (cong₂ _│_ refl (γ₁ 𝐹)) _ ⟩
-         [ P │ S‡ ]
-      ≅⟨ [│-]-cong _ (trans (γ₁ 𝐹) (≅-to-≡ (Proc↲ refl (tgt₂ (⊖₁ 𝐹)))))
-                     (≅-trans (≅-sym (reduce-ᶜ∇ᶜ (γ₁ 𝐹) _)) (≡-to-≅ (gamma₁ 𝐹 Q))) ⟩
-         [ P │ S† ]
-      ∎)
-
+      let open │ᶜᶜ in case 𝐹 P Q (gamma₁ 𝐹 Q)
+{-
    gamma₁ {E = P₀ │ᶜ F} {._ │ᶜ F′} (._ │ᵛᵛ 𝐹) [ P │ Q ] = cong (λ Q → [ P │ Q ]) (gamma₁ 𝐹 Q)
 
    gamma₁ {𝑎 = ˣ∇ˣ {x = x} {u}} {E = E ᵇ│ Q₀} {E′ ᵇ│ ._} (𝐸 ᵇᵇ│ ._) [ P │ Q ] =
