@@ -8,9 +8,10 @@ module Transition.Concur.Cofinal.Lattice where
    open import Transition.Concur.Cofinal.Lattice.Common
    open import Transition.Concur.Cofinal.Lattice.Helpers
 
-   import Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-nu-sync as ν•
-   import Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-propagate-c as ν•ᶜ
-   import Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-propagate-b as ν•ᵇ
+   import Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-nu-sync as │ᵥ′
+   import Transition.Concur.Cofinal.Lattice.Helpers.nu-extrude-nu-extrude as ν•
+   import Transition.Concur.Cofinal.Lattice.Helpers.nu-extrude-propagate-c as ν•ᶜ
+   import Transition.Concur.Cofinal.Lattice.Helpers.nu-extrude-propagate-b as ν•ᵇ
    import Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-b-b as νᵇᵇ
    import Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-x-x as νˣˣ
    import Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-c-c as νᶜᶜ
@@ -22,7 +23,7 @@ module Transition.Concur.Cofinal.Lattice where
                   let Γ′ = Γ + inc a′ + inc (π₂ (ᴬ⊖ 𝑎)) in ∀ {P : Proc Γ′} → ↓ P → ↓ Proc↱ (sym (ᴬγ 𝑎)) P
       coerceCxt 𝑎 rewrite sym (ᴬγ 𝑎) = idᶠ
 
-   -- γ₁ lifted to the lattice setting. Can't seem to avoid inspect-on-steroids here, ouch.
+   -- γ₁ lifted to the lattice setting.
    gamma₁ : ∀ {Γ} {a a′ : Action Γ} {𝑎 : a ᴬ⌣ a′} {P R R′} {E : P —[ a - _ ]→ R} {E′ : P —[ a′ - _ ]→ R′}
             (𝐸 : E ⌣₁[ 𝑎 ] E′) → ∀ P′ →
             braiding 𝑎 (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P′)) ≡ coerceCxt 𝑎 (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P′))
@@ -494,44 +495,10 @@ module Transition.Concur.Cofinal.Lattice where
    ... | [ _ • ᵇ ] , R′ | [ _ • ᵇ ] , R | [ (• ._) ᵇ ] , S′ | [ (• ._) ᵇ ] , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
       let open │ᵥ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in
       case zero zero
-
-   gamma₁ {E = E │ᵥ F} {E′ │ᵥ F′} (𝐸 │ᵥ′ 𝐹) [ P │ Q ]
-      with step E′ P | step E P | step F′ Q | step F Q |
-           inspect (step E′) P | inspect (step E) P | inspect (step F′) Q | inspect (step F) Q
-   ... | ◻ , R′ | ◻ , R | ◻ , S′ | ◻ , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
-      let open │ᵥ′ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case
-   ... | ◻ , R′ | ◻ , R | ◻ , S′ | [ (• ._) ᵇ ] , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
-      let open │ᵥ′ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case
-   ... | ◻ , R′ | ◻ , R | [ (• ._) ᵇ ] , S′ | ◻ , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
-      let open │ᵥ′ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case
-   ... | ◻ , R′ | ◻ , R | [ (• ._) ᵇ ] , S′ | [ (• ._) ᵇ ] , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
-      let open │ᵥ′ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case
-   ... | ◻ , R′ | [ _ • ᵇ ] , R | ◻ , S′ | ◻ , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
-      let open │ᵥ′ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case
-   ... | ◻ , R′ | [ _ • ᵇ ] , R | ◻ , S′ | [ (• ._) ᵇ ] , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
-      let open │ᵥ′ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case
-   ... | ◻ , R′ | [ _ • ᵇ ] , R | [ (• _) ᵇ ] , S′ | ◻ , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
-      let open │ᵥ′ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case
-   ... | ◻ , R′ | [ _ • ᵇ ] , R | [ (• _) ᵇ ] , S′ | [ (• ._) ᵇ ] , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
-      let open │ᵥ′ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case
-   ... | [ _ • ᵇ ] , R′ | ◻ , R | ◻ , S′ | ◻ , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
-      let open │ᵥ′ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case
-   ... | [ _ • ᵇ ] , R′ | ◻ , R | ◻ , S′ | [ (• _) ᵇ ] , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
-      let open │ᵥ′ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case
-   ... | [ _ • ᵇ ] , R′ | ◻ , R | [ (• ._) ᵇ ] , S′ | ◻ , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
-      let open │ᵥ′ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case
-   ... | [ _ • ᵇ ] , R′ | ◻ , R | [ (• ._) ᵇ ] , S′ | [ (• ._) ᵇ ] , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
-      let open │ᵥ′ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case
-   ... | [ _ • ᵇ ] , R′ | [ _ • ᵇ ] , R | ◻ , S′ | ◻ , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
-      let open │ᵥ′ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case
-   ... | [ _ • ᵇ ] , R′ | [ _ • ᵇ ] , R | ◻ , S′ | [ (• ._) ᵇ ] , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
-      let open │ᵥ′ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case
-   ... | [ _ • ᵇ ] , R′ | [ _ • ᵇ ] , R | [ (• ._) ᵇ ] , S′ | ◻ , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
-      let open │ᵥ′ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case
-   ... | [ _ • ᵇ ] , R′ | [ _ • ᵇ ] , R | [ (• ._) ᵇ ] , S′ | [ (• ._) ᵇ ] , S | [ ≡R′ ] | [ ≡R ] | [ ≡S′ ] | [ ≡S ] =
-      let open │ᵥ′ 𝐸 𝐹 P Q R R′ S S′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q) in case
 -}
 
+   gamma₁ {E = E │ᵥ F} {E′ │ᵥ F′} (𝐸 │ᵥ′ 𝐹) [ P │ Q ] =
+      let open │ᵥ′ in case 𝐸 𝐹 P Q (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q)
    gamma₁ {E = ν• E} {ν• E′} (ν• 𝐸) [ ν P ] =
       let open ν• in case 𝐸 P (gamma₁ 𝐸 P)
    gamma₁ {a′ = • x 〈 y 〉 ᶜ} {E = ν• E} {νᶜ E′} (ν•ᶜ 𝐸) [ ν P ] =
