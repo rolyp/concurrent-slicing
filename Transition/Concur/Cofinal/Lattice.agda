@@ -9,6 +9,7 @@ module Transition.Concur.Cofinal.Lattice where
    import Transition.Concur.Cofinal.Lattice.Helpers.propagate-par-c-c as │ᶜᶜ
    import Transition.Concur.Cofinal.Lattice.Helpers.propagate-b-b-par as ᵇᵇ│
    import Transition.Concur.Cofinal.Lattice.Helpers.propagate-b-c-par as ᵇᶜ│
+   import Transition.Concur.Cofinal.Lattice.Helpers.propagate-c-c-par as ᶜᶜ│
    import Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-propagate as ᵇ│ᵥ
    import Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-x-x-nu-sync as │ᵥ
    import Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-nu-sync as │ᵥ′
@@ -69,23 +70,12 @@ module Transition.Concur.Cofinal.Lattice where
       let open ᵇᵇ│.ᵇ∇ᵇ in case 𝐸 P Q (gamma₁ 𝐸 P)
    gamma₁ {E = E ᵇ│ _} {E′ ᶜ│ ._} (𝐸 ᵇᶜ│ ._) [ P │ Q ] =
       let open ᵇᶜ│ in case 𝐸 P Q (gamma₁ 𝐸 P)
+   gamma₁ {E = E ᶜ│ _} {E′ ᶜ│ ._} (𝐸 ᶜᶜ│ ._) [ P │ Q ] =
+      let open ᶜᶜ│ in case 𝐸 P Q (gamma₁ 𝐸 P)
+   gamma₁ {E = E ᶜ│ Q₀} {E′ ᶜ│ ._} (𝐸 ᵛᵛ│ ._) [ P │ Q ] =
+      cong (λ P → [ P │ Q ]) (gamma₁ 𝐸 P)
 
 {-
-   gamma₁ {E = E ᶜ│ _} {E′ ᶜ│ ._} (𝐸 ᶜᶜ│ ._) [ P │ Q ] =
-      let S† = π₂ (step (E/E′ (⊖₁ 𝐸)) (π₂ (step E′ P)))
-          S‡ = π₂ (step (E′/E (⊖₁ 𝐸)) (π₂ (step E P)))
-          open ≅-Reasoning in ≅-to-≡ (
-      begin
-         braiding ᶜ∇ᶜ (cong₂ _│_ (γ₁ 𝐸) refl) [ S‡ │  Q ]
-      ≅⟨ reduce-ᶜ∇ᶜ (cong₂ _│_ (γ₁ 𝐸) refl) _ ⟩
-         [ S‡ │ Q ]
-      ≅⟨ [-│]-cong _ (trans (γ₁ 𝐸) (≅-to-≡ (Proc↲ refl (tgt₂ (⊖₁ 𝐸)))))
-                     (≅-trans (≅-sym (reduce-ᶜ∇ᶜ (γ₁ 𝐸) _)) (≡-to-≅ (gamma₁ 𝐸 P))) ⟩
-         [ S† │ Q ]
-      ∎)
-
-   gamma₁ {E = E ᶜ│ Q₀} {E′ ᶜ│ ._} (𝐸 ᵛᵛ│ ._) [ P │ Q ] = cong (λ P → [ P │ Q ]) (gamma₁ 𝐸 P)
-
    gamma₁ {E = E ᵇ│ _} {E′ = E′ │• .F} (_│•ᵇ_ {x = x} {y} {a = a} 𝐸 F) [ P │ Q ]
       with step E′ P | inspect (step E′) P
    ... | ◻ , R′ | [ ≡R′ ]
