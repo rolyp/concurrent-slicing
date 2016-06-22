@@ -29,52 +29,23 @@ module Proc.Ren.Lattice.GaloisConnection where
       ≤⟨ ((sucᴹ (pre ρ′ ⊔ʳ x ↦ [ ρ x ])) *ᴹ) (ᴹ P″) ⟩
          (suc (pre ρ′ ⊔ (x ↦ [ ρ x ])) *̃) P″
       ∎)
-
-{-
-      let ρ′ , P″ = (ᴿ.suc ρ †) P P′ in (
-      let open ≤-Reasoning in
-      begin
-         u
-      ≤⟨ id≤get∘put x u ⟩
-         (x ↦ u ᴿ̃.*) (ρ ⁻¹[ x ] u)
-      ≤⟨ ((pre ρ′ ⊔ˡ x ↦ u) ᴿ̃.*ᴹ) (ᴹ (ρ ⁻¹[ x ] u)) ⟩ _
-      ∎) •∙ (
-      let open ≤-Reasoning in
-      begin
-         P′
-      ≤⟨ id≤ren∘unren (ᴿ.suc ρ) P P′ ⟩
-         (ρ′ *̃) P″
-      ≤⟨ (id≤suc∘pre ρ′ *ᴹ) (ᴹ P″) ⟩ _
-      ≤⟨ ((sucᴹ (pre ρ′ ⊔ʳ x ↦ u)) *ᴹ) (ᴹ P″) ⟩ _
-      ∎)
--}
-   id≤⁻ren⁻∘unren⁻ ρ (• x 〈 y 〉∙ P) (• ._ 〈 v 〉∙ P′) = {!!}
-{-
-      let ρ′ , P″ = (ρ †) P P′ in • (
-      let open ≤-Reasoning in
-      begin
-         u
-      ≤⟨ id≤get∘put x u ⟩
-         (x ↦ u ᴿ̃.*) (ρ ⁻¹[ x ] u)
-      ≤⟨ ((x ↦ u ⊔ʳ y ↦ v) ᴿ̃.*ᴹ) (ᴹ (ρ ⁻¹[ x ] u)) ⟩ _
-      ≤⟨ ((ρ′ ⊔ˡ x ↦ u ⊔ y ↦ v) ᴿ̃.*ᴹ) (ᴹ (ρ ⁻¹[ x ] u)) ⟩ _
-      ∎) 〈 (
+   id≤⁻ren⁻∘unren⁻ ρ (• x 〈 y 〉∙ P) (• ._ 〈 v 〉∙ P′) =
+      let ρ′ , P″ = (ρ †) P P′ in • ρ x 〈 (
       let open ≤-Reasoning in
       begin
          v
       ≤⟨ id≤get∘put y v ⟩
          (y ↦ v ᴿ̃.*) (ρ ⁻¹[ y ] v)
-      ≤⟨ ((x ↦ u ⊔ˡ y ↦ v) ᴿ̃.*ᴹ) (ᴹ (ρ ⁻¹[ y ] v)) ⟩ _
-      ≤⟨ ((ρ′ ⊔ˡ x ↦ u ⊔ y ↦ v) ᴿ̃.*ᴹ) (ᴹ (ρ ⁻¹[ y ] v)) ⟩ _
+      ≤⟨ ((x ↦ [ ρ x ] ⊔ˡ y ↦ v) ᴿ̃.*ᴹ) (ᴹ (ρ ⁻¹[ y ] v)) ⟩ _
+      ≤⟨ ((ρ′ ⊔ˡ x ↦ [ ρ x ] ⊔ y ↦ v) ᴿ̃.*ᴹ) (ᴹ (ρ ⁻¹[ y ] v)) ⟩ _
       ∎) 〉∙
       let open ≤-Reasoning in
       begin
          P′
       ≤⟨ id≤ren∘unren ρ P P′ ⟩
          (ρ′ *̃) P″
-      ≤⟨ ((ρ′ ⊔ʳ x ↦ u ⊔ y ↦ v) *ᴹ) (ᴹ P″) ⟩ _
+      ≤⟨ ((ρ′ ⊔ʳ x ↦ [ ρ x ] ⊔ y ↦ v) *ᴹ) (ᴹ P″) ⟩ _
       ∎
--}
    id≤⁻ren⁻∘unren⁻ ρ (P ➕ Q) (P′ ➕ Q′) =
       let ρ₁ , P″ = (ρ †) P P′; ρ₂ , Q″ = (ρ †) Q Q′; open ≤-Reasoning in
       (begin P′ ≤⟨ id≤ren∘unren ρ P P′ ⟩ (ρ₁ *̃) P″ ≤⟨ ((ρ₁ ⊔ʳ ρ₂) *ᴹ) (ᴹ P″) ⟩ _ ∎) ➕
