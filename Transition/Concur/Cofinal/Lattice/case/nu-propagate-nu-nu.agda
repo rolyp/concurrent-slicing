@@ -1,7 +1,7 @@
 open import ConcurrentSlicingCommon
 open import Transition.Concur.Cofinal.Lattice.Common
 
-module Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-nu-nu
+module Transition.Concur.Cofinal.Lattice.case.nu-propagate-nu-nu
    {Γ} {P₀ : Proc (Γ + 1)} {R₀ R′₀} {E : P₀ —[ τ ᶜ - _ ]→ R₀} {E′ : P₀ —[ τ ᶜ - _ ]→ R′₀} (𝐸 : E ⌣₁[ ᵛ∇ᵛ ] E′)
    (P : ↓ P₀) (IH : braid̂ (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)) ≡ tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))
    where

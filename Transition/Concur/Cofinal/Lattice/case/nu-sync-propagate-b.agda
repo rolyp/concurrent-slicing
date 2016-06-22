@@ -1,7 +1,7 @@
 open import ConcurrentSlicingCommon
 open import Transition.Concur.Cofinal.Lattice.Common
 
-module Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-propagate-b
+module Transition.Concur.Cofinal.Lattice.case.nu-sync-propagate-b
    {Γ} {x : Name Γ} {P₀ Q₀ R₀ R′₀ S₀}
    where
 

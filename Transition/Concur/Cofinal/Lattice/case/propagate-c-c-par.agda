@@ -1,7 +1,7 @@
 open import ConcurrentSlicingCommon
 open import Transition.Concur.Cofinal.Lattice.Common
 
-module Transition.Concur.Cofinal.Lattice.Helpers.propagate-c-c-par
+module Transition.Concur.Cofinal.Lattice.case.propagate-c-c-par
    {Γ} {P₀ Q₀ R₀ R₀′} {a a′ : Actionᶜ Γ} {E : P₀ —[ a ᶜ - _ ]→ R₀} {E′ : P₀ —[ a′ ᶜ - _ ]→ R₀′}
    (𝐸 : E ⌣₁[ ᶜ∇ᶜ ] E′) (P : ↓ P₀) (Q : ↓ Q₀)
    (IH : braiding (ᶜ∇ᶜ {a = a} {a′}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)) ≡ tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))

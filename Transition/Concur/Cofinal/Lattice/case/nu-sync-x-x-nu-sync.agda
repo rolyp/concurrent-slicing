@@ -5,7 +5,7 @@ open import Transition.Concur.Cofinal.Lattice.Common
 import Name as ᴺ
 import Ren as ᴿ
 
-module Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-x-x-nu-sync
+module Transition.Concur.Cofinal.Lattice.case.nu-sync-x-x-nu-sync
    {Γ} {x u : Name Γ} {P₀ Q₀ R₀ R′₀ S₀ S′₀} {E : P₀ —[ x • ᵇ - _ ]→ R₀}
    {E′ : P₀ —[ u • ᵇ - _ ]→ R′₀} {F : Q₀ —[ (• x) ᵇ - _ ]→ S₀} {F′ : Q₀ —[ (• u) ᵇ - _ ]→ S′₀}
    (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (𝐹 : F ⌣₁[ ˣ∇ˣ ] F′) (P : ↓ P₀) (Q : ↓ Q₀)

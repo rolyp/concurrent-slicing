@@ -3,30 +3,31 @@ module Transition.Concur.Cofinal.Lattice where
    open import ConcurrentSlicingCommon
 
    open import Transition.Concur.Cofinal.Lattice.Common
-   import Transition.Concur.Cofinal.Lattice.Helpers.propagate-b-par-b as ᵇ│ᵇ
-   import Transition.Concur.Cofinal.Lattice.Helpers.propagate-par-b-b as │ᵇᵇ
-   import Transition.Concur.Cofinal.Lattice.Helpers.propagate-par-b-c as │ᵇᶜ
-   import Transition.Concur.Cofinal.Lattice.Helpers.propagate-par-c-c as │ᶜᶜ
-   import Transition.Concur.Cofinal.Lattice.Helpers.propagate-b-b-par as ᵇᵇ│
-   import Transition.Concur.Cofinal.Lattice.Helpers.propagate-b-c-par as ᵇᶜ│
-   import Transition.Concur.Cofinal.Lattice.Helpers.propagate-c-c-par as ᶜᶜ│
-   import Transition.Concur.Cofinal.Lattice.Helpers.propagate-b-nu-sync as ᵇ│ᵥ
-   import Transition.Concur.Cofinal.Lattice.Helpers.sync-propagate-b as │•ᵇ
-   import Transition.Concur.Cofinal.Lattice.Helpers.sync-propagate-c as │•ᶜ
-   import Transition.Concur.Cofinal.Lattice.Helpers.propagate-b-sync as ᵇ│•
-   import Transition.Concur.Cofinal.Lattice.Helpers.propagate-c-sync as ᶜ│•
-   import Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-propagate-b as │ᵥᵇ
-   import Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-propagate-c as │ᵥᶜ
-   import Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-x-x-nu-sync as │ᵥ
-   import Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-nu-sync as │ᵥ′
-   import Transition.Concur.Cofinal.Lattice.Helpers.nu-extrude-nu-extrude as ν•
-   import Transition.Concur.Cofinal.Lattice.Helpers.nu-extrude-propagate-c as ν•ᶜ
-   import Transition.Concur.Cofinal.Lattice.Helpers.nu-extrude-propagate-b as ν•ᵇ
-   import Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-b-b as νᵇᵇ
-   import Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-x-x as νˣˣ
-   import Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-c-c as νᶜᶜ
-   import Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-b-c as νᵇᶜ
-   import Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-nu-nu as νᵛᵛ
+   -- Module for each main case, otherwise type-checking is too slow.
+   import Transition.Concur.Cofinal.Lattice.case.propagate-b-par-b as ᵇ│ᵇ
+   import Transition.Concur.Cofinal.Lattice.case.propagate-par-b-b as │ᵇᵇ
+   import Transition.Concur.Cofinal.Lattice.case.propagate-par-b-c as │ᵇᶜ
+   import Transition.Concur.Cofinal.Lattice.case.propagate-par-c-c as │ᶜᶜ
+   import Transition.Concur.Cofinal.Lattice.case.propagate-b-b-par as ᵇᵇ│
+   import Transition.Concur.Cofinal.Lattice.case.propagate-b-c-par as ᵇᶜ│
+   import Transition.Concur.Cofinal.Lattice.case.propagate-c-c-par as ᶜᶜ│
+   import Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync as ᵇ│ᵥ
+   import Transition.Concur.Cofinal.Lattice.case.sync-propagate-b as │•ᵇ
+   import Transition.Concur.Cofinal.Lattice.case.sync-propagate-c as │•ᶜ
+   import Transition.Concur.Cofinal.Lattice.case.propagate-b-sync as ᵇ│•
+   import Transition.Concur.Cofinal.Lattice.case.propagate-c-sync as ᶜ│•
+   import Transition.Concur.Cofinal.Lattice.case.nu-sync-propagate-b as │ᵥᵇ
+   import Transition.Concur.Cofinal.Lattice.case.nu-sync-propagate-c as │ᵥᶜ
+   import Transition.Concur.Cofinal.Lattice.case.nu-sync-x-x-nu-sync as │ᵥ
+   import Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync as │ᵥ′
+   import Transition.Concur.Cofinal.Lattice.case.nu-extrude-nu-extrude as ν•
+   import Transition.Concur.Cofinal.Lattice.case.nu-extrude-propagate-c as ν•ᶜ
+   import Transition.Concur.Cofinal.Lattice.case.nu-extrude-propagate-b as ν•ᵇ
+   import Transition.Concur.Cofinal.Lattice.case.nu-propagate-b-b as νᵇᵇ
+   import Transition.Concur.Cofinal.Lattice.case.nu-propagate-x-x as νˣˣ
+   import Transition.Concur.Cofinal.Lattice.case.nu-propagate-c-c as νᶜᶜ
+   import Transition.Concur.Cofinal.Lattice.case.nu-propagate-b-c as νᵇᶜ
+   import Transition.Concur.Cofinal.Lattice.case.nu-propagate-nu-nu as νᵛᵛ
 
    private
       coerceCxt : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) →

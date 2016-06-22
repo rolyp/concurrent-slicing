@@ -1,4 +1,4 @@
-module Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-b-b where
+module Transition.Concur.Cofinal.Lattice.case.nu-propagate-b-b where
 
    open import ConcurrentSlicingCommon
    import Relation.Binary.EqReasoning as EqReasoning

@@ -1,7 +1,7 @@
 open import ConcurrentSlicingCommon
 open import Transition.Concur.Cofinal.Lattice.Common
 
-module Transition.Concur.Cofinal.Lattice.Helpers.propagate-b-b-par
+module Transition.Concur.Cofinal.Lattice.case.propagate-b-b-par
    {Γ} {P₀ Q₀ R₀ R₀′}
    where
 

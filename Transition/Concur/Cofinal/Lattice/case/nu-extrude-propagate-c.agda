@@ -1,4 +1,4 @@
-module Transition.Concur.Cofinal.Lattice.Helpers.nu-extrude-propagate-c where
+module Transition.Concur.Cofinal.Lattice.case.nu-extrude-propagate-c where
 
    open import ConcurrentSlicingCommon
    import Name as ᴺ

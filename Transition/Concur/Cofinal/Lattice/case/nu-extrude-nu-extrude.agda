@@ -3,7 +3,7 @@ open import Transition.Concur.Cofinal.Lattice.Common
 import Name as ᴺ
 import Ren as ᴿ
 
-module Transition.Concur.Cofinal.Lattice.Helpers.nu-extrude-nu-extrude
+module Transition.Concur.Cofinal.Lattice.case.nu-extrude-nu-extrude
    {Γ} {x u : Name Γ} {P₀ R₀ R′₀} {E : P₀ —[ • ᴺ.suc x 〈 ᴺ.zero 〉 ᶜ - _ ]→ R₀}
    {E′ : P₀ —[ • ᴺ.suc u 〈 ᴺ.zero 〉 ᶜ - _ ]→ R′₀} (𝐸 : E ⌣₁[ ᶜ∇ᶜ ] E′) (P : ↓ P₀)
    (IH : braiding (ᶜ∇ᶜ {a = • (ᴺ.suc x) 〈 ᴺ.zero 〉} {• ᴺ.suc u 〈 ᴺ.zero 〉}) {0} (γ₁ 𝐸)

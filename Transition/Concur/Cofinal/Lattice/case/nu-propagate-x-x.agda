@@ -3,7 +3,7 @@ open import Transition.Concur.Cofinal.Lattice.Common
 import Name as ᴺ
 import Ren as ᴿ
 
-module Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-x-x
+module Transition.Concur.Cofinal.Lattice.case.nu-propagate-x-x
    {Γ P₀ R₀ R′₀} {x u : Name Γ} {E : P₀ —[ (• ᴺ.suc x) ᵇ - _ ]→ R₀} {E′ : P₀ —[ (• ᴺ.suc u) ᵇ - _ ]→ R′₀}
    (𝐸 : E ⌣₁[ ˣ∇ˣ ] E′) (P : ↓ P₀)
    (let P′₀ = tgt₁ (⊖₁ 𝐸); P″₀ = tgt₂ (⊖₁ 𝐸))

@@ -1,4 +1,4 @@
-module Transition.Concur.Cofinal.Lattice.Helpers.nu-propagate-b-c where
+module Transition.Concur.Cofinal.Lattice.case.nu-propagate-b-c where
 
    open import ConcurrentSlicingCommon
    import Ren as ᴿ

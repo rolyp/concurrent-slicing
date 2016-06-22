@@ -4,7 +4,7 @@ import Relation.Binary.EqReasoning as EqReasoning
 open import Transition.Concur.Cofinal.Lattice.Common
 import Ren as ᴿ
 
-module Transition.Concur.Cofinal.Lattice.Helpers.sync-propagate-b
+module Transition.Concur.Cofinal.Lattice.case.sync-propagate-b
    {Γ x y P₀ R₀ R′₀ S₀ Q₀} {a : Actionᵇ Γ} {E : P₀ —[ a ᵇ - _ ]→ R₀} {E′ : P₀ —[ x • ᵇ - _ ]→ R′₀}
    (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (F : Q₀ —[ • x 〈 y 〉 ᶜ - _ ]→ S₀) (P : ↓ P₀) (Q : ↓ Q₀)
    (IH : braiding (ᵇ∇ᵇ {a = a} {x •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)) ≡ tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))
