@@ -104,33 +104,33 @@ module Proc.Ren.Lattice where
       ᴿᴾ-prefixes : ∀ {Γ Γ′} → Lattice.Prefixes (Ren Γ Γ′ × Proc Γ)
       ᴿᴾ-prefixes = ×-prefixes
 
-   _† : ∀ {Γ Γ′} (ρ₀ : Ren Γ Γ′) (P₀ : Proc Γ) → ↓ (ρ₀ *′) P₀ → ↓ (ρ₀ , P₀)
-   _†⁻ : ∀ {Γ Γ′} (ρ₀ : Ren Γ Γ′) (P₀ : Proc Γ) → ↓⁻ (ρ₀ *′) P₀ → ↓⁻ (ρ₀ , P₀)
+   unren : ∀ {Γ Γ′} (ρ₀ : Ren Γ Γ′) (P₀ : Proc Γ) → ↓ (ρ₀ *′) P₀ → ↓ (ρ₀ , P₀)
+   unren⁻ : ∀ {Γ Γ′} (ρ₀ : Ren Γ Γ′) (P₀ : Proc Γ) → ↓⁻ (ρ₀ *′) P₀ → ↓⁻ (ρ₀ , P₀)
 
-   (ρ †⁻) Ο Ο = ᴿ̃.◻ , Ο
-   (ρ †⁻) (x •∙ P) (.(ρ x) •∙ P′) =
-      let ρ′ , P″ = (ᴿ.suc ρ †) P P′ in pre ρ′ ⊔ (x ↦ [ ρ x ]) , x •∙ P″
-   (ρ †⁻) (• x 〈 y 〉∙ P) (• .(ρ x) 〈 v 〉∙ P′) =
-      let ρ′ , P″ = (ρ †) P P′ in ρ′ ⊔ x ↦ [ ρ x ] ⊔ y ↦ v , • x 〈 ρ ⁻¹[ y ] v 〉∙ P″
-   (ρ †⁻) (P ➕ Q) (P′ ➕ Q′) = let ρ₁ , P″ = (ρ †) P P′; ρ₂ , Q″ = (ρ †) Q Q′ in ρ₁ ⊔ ρ₂ , P″ ➕ Q″
-   (ρ †⁻) (P │ Q) (P′ │ Q′) = let ρ₁ , P″ = (ρ †) P P′; ρ₂ , Q″ = (ρ †) Q Q′ in ρ₁ ⊔ ρ₂ , P″ │ Q″
-   (ρ †⁻) (ν P) (ν P′) = let ρ′ , P″ = (ᴿ.suc ρ †) P P′ in pre ρ′ , ν P″
-   (ρ †⁻) (! P) (! P′) = let ρ′ , P″ = (ρ †) P P′ in ρ′ , ! P″
+   unren⁻ ρ Ο Ο = ᴿ̃.◻ , Ο
+   unren⁻ ρ (x •∙ P) (.(ρ x) •∙ P′) =
+      let ρ′ , P″ = unren (ᴿ.suc ρ) P P′ in pre ρ′ ⊔ (x ↦ [ ρ x ]) , x •∙ P″
+   unren⁻ ρ (• x 〈 y 〉∙ P) (• .(ρ x) 〈 v 〉∙ P′) =
+      let ρ′ , P″ = unren ρ P P′ in ρ′ ⊔ x ↦ [ ρ x ] ⊔ y ↦ v , • x 〈 ρ ⁻¹[ y ] v 〉∙ P″
+   unren⁻ ρ (P ➕ Q) (P′ ➕ Q′) = let ρ₁ , P″ = unren ρ P P′; ρ₂ , Q″ = unren ρ Q Q′ in ρ₁ ⊔ ρ₂ , P″ ➕ Q″
+   unren⁻ ρ (P │ Q) (P′ │ Q′) = let ρ₁ , P″ = unren ρ P P′; ρ₂ , Q″ = unren ρ Q Q′ in ρ₁ ⊔ ρ₂ , P″ │ Q″
+   unren⁻ ρ (ν P) (ν P′) = let ρ′ , P″ = unren (ᴿ.suc ρ) P P′ in pre ρ′ , ν P″
+   unren⁻ ρ (! P) (! P′) = let ρ′ , P″ = unren ρ P P′ in ρ′ , ! P″
 
-   (_ †) _ ◻ = ᴿ̃.◻ , ◻
-   (ρ †) P [ P′ ] = map idᶠ [_] ((ρ †⁻) P P′)
+   unren _ _ ◻ = ᴿ̃.◻ , ◻
+   unren ρ P [ P′ ] = map idᶠ [_] (unren⁻ ρ P P′)
 
-   _†⁻ᴹ : ∀ {Γ Γ′} (ρ₀ : Ren Γ Γ′) (P₀ : Proc Γ) {P P′ : ↓⁻ (ρ₀ *′) P₀} → P ≤⁻ P′ → (ρ₀ †⁻) P₀ P ≤⁻ (ρ₀ †⁻) P₀ P′
-   _†ᴹ : ∀ {Γ Γ′} (ρ₀ : Ren Γ Γ′) (P₀ : Proc Γ) {P P′ : ↓ (ρ₀ *′) P₀} → P ≤ P′ → (ρ₀ †) P₀ P ≤ (ρ₀ †) P₀ P′
-   (ρ †⁻ᴹ) Ο Ο = ᴿ̃.◻≤ , Ο
-   (ρ †⁻ᴹ) (x •∙ P) (.(ρ x) •∙ P′) =
-      let ρ′ , P″ = (ᴿ.suc ρ †ᴹ) P P′ in preᴹ ρ′ ⊔ᴹ x ↦ᴹ [ ρ x ] , x •∙ P″
-   (ρ †⁻ᴹ) (• x 〈 y 〉∙ P) (• .(ρ x) 〈 v 〉∙ P′) =
-      let ρ′ , P″ = (ρ †ᴹ) P P′ in ρ′ ⊔ᴹ x ↦ᴹ [ ρ x ] ⊔ᴹ y ↦ᴹ v , • x 〈 ρ ⁻¹ᴹ[ y ] v 〉∙ P″
-   (ρ †⁻ᴹ) (P ➕ Q) (P′ ➕ Q′) = let ρ₁ , P″ = (ρ †ᴹ) P P′; ρ₂ , Q″ = (ρ †ᴹ) Q Q′ in ρ₁ ⊔ᴹ ρ₂ , P″ ➕ Q″
-   (ρ †⁻ᴹ) (P │ Q) (P′ │ Q′) = let ρ₁ , P″ = (ρ †ᴹ) P P′; ρ₂ , Q″ = (ρ †ᴹ) Q Q′ in ρ₁ ⊔ᴹ ρ₂ , P″ │ Q″
-   (ρ †⁻ᴹ) (ν P) (ν P′) = let ρ′ , P″ = (ᴿ.suc ρ †ᴹ) P P′ in preᴹ ρ′ , ν P″
-   (ρ †⁻ᴹ) (! P) (! P′) = let ρ′ , P″ = (ρ †ᴹ) P P′ in ρ′ , ! P″
+   unren⁻ᴹ : ∀ {Γ Γ′} (ρ₀ : Ren Γ Γ′) (P₀ : Proc Γ) {P P′ : ↓⁻ (ρ₀ *′) P₀} → P ≤⁻ P′ → unren⁻ ρ₀ P₀ P ≤⁻ unren⁻ ρ₀ P₀ P′
+   unrenᴹ : ∀ {Γ Γ′} (ρ₀ : Ren Γ Γ′) (P₀ : Proc Γ) {P P′ : ↓ (ρ₀ *′) P₀} → P ≤ P′ → unren ρ₀ P₀ P ≤ unren ρ₀ P₀ P′
+   unren⁻ᴹ ρ Ο Ο = ᴿ̃.◻≤ , Ο
+   unren⁻ᴹ ρ (x •∙ P) (.(ρ x) •∙ P′) =
+      let ρ′ , P″ = unrenᴹ (ᴿ.suc ρ) P P′ in preᴹ ρ′ ⊔ᴹ x ↦ᴹ [ ρ x ] , x •∙ P″
+   unren⁻ᴹ ρ (• x 〈 y 〉∙ P) (• .(ρ x) 〈 v 〉∙ P′) =
+      let ρ′ , P″ = unrenᴹ ρ P P′ in ρ′ ⊔ᴹ x ↦ᴹ [ ρ x ] ⊔ᴹ y ↦ᴹ v , • x 〈 ρ ⁻¹ᴹ[ y ] v 〉∙ P″
+   unren⁻ᴹ ρ (P ➕ Q) (P′ ➕ Q′) = let ρ₁ , P″ = unrenᴹ ρ P P′; ρ₂ , Q″ = unrenᴹ ρ Q Q′ in ρ₁ ⊔ᴹ ρ₂ , P″ ➕ Q″
+   unren⁻ᴹ ρ (P │ Q) (P′ │ Q′) = let ρ₁ , P″ = unrenᴹ ρ P P′; ρ₂ , Q″ = unrenᴹ ρ Q Q′ in ρ₁ ⊔ᴹ ρ₂ , P″ │ Q″
+   unren⁻ᴹ ρ (ν P) (ν P′) = let ρ′ , P″ = unrenᴹ (ᴿ.suc ρ) P P′ in preᴹ ρ′ , ν P″
+   unren⁻ᴹ ρ (! P) (! P′) = let ρ′ , P″ = unrenᴹ ρ P P′ in ρ′ , ! P″
 
-   (_ †ᴹ) _ ◻ = ᴿ̃.◻≤ , ◻
-   (ρ †ᴹ) P [ P′ ] = map idᶠ [_] ((ρ †⁻ᴹ) P P′)
+   unrenᴹ _ _ ◻ = ᴿ̃.◻≤ , ◻
+   unrenᴹ ρ P [ P′ ] = map idᶠ [_] (unren⁻ᴹ ρ P P′)
