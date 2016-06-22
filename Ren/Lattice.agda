@@ -41,14 +41,14 @@ module Ren.Lattice where
    ... | ᴺ̃.◻ = ᴺ̃.◻
    ... | [ .(ρ x) ] = [ ρ x ]
 
-   infixr 8 _*
-   _* : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {x : Name Γ} → ↓ ρ → ↓′ x → ↓′ ρ x
-   (ρ *) ᴺ̃.◻ = ᴺ̃.◻
-   (ρ *) [ x ] = ρ x
+   infixr 8 _̃
+   _̃ : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {x : Name Γ} → ↓ ρ → ↓′ x → ↓′ ρ x
+   (ρ ̃) ᴺ̃.◻ = ᴺ̃.◻
+   (ρ ̃) [ x ] = ρ x
 
-   _*ᴹ : ∀ {Γ Γ′} {ρ₀ : Ren Γ Γ′} {ρ ρ′ : ↓ ρ₀} {x₀ : Name Γ} {x x′ : ↓′ x₀} → ρ ≤ ρ′ → x ≤′ x′ → (ρ *) x ≤′ (ρ′ *) x′
-   (ρ *ᴹ) ᴺ̃.◻ = ᴺ̃.◻
-   (ρ *ᴹ) [ x ] = ρ x
+   _̃ᴹ : ∀ {Γ Γ′} {ρ₀ : Ren Γ Γ′} {ρ ρ′ : ↓ ρ₀} {x₀ : Name Γ} {x x′ : ↓′ x₀} → ρ ≤ ρ′ → x ≤′ x′ → (ρ ̃) x ≤′ (ρ′ ̃) x′
+   (ρ ̃ᴹ) ᴺ̃.◻ = ᴺ̃.◻
+   (ρ ̃ᴹ) [ x ] = ρ x
 
    -- TODO: fix the syntax here; ρ can no longer usefully be implicit.
    _↦_ : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} (x : Name Γ) → ↓′ ρ x → ↓ ρ
@@ -71,12 +71,12 @@ module Ren.Lattice where
    _ ⁻¹ᴹ[ _ ] ᴺ̃.◻ = ᴺ̃.◻
    _ ⁻¹ᴹ[ x ] [ ._ ] = [ x ]
 
-   -- Uncurried version of * convenient for the Galois connection.
+   -- Uncurried version of ̃ convenient for the Galois connection.
    get : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {x : Name Γ} → ↓ ρ × ↓′ x → ↓′ ρ x
-   get = uncurry _*
+   get = uncurry _̃
 
    getᴹ : ∀ {Γ Γ′} {ρ₀ : Ren Γ Γ′} {ρ ρ′ : ↓ ρ₀} {x₀ : Name Γ} {x x′ : ↓′ x₀} → ρ ≤ ρ′ × x ≤′ x′ → get (ρ , x) ≤′ get (ρ′ , x′)
-   getᴹ = uncurry _*ᴹ
+   getᴹ = uncurry _̃ᴹ
 
    -- Lower adjoint of get.
    put : ∀ {Γ Γ′} (ρ : Ren Γ Γ′) (x : Name Γ) → ↓′ ρ x → ↓ ρ × ↓′ x
@@ -192,9 +192,9 @@ module Ren.Lattice where
    replᴹ x ᴺ.zero = x
    replᴹ _ (ᴺ.suc y) = [ ᴺ.suc y ]
 
-   *-preserves-id : ∀ {Γ} {x₀ : Name Γ} (x : ↓′ x₀) → (id *) x ≡ x
-   *-preserves-id ᴺ̃.◻ = refl
-   *-preserves-id [ _ ] = refl
+   ̃-preserves-id : ∀ {Γ} {x₀ : Name Γ} (x : ↓′ x₀) → (id ̃) x ≡ x
+   ̃-preserves-id ᴺ̃.◻ = refl
+   ̃-preserves-id [ _ ] = refl
 
    -- Not as general as the version in Ren, but sufficient for now.
    +-preserves-id : ∀ {Γ} (x : Name (Γ + 1)) → (id ᴿ+ 1) x ≅ id x
