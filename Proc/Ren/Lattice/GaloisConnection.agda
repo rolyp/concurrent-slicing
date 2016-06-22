@@ -29,22 +29,23 @@ module Proc.Ren.Lattice.GaloisConnection where
       ≤⟨ ((sucᴹ (pre ρ′ ⊔ʳ x ↦ [ ρ x ])) *ᴹ) (ᴹ P″) ⟩
          (suc (pre ρ′ ⊔ (x ↦ [ ρ x ])) *̃) P″
       ∎)
-   id≤⁻ren⁻∘unren⁻ ρ (• x 〈 y 〉∙ P) (• ._ 〈 v 〉∙ P′) =
-      let ρ′ , P″ = unren ρ P P′ in • ρ x 〈 (
-      let open ≤-Reasoning in
+   id≤⁻ren⁻∘unren⁻ ρ (• x 〈 y 〉∙ P) (• ._ 〈 y′ 〉∙ P′) =
+      let ρ′ , P″ = unren ρ P P′ in • ρ x 〈
+      (let open ≤-Reasoning in
       begin
-         v
-      ≤⟨ id≤get∘put y v ⟩
-         (y ↦ v ̃) (ρ ⁻¹[ y ] v)
-      ≤⟨ ((x ↦ [ ρ x ] ⊔ˡ y ↦ v) ̃ᴹ) (ᴹ (ρ ⁻¹[ y ] v)) ⟩ _
-      ≤⟨ ((ρ′ ⊔ˡ x ↦ [ ρ x ] ⊔ y ↦ v) ̃ᴹ) (ᴹ (ρ ⁻¹[ y ] v)) ⟩ _
+         y′
+      ≤⟨ id≤get∘put y y′ ⟩
+         (y ↦ y′ ̃) (ρ ⁻¹[ y ] y′)
+      ≤⟨ ((ρ′ ⊔ˡ y ↦ y′) ̃ᴹ) (ᴹ (ρ ⁻¹[ y ] y′)) ⟩
+         ((ρ′ ⊔ (y ↦ y′)) ̃) (ρ ⁻¹[ y ] y′)
       ∎) 〉∙
       let open ≤-Reasoning in
       begin
          P′
       ≤⟨ id≤ren∘unren ρ P P′ ⟩
          (ρ′ *̃) P″
-      ≤⟨ ((ρ′ ⊔ʳ x ↦ [ ρ x ] ⊔ y ↦ v) *ᴹ) (ᴹ P″) ⟩ _
+      ≤⟨ ((ρ′ ⊔ʳ y ↦ y′) *ᴹ) (ᴹ P″) ⟩
+         ((ρ′ ⊔ (y ↦ y′)) *̃) P″
       ∎
    id≤⁻ren⁻∘unren⁻ ρ (P ➕ Q) (P′ ➕ Q′) =
       let ρ₁ , P″ = unren ρ P P′; ρ₂ , Q″ = unren ρ Q Q′; open ≤-Reasoning in
@@ -79,19 +80,9 @@ module Proc.Ren.Lattice.GaloisConnection where
                ρ′
             ∎ in
       α , x •∙ P″
-{-
-      let ρ″ , P″ = unren∘ren≤id (suc ρ′) P′; ρ† , u′ = put∘get≤id [ x ] ρ′; open ≤-Reasoning in
-         (begin
-            (pre (π₁ ((ᴿ.suc ρ †) P ((suc ρ′ *̃) P′)))) ⊔ (x ↦ [ ρ x ])
-         ≤⟨ preᴹ ρ″ ⊔ᴹ ᴹ (x ↦ [ ρ x ]) ⟩
-            (pre (suc ρ′)) ⊔ (x ↦ [ ρ x ])
-         ≤⟨ {!!} ⊔-lub ρ† {-≤-reflexive (pre∘suc≡id ρ′)-} ⟩
-            ρ′
-         ∎) , x •∙ P″
--}
-   unren⁻∘ren⁻≤⁻id {ρ = ρ} {• x 〈 y 〉∙ P} ρ′ (• ._ 〈 v 〉∙ P′) =
-      let ρ″ , P″ = unren∘ren≤id ρ′ P′; ρ† = put₁∘get≤id [ x ] ρ′; ρ‡ , v′ = put∘get≤id v ρ′ in
-      (ρ″ ⊔-lub {!!} ⊔-lub ρ‡) , • x 〈 v′ 〉∙ P″
+   unren⁻∘ren⁻≤⁻id {ρ = ρ} {• x 〈 y 〉∙ P} ρ′ (• ._ 〈 y′ 〉∙ P′) =
+      let ρ″ , P″ = unren∘ren≤id ρ′ P′ ; ρ‡ , y″ = put∘get≤id y′ ρ′
+      in ρ″ ⊔-lub ρ‡ , • x 〈 y″ 〉∙ P″
    unren⁻∘ren⁻≤⁻id {P = P ➕ Q} ρ′ (P′ ➕ Q′) =
       let ρ₁ , P″ = unren∘ren≤id ρ′ P′; ρ₂ , Q″ = unren∘ren≤id ρ′ Q′ in (ρ₁ ⊔-lub ρ₂) , P″ ➕ Q″
    unren⁻∘ren⁻≤⁻id {P = P │ Q} ρ′ (P′ │ Q′) =

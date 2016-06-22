@@ -112,8 +112,8 @@ module Proc.Ren.Lattice where
    unren⁻ ρ Ο Ο = ᴿ̃.◻ , Ο
    unren⁻ ρ (x •∙ P) (.(ρ x) •∙ P′) =
       let ρ′ , P″ = unren (ᴿ.suc ρ) P P′ in pre ρ′ ⊔ (x ↦ [ ρ x ]) , x •∙ P″
-   unren⁻ ρ (• x 〈 y 〉∙ P) (• .(ρ x) 〈 v 〉∙ P′) =
-      let ρ′ , P″ = unren ρ P P′ in ρ′ ⊔ x ↦ [ ρ x ] ⊔ y ↦ v , • x 〈 ρ ⁻¹[ y ] v 〉∙ P″
+   unren⁻ ρ (• x 〈 y 〉∙ P) (• .(ρ x) 〈 y′ 〉∙ P′) =
+      let ρ′ , P″ = unren ρ P P′ in ρ′ ⊔ y ↦ y′ , • x 〈 ρ ⁻¹[ y ] y′ 〉∙ P″
    unren⁻ ρ (P ➕ Q) (P′ ➕ Q′) = let ρ₁ , P″ = unren ρ P P′; ρ₂ , Q″ = unren ρ Q Q′ in ρ₁ ⊔ ρ₂ , P″ ➕ Q″
    unren⁻ ρ (P │ Q) (P′ │ Q′) = let ρ₁ , P″ = unren ρ P P′; ρ₂ , Q″ = unren ρ Q Q′ in ρ₁ ⊔ ρ₂ , P″ │ Q″
    unren⁻ ρ (ν P) (ν P′) = let ρ′ , P″ = unren (ᴿ.suc ρ) P P′ in pre ρ′ , ν P″
@@ -128,7 +128,7 @@ module Proc.Ren.Lattice where
    unren⁻ᴹ ρ (x •∙ P) (.(ρ x) •∙ P′) =
       let ρ′ , P″ = unrenᴹ (ᴿ.suc ρ) P P′ in preᴹ ρ′ ⊔ᴹ x ↦ᴹ [ ρ x ] , x •∙ P″
    unren⁻ᴹ ρ (• x 〈 y 〉∙ P) (• .(ρ x) 〈 v 〉∙ P′) =
-      let ρ′ , P″ = unrenᴹ ρ P P′ in ρ′ ⊔ᴹ x ↦ᴹ [ ρ x ] ⊔ᴹ y ↦ᴹ v , • x 〈 ρ ⁻¹ᴹ[ y ] v 〉∙ P″
+      let ρ′ , P″ = unrenᴹ ρ P P′ in ρ′ ⊔ᴹ y ↦ᴹ v , • x 〈 ρ ⁻¹ᴹ[ y ] v 〉∙ P″
    unren⁻ᴹ ρ (P ➕ Q) (P′ ➕ Q′) = let ρ₁ , P″ = unrenᴹ ρ P P′; ρ₂ , Q″ = unrenᴹ ρ Q Q′ in ρ₁ ⊔ᴹ ρ₂ , P″ ➕ Q″
    unren⁻ᴹ ρ (P │ Q) (P′ │ Q′) = let ρ₁ , P″ = unrenᴹ ρ P P′; ρ₂ , Q″ = unrenᴹ ρ Q Q′ in ρ₁ ⊔ᴹ ρ₂ , P″ │ Q″
    unren⁻ᴹ ρ (ν P) (ν P′) = let ρ′ , P″ = unrenᴹ (ᴿ.suc ρ) P P′ in preᴹ ρ′ , ν P″
