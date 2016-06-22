@@ -13,7 +13,7 @@ module Ren.Lattice where
    open import Name as ᴺ using (Name; _≟_; _+_)
    open import Name.Lattice as ᴺ̃ using ([_]; zero)
    open import Ren as ᴿ using (Ren); open ᴿ.Renameable ⦃...⦄
-      renaming (_* to _*′; *-preserves-≃ₑ to *′-preserves-≃ₑ; *-preserves-id to *′-preserves-id)
+      using () renaming (*-preserves-≃ₑ to *′-preserves-≃ₑ; *-preserves-id to *′-preserves-id)
 
    ↓_ : ∀ {Γ Γ′} → Ren Γ Γ′ → Set
    ↓_ {Γ} ρ = (x : Name Γ) → ↓′ (ρ x)
@@ -42,7 +42,7 @@ module Ren.Lattice where
    ... | [ .(ρ x) ] = [ ρ x ]
 
    infixr 8 _*
-   _* : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {x : Name Γ} → ↓ ρ → ↓′ x → ↓′ (ρ *′) x
+   _* : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {x : Name Γ} → ↓ ρ → ↓′ x → ↓′ ρ x
    (ρ *) ᴺ̃.◻ = ᴺ̃.◻
    (ρ *) [ x ] = ρ x
 
@@ -51,38 +51,38 @@ module Ren.Lattice where
    (ρ *ᴹ) [ x ] = ρ x
 
    -- TODO: fix the syntax here; ρ can no longer usefully be implicit.
-   _↦_ : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} (x : Name Γ) → ↓′ (ρ *′) x → ↓ ρ
+   _↦_ : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} (x : Name Γ) → ↓′ ρ x → ↓ ρ
    _↦_ _ ᴺ̃.◻ = ◻
    _↦_ x [ ._ ] u with x ≟ u
    _↦_ {ρ = ρ} x [ ._ ] .x | yes refl = [ ρ x ]
    ... | no _ = ᴺ̃.◻
 
-   _↦ᴹ_ : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} (x : Name Γ) {u u′ : ↓′ (ρ *′) x} → u ≤′ u′ → _↦_ {ρ = ρ} x u ≤ x ↦ u′
+   _↦ᴹ_ : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} (x : Name Γ) {u u′ : ↓′ ρ x} → u ≤′ u′ → _↦_ {ρ = ρ} x u ≤ x ↦ u′
    _↦ᴹ_ _ ᴺ̃.◻ _ = ᴺ̃.◻
    _↦ᴹ_ x [ ._ ] u with x ≟ u
    _↦ᴹ_ {ρ = ρ} x [ ._ ] .x | yes refl = [ ρ x ]
    _↦ᴹ_ x [ ._ ] u | no _ = ᴺ̃.◻
 
-   _⁻¹[_]_ : ∀ {Γ Γ′} (ρ : Ren Γ Γ′) (x : Name Γ) → ↓′ (ρ *′) x → ↓′ x
+   _⁻¹[_]_ : ∀ {Γ Γ′} (ρ : Ren Γ Γ′) (x : Name Γ) → ↓′ ρ x → ↓′ x
    _ ⁻¹[ _ ] ᴺ̃.◻ = ᴺ̃.◻
    _ ⁻¹[ x ] [ ._ ] = [ x ]
 
-   _⁻¹ᴹ[_]_ : ∀ {Γ Γ′} (ρ : Ren Γ Γ′) (x : Name Γ) {u u′ : ↓′ (ρ *′) x} → u ≤′ u′ → ρ ⁻¹[ x ] u ≤′ ρ ⁻¹[ x ] u′
+   _⁻¹ᴹ[_]_ : ∀ {Γ Γ′} (ρ : Ren Γ Γ′) (x : Name Γ) {u u′ : ↓′ ρ x} → u ≤′ u′ → ρ ⁻¹[ x ] u ≤′ ρ ⁻¹[ x ] u′
    _ ⁻¹ᴹ[ _ ] ᴺ̃.◻ = ᴺ̃.◻
    _ ⁻¹ᴹ[ x ] [ ._ ] = [ x ]
 
    -- Uncurried version of * convenient for the Galois connection.
-   get : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {x : Name Γ} → ↓ ρ × ↓′ x → ↓′ (ρ *′) x
+   get : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {x : Name Γ} → ↓ ρ × ↓′ x → ↓′ ρ x
    get = uncurry _*
 
    getᴹ : ∀ {Γ Γ′} {ρ₀ : Ren Γ Γ′} {ρ ρ′ : ↓ ρ₀} {x₀ : Name Γ} {x x′ : ↓′ x₀} → ρ ≤ ρ′ × x ≤′ x′ → get (ρ , x) ≤′ get (ρ′ , x′)
    getᴹ = uncurry _*ᴹ
 
    -- Lower adjoint of get.
-   put : ∀ {Γ Γ′} (ρ : Ren Γ Γ′) (x : Name Γ) → ↓′ (ρ *′) x → ↓ ρ × ↓′ x
+   put : ∀ {Γ Γ′} (ρ : Ren Γ Γ′) (x : Name Γ) → ↓′ ρ x → ↓ ρ × ↓′ x
    put ρ x u = x ↦ u , ρ ⁻¹[ x ] u
 
-   putᴹ : ∀ {Γ Γ′} (ρ : Ren Γ Γ′) (x : Name Γ) {u u′ : ↓′ (ρ *′) x} → u ≤′ u′ →
+   putᴹ : ∀ {Γ Γ′} (ρ : Ren Γ Γ′) (x : Name Γ) {u u′ : ↓′ ρ x} → u ≤′ u′ →
           let ρ′ , x′ = put ρ x u; ρ″ , x″ = put ρ x u′ in ρ′ ≤ ρ″ × x′ ≤′ x″
    putᴹ ρ x u = x ↦ᴹ u , ρ ⁻¹ᴹ[ x ] u
 
