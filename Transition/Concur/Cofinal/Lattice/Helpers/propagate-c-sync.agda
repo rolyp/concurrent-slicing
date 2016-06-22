@@ -47,7 +47,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers.propagate-c-sync
       braiding (ᶜ∇ᶜ {a = a} {τ}) {0} (cong₂ _│_ refl (γ₁ 𝐹))
       (tgt (E │• E′/E (⊖₁ 𝐹)) (tgt (P₀ │ᶜ F) [ P │ Q ]))
       ≡
-      tgt ((ᴿ.pop y *) (ᵀ.tgt E) │ᶜ E/E′ (⊖₁ 𝐹)) (tgt (E │• F′) [ P │ Q ])
+      tgt ((ᴿ.pop y *) R₀ │ᶜ E/E′ (⊖₁ 𝐹)) (tgt (E │• F′) [ P │ Q ])
    case
       with step F′ Q | step (E′/E (⊖₁ 𝐹)) (tgt F Q) | step E P |
            inspect (step F′) Q | inspect (step (E′/E (⊖₁ 𝐹))) (tgt F Q) | inspect (step E) P

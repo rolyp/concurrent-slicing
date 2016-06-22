@@ -11,6 +11,8 @@ module Transition.Concur.Cofinal.Lattice where
    import Transition.Concur.Cofinal.Lattice.Helpers.propagate-b-c-par as ᵇᶜ│
    import Transition.Concur.Cofinal.Lattice.Helpers.propagate-c-c-par as ᶜᶜ│
    import Transition.Concur.Cofinal.Lattice.Helpers.propagate-b-nu-sync as ᵇ│ᵥ
+   import Transition.Concur.Cofinal.Lattice.Helpers.sync-propagate-c as │•ᶜ
+   import Transition.Concur.Cofinal.Lattice.Helpers.propagate-b-sync as ᵇ│•
    import Transition.Concur.Cofinal.Lattice.Helpers.propagate-c-sync as ᶜ│•
    import Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-propagate-b as │ᵥᵇ
    import Transition.Concur.Cofinal.Lattice.Helpers.nu-sync-propagate-c as │ᵥᶜ
@@ -112,46 +114,10 @@ module Transition.Concur.Cofinal.Lattice where
           α = trans (sym (cong (push ᴬ*̃) (,-inj₁ ≡S‡))) (trans (renᶜ-action-comm F push Q) (,-inj₁ ≡S†)) in
       gamma₁-│•ᵇ 𝐸 F P Q S† S‡ R′ P′ y† y‡ (,-inj₂ ≡R′) (,-inj₂ ≡P′) (,-inj₂ ≡S†) (,-inj₂ ≡S‡) (sym ([•x〈-〉ᶜ]-inj α)) (gamma₁ 𝐸 P)
 -}
-   gamma₁ {E = E ᶜ│ Q₀} {E′ = E′ │• .F} (_│•ᶜ_ {x = x} {y} {a = a} 𝐸 F) [ P │ Q ] = {!!}
-{-
-      with step E′ P | step (E′/E (⊖₁ 𝐸)) (tgt E P) | step F Q |
-           inspect (step E′) P | inspect (step (E′/E (⊖₁ 𝐸))) (tgt E P) | inspect (step F) Q
-   ... | ◻ , R′ | ◻ , S† | _ , S‡ | [ ≡R′ ] | [ ≡S† ] | [ ≡S‡ ] =
-      gamma₁-│•ᶜ 𝐸 F P Q S† S‡ R′ ◻ (,-inj₂ ≡R′) (,-inj₂ ≡S†) (,-inj₂ ≡S‡) (gamma₁ 𝐸 P)
-   ... | ◻ , R′ | [ (.x •) ᵇ ] , S† | _ , S‡ | [ ≡R′ ] | [ ≡S† ] | [ ≡S‡ ] =
-      ⊥-elim (◻≢[-] (trans (sym (,-inj₁ ≡R′)) (trans (sym (ᴬgamma₁ 𝐸 P)) (,-inj₁ ≡S†))))
-   ... | [ (.x •) ᵇ ] , R′ | ◻ , S† | _ , S‡ | [ ≡R′ ] | [ ≡S† ] | [ ≡S‡ ] =
-      ⊥-elim (◻≢[-] (sym (trans (sym (,-inj₁ ≡R′)) (trans (sym (ᴬgamma₁ 𝐸 P)) (,-inj₁ ≡S†)))))
-   ... | [ (.x •) ᵇ ] , R′ | [ (.x •) ᵇ ] , S† | ◻ , S‡ | [ ≡R′ ] | [ ≡S† ] | [ ≡S‡ ] =
-      gamma₁-│•ᶜ 𝐸 F P Q S† S‡ R′ ◻ (,-inj₂ ≡R′) (,-inj₂ ≡S†) (,-inj₂ ≡S‡) (gamma₁ 𝐸 P)
-   ... | [ (.x •) ᵇ ] , R′ | [ (.x •) ᵇ ] , S† | [ • .x 〈 y‡ 〉 ᶜ ] , S‡ | [ ≡R′ ] | [ ≡S† ] | [ ≡S‡ ] =
-      gamma₁-│•ᶜ 𝐸 F P Q S† S‡ R′ y‡ (,-inj₂ ≡R′) (,-inj₂ ≡S†) (,-inj₂ ≡S‡) (gamma₁ 𝐸 P)
--}
-   gamma₁ {E = P₀ │ᵇ F} {E′ = .E │• F′} (_ᵇ│•_ {y = y} E 𝐹) [ P │ Q ] = {!!}
-{-
-      with step F′ Q | step (E′/E (⊖₁ 𝐹)) (tgt F Q) | step E P | step ((ᴿ.push *ᵇ) E) ((push *̃) P) |
-           inspect (step F′) Q | inspect (step (E′/E (⊖₁ 𝐹))) (tgt F Q) | inspect (step E) P |
-           inspect (step ((ᴿ.push *ᵇ) E)) ((push *̃) P)
-   ... | ◻ , S′ | ◻ , Q′ | ◻ , R | ◻ , R† | [ ≡S′ ] | [ ≡Q′ ] | [ ≡R ] | [ ≡R† ] =
-      gamma₁-ᵇ│• E 𝐹 P Q R R† S′ Q′ ◻ ◻ (,-inj₂ ≡R) (,-inj₂ ≡R†) (,-inj₂ ≡S′) (,-inj₂ ≡Q′) refl (gamma₁ 𝐹 Q)
-   ... | _ | _ | [ _ ᵇ ] , R | ◻ , R† | _ | _ | [ ≡R ] | [ ≡R† ] =
-      ⊥-elim (◻≢[-] (sym (trans (cong (push ᴬ*̃) (sym (,-inj₁ ≡R))) (trans (renᵇ-action-comm E push P) (,-inj₁ ≡R†)))))
-   ... | _ | _ | ◻ , R | [ _ ᵇ ] , R† | _ | _ | [ ≡R ] | [ ≡R† ] =
-      ⊥-elim (◻≢[-] (trans (cong (push ᴬ*̃) (sym (,-inj₁ ≡R))) (trans (renᵇ-action-comm E push P) (,-inj₁ ≡R†))))
-   ... | ◻ , S′ | ◻ , Q′ | [ (x •) ᵇ ] , R | [ (.(ᴺ.suc x) •) ᵇ ] , R† | [ ≡S′ ] | [ ≡Q′ ] | [ ≡R ] | [ ≡R† ] =
-      gamma₁-ᵇ│• E 𝐹 P Q R R† S′ Q′ ◻ ◻ (,-inj₂ ≡R) (,-inj₂ ≡R†) (,-inj₂ ≡S′) (,-inj₂ ≡Q′) refl (gamma₁ 𝐹 Q)
-   ... | ◻ , S′ | [ • ._ 〈 _ 〉 ᶜ ] , Q′ | _ | _ | [ ≡S′ ] | [ ≡Q′ ] | _ | _ =
-      ⊥-elim (◻≢[-] (trans (sym (cong (push ᴬ*̃) (,-inj₁ ≡S′))) (trans (sym (ᴬgamma₁ 𝐹 Q)) (,-inj₁ ≡Q′))))
-   ... | [ • _ 〈 _ 〉 ᶜ ] , S′ | ◻ , _ | _ | _ | [ ≡S′ ] | [ ≡Q′ ] | _ | _ =
-      ⊥-elim (◻≢[-] (sym (trans (sym (cong (push ᴬ*̃) (,-inj₁ ≡S′))) (trans (sym (ᴬgamma₁ 𝐹 Q)) (,-inj₁ ≡Q′)))))
-   ... | [ • x 〈 _ 〉 ᶜ ] , S′ | [ • .(ᴺ.suc x) 〈 _ 〉 ᶜ ] , Q′ | ◻ , R | ◻ , R† | [ ≡S′ ] | [ ≡Q′ ] | [ ≡R ] | [ ≡R† ] =
-      gamma₁-ᵇ│• E 𝐹 P Q R R† S′ Q′ ◻ ◻ (,-inj₂ ≡R) (,-inj₂ ≡R†) (,-inj₂ ≡S′) (,-inj₂ ≡Q′) refl (gamma₁ 𝐹 Q)
-   ... | [ • x 〈 y‡ 〉 ᶜ ] , S′ | [ • .(ᴺ.suc x) 〈 y† 〉 ᶜ ] , Q′ | [ (.x •) ᵇ ] , R | [ .(ᴺ.suc x) • ᵇ ] , R†
-       | [ ≡S′ ] | [ ≡Q′ ] | [ ≡R ] | [ ≡R† ] =
-      let α : [ • ᴺ.suc x 〈 (push ᴿ̃.*) y‡ 〉 ᶜ ] ≡ [ • ᴺ.suc x 〈 y† 〉 ᶜ ]
-          α = trans (sym (cong (push ᴬ*̃) (,-inj₁ ≡S′))) (trans (sym (ᴬgamma₁ 𝐹 Q)) (,-inj₁ ≡Q′)) in
-      gamma₁-ᵇ│• E 𝐹 P Q R R† S′ Q′ y† y‡ (,-inj₂ ≡R) (,-inj₂ ≡R†) (,-inj₂ ≡S′) (,-inj₂ ≡Q′) (sym ([•x〈-〉ᶜ]-inj α)) (gamma₁ 𝐹 Q)
--}
+   gamma₁ {E = E ᶜ│ Q₀} {E′ = E′ │• .F} (𝐸 │•ᶜ F) [ P │ Q ] =
+      let open │•ᶜ in case 𝐸 F P Q (gamma₁ 𝐸 P)
+   gamma₁ {E = P₀ │ᵇ F} {E′ = .E │• F′} (_ᵇ│•_ {y = y} E 𝐹) [ P │ Q ] =
+      let open ᵇ│• in case E 𝐹 P Q (gamma₁ 𝐹 Q)
    gamma₁ {E = P₀ │ᶜ F} {E′ = .E │• F′} (_ᶜ│•_ {y = y} E 𝐹) [ P │ Q ] =
       let open ᶜ│• in case E 𝐹 P Q (gamma₁ 𝐹 Q)
    gamma₁ {E = E ᵇ│ Q₀} {E′ │ᵥ .F} (_│ᵥᵇ_ {x = x} {a = x′ •} 𝐸 F) [ P │ Q ] =
