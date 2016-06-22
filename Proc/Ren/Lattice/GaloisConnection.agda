@@ -62,16 +62,21 @@ module Proc.Ren.Lattice.GaloisConnection where
    id≤ren∘unren ρ P ◻ = ◻
    id≤ren∘unren ρ P [ P′ ] = [ id≤⁻ren⁻∘unren⁻ ρ P P′ ]
 
-{-
    unren⁻∘ren⁻≤⁻id : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {P : Proc Γ} (ρ′ : ↓ ρ) (P′ : ↓⁻ P) → (ρ †⁻) P ((ρ′ *⁻) P′) ≤⁻ (ρ′ , P′)
    unren∘ren≤id : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {P : Proc Γ} (ρ′ : ↓ ρ) (P′ : ↓ P) → (ρ †) P ((ρ′ *̃) P′) ≤ (ρ′ , P′)
    unren⁻∘ren⁻≤⁻id {P = Ο} ρ′ Ο = ◻≤ , Ο
-   unren⁻∘ren⁻≤⁻id {ρ = ρ} {P = x •∙ P} ρ′ (u •∙ P′) =
-      let ρ″ , P″ = unren∘ren≤id (suc ρ′) P′; ρ† , u′ = put∘get≤id u ρ′; open ≤-Reasoning in
-      (begin _ ≤⟨ preᴹ ρ″ ⊔ᴹ ᴹ _ ⟩ _ ≤⟨ ≤-reflexive (pre∘suc≡id ρ′) ⊔-lub ρ† ⟩ _ ∎) , u′ •∙ P″
-   unren⁻∘ren⁻≤⁻id {ρ = ρ} {• x 〈 y 〉∙ P} ρ′ (• u 〈 v 〉∙ P′) =
-      let ρ″ , P″ = unren∘ren≤id ρ′ P′; ρ† , u′ = put∘get≤id u ρ′; ρ‡ , v′ = put∘get≤id v ρ′ in
-      (ρ″ ⊔-lub ρ† ⊔-lub ρ‡) , • u′ 〈 v′ 〉∙ P″
+   unren⁻∘ren⁻≤⁻id {ρ = ρ} {P = x •∙ P} ρ′ (.x •∙ P′) =
+      let ρ″ , P″ = unren∘ren≤id (suc ρ′) P′; ρ† , u′ = put∘get≤id [ x ] ρ′; open ≤-Reasoning in
+         (begin
+            (pre (π₁ ((ᴿ.suc ρ †) P ((suc ρ′ *̃) P′)))) ⊔ (x ↦ [ ρ x ])
+         ≤⟨ preᴹ ρ″ ⊔ᴹ ᴹ (x ↦ [ ρ x ]) ⟩
+            (pre (suc ρ′)) ⊔ (x ↦ [ ρ x ])
+         ≤⟨ {!!} {-≤-reflexive (pre∘suc≡id ρ′) ⊔-lub ρ†-} ⟩
+            ρ′
+         ∎) , x •∙ P″
+   unren⁻∘ren⁻≤⁻id {ρ = ρ} {• x 〈 y 〉∙ P} ρ′ (• ._ 〈 v 〉∙ P′) =
+      let ρ″ , P″ = unren∘ren≤id ρ′ P′; ρ† , u′ = put∘get≤id {!!} ρ′; ρ‡ , v′ = put∘get≤id v ρ′ in
+      (ρ″ ⊔-lub ρ† ⊔-lub ρ‡) , • x 〈 v′ 〉∙ P″
    unren⁻∘ren⁻≤⁻id {P = P ➕ Q} ρ′ (P′ ➕ Q′) =
       let ρ₁ , P″ = unren∘ren≤id ρ′ P′; ρ₂ , Q″ = unren∘ren≤id ρ′ Q′ in (ρ₁ ⊔-lub ρ₂) , P″ ➕ Q″
    unren⁻∘ren⁻≤⁻id {P = P │ Q} ρ′ (P′ │ Q′) =
@@ -92,4 +97,3 @@ module Proc.Ren.Lattice.GaloisConnection where
                id≤f∘g = ≤⇒≤ᴸ ∘ᶠ id≤ren∘unren ρ P;
                g∘f≤id = ≤⇒≤ᴸ ∘ᶠ uncurry unren∘ren≤id
             }
--}
