@@ -60,7 +60,7 @@ module Braiding.Proc.Lattice.GaloisConnection where
          subst ↓_ (swap-involutive P) ((ᴿ̃.swap *̃) ((ᴿ̃.swap *̃) P′))
       ≅⟨ ≡-subst-removable ↓_ (swap-involutive P) _ ⟩
          (ᴿ̃.swap *̃) ((ᴿ̃.swap *̃) P′)
-      ≅⟨ swap̃-involutive P′ ⟩
+      ≅⟨ swap-involutivẽ P′ ⟩
          P′
       ∎)
 
@@ -72,7 +72,7 @@ module Braiding.Proc.Lattice.GaloisConnection where
          (ᴿ̃.swap *̃) (subst ↓_ (swap-involutive P) ((ᴿ̃.swap *̃) P′))
       ≅⟨ ≅-cong✴ ↓_ (sym (swap-involutive P)) (ᴿ̃.swap *̃) (≡-subst-removable ↓_ (swap-involutive P) _)  ⟩
          (ᴿ̃.swap *̃) ((ᴿ̃.swap *̃) P′)
-      ≅⟨ swap̃-involutive P′ ⟩
+      ≅⟨ swap-involutivẽ P′ ⟩
          P′
       ∎
       )
