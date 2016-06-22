@@ -8,7 +8,7 @@ module Transition.Concur.Cofinal.Lattice.Helpers.sync-propagate-c
    (𝐸 : E ⌣₁[ ᶜ∇ᵇ ] E′) (F : Q₀ —[ • x 〈 y 〉 ᶜ - _ ]→ S₀) (P : ↓ P₀) (Q : ↓ Q₀)
    (IH : braiding (ᶜ∇ᵇ {a = a} {x •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)) ≡ tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))
    (let T : Actionᶜ Γ → Set
-        T = (λ a → (ᴿ.pop y *) R′₀ —[ a ᶜ - _ ]→ (ᴿ.pop y *) (tgt₂ (⊖₁ 𝐸)))
+        T a′ = (ᴿ.pop y *) R′₀ —[ a′ ᶜ - _ ]→ (ᴿ.pop y *) (tgt₂ (⊖₁ 𝐸))
         pop-y*E/E′ = subst T (pop∘push y a) ((ᴿ.pop y *ᶜ) (E/E′ (⊖₁ 𝐸))))
    where
 
