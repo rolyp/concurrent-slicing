@@ -26,8 +26,6 @@ module Proc.Ren.Lattice.GaloisConnection where
          (ρ′ *̃) P″
       ≤⟨ (id≤suc∘pre ρ′ *ᴹ) (ᴹ P″) ⟩
          (suc (pre ρ′) *̃) P″
-      ≤⟨ ((sucᴹ (pre ρ′ ⊔ʳ x ↦ [ ρ x ])) *ᴹ) (ᴹ P″) ⟩
-         (suc (pre ρ′ ⊔ (x ↦ [ ρ x ])) *̃) P″
       ∎)
    id≤⁻ren⁻∘unren⁻ ρ (• x 〈 y 〉∙ P) (• ._ 〈 y′ 〉∙ P′) =
       let ρ′ , P″ = unren ρ P P′ in • ρ x 〈
@@ -67,16 +65,14 @@ module Proc.Ren.Lattice.GaloisConnection where
    unren∘ren≤id : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {P : Proc Γ} (ρ′ : ↓ ρ) (P′ : ↓ P) → unren ρ P ((ρ′ *̃) P′) ≤ (ρ′ , P′)
    unren⁻∘ren⁻≤⁻id {P = Ο} ρ′ Ο = ◻≤ , Ο
    unren⁻∘ren⁻≤⁻id {ρ = ρ} {P = x •∙ P} ρ′ (.x •∙ P′) =
-      let ρ″ , P″ = unren∘ren≤id (suc ρ′) P′; ρ† = put₁∘get≤id [ x ] ρ′
-          β : pre (suc ρ′) ≤ ρ′
-          β = ≤-reflexive (pre∘suc≡id ρ′)
-          α : pre (π₁ (unren (ᴿ.suc ρ) P ((suc ρ′ *̃) P′))) ⊔ (x ↦ [ ρ x ]) ≤ ρ′
+      let ρ″ , P″ = unren∘ren≤id (suc ρ′) P′
+          α : pre (π₁ (unren (ᴿ.suc ρ) P ((suc ρ′ *̃) P′))) ≤ ρ′
           α = let open ≤-Reasoning in
             begin
-               pre (π₁ (unren (ᴿ.suc ρ) P ((suc ρ′ *̃) P′))) ⊔ (x ↦ [ ρ x ])
-            ≤⟨ preᴹ ρ″ ⊔ᴹ ᴹ (x ↦ [ ρ x ]) ⟩
-               pre (suc ρ′) ⊔ (x ↦ [ ρ x ])
-            ≤⟨ {!!} ⊔-lub ρ† {-≤-reflexive (pre∘suc≡id ρ′)-} ⟩
+               pre (π₁ (unren (ᴿ.suc ρ) P ((suc ρ′ *̃) P′)))
+            ≤⟨ preᴹ ρ″ ⟩
+               pre (suc ρ′)
+            ≤⟨ ≤-reflexive (pre∘suc≡id ρ′) ⟩
                ρ′
             ∎ in
       α , x •∙ P″
