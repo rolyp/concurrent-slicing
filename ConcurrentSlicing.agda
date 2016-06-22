@@ -8,9 +8,7 @@ module ConcurrentSlicing where
    open import Lattice
    open import Lattice.Product
    open import Name.Lattice
-   open import Name.Lattice.Show
    open import Proc.Lattice
-   open import Proc.Lattice.Show
    open import Proc.Ren.Lattice
    open import Proc.Ren.Lattice.GaloisConnection
    open import Ren.Lattice
