@@ -10,8 +10,8 @@ module Proc.Ren.Lattice.GaloisConnection where
    open import Proc.Ren
    open import Proc.Ren.Lattice using (_*⁻; _*ᴹ; unren; unrenᴹ; unren⁻; ᴿᴾ-prefixes) renaming (_* to _*̃)
    open import Ren as ᴿ using (Ren); open ᴿ.Renameable ⦃...⦄
-   open import Ren.Lattice as ᴿ̃ using (◻≤; _↦_; _⁻¹[_]_; suc; sucᴹ; pre; preᴹ)
-   open import Ren.Lattice.GaloisConnection using (id≤get∘put; put∘get≤id; id≤suc∘pre; pre∘suc≡id)
+   open import Ren.Lattice as ᴿ̃ using (_̃; _̃ᴹ; ◻≤; _↦_; _⁻¹[_]_; suc; sucᴹ; pre; preᴹ)
+   open import Ren.Lattice.GaloisConnection using (id≤get∘put; put₁∘get≤id; put∘get≤id; id≤suc∘pre; pre∘suc≡id)
 
    id≤ren∘unren : ∀ {Γ Γ′} (ρ : Ren Γ Γ′) (P : Proc Γ) (P′ : ↓ (ρ *) P) → let ρ′ , P″ = unren ρ P P′ in P′ ≤ (ρ′ *̃) P″
    id≤⁻ren⁻∘unren⁻ : ∀ {Γ Γ′} (ρ : Ren Γ Γ′) (P : Proc Γ) (P′ : ↓⁻ (ρ *) P) → let ρ′ , P″ = unren⁻ ρ P P′ in P′ ≤⁻ (ρ′ *⁻) P″
@@ -35,9 +35,9 @@ module Proc.Ren.Lattice.GaloisConnection where
       begin
          v
       ≤⟨ id≤get∘put y v ⟩
-         (y ↦ v ᴿ̃.*) (ρ ⁻¹[ y ] v)
-      ≤⟨ ((x ↦ [ ρ x ] ⊔ˡ y ↦ v) ᴿ̃.*ᴹ) (ᴹ (ρ ⁻¹[ y ] v)) ⟩ _
-      ≤⟨ ((ρ′ ⊔ˡ x ↦ [ ρ x ] ⊔ y ↦ v) ᴿ̃.*ᴹ) (ᴹ (ρ ⁻¹[ y ] v)) ⟩ _
+         (y ↦ v ̃) (ρ ⁻¹[ y ] v)
+      ≤⟨ ((x ↦ [ ρ x ] ⊔ˡ y ↦ v) ̃ᴹ) (ᴹ (ρ ⁻¹[ y ] v)) ⟩ _
+      ≤⟨ ((ρ′ ⊔ˡ x ↦ [ ρ x ] ⊔ y ↦ v) ̃ᴹ) (ᴹ (ρ ⁻¹[ y ] v)) ⟩ _
       ∎) 〉∙
       let open ≤-Reasoning in
       begin
@@ -66,7 +66,7 @@ module Proc.Ren.Lattice.GaloisConnection where
    unren∘ren≤id : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {P : Proc Γ} (ρ′ : ↓ ρ) (P′ : ↓ P) → unren ρ P ((ρ′ *̃) P′) ≤ (ρ′ , P′)
    unren⁻∘ren⁻≤⁻id {P = Ο} ρ′ Ο = ◻≤ , Ο
    unren⁻∘ren⁻≤⁻id {ρ = ρ} {P = x •∙ P} ρ′ (.x •∙ P′) =
-      let ρ″ , P″ = unren∘ren≤id (suc ρ′) P′; ρ† , u′ = put∘get≤id [ x ] ρ′
+      let ρ″ , P″ = unren∘ren≤id (suc ρ′) P′; ρ† = put₁∘get≤id [ x ] ρ′
           α = let open ≤-Reasoning in
             begin
                (pre (π₁ (unren (ᴿ.suc ρ) P ((suc ρ′ *̃) P′)))) ⊔ (x ↦ [ ρ x ])
@@ -87,7 +87,7 @@ module Proc.Ren.Lattice.GaloisConnection where
          ∎) , x •∙ P″
 -}
    unren⁻∘ren⁻≤⁻id {ρ = ρ} {• x 〈 y 〉∙ P} ρ′ (• ._ 〈 v 〉∙ P′) =
-      let ρ″ , P″ = unren∘ren≤id ρ′ P′; ρ† , u′ = put∘get≤id {!!} ρ′; ρ‡ , v′ = put∘get≤id v ρ′ in
+      let ρ″ , P″ = unren∘ren≤id ρ′ P′; ρ† = put₁∘get≤id {!!} ρ′; ρ‡ , v′ = put∘get≤id v ρ′ in
       (ρ″ ⊔-lub ρ† ⊔-lub ρ‡) , • x 〈 v′ 〉∙ P″
    unren⁻∘ren⁻≤⁻id {P = P ➕ Q} ρ′ (P′ ➕ Q′) =
       let ρ₁ , P″ = unren∘ren≤id ρ′ P′; ρ₂ , Q″ = unren∘ren≤id ρ′ Q′ in (ρ₁ ⊔-lub ρ₂) , P″ ➕ Q″

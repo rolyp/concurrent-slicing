@@ -7,15 +7,15 @@ module Ren.Lattice.GaloisConnection where
    open import Name as ᴺ using (Name; zero; _≟_)
    open import Name.Lattice as ᴺ̃ using (sucᴹ); open ᴺ̃.↓_; open ᴺ̃._≤_
    open import Ren as ᴿ using (Ren; ᴺren); open ᴿ.Renameable ⦃...⦄
-   open import Ren.Lattice as ᴿ̃ using (◻≤; get; getᴹ; put; putᴹ; _*ᴹ; suc; pre) renaming (◻ to ◻′; _* to _*̃)
+   open import Ren.Lattice as ᴿ̃ using (◻≤; get; getᴹ; put; putᴹ; _̃; _̃ᴹ; suc; pre) renaming (◻ to ◻′)
 
-   id≤get∘put : ∀ {Γ Γ′} {ρ₀ : Ren Γ Γ′} (x₀ : Name Γ) (u : ↓ (ρ₀ *) x₀) → let ρ , x = put ρ₀ x₀ u in u ≤ (ρ *̃) x
+   id≤get∘put : ∀ {Γ Γ′} {ρ₀ : Ren Γ Γ′} (x₀ : Name Γ) (u : ↓ (ρ₀ *) x₀) → let ρ , x = put ρ₀ x₀ u in u ≤ (ρ ̃) x
    id≤get∘put _ ◻ = ◻
    id≤get∘put {ρ₀ = ρ₀} x [ ._ ] with x ≟ x
    ... | yes refl = [ ρ₀ x ]
    ... | no x≢x = ⊥-elim (x≢x refl)
 
-   put₁∘get≤id : ∀ {Γ Γ′} {ρ₀ : Ren Γ Γ′} {x₀ : Name Γ} (x : ↓ x₀) (ρ : ↓ ρ₀) → π₁ (put ρ₀ x₀ ((ρ *̃) x)) ≤ ρ
+   put₁∘get≤id : ∀ {Γ Γ′} {ρ₀ : Ren Γ Γ′} {x₀ : Name Γ} (x : ↓ x₀) (ρ : ↓ ρ₀) → π₁ (put ρ₀ x₀ ((ρ ̃) x)) ≤ ρ
    put₁∘get≤id ◻ _ = ◻≤
    put₁∘get≤id [ x ] ρ y with x ≟ y
    put₁∘get≤id [ x ] ρ .x | yes refl with ρ x
@@ -29,14 +29,14 @@ module Ren.Lattice.GaloisConnection where
    put₁∘get≤id [ x ] ρ .x | no x≢x | [ ._ ] | yes refl = ⊥-elim (x≢x refl)
    ... | no _ = ◻
 
-   put₂∘get≤id : ∀ {Γ Γ′} {ρ₀ : Ren Γ Γ′} {x₀ : Name Γ} (x : ↓ x₀) (ρ : ↓ ρ₀) → π₂ (put ρ₀ x₀ ((ρ *̃) x)) ≤ x
+   put₂∘get≤id : ∀ {Γ Γ′} {ρ₀ : Ren Γ Γ′} {x₀ : Name Γ} (x : ↓ x₀) (ρ : ↓ ρ₀) → π₂ (put ρ₀ x₀ ((ρ ̃) x)) ≤ x
    put₂∘get≤id ◻ ρ = ◻
    put₂∘get≤id [ x ] ρ with ρ x
    ... | ◻ = ◻
    ... | [ ._ ] = [ x ]
 
    put∘get≤id : ∀ {Γ Γ′} {ρ₀ : Ren Γ Γ′} {x₀ : Name Γ} (x : ↓ x₀) (ρ : ↓ ρ₀) →
-                let u = (ρ *̃) x; ρ′ , x′ = put ρ₀ x₀ u in ρ′ ≤ ρ × x′ ≤ x
+                let u = (ρ ̃) x; ρ′ , x′ = put ρ₀ x₀ u in ρ′ ≤ ρ × x′ ≤ x
    put∘get≤id x ρ = put₁∘get≤id x ρ , put₂∘get≤id x ρ
 
    import Ext.Algebra.Properties.Lattice.Product
