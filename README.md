@@ -1,7 +1,7 @@
 # concurrent-slicing
 
 Agda development accompanying the paper _Causally consistent dynamic
-slicing_, submitted to CONCUR 2016. To typecheck the entire development,
+slicing_, accepted to CONCUR 2016. To typecheck the entire development,
 compile `ConcurrentSlicing.agda`. The module structure is summarised in
 Appendix A of the paper.
 
@@ -25,5 +25,4 @@ Appendix A of the paper.
 * Sync Agda names with paper:
   * `∘ᶠ` → `∘ᶠ`, `idᶠ` → `id`
   * `target` → `fwd`
-  * `†` → `unren`
 * Bump revision numbers for `agda-stdlib-ext`, `proof-relevant-pi` and `concurrent-slicing`
