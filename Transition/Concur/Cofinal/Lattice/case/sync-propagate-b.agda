@@ -27,7 +27,7 @@ module Transition.Concur.Cofinal.Lattice.case.sync-propagate-b
    module _
       (S† : ↓ (ᴿ.push *) S₀) (S‡ : ↓ S₀) (R′ : ↓ R′₀) (P′ : ↓ tgt₁ (⊖₁ 𝐸)) (y† : ↓ ᴺ.suc y) (y‡ : ↓ y)
       (≡R′ : tgt E′ P ≡ R′) (≡P′ : tgt (E′/E (⊖₁ 𝐸)) (tgt E P) ≡ P′)
-      (≡S† : tgt ((ᴿ.push *ᶜ) F) ((push *̃) Q) ≡ S†) (≡S‡ : tgt F Q ≡ S‡) (y†≡push*y‡ : y† ≡ (push ᴿ̃.*) y‡)
+      (≡S† : tgt ((ᴿ.push *ᶜ) F) ((push *̃) Q) ≡ S†) (≡S‡ : tgt F Q ≡ S‡) (y†≡push*y‡ : y† ≡ (push ̃) y‡)
       where
 
       subcase :
@@ -57,7 +57,7 @@ module Transition.Concur.Cofinal.Lattice.case.sync-propagate-b
                 ≅⟨ ≅-cong✴ ↓_ (swap-swap (γ₁ 𝐸)) (pop y† *̃) (swap-swap̃ β) ⟩
                    (pop y† *̃) ((swap *̃) P″)
                 ≡⟨ cong (λ y → (pop y *̃) ((swap *̃) P″)) y†≡push*y‡ ⟩
-                   (pop ((push ᴿ̃.*) y‡) *̃) ((swap *̃) P″)
+                   (pop ((push ̃) y‡) *̃) ((swap *̃) P″)
                 ≅⟨ ≅-sym (pop∘swap̃ y‡ P″) ⟩
                    (suc (pop y‡) *̃) P″
                 ≡⟨ renᵇ-tgt-comm (E/E′ (⊖₁ 𝐸)) (pop y‡) R′ ⟩
@@ -114,6 +114,6 @@ module Transition.Concur.Cofinal.Lattice.case.sync-propagate-b
    ... | ◻ , S† | [ ≡S† ] =
       ⊥-elim (◻≢[-] (trans (sym (,-inj₁ ≡S†)) (trans (sym (renᶜ-action-comm F push Q)) (cong (push ᴬ*̃) (,-inj₁ ≡S‡)))))
    ... | [ • .(ᴺ.suc x) 〈 y† 〉 ᶜ ] , S† | [ ≡S† ] =
-      let α : [ • ᴺ.suc x 〈 (push ᴿ̃.*) y‡ 〉 ᶜ ] ≡ [ • ᴺ.suc x 〈 y† 〉 ᶜ ]
+      let α : [ • ᴺ.suc x 〈 (push ̃) y‡ 〉 ᶜ ] ≡ [ • ᴺ.suc x 〈 y† 〉 ᶜ ]
           α = trans (sym (cong (push ᴬ*̃) (,-inj₁ ≡S‡))) (trans (renᶜ-action-comm F push Q) (,-inj₁ ≡S†)) in
       subcase S† S‡ R′ P′ y† y‡ (,-inj₂ ≡R′) (,-inj₂ ≡P′) (,-inj₂ ≡S†) (,-inj₂ ≡S‡) (sym ([•x〈-〉ᶜ]-inj α))

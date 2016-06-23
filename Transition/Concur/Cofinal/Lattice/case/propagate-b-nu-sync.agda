@@ -135,17 +135,17 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync
          base :
             (Q″ : ↓ Q″₀) (≡Q″ : tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″) →
             braiding (ᵇ∇ᶜ {a = • x′} {τ}) {0} β
-            [ ν [ (repl ((weaken ᴿ̃.*) y) *̃) P″ │ P′ ] ] ≡
+            [ ν [ (repl ((weaken ̃) y) *̃) P″ │ P′ ] ] ≡
             [ ν [ (swap *̃) ((push *̃) ((repl y *̃) R)) │ (swap *̃) Q″ ] ]
          base Q″ ≡Q″ =
-            let γ : (repl ((weaken ᴿ̃.*) y) *̃) P″ ≅ (swap *̃) ((push *̃) ((repl y *̃) R))
+            let γ : (repl ((weaken ̃) y) *̃) P″ ≅ (swap *̃) ((push *̃) ((repl y *̃) R))
                 γ = let open ≅-Reasoning in
                    begin
-                      (repl ((weaken ᴿ̃.*) y) *̃) P″
-                   ≡⟨ cong (repl ((weaken ᴿ̃.*) y) *̃) (sym ≡P″) ⟩
-                      (repl ((weaken ᴿ̃.*) y) *̃) (tgt ((ᴿ.push *ᵇ) E) ((push *̃) P))
-                   ≡⟨ cong (repl ((weaken ᴿ̃.*) y) *̃) (sym (renᵇ-tgt-comm E push P)) ⟩
-                      (repl ((weaken ᴿ̃.*) y) *̃) ((suc push *̃) (tgt E P))
+                      (repl ((weaken ̃) y) *̃) P″
+                   ≡⟨ cong (repl ((weaken ̃) y) *̃) (sym ≡P″) ⟩
+                      (repl ((weaken ̃) y) *̃) (tgt ((ᴿ.push *ᵇ) E) ((push *̃) P))
+                   ≡⟨ cong (repl ((weaken ̃) y) *̃) (sym (renᵇ-tgt-comm E push P)) ⟩
+                      (repl ((weaken ̃) y) *̃) ((suc push *̃) (tgt E P))
                    ≅⟨ id∘suc-push̃ _ ⟩
                       (suc push *̃) ((repl y *̃) (tgt E P))
                    ≅⟨ swap∘push̃ _ ⟩
@@ -172,16 +172,16 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync
                    ∎
                 open ≅-Reasoning in ≅-to-≡ (
             begin
-               braiding (ᵇ∇ᶜ {a = • x′} {τ}) {0} β [ ν [ (repl ((weaken ᴿ̃.*) y) *̃) P″ │ P′ ] ]
+               braiding (ᵇ∇ᶜ {a = • x′} {τ}) {0} β [ ν [ (repl ((weaken ̃) y) *̃) P″ │ P′ ] ]
             ≅⟨ reduce-ᵇ∇ᶜ β _ ⟩
-               [ ν [ (repl ((weaken ᴿ̃.*) y) *̃) P″ │ P′ ] ]
+               [ ν [ (repl ((weaken ̃) y) *̃) P″ │ P′ ] ]
             ≅⟨ [ν-]-cong (cong₂ _│_ α (swap-swap (γ₁ 𝐹))) ([-│-]-cong α γ (swap-swap (γ₁ 𝐹)) δ) ⟩
                [ ν [ (swap *̃) ((push *̃) ((repl y *̃) R)) │ (swap *̃) Q″ ] ]
             ∎)
 
          subcase :
             braiding (ᵇ∇ᶜ {a = • x′} {τ}) {0} β
-            [ ν [ (ᴿ̃.repl ((weaken ᴿ̃.*) y) *̃) P″ │ P′ ] ] ≡
+            [ ν [ (ᴿ̃.repl ((weaken ̃) y) *̃) P″ │ P′ ] ] ≡
             tgt (νᵇ ((idᶠ *) R₀ │ᵇ E/E′ (⊖₁ 𝐹))) [ ν [ (ᴿ̃.repl y *̃) R │ S′ ] ]
          subcase
             with step (E/E′ (⊖₁ 𝐹)) S′ | inspect (step (E/E′ (⊖₁ 𝐹))) S′
@@ -241,17 +241,17 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync
          base :
             (Q″ : ↓ Q″₀) (≡Q″ : tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″) →
             braiding (ᵇ∇ᶜ {a = x′ •} {τ}) {0} β
-            [ ν [ (repl ((weaken ᴿ̃.*) y) *̃) P″ │ P′ ] ] ≡
+            [ ν [ (repl ((weaken ̃) y) *̃) P″ │ P′ ] ] ≡
             [ ν [ (swap *̃) ((push *̃) ((repl y *̃) R)) │ (swap *̃) Q″ ] ]
          base Q″ ≡Q″ =
-            let γ : (repl ((weaken ᴿ̃.*) y) *̃) P″ ≅ (swap *̃) ((push *̃) ((repl y *̃) R))
+            let γ : (repl ((weaken ̃) y) *̃) P″ ≅ (swap *̃) ((push *̃) ((repl y *̃) R))
                 γ = let open ≅-Reasoning in
                    begin
-                      (repl ((weaken ᴿ̃.*) y) *̃) P″
-                   ≡⟨ cong (repl ((weaken ᴿ̃.*) y) *̃) (sym ≡P″) ⟩
-                      (repl ((weaken ᴿ̃.*) y) *̃) (tgt ((ᴿ.push *ᵇ) E) ((push *̃) P))
-                   ≡⟨ cong (repl ((weaken ᴿ̃.*) y) *̃) (sym (renᵇ-tgt-comm E push P)) ⟩
-                      (repl ((weaken ᴿ̃.*) y) *̃) ((suc push *̃) (tgt E P))
+                      (repl ((weaken ̃) y) *̃) P″
+                   ≡⟨ cong (repl ((weaken ̃) y) *̃) (sym ≡P″) ⟩
+                      (repl ((weaken ̃) y) *̃) (tgt ((ᴿ.push *ᵇ) E) ((push *̃) P))
+                   ≡⟨ cong (repl ((weaken ̃) y) *̃) (sym (renᵇ-tgt-comm E push P)) ⟩
+                      (repl ((weaken ̃) y) *̃) ((suc push *̃) (tgt E P))
                    ≅⟨ id∘suc-push̃ _ ⟩
                       (suc push *̃) ((repl y *̃) (tgt E P))
                    ≅⟨ swap∘push̃ _ ⟩
@@ -278,16 +278,16 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync
                    ∎
                 open ≅-Reasoning in ≅-to-≡ (
             begin
-               braiding (ᵇ∇ᶜ {a = x′ •} {τ}) {0} β [ ν [ (repl ((weaken ᴿ̃.*) y) *̃) P″ │ P′ ] ]
+               braiding (ᵇ∇ᶜ {a = x′ •} {τ}) {0} β [ ν [ (repl ((weaken ̃) y) *̃) P″ │ P′ ] ]
             ≅⟨ reduce-ᵇ∇ᶜ β _ ⟩
-               [ ν [ (repl ((weaken ᴿ̃.*) y) *̃) P″ │ P′ ] ]
+               [ ν [ (repl ((weaken ̃) y) *̃) P″ │ P′ ] ]
             ≅⟨ [ν-]-cong (cong₂ _│_ α (swap-swap (γ₁ 𝐹))) ([-│-]-cong α γ (swap-swap (γ₁ 𝐹)) δ) ⟩
                [ ν [ (swap *̃) ((push *̃) ((repl y *̃) R)) │ (swap *̃) Q″ ] ]
             ∎)
 
          subcase :
             braiding (ᵇ∇ᶜ {a = x′ •} {τ}) {0} β
-            [ ν [ (ᴿ̃.repl ((weaken ᴿ̃.*) y) *̃) P″ │ P′ ] ] ≡
+            [ ν [ (ᴿ̃.repl ((weaken ̃) y) *̃) P″ │ P′ ] ] ≡
             π₂ (step⁻ (νᵇ ((idᶠ *) R₀ │ᵇ E/E′ (⊖₁ 𝐹))) (ν [ (ᴿ̃.repl y *̃) R │ S′ ]))
          subcase
             with step (E/E′ (⊖₁ 𝐹)) S′ | inspect (step (E/E′ (⊖₁ 𝐹))) S′
