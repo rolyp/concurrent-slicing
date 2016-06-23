@@ -22,14 +22,15 @@ module Transition.Lattice.GaloisConnection where
 
    id≤step∘unstep : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) (aR : ↓ (a , R)) → aR ≤ (step E ∘ᶠ unstep E) aR
    id≤step⁻∘unstep-◻ : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) (a′ : ↓⁻ a) → [ a′ ] ≤ π₁ (step⁻ E (unstep-◻ E a′))
-   id≤step⁻∘unstep⁻ : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) (a′ : ↓ a) (R′ : ↓⁻ R) → (a′ , [ R′ ]) ≤ step⁻ E (unstep⁻ E a′ R′)
+   id≤step⁻∘unstep⁻ : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) (a′ : ↓ a) (R′ : ↓⁻ R) →
+                     (a′ , [ R′ ]) ≤ step⁻ E (unstep⁻ E a′ R′)
 
    id≤step∘unstep E (a , [ R ]) = id≤step⁻∘unstep⁻ E a R
    id≤step∘unstep E ([ a ] , ◻) = id≤step⁻∘unstep-◻ E a , ◻
    id≤step∘unstep _ (◻ , ◻) = ◻ , ◻
 
-   id≤step⁻∘unstep-◻ (_ •∙ _) (x • ᵇ) = [ ᴹ x • ᵇ ]
-   id≤step⁻∘unstep-◻ (• _ 〈 _ 〉∙ _) (• x 〈 y 〉 ᶜ) = [ • ᴹ x 〈 ᴹ y 〉 ᶜ ]
+   id≤step⁻∘unstep-◻ (x •∙ _) (.x • ᵇ) = [ x • ᵇ ]
+   id≤step⁻∘unstep-◻ (• x 〈 _ 〉∙ _) (• .x 〈 y 〉 ᶜ) = [ • x 〈 ᴹ y 〉 ᶜ ]
    id≤step⁻∘unstep-◻ (E ➕₁ Q) a = id≤step⁻∘unstep-◻ E a
    id≤step⁻∘unstep-◻ (E ᵇ│ Q) (a ᵇ) = id≤step⁻∘unstep-◻ E (a ᵇ)
    id≤step⁻∘unstep-◻ (E ᶜ│ Q) (a ᶜ) = id≤step⁻∘unstep-◻ E (a ᶜ)
