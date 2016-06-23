@@ -24,5 +24,6 @@ Appendix A of the paper.
 * Example
 * Sync Agda names with paper:
   * `∘ᶠ` → `∘ᶠ`, `idᶠ` → `id`
-  * `target` → `fwd`
+  * `tgt` → `fwd`
+  * `get`/`put` → `app`/`unapp`
 * Bump revision numbers for `agda-stdlib-ext`, `proof-relevant-pi` and `concurrent-slicing`
