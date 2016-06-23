@@ -5,13 +5,13 @@ module Transition.Lattice.GaloisConnection where
    open import Ext.Algebra.Structures
 
    open import Action as ᴬ using (Action; Actionᵇ; Actionᶜ); open ᴬ.Action; open ᴬ.Actionᵇ; open ᴬ.Actionᶜ
-   open import Action.Lattice as ᴬ̃ using (top; ↓ᵇ⁻_; ↓ᶜ⁻_);
-      open ᴬ̃.↓_; open ᴬ̃.↓⁻_; open ᴬ̃.↓ᵇ⁻_; open ᴬ̃.↓ᶜ⁻_; open ᴬ̃._≤_; open ᴬ̃._≤⁻_; open ᴬ̃._≤ᵇ⁻_; open ᴬ̃._≤ᶜ⁻_
+   open import Action.Lattice as ᴬ̃ using (top; ↓ᵇ_; ↓ᶜ_);
+      open ᴬ̃.↓_; open ᴬ̃.↓⁻_; open ᴬ̃.↓ᵇ_; open ᴬ̃.↓ᶜ_; open ᴬ̃._≤_; open ᴬ̃._≤⁻_; open ᴬ̃._≤ᵇ_; open ᴬ̃._≤ᶜ_
    import Lattice; open Lattice.Prefixes ⦃...⦄
    import Lattice.Product
    open import Proc using (Proc)
    import Proc.Lattice as ᴾ̃; open ᴾ̃.↓⁻_; open ᴾ̃.↓_; open ᴾ̃._≤_; open ᴾ̃._≤⁻_
-   open import Proc.Ren.Lattice using (_†; _†ᴹ; _*ᴹ) renaming (_* to _*̃)
+   open import Proc.Ren.Lattice using (unren; unrenᴹ; _*ᴹ) renaming (_* to _*̃)
    open import Proc.Ren.Lattice.GaloisConnection using (id≤ren∘unren; unren∘ren≤id)
    import Name as ᴺ
    open import Name.Lattice as ᴺ̃ using (zero; suc; sucᴹ); open ᴺ̃.↓_; open ᴺ̃._≤_

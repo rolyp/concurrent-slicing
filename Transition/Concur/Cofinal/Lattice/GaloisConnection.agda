@@ -48,7 +48,7 @@ module Transition.Concur.Cofinal.Lattice.GaloisConnection where
          braiding ᵇ∇ᵇ {Δ} (⋈̂-sym (ᵇ∇ᵇ {a = a} {a′}) Δ refl) (((swap ᴿ+ Δ) *̃) P†)
       ≅⟨ reduce Δ (((ᴿ.swap ᴿ.ᴿ+ Δ) *) P) P a a′ (((swap ᴿ+ Δ) *̃) P†) (⋈̂-sym (ᵇ∇ᵇ {a = a} {a′}) Δ refl) ⟩
          ((swap ᴿ+ Δ) *̃) (((swap ᴿ+ Δ) *̃) P†)
-      ≅⟨ swap̃+-involutive Δ P† ⟩
+      ≅⟨ swap+-involutivẽ Δ P† ⟩
          P†
       ∎)
    «iso ᵇ∇ᶜ refl _ = refl
@@ -66,7 +66,7 @@ module Transition.Concur.Cofinal.Lattice.GaloisConnection where
       ≅⟨ ≅-cong✴ ↓_ (sym (involutive (+-preserves-involutivity ᴿ.swap Δ swap-involutive) P))
                      ((swap ᴿ+ Δ) *̃) (reduce Δ (((ᴿ.swap ᴿ.ᴿ+ Δ) *) P) P a a′ P† (⋈̂-sym (ᵇ∇ᵇ {a = a} {a′}) Δ refl)) ⟩
          ((swap ᴿ+ Δ) *̃) (((swap ᴿ+ Δ) *̃) P†)
-      ≅⟨ swap̃+-involutive Δ P† ⟩
+      ≅⟨ swap+-involutivẽ Δ P† ⟩
          P†
       ∎)
    iso» ᵇ∇ᶜ refl _ = refl

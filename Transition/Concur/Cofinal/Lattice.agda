@@ -3,6 +3,7 @@ module Transition.Concur.Cofinal.Lattice where
    open import ConcurrentSlicingCommon
 
    open import Transition.Concur.Cofinal.Lattice.Common
+   open import Transition.Concur.Cofinal.Lattice.Common using (braiding) public
    -- Module for each main case, otherwise type-checking is too slow.
    import Transition.Concur.Cofinal.Lattice.case.propagate-b-par-b as ᵇ│ᵇ
    import Transition.Concur.Cofinal.Lattice.case.propagate-par-b-b as │ᵇᵇ
