@@ -7,7 +7,7 @@ module Action.Ren.Lattice where
    import Action.Ren
    open import Ren as ᴿ using (Ren);
       open ᴿ.Renameable ⦃...⦄ renaming (_* to _*′)
-   import Ren.Lattice as ᴿ̃
+   open import Ren.Lattice as ᴿ̃ using (_̃)
 
    infixr 8 _*ᵇ _*
    _*ᵇ : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {a : Actionᵇ Γ} → ↓ ρ → ↓ᵇ a → ↓ᵇ (ρ *′) a
@@ -17,7 +17,7 @@ module Action.Ren.Lattice where
    (_*ᵇ {ρ = ρ₀} _) (x •) = ρ₀ x •
    (_*ᵇ {ρ = ρ₀} _) (• x) = • ρ₀ x
 
-   (_*ᶜ {ρ = ρ₀} ρ) • x 〈 y 〉 = • ρ₀ x 〈 (ρ ᴿ̃.*) y 〉
+   (_*ᶜ {ρ = ρ₀} ρ) • x 〈 y 〉 = • ρ₀ x 〈 (ρ ̃) y 〉
    (ρ *ᶜ) τ = τ
 
    (ρ *) ◻ = ◻

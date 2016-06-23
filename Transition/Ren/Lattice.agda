@@ -8,7 +8,7 @@ module Transition.Ren.Lattice where
    open import Proc.Ren
    open import Proc.Ren.Lattice renaming (_* to _*̃)
    open import Ren as ᴿ using (Ren)
-   open import Ren.Lattice using (_*; _ᴿ+_)
+   open import Ren.Lattice using (_ᴿ+_)
    open import Transition using (_—[_-_]→_)
    open import Transition.Lattice as ᵀ̃ using (tgt; action)
    open import Transition.Ren using (_*ᶜ; _*ᵇ)
