@@ -58,10 +58,10 @@ module Transition.Lattice.GaloisConnection where
       with step⁻ E (unstep-◻ E ((• ᴺ.suc x) ᵇ)) | id≤step⁻∘unstep-◻ E ((• ᴺ.suc x) ᵇ) |
            inspect (step⁻ E ∘ᶠ unstep-◻ E) ((• ᴺ.suc x) ᵇ)
    ... | [ (• ._) ᵇ ] , _ | [ (• ._) ᵇ ] | [ eq ] rewrite eq = top ((• x) ᵇ)
-   id≤step⁻∘unstep-◻ {a = • x 〈 y 〉 ᶜ} (νᶜ E) (• ._ 〈 _ 〉 ᶜ)
-      with step⁻ E (unstep-◻ E (• ᴺ.suc x 〈 [ ᴺ.suc y ] 〉 ᶜ)) | id≤step⁻∘unstep-◻ E (• ᴺ.suc x 〈 [ ᴺ.suc y ] 〉 ᶜ) |
-           inspect (step⁻ E ∘ᶠ unstep-◻ E) (• ᴺ.suc x 〈 [ ᴺ.suc y ] 〉 ᶜ)
-   ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , _ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] | [ eq ] rewrite eq = {!!} -- top (• x 〈 y 〉 ᶜ)
+   id≤step⁻∘unstep-◻ {a = • x 〈 y 〉 ᶜ} (νᶜ E) (• ._ 〈 ◻ 〉 ᶜ) = {!!}
+   id≤step⁻∘unstep-◻ {a = • x 〈 y 〉 ᶜ} (νᶜ E) (• ._ 〈 [ ._ ] 〉 ᶜ)
+      with step⁻ E (unstep-◻ E (• ᴺ.suc x 〈 [ ᴺ.suc y ] 〉 ᶜ)) | id≤step⁻∘unstep-◻ E (• ᴺ.suc x 〈 [ ᴺ.suc y ] 〉 ᶜ)
+   ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , _ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] = [ • x 〈 [ y ] 〉 ᶜ ]
    id≤step⁻∘unstep-◻ {a = τ ᶜ} (νᶜ E) (τ ᶜ)
       with step⁻ E (unstep-◻ E (τ ᶜ)) | id≤step⁻∘unstep-◻ E (τ ᶜ) | inspect (step⁻ E ∘ᶠ unstep-◻ E) (τ ᶜ)
    ... | [ τ ᶜ ] , _ | [ _ ] | [ eq ] rewrite eq = [ τ ᶜ ]
