@@ -186,9 +186,8 @@ module Transition.Lattice.GaloisConnection where
    ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , ◻ | P = [ ν P ]
    ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , [ _ ] | P = [ ν P ]
    unstep∘step⁻≤id {a = x • ᵇ} (νᵇ E) (ν R) with step E R | unstep∘step≤id E R
-   ... | ◻ , _ | _ = {!!} -- ◻
-   ... | [ ._ • ᵇ ] , R′ | P =
-      [ ν ≤-trans (unstepᴹ E ([ ᴺ.suc x • ᵇ ] , π₂ (unren∘ren≤id ᴿ̃.swap R′))) P ]
+   ... | ◻ , R′ | P = [ ν ≤-trans (unstepᴹ E (◻ , (π₂ (unren∘ren≤id ᴿ̃.swap R′)))) P ]
+   ... | [ ._ • ᵇ ] , R′ | P = [ ν ≤-trans (unstepᴹ E ([ ᴺ.suc x • ᵇ ] , π₂ (unren∘ren≤id ᴿ̃.swap R′))) P ]
    unstep∘step⁻≤id {a = (• x) ᵇ} (νᵇ E) (ν R) with step E R | unstep∘step≤id E R
    ... | ◻ , _ | _ = {!!} -- ◻
    ... | [ (• ._) ᵇ ] , R′ | P =
