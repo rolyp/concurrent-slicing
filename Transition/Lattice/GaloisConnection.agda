@@ -18,7 +18,7 @@ module Transition.Lattice.GaloisConnection where
    open import Ren as ᴿ using (push; pop; swap; ᴺren); open ᴿ.Renameable ⦃...⦄
    open import Ren.Lattice as ᴿ̃ using (pop-top)
    open import Transition as ᵀ using (_—[_-_]→_); open ᵀ._—[_-_]→_
-   open import Transition.Lattice as ᵀ̃ using (step; stepᴹ; step⁻; step⁻ᴹ; unstep; unstepᴹ; unstep-◻; unstep⁻)
+   open import Transition.Lattice as ᵀ̃ using (step; stepᴹ; step⁻; step⁻ᴹ; unstep; unstepᴹ; unstep-◻; unstep⁻; unstep⁻ᴹ)
 
    id≤step∘unstep : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) (aR : ↓ (a , R)) → aR ≤ (step E ∘ᶠ unstep E) aR
    id≤step⁻∘unstep-◻ : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) (a′ : ↓⁻ a) → [ a′ ] ≤ π₁ (step⁻ E (unstep-◻ E a′))
@@ -106,10 +106,14 @@ module Transition.Lattice.GaloisConnection where
    ... | [ [ .x ] • ᵇ ] , _ | [ (• [ .x ]) ᵇ ] , _ | [ [ ._ ] • ᵇ ] , P | [ (• [ ._ ]) ᵇ ] , Q
        | [ eq ] | [ eq′ ] rewrite eq | eq′ = top (τ ᶜ) , [ ν [ P │ Q ] ]
 -}
-   id≤step⁻∘unstep⁻ (ν•_ {x = x} E) a R
-      with step⁻ E (unstep⁻ E [ • ᴺ.suc x 〈 zero 〉 ᶜ ] R) | id≤step⁻∘unstep⁻ E [ • ᴺ.suc x 〈 zero 〉 ᶜ ] R |
-           inspect (step⁻ E ∘ᶠ unstep⁻ E [ • ᴺ.suc x 〈 zero 〉 ᶜ ]) R
-   ... | [ • ._ 〈 ._ 〉 ᶜ ] , _ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , P | [ eq ] rewrite eq = top ((• x) ᵇ) , P
+   id≤step⁻∘unstep⁻ (ν•_ {x = x} E) ◻ R
+      with step⁻ E (unstep⁻ E ◻ R) | id≤step⁻∘unstep⁻ E ◻ R
+   ... | ◻ , _ | _ , P = ◻ , P
+   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , _ | _ , P = ◻ , P
+   ... | [ • ._ 〈 [ .ᴺ.zero ] 〉 ᶜ ] , _ | _ , P = ◻ , P
+   id≤step⁻∘unstep⁻ (ν• E) [ (• x) ᵇ ] R
+      with step⁻ E (unstep⁻ E [ • ᴺ.suc x 〈 zero 〉 ᶜ ] R) | id≤step⁻∘unstep⁻ E [ • ᴺ.suc x 〈 zero 〉 ᶜ ] R
+   ... | [ • ._ 〈 ._ 〉 ᶜ ] , _ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , P = [ (• x) ᵇ ] , P
    id≤step⁻∘unstep⁻ {a = x • ᵇ} (νᵇ_ {R = P′} E) _ (ν R)
       with unren swap P′ R | id≤ren∘unren swap P′ R; ... | ρ , R′ | R″
       with step E (unstep E ([ ᴺ.suc x • ᵇ ] , R′)) | id≤step∘unstep E ([ ᴺ.suc x • ᵇ ] , R′) |
@@ -178,8 +182,9 @@ module Transition.Lattice.GaloisConnection where
    ... | [ ._ • ᵇ ] , _ | [ (• ._) ᵇ ] , _ | P | Q | [ eq ] | [ eq′ ] rewrite eq | eq′ = {!!} -- [ P │ Q ]
    unstep∘step⁻≤id (ν• E) (ν R) with step E R | unstep∘step≤id E R | inspect (step E) R
    ... | ◻ , ◻ | _ | _ = ◻
-   ... | ◻ , [ R′ ] | _ | _ = [ ν {!!} ]
-   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , _ | _ | _ = {!!} -- ◻
+   ... | ◻ , [ R′ ] | P | _ = [ ν P ]
+   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , ◻ | _ | _ = ◻
+   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , [ R′ ] | P | _ = [ ν (≤-trans [ unstep⁻ᴹ E ◻ (⁻ᴹ R′) ] P) ]
    ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , ◻ | P | [ eq ] rewrite eq = [ ν P ]
    ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , [ _ ] | P | [ eq ] rewrite eq = [ ν P ]
    unstep∘step⁻≤id {a = x • ᵇ} (νᵇ E) (ν R) with step E R | unstep∘step≤id E R | inspect (step E) R
