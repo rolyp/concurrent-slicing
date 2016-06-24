@@ -198,10 +198,11 @@ module Transition.Lattice.GaloisConnection where
    ... | ◻ , _ | _ | _ = {!!} -- ◻
    ... | [ (• ._) ᵇ ] , R′ | P | [ eq ] rewrite eq =
       [ ν ≤-trans (unstepᴹ E ([ (• ᴺ.suc x) ᵇ ] , π₂ (unren∘ren≤id ᴿ̃.swap R′))) P ]
-   unstep∘step⁻≤id {a = • _ 〈 _ 〉 ᶜ} (νᶜ E) (ν R) with step E R | unstep∘step≤id E R | inspect (step E) R
-   ... | ◻ , _ | _ | _ = {!!} -- ◻
-   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , _ | _ | _ = {!!} -- ◻
-   ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , _ | P | [ eq ] rewrite eq = [ ν P ]
+   unstep∘step⁻≤id {a = • _ 〈 _ 〉 ᶜ} (νᶜ E) (ν R) with step E R | unstep∘step≤id E R
+   ... | ◻ , ◻ | _ | _ = [ ν ◻ ]
+   ... | ◻ , [ _ ] | P | _ = [ ν P ]
+   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , _ | P | _ = [ ν P ]
+   ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , _ | P = [ ν P ]
    unstep∘step⁻≤id {a = τ ᶜ} (νᶜ E) (ν R) with step E R | unstep∘step≤id E R | inspect (step E) R
    ... | ◻ , _ | _ | _ = {!!} -- ◻
    ... | [ τ ᶜ ] , R′ | P | [ eq ] rewrite eq = [ ν P ]
