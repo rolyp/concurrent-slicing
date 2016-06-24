@@ -127,9 +127,13 @@ module Transition.Lattice.GaloisConnection where
       with step E (unstep E ([ • ᴺ.suc x 〈 [ ᴺ.suc y ] 〉 ᶜ ] , R)) |
            id≤step∘unstep E ([ • ᴺ.suc x 〈 [ ᴺ.suc y ] 〉 ᶜ ] , R)
    ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , _ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , P = {!!} -- top (• x 〈 y 〉 ᶜ) , [ ν P ]
-   id≤step⁻∘unstep⁻ {a = τ ᶜ} (νᶜ_ {R = P′} E) _ (ν R)
-      with step E (unstep E ([ τ ᶜ ] , R)) | id≤step∘unstep E ([ τ ᶜ ] , R) | inspect (step E ∘ᶠ unstep E) ([ τ ᶜ ] , R)
-   ... | [ τ ᶜ ] , _ | [ _ ] , P | [ eq ] rewrite eq = {!!} -- top (τ ᶜ) , [ ν P ]
+   id≤step⁻∘unstep⁻ {a = τ ᶜ} (νᶜ_ {R = P′} E) ◻ (ν R)
+      with step E (unstep E (◻ , R)) | id≤step∘unstep E (◻ , R)
+   ... | ◻ , _ | _ , P = ◻ , [ ν P ]
+   ... | [ τ ᶜ ] , _ | _ , P = ◻ , [ ν P ]
+   id≤step⁻∘unstep⁻ {a = τ ᶜ} (νᶜ_ {R = P′} E) [ τ ᶜ ] (ν R)
+      with step E (unstep E ([ τ ᶜ ] , R)) | id≤step∘unstep E ([ τ ᶜ ] , R)
+   ... | [ τ ᶜ ] , _ | [ _ ] , P = [ τ ᶜ ] , [ ν P ]
    id≤step⁻∘unstep⁻ (! E) a R with unstep⁻ E a R | id≤step⁻∘unstep⁻ E a R
    ... | R′ │ ◻ | a′ , P = ≤-trans (a′ , P) (stepᴹ E [ ᴹ R′ │ ◻ ])
    ... | R′ │ [ ! R″ ] | a′ , P = ≤-trans (a′ , P) (stepᴹ E [ R′ ⊔ʳ R″ │ [ ! (R′ ⊔ˡ R″) ] ])
@@ -187,10 +191,12 @@ module Transition.Lattice.GaloisConnection where
    ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , [ _ ] | P = [ ν P ]
    unstep∘step⁻≤id {a = x • ᵇ} (νᵇ E) (ν R) with step E R | unstep∘step≤id E R
    ... | ◻ , R′ | P = [ ν ≤-trans (unstepᴹ E (◻ , (π₂ (unren∘ren≤id ᴿ̃.swap R′)))) P ]
-   ... | [ ._ • ᵇ ] , R′ | P = [ ν ≤-trans (unstepᴹ E ([ ᴺ.suc x • ᵇ ] , π₂ (unren∘ren≤id ᴿ̃.swap R′))) P ]
+   ... | [ ._ • ᵇ ] , R′ | P =
+      [ ν ≤-trans (unstepᴹ E ([ ᴺ.suc x • ᵇ ] , π₂ (unren∘ren≤id ᴿ̃.swap R′))) P ]
    unstep∘step⁻≤id {a = (• x) ᵇ} (νᵇ E) (ν R) with step E R | unstep∘step≤id E R
    ... | ◻ , R′ | P = [ ν ≤-trans (unstepᴹ E (◻ , (π₂ (unren∘ren≤id ᴿ̃.swap R′)))) P ]
-   ... | [ (• .(ᴺ.suc x)) ᵇ ] , R′ | P = [ ν ≤-trans (unstepᴹ E ([ (• ᴺ.suc x) ᵇ ] , π₂ (unren∘ren≤id ᴿ̃.swap R′))) P ]
+   ... | [ (• .(ᴺ.suc x)) ᵇ ] , R′ | P =
+      [ ν ≤-trans (unstepᴹ E ([ (• ᴺ.suc x) ᵇ ] , π₂ (unren∘ren≤id ᴿ̃.swap R′))) P ]
    unstep∘step⁻≤id {a = • _ 〈 _ 〉 ᶜ} (νᶜ E) (ν R) with step E R | unstep∘step≤id E R
    ... | ◻ , ◻ | _ = [ ν ◻ ]
    ... | ◻ , [ _ ] | P = [ ν P ]
