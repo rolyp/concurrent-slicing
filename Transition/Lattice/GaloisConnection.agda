@@ -128,10 +128,20 @@ module Transition.Lattice.GaloisConnection where
       with unren swap P′ R | id≤ren∘unren swap P′ R; ... | ρ , R′ | R″
       with step E (unstep E ([ (• ᴺ.suc x) ᵇ ] , R′)) | id≤step∘unstep E ([ (• ᴺ.suc x) ᵇ ] , R′)
    ... | [ (• ._) ᵇ ] , _ | [ (• ._) ᵇ ] , P = {!!} -- top ((• x) ᵇ) , [ ν ≤-trans R″ ((ᴿ̃.top swap *ᴹ) P) ]
-   id≤step⁻∘unstep⁻ {a = • x 〈 y 〉 ᶜ} (νᶜ_ {R = P′} E) _ (ν R)
+   id≤step⁻∘unstep⁻ {a = • x 〈 y 〉 ᶜ} (νᶜ_ {R = P′} E) ◻ (ν R)
+      with step E (unstep E (◻ , R)) | id≤step∘unstep E (◻ , R)
+   ... | ◻ , _ | _ , P = ◻ , [ ν P ]
+   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , _ | _ , P = ◻ , [ ν P ]
+   ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , _ | _ , P = ◻ , [ ν P ]
+   id≤step⁻∘unstep⁻ {a = • x 〈 y 〉 ᶜ} (νᶜ_ {R = P′} E) [ • .x 〈 ◻ 〉 ᶜ ] (ν R)
+      with step E (unstep E ([ • ᴺ.suc x 〈 ◻ 〉 ᶜ ] , R)) | id≤step∘unstep E ([ • ᴺ.suc x 〈 ◻ 〉 ᶜ ] , R)
+   ... | ◻ , _ | () , _
+   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , _ | _ , P = [ • x 〈 ◻ 〉 ᶜ ] , [ ν P ]
+   ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , _ | _ , P = [ • x 〈 ◻ 〉 ᶜ ] , [ ν P ]
+   id≤step⁻∘unstep⁻ {a = • x 〈 y 〉 ᶜ} (νᶜ_ {R = P′} E) [ • .x 〈 [ .y ] 〉 ᶜ ] (ν R)
       with step E (unstep E ([ • ᴺ.suc x 〈 [ ᴺ.suc y ] 〉 ᶜ ] , R)) |
            id≤step∘unstep E ([ • ᴺ.suc x 〈 [ ᴺ.suc y ] 〉 ᶜ ] , R)
-   ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , _ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , P = {!!} -- top (• x 〈 y 〉 ᶜ) , [ ν P ]
+   ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , _ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , P = [ • x 〈 [ y ] 〉 ᶜ ] , [ ν P ]
    id≤step⁻∘unstep⁻ {a = τ ᶜ} (νᶜ_ {R = P′} E) ◻ (ν R)
       with step E (unstep E (◻ , R)) | id≤step∘unstep E (◻ , R)
    ... | ◻ , _ | _ , P = ◻ , [ ν P ]
