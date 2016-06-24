@@ -199,13 +199,13 @@ module Transition.Lattice.GaloisConnection where
    ... | [ (• ._) ᵇ ] , R′ | P | [ eq ] rewrite eq =
       [ ν ≤-trans (unstepᴹ E ([ (• ᴺ.suc x) ᵇ ] , π₂ (unren∘ren≤id ᴿ̃.swap R′))) P ]
    unstep∘step⁻≤id {a = • _ 〈 _ 〉 ᶜ} (νᶜ E) (ν R) with step E R | unstep∘step≤id E R
-   ... | ◻ , ◻ | _ | _ = [ ν ◻ ]
-   ... | ◻ , [ _ ] | P | _ = [ ν P ]
-   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , _ | P | _ = [ ν P ]
+   ... | ◻ , ◻ | _ = [ ν ◻ ]
+   ... | ◻ , [ _ ] | P = [ ν P ]
+   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , _ | P = [ ν P ]
    ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , _ | P = [ ν P ]
-   unstep∘step⁻≤id {a = τ ᶜ} (νᶜ E) (ν R) with step E R | unstep∘step≤id E R | inspect (step E) R
-   ... | ◻ , _ | _ | _ = {!!} -- ◻
-   ... | [ τ ᶜ ] , R′ | P | [ eq ] rewrite eq = [ ν P ]
+   unstep∘step⁻≤id {a = τ ᶜ} (νᶜ E) (ν R) with step E R | unstep∘step≤id E R
+   ... | ◻ , _ | P = [ ν P ]
+   ... | [ τ ᶜ ] , R′ | P = [ ν P ]
    unstep∘step⁻≤id (! E) (! R) with step E [ R │ [ ! R ] ] | unstep∘step≤id E [ R │ [ ! R ] ]
    ... | ◻ , ◻ | _ = ◻
    ... | [ a ] , ◻ | _ with unstep-◻ E a
