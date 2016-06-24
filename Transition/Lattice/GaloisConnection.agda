@@ -57,12 +57,12 @@ module Transition.Lattice.GaloisConnection where
    id≤step⁻∘unstep-◻ {a = (• x) ᵇ} (νᵇ E) ((• ._) ᵇ)
       with step⁻ E (unstep-◻ E ((• ᴺ.suc x) ᵇ)) | id≤step⁻∘unstep-◻ E ((• ᴺ.suc x) ᵇ) |
            inspect (step⁻ E ∘ᶠ unstep-◻ E) ((• ᴺ.suc x) ᵇ)
-   ... | [ (• ._) ᵇ ] , _ | [ (• ._) ᵇ ] | [ eq ] rewrite eq = top ((• x) ᵇ)
+   ... | [ (• ._) ᵇ ] , _ | [ (• ._) ᵇ ] | [ eq ] rewrite eq = [ (• x) ᵇ ]
    id≤step⁻∘unstep-◻ {a = • x 〈 y 〉 ᶜ} (νᶜ E) (• ._ 〈 ◻ 〉 ᶜ)
       with step⁻ E (unstep-◻ E (• ᴺ.suc x 〈 ◻ 〉 ᶜ)) | id≤step⁻∘unstep-◻ E (• ᴺ.suc x 〈 ◻ 〉 ᶜ)
-   ... | ◻ , proj₂ | P₁ = {!!}
-   ... | [ • .(ᴺ.suc x) 〈 ◻ 〉 ᶜ ] , proj₂ | P₁ = {!!}
-   ... | [ • .(ᴺ.suc x) 〈 [ .(ᴺ.suc y) ] 〉 ᶜ ] , proj₂ | P₁ = {!!}
+   ... | ◻ , _ | ()
+   ... | [ • .(ᴺ.suc x) 〈 ◻ 〉 ᶜ ] , _ | _ = [ • x 〈 ◻ 〉 ᶜ ]
+   ... | [ • .(ᴺ.suc x) 〈 [ .(ᴺ.suc y) ] 〉 ᶜ ] , _ | _ = [ • x 〈 ◻ 〉 ᶜ ]
    id≤step⁻∘unstep-◻ {a = • x 〈 y 〉 ᶜ} (νᶜ E) (• ._ 〈 [ ._ ] 〉 ᶜ)
       with step⁻ E (unstep-◻ E (• ᴺ.suc x 〈 [ ᴺ.suc y ] 〉 ᶜ)) | id≤step⁻∘unstep-◻ E (• ᴺ.suc x 〈 [ ᴺ.suc y ] 〉 ᶜ)
    ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , _ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] = [ • x 〈 [ y ] 〉 ᶜ ]
