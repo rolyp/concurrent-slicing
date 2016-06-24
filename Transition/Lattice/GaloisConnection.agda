@@ -91,10 +91,16 @@ module Transition.Lattice.GaloisConnection where
    ... | [ .x • ᵇ ] , _ | [ • .x 〈 y′ 〉 ᶜ ] , _ | [ .x • ᵇ ] , P | [ • .x 〈 v′ 〉 ᶜ ] , Q
       with ≤-trans R″ ((≤-trans pop-top (ᴿ̃.popᴹ v′) *ᴹ) (≤-trans (ᴹ R′) P))
    ... | P″ = top (τ ᶜ) , [ P″ │ Q ]
-   id≤step⁻∘unstep⁻ (_│ᵥ_ {x = x} E F) a (ν ◻)
+   id≤step⁻∘unstep⁻ (_│ᵥ_ {x = x} E F) ◻ (ν ◻)
+      with step E (unstep E (◻ , ◻)) | step F (unstep F (◻ , ◻)) |
+           id≤step∘unstep E (◻ , ◻) | id≤step∘unstep F (◻ , ◻)
+   ... | ◻ , _ | _ , _ | _ , P | _ , Q = ◻ , [ ν ◻ ]
+   ... | [ .x • ᵇ ] , _ | ◻ , _ | _ , P | _ , Q = ◻ , [ ν ◻ ]
+   ... | [ .x • ᵇ ] , _ | [ (• .x) ᵇ ] , _ | _ , P | _ , Q = ◻ , [ ν ◻ ]
+   id≤step⁻∘unstep⁻ (_│ᵥ_ {x = x} E F) [ τ ᶜ ] (ν ◻)
       with step⁻ E (unstep-◻ E (x • ᵇ)) | step⁻ F (unstep-◻ F ((• x) ᵇ)) |
            id≤step⁻∘unstep-◻ E (x • ᵇ) | id≤step⁻∘unstep-◻ F ((• x) ᵇ)
-   ... | [ .x • ᵇ ] , _ | [ (• .x) ᵇ ] , _ | [ ._ • ᵇ ] | [ (• .x) ᵇ ] = top (τ ᶜ) , [ ν ◻ ]
+   ... | [ .x • ᵇ ] , _ | [ (• .x) ᵇ ] , _ | [ ._ • ᵇ ] | [ (• .x) ᵇ ] = [ τ ᶜ ] , [ ν ◻ ]
    id≤step⁻∘unstep⁻ (_│ᵥ_ {x = x} E F) a (ν [ R │ S ]) = {!!}
 {-
       with step E (unstep E ([ x • ᵇ ] , R)) | step F (unstep F ([ (• x) ᵇ ] , S)) |
