@@ -55,9 +55,8 @@ module Transition.Lattice.GaloisConnection where
            inspect (step⁻ E ∘ᶠ unstep-◻ E) (ᴺ.suc x • ᵇ)
    ... | [ ._ • ᵇ ] , _ | [ ._ • ᵇ ] | [ eq ] rewrite eq = top (x • ᵇ)
    id≤step⁻∘unstep-◻ {a = (• x) ᵇ} (νᵇ E) ((• ._) ᵇ)
-      with step⁻ E (unstep-◻ E ((• ᴺ.suc x) ᵇ)) | id≤step⁻∘unstep-◻ E ((• ᴺ.suc x) ᵇ) |
-           inspect (step⁻ E ∘ᶠ unstep-◻ E) ((• ᴺ.suc x) ᵇ)
-   ... | [ (• ._) ᵇ ] , _ | [ (• ._) ᵇ ] | [ eq ] rewrite eq = [ (• x) ᵇ ]
+      with step⁻ E (unstep-◻ E ((• ᴺ.suc x) ᵇ)) | id≤step⁻∘unstep-◻ E ((• ᴺ.suc x) ᵇ)
+   ... | [ (• ._) ᵇ ] , _ | [ (• ._) ᵇ ] = [ (• x) ᵇ ]
    id≤step⁻∘unstep-◻ {a = • x 〈 y 〉 ᶜ} (νᶜ E) (• ._ 〈 ◻ 〉 ᶜ)
       with step⁻ E (unstep-◻ E (• ᴺ.suc x 〈 ◻ 〉 ᶜ)) | id≤step⁻∘unstep-◻ E (• ᴺ.suc x 〈 ◻ 〉 ᶜ)
    ... | ◻ , _ | ()
