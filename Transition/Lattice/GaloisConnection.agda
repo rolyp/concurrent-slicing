@@ -38,18 +38,15 @@ module Transition.Lattice.GaloisConnection where
    id≤step⁻∘unstep-◻ (P │ᶜ E) (a ᶜ) = id≤step⁻∘unstep-◻ E (a ᶜ)
    id≤step⁻∘unstep-◻ (_│•_ {x = x} E F) (τ ᶜ)
       with step⁻ E (unstep-◻ E ( x • ᵇ)) | step⁻ F (unstep-◻ F (• x 〈 ◻ 〉 ᶜ)) |
-           id≤step⁻∘unstep-◻ E (x • ᵇ) | id≤step⁻∘unstep-◻ F (• x 〈 ◻ 〉 ᶜ) |
-           inspect (step⁻ E ∘ᶠ unstep-◻ E) (x • ᵇ) | inspect (step⁻ F ∘ᶠ unstep-◻ F) (• x 〈 ◻ 〉 ᶜ)
-   ... | [ ._ • ᵇ ] , _ | [ • ._ 〈 _ 〉 ᶜ ] , _ | [ ._ • ᵇ ] | [ • ._ 〈 _ 〉 ᶜ ]
-       | [ eq ] | [ eq′ ] rewrite eq | eq′ = [ τ ᶜ ]
+           id≤step⁻∘unstep-◻ E (x • ᵇ) | id≤step⁻∘unstep-◻ F (• x 〈 ◻ 〉 ᶜ)
+   ... | [ ._ • ᵇ ] , _ | [ • ._ 〈 _ 〉 ᶜ ] , _ | [ ._ • ᵇ ] | [ • ._ 〈 _ 〉 ᶜ ] = [ τ ᶜ ]
    id≤step⁻∘unstep-◻ (_│ᵥ_ {x = x} E F) (τ ᶜ)
       with step⁻ E (unstep-◻ E (x • ᵇ)) | step⁻ F (unstep-◻ F ((• x) ᵇ)) |
            id≤step⁻∘unstep-◻ E (x • ᵇ) | id≤step⁻∘unstep-◻ F ((• x) ᵇ)
    ... | [ (._ •) ᵇ ] , _ | [ (• ._) ᵇ ] , _ | [ ._ • ᵇ ] | [ (• ._) ᵇ ] = [ τ ᶜ ]
    id≤step⁻∘unstep-◻ (ν•_ {x = x} E) ((• ._) ᵇ)
-      with step⁻ E (unstep-◻ E (• ᴺ.suc x 〈 zero 〉 ᶜ)) | id≤step⁻∘unstep-◻ E (• ᴺ.suc x 〈 zero 〉 ᶜ) |
-           inspect (step⁻ E ∘ᶠ unstep-◻ E) (• ᴺ.suc x 〈 zero 〉 ᶜ)
-   ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , _ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] | [ eq ] rewrite eq = top ((• x) ᵇ)
+      with step⁻ E (unstep-◻ E (• ᴺ.suc x 〈 zero 〉 ᶜ)) | id≤step⁻∘unstep-◻ E (• ᴺ.suc x 〈 zero 〉 ᶜ)
+   ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , _ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] = top ((• x) ᵇ)
    id≤step⁻∘unstep-◻ {a = x • ᵇ} (νᵇ E) (._ • ᵇ)
       with step⁻ E (unstep-◻ E (ᴺ.suc x • ᵇ)) | id≤step⁻∘unstep-◻ E (ᴺ.suc x • ᵇ) |
            inspect (step⁻ E ∘ᶠ unstep-◻ E) (ᴺ.suc x • ᵇ)
@@ -171,32 +168,32 @@ module Transition.Lattice.GaloisConnection where
    ... | [ _ ] , _ | Q = [ ᴹ R │ Q ]
    ... | ◻ , ◻ | _ = [ ᴹ R │ ◻ ]
    unstep∘step⁻≤id (_│•_ {R = P′} {y = y} E F) (R │ S)
-      with step E R | step F S | unstep∘step≤id E R | unstep∘step≤id F S | inspect (step E) R | inspect (step F) S
-   ... | ◻ , _ | _ , _ | _ | _ | _ | _ = {!!} -- ◻
-   ... | [ ._ • ᵇ ] , _ | ◻ , _ | _ | _ | _ | _ = {!!} -- ◻
-   ... | [ ._ • ᵇ ] , R′ | [ • ._ 〈 v 〉 ᶜ ] , S′ | P | Q | [ eq ] | [ eq′ ] rewrite eq | eq′
+      with step E R | step F S | unstep∘step≤id E R | unstep∘step≤id F S
+   ... | ◻ , _ | _ , _ | _ | _ = {!!} -- ◻
+   ... | [ ._ • ᵇ ] , _ | ◻ , _ | _ | _ = {!!} -- ◻
+   ... | [ ._ • ᵇ ] , R′ | [ • ._ 〈 v 〉 ᶜ ] , S′ | P | Q
       with unren∘ren≤id (ᴿ̃.pop v) R′
    ... | pop-v , P″ =
       [ (≤-trans (unstepᴹ E ([ _ • ᵇ ] , P″)) P) │ ≤-trans (unstepᴹ F ([ • _ 〈 pop-v ᴺ.zero 〉 ᶜ ] , ᴹ S′)) Q ]
    unstep∘step⁻≤id (E │ᵥ F) (R │ S)
-      with step E R | step F S | unstep∘step≤id E R | unstep∘step≤id F S | inspect (step E) R | inspect (step F) S
-   ... | ◻ , _ | _ | _ | _ | _ | _ = {!!} -- ◻
-   ... | [ ._ • ᵇ ] , _ | ◻ , _ | _ | _ | _ | _ = {!!} -- ◻
-   ... | [ ._ • ᵇ ] , _ | [ (• ._) ᵇ ] , _ | P | Q | [ eq ] | [ eq′ ] rewrite eq | eq′ = {!!} -- [ P │ Q ]
-   unstep∘step⁻≤id (ν• E) (ν R) with step E R | unstep∘step≤id E R | inspect (step E) R
-   ... | ◻ , ◻ | _ | _ = ◻
-   ... | ◻ , [ R′ ] | P | _ = [ ν P ]
-   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , ◻ | _ | _ = ◻
-   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , [ R′ ] | P | _ = [ ν (≤-trans [ unstep⁻ᴹ E ◻ (⁻ᴹ R′) ] P) ]
-   ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , ◻ | P | [ eq ] rewrite eq = [ ν P ]
-   ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , [ _ ] | P | [ eq ] rewrite eq = [ ν P ]
-   unstep∘step⁻≤id {a = x • ᵇ} (νᵇ E) (ν R) with step E R | unstep∘step≤id E R | inspect (step E) R
-   ... | ◻ , _ | _ | _ = {!!} -- ◻
-   ... | [ ._ • ᵇ ] , R′ | P | [ eq ] rewrite eq =
+      with step E R | step F S | unstep∘step≤id E R | unstep∘step≤id F S
+   ... | ◻ , _ | _ | _ | _ = {!!} -- ◻
+   ... | [ ._ • ᵇ ] , _ | ◻ , _ | _ | _ = {!!} -- ◻
+   ... | [ ._ • ᵇ ] , _ | [ (• ._) ᵇ ] , _ | P | Q = {!!} -- [ P │ Q ]
+   unstep∘step⁻≤id (ν• E) (ν R) with step E R | unstep∘step≤id E R
+   ... | ◻ , ◻ | _ = ◻
+   ... | ◻ , [ R′ ] | P = [ ν P ]
+   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , ◻ | _ = ◻
+   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , [ R′ ] | P = [ ν (≤-trans [ unstep⁻ᴹ E ◻ (⁻ᴹ R′) ] P) ]
+   ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , ◻ | P = [ ν P ]
+   ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , [ _ ] | P = [ ν P ]
+   unstep∘step⁻≤id {a = x • ᵇ} (νᵇ E) (ν R) with step E R | unstep∘step≤id E R
+   ... | ◻ , _ | _ = {!!} -- ◻
+   ... | [ ._ • ᵇ ] , R′ | P =
       [ ν ≤-trans (unstepᴹ E ([ ᴺ.suc x • ᵇ ] , π₂ (unren∘ren≤id ᴿ̃.swap R′))) P ]
-   unstep∘step⁻≤id {a = (• x) ᵇ} (νᵇ E) (ν R) with step E R | unstep∘step≤id E R | inspect (step E) R
-   ... | ◻ , _ | _ | _ = {!!} -- ◻
-   ... | [ (• ._) ᵇ ] , R′ | P | [ eq ] rewrite eq =
+   unstep∘step⁻≤id {a = (• x) ᵇ} (νᵇ E) (ν R) with step E R | unstep∘step≤id E R
+   ... | ◻ , _ | _ = {!!} -- ◻
+   ... | [ (• ._) ᵇ ] , R′ | P =
       [ ν ≤-trans (unstepᴹ E ([ (• ᴺ.suc x) ᵇ ] , π₂ (unren∘ren≤id ᴿ̃.swap R′))) P ]
    unstep∘step⁻≤id {a = • _ 〈 _ 〉 ᶜ} (νᶜ E) (ν R) with step E R | unstep∘step≤id E R
    ... | ◻ , ◻ | _ = [ ν ◻ ]
