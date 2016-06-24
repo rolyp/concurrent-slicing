@@ -177,7 +177,8 @@ module Transition.Lattice.GaloisConnection where
    ... | [ ._ • ᵇ ] , _ | ◻ , _ | _ | _ | _ | _ = {!!} -- ◻
    ... | [ ._ • ᵇ ] , _ | [ (• ._) ᵇ ] , _ | P | Q | [ eq ] | [ eq′ ] rewrite eq | eq′ = {!!} -- [ P │ Q ]
    unstep∘step⁻≤id (ν• E) (ν R) with step E R | unstep∘step≤id E R | inspect (step E) R
-   ... | ◻ , _ | _ | _ = {!!} -- ◻
+   ... | ◻ , ◻ | _ | _ = ◻
+   ... | ◻ , [ R′ ] | _ | _ = [ ν {!!} ]
    ... | [ • ._ 〈 ◻ 〉 ᶜ ] , _ | _ | _ = {!!} -- ◻
    ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , ◻ | P | [ eq ] rewrite eq = [ ν P ]
    ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , [ _ ] | P | [ eq ] rewrite eq = [ ν P ]
