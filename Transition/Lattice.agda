@@ -326,8 +326,8 @@ module Transition.Lattice where
       with π₁ (unren (ᴿ.pop y) P′ R′) ᴺ.zero | π₁ (unren (ᴿ.pop y) P′ R″) ᴺ.zero |  π₁ (unrenᴹ (ᴿ.pop y) P′ R) ᴺ.zero
    ... | ◻ | _ | _ = unstepᴹ E (◻ , π₂ (unrenᴹ (ᴿ.pop y) P′ R)) │ unstepᴹ F (◻ , S)
    ... | [ .y ] | ◻ | ()
-   ... | [ .y ] | [ .y ] | _ = {!!}
---      unstepᴹ E (◻ , π₂ (unrenᴹ (ᴿ.pop y) P′ R)) │ (unstepᴹ F ([ • x 〈 {!!} {-({!!} ̃ᴹ) (ᴹ zero)-} 〉 ᶜ ] , S))
+   ... | [ .y ] | [ .y ] | _ =
+      unstepᴹ E (◻ , π₂ (unrenᴹ (ᴿ.pop y) P′ R)) │ (unstepᴹ F ([ • x 〈 [ y ] 〉 ᶜ ] , S))
    unstep⁻ᴹ (_│•_ {R = P′} {y = y} E F) {a″ = [ τ ᶜ ]} [ τ ᶜ ] (R │ S) =
       let pop-y , R′ = unrenᴹ (ᴿ.pop y) P′ R in
       unstepᴹ E ([ _ • ᵇ ] , R′) │ unstepᴹ F ([ • _ 〈 pop-y ᴺ.zero 〉 ᶜ ] , S)
