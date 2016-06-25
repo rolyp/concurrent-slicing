@@ -93,8 +93,8 @@ module Transition.Lattice.GaloisConnection where
    ... | [ .x • ᵇ ] , proj₂ | ◻ , proj₃ | proj₁ , P₁ | proj₄ , Q₁ = {!!}
    ... | [ .x • ᵇ ] , R† | [ • .x 〈 y′ 〉 ᶜ ] , S′ | ◻ , P | ◻ , Q =
       ◻ , [ ≤-trans R″ ((≤-trans pop-top (popᴹ {!!}) *ᴹ) P) │ {!!} ]
-   id≤step⁻∘unstep⁻ (_│•_ {R = P′} {x = x} {y} E F) [ τ ᶜ ] (R │ S)
-      with unren (pop y) P′ R | id≤ren∘unren (pop y) P′ R
+   id≤step⁻∘unstep⁻ (_│•_ {x = x} {y} E F) [ τ ᶜ ] (R │ S)
+      with unren (pop y) (ᵀ.tgt E) R | id≤ren∘unren (pop y) (ᵀ.tgt E) R
    ... | pop-y , R′ | R″
       with step E (unstep E ([ x • ᵇ ] , R′)) | step F (unstep F ([ • x 〈 pop-y ᴺ.zero 〉 ᶜ ] , S)) |
            id≤step∘unstep E ([ x • ᵇ ] , R′) | id≤step∘unstep F ([ • x 〈 pop-y ᴺ.zero 〉 ᶜ ] , S)
@@ -110,13 +110,14 @@ module Transition.Lattice.GaloisConnection where
       with step⁻ E (unstep-◻ E (x • ᵇ)) | step⁻ F (unstep-◻ F ((• x) ᵇ)) |
            id≤step⁻∘unstep-◻ E (x • ᵇ) | id≤step⁻∘unstep-◻ F ((• x) ᵇ)
    ... | [ .x • ᵇ ] , _ | [ (• .x) ᵇ ] , _ | [ ._ • ᵇ ] | [ (• .x) ᵇ ] = [ τ ᶜ ] , [ ν ◻ ]
-   id≤step⁻∘unstep⁻ (_│ᵥ_ {x = x} E F) ◻ (ν [ R │ S ]) = {!!}
-{-
-      with step E (unstep E (◻ , R)) | step F (unstep F (◻ , S)) |
-           id≤step∘unstep E (◻ , R) | id≤step∘unstep F (◻ , S)
-   ... | [ [ .x ] • ᵇ ] , _ | [ (• [ .x ]) ᵇ ] , _ | [ [ ._ ] • ᵇ ] , P | [ (• [ ._ ]) ᵇ ] , Q =
-      [ τ ᶜ ] , [ ν [ P │ Q ] ]
--}
+   id≤step⁻∘unstep⁻ (E │ᵥ F) ◻ (ν [ R │ S ])
+      with unren idᶠ (ᵀ.tgt E) R | id≤ren∘unren idᶠ (ᵀ.tgt E) R
+   ... | repl-y , R′ | R″
+      with step E (unstep E (◻ , R′)) | step F (unstep F (◻ , S)) |
+           id≤step∘unstep E (◻ , R′) | id≤step∘unstep F (◻ , S)
+   ... | ◻ , R† | _ , S′ | _ , P | _ , Q = ◻ , [ ν [ (≤-trans R″ (({!!} *ᴹ) P)) │ Q ] ]
+   ... | [ (x •) ᵇ ] , R† | ◻ , S′ | _ , P | _ , Q = ◻ , [ ν [ {!!} │ Q ] ]
+   ... | [ (x •) ᵇ ] , R† | [ (• .x) ᵇ ] , S′ | _ , P | _ , Q = ◻ , [ ν [ {!!} │ Q ] ]
    id≤step⁻∘unstep⁻ (_│ᵥ_ {x = x} E F) [ τ ᶜ ] (ν [ R │ S ]) = {!!}
 {-
       with step E (unstep E ([ x • ᵇ ] , R)) | step F (unstep F ([ (• x) ᵇ ] , S)) |
