@@ -207,9 +207,12 @@ module Transition.Lattice.GaloisConnection where
       [ (≤-trans (unstepᴹ E ([ _ • ᵇ ] , P″)) P) │ ≤-trans (unstepᴹ F ([ • _ 〈 pop-v ᴺ.zero 〉 ᶜ ] , ᴹ S′)) Q ]
    unstep∘step⁻≤id (E │ᵥ F) (R │ S)
       with step E R | step F S | unstep∘step≤id E R | unstep∘step≤id F S
-   ... | ◻ , _ | ◻ , _ | P | Q = [ {!!} │ Q ]
-   ... | ◻ , _ | [ (• x) ᵇ ] , S′ | P | Q = [ {!!} │ ≤-trans (unstepᴹ F (◻ , ᴹ S′)) Q ]
-   ... | [ ._ • ᵇ ] , R′ | ◻ , _ | P | Q = [ {!!} │ Q ]
+   ... | ◻ , R′ | ◻ , _ | P | Q =
+      [ ≤-trans (unstepᴹ E (◻ , (π₂ (unren∘ren≤id (ᴿ̃.repl ◻) R′)))) P │ Q ]
+   ... | ◻ , R′ | [ (• x) ᵇ ] , S′ | P | Q =
+      [ ≤-trans (unstepᴹ E (◻ , (π₂ (unren∘ren≤id (ᴿ̃.repl ◻) R′)))) P │ ≤-trans (unstepᴹ F (◻ , ᴹ S′)) Q ]
+   ... | [ ._ • ᵇ ] , R′ | ◻ , _ | P | Q =
+      [ ≤-trans (unstepᴹ E (◻ , (π₂ (unren∘ren≤id (ᴿ̃.repl ◻) R′)))) P │ Q ]
    ... | [ x • ᵇ ] , R′ | [ (• .x) ᵇ ] , _ | P | Q =
       [ ≤-trans (unstepᴹ E (ᴹ [ (x •) ᵇ ] , π₂ (unren∘ren≤id (ᴿ̃.repl zero) R′))) P │ Q ]
    unstep∘step⁻≤id (ν• E) (ν R) with step E R | unstep∘step≤id E R
