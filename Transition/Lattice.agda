@@ -316,7 +316,12 @@ module Transition.Lattice where
    unstep⁻ᴹ (E ᶜ│ Q) a′ (R │ S) = unstepᴹ E (a′ , R) │ S
    unstep⁻ᴹ (P │ᵇ E) a′ (R │ S) = π₂ (unrenᴹ ᴿ.push P R) │ unstepᴹ E (a′ , S)
    unstep⁻ᴹ (P │ᶜ E) a′ (R │ S) = R │ unstepᴹ E (a′ , S)
-   unstep⁻ᴹ (_│•_ {R = P′} {y = y} E F) {a″ = ◻} ◻ (R │ S) = {!!}
+   unstep⁻ᴹ (_│•_ {R = P′} {x = x} {y} E F) {a″ = ◻} {R = R′ │ _} {R″ │ _} ◻ (R │ S)
+      with π₁ (unren (ᴿ.pop y) P′ R′) ᴺ.zero | π₁ (unren (ᴿ.pop y) P′ R″) ᴺ.zero | π₁ (unrenᴹ (ᴿ.pop y) P′ R) ᴺ.zero
+   ... | ◻ | ◻ | _ = {!!} │ unstepᴹ F (◻ , S)
+   ... | ◻ | [ .y ] | _ = {!!} │ unstepᴹ F (◻ , S)
+   ... | [ .y ] | ◻ | ()
+   ... | [ .y ] | [ .y ] | _ = {!!} │ unstepᴹ F ([ • x 〈 [ y ] 〉 ᶜ ] , S)
 --      unstepᴹ E (◻ , π₂ (unrenᴹ (ᴿ.pop y) P′ R)) │ unstepᴹ F (◻ , S)
    unstep⁻ᴹ (_│•_ {R = P′} {y = y} E F) {a″ = [ τ ᶜ ]} ◻ (R │ S) = {!!}
 --      unstepᴹ E (◻ , π₂ (unrenᴹ (ᴿ.pop y) P′ R)) │ unstepᴹ F (◻ , S)
