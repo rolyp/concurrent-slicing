@@ -205,8 +205,10 @@ module Transition.Lattice where
    unstep⁻ {a = _ ᶜ} (E ᶜ│ Q) a (R │ S) = unstep E (a , R) │ S
    unstep⁻ {a = _ ᵇ} (P │ᵇ E) a (R │ S) = π₂ (unren ᴿ.push P R) │ unstep E (a , S)
    unstep⁻ {a = _ ᶜ} (P │ᶜ E) a (R │ S) = R │ unstep E (a , S)
-   unstep⁻ (_│•_ {R = P′} {x = x} {y} E F) _ (R │ S) with unren (ᴿ.pop y) P′ R
-   ... | pop-y , R′ = unstep E ([ x • ᵇ ] , R′) │ unstep F ([ • x 〈 pop-y ᴺ.zero 〉 ᶜ ] , S)
+   unstep⁻ (_│•_ {R = P′} {y = y} E F) ◻ (R │ S) = unstep E (◻ , π₂ (unren (ᴿ.pop y) P′ R)) │ unstep F (◻ , S)
+   unstep⁻ (_│•_ {R = P′} {x = x} {y} E F) [ τ ᶜ ] (R │ S) =
+      let pop-y , R′ = unren (ᴿ.pop y) P′ R in
+      unstep E ([ x • ᵇ ] , R′) │ unstep F ([ • x 〈 pop-y ᴺ.zero 〉 ᶜ ] , S)
    unstep⁻ (E │ᵥ F) ◻ (ν ◻) = unstep E (◻ , ◻) │ unstep F (◻ , ◻)
    unstep⁻ (E │ᵥ F) [ τ ᶜ ] (ν ◻) = [ unstep-◻ E (_ • ᵇ) ] │ [ unstep-◻ F ((• _) ᵇ) ]
    unstep⁻ (E │ᵥ F) ◻ (ν [ R │ S ]) = unstep E (◻ , π₂ (unren idᶠ (ᵀ.tgt E) R)) │ unstep F (◻ , S)
@@ -312,8 +314,14 @@ module Transition.Lattice where
    unstep⁻ᴹ (E ᶜ│ Q) a′ (R │ S) = unstepᴹ E (a′ , R) │ S
    unstep⁻ᴹ (P │ᵇ E) a′ (R │ S) = π₂ (unrenᴹ ᴿ.push P R) │ unstepᴹ E (a′ , S)
    unstep⁻ᴹ (P │ᶜ E) a′ (R │ S) = R │ unstepᴹ E (a′ , S)
-   unstep⁻ᴹ (_│•_ {R = P″} {y = y} E F) {R = P │ _} {P′ │ _} a (R │ S) with unrenᴹ (ᴿ.pop y) P″ R
-   ... | pop-y , R′ = unstepᴹ E ([ _ • ᵇ ] , R′) │ unstepᴹ F ([ • _ 〈 pop-y ᴺ.zero 〉 ᶜ ] , S)
+   unstep⁻ᴹ (_│•_ {R = P′} {y = y} E F) {a″ = ◻} ◻ (R │ S) =
+      unstepᴹ E (◻ , π₂ (unrenᴹ (ᴿ.pop y) P′ R)) │ unstepᴹ F (◻ , S)
+   unstep⁻ᴹ (_│•_ {R = P′} {y = y} E F) {a″ = [ τ ᶜ ]} ◻ (R │ S) =
+      let pop-y , R′ = unrenᴹ (ᴿ.pop y) P′ R in
+      unstepᴹ E (◻ , π₂ (unrenᴹ (ᴿ.pop y) P′ R)) │ unstepᴹ F (◻ , S)
+   unstep⁻ᴹ (_│•_ {R = P′} {y = y} E F) {a″ = [ τ ᶜ ]} [ τ ᶜ ] (R │ S) =
+      let pop-y , R′ = unrenᴹ (ᴿ.pop y) P′ R in
+      unstepᴹ E ([ _ • ᵇ ] , R′) │ unstepᴹ F ([ • _ 〈 pop-y ᴺ.zero 〉 ᶜ ] , S)
    unstep⁻ᴹ (ν• E) {a″ = ◻} ◻ R = ν [ unstep⁻ᴹ E ◻ R ]
    unstep⁻ᴹ (ν• E) {a″ = [ (• ._) ᵇ ]} ◻ R = ν [ unstep⁻ᴹ E ◻ R ]
    unstep⁻ᴹ (ν• E) [ (• x) ᵇ ] R = ν [ unstep⁻ᴹ E [ • ᴺ.suc _ 〈 ᴹ zero 〉 ᶜ ] R ]
