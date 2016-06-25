@@ -5,7 +5,7 @@ module Transition.Lattice.GaloisConnection where
    open import Ext.Algebra.Structures
 
    open import Action as ᴬ using (Action; Actionᵇ; Actionᶜ); open ᴬ.Action; open ᴬ.Actionᵇ; open ᴬ.Actionᶜ
-   open import Action.Lattice as ᴬ̃ using (top; ↓ᵇ_; ↓ᶜ_);
+   open import Action.Lattice as ᴬ̃ using (↓ᵇ_; ↓ᶜ_);
       open ᴬ̃.↓_; open ᴬ̃.↓⁻_; open ᴬ̃.↓ᵇ_; open ᴬ̃.↓ᶜ_; open ᴬ̃._≤_; open ᴬ̃._≤⁻_; open ᴬ̃._≤ᵇ_; open ᴬ̃._≤ᶜ_
    import Lattice; open Lattice.Prefixes ⦃...⦄
    import Lattice.Product
@@ -16,7 +16,7 @@ module Transition.Lattice.GaloisConnection where
    import Name as ᴺ
    open import Name.Lattice as ᴺ̃ using (zero; suc; sucᴹ); open ᴺ̃.↓_; open ᴺ̃._≤_
    open import Ren as ᴿ using (push; pop; swap; ᴺren); open ᴿ.Renameable ⦃...⦄
-   open import Ren.Lattice as ᴿ̃ using (pop-top)
+   open import Ren.Lattice as ᴿ̃ using (pop-top; popᴹ; top)
    open import Transition as ᵀ using (_—[_-_]→_); open ᵀ._—[_-_]→_
    open import Transition.Lattice as ᵀ̃ using (step; stepᴹ; step⁻; step⁻ᴹ; unstep; unstepᴹ; unstep-◻; unstep⁻; unstep⁻ᴹ)
 
@@ -75,22 +75,31 @@ module Transition.Lattice.GaloisConnection where
    id≤step⁻∘unstep⁻ (E ➕₁ Q) a R = id≤step⁻∘unstep⁻ E a R
    id≤step⁻∘unstep⁻ {a = _ ᵇ} (E ᵇ│ Q) a (R │ S) =
       let a′ , P′ = id≤step∘unstep E (a , R); ρ , Q′ = unren push  Q S in
-      a′ , [ P′ │ ≤-trans (id≤ren∘unren push Q S) ((ᴿ̃.top push *ᴹ) (ᴹ Q′)) ]
+      a′ , [ P′ │ ≤-trans (id≤ren∘unren push Q S) ((top push *ᴹ) (ᴹ Q′)) ]
    id≤step⁻∘unstep⁻ {a = _ ᶜ} (E ᶜ│ Q) a (R │ S) =
       let a′ , P′ = id≤step∘unstep E (a , R) in a′ , [ P′ │ ᴹ S ]
    id≤step⁻∘unstep⁻ {a = _ ᵇ} (P │ᵇ E) a (R │ S) =
       let a′ , Q′ = id≤step∘unstep E (a , S); ρ , P′ = unren push P R in
-      a′ , [ ≤-trans (id≤ren∘unren push P R) ((ᴿ̃.top push *ᴹ) (ᴹ P′)) │ Q′ ]
+      a′ , [ ≤-trans (id≤ren∘unren push P R) ((top push *ᴹ) (ᴹ P′)) │ Q′ ]
    id≤step⁻∘unstep⁻ {a = _ ᶜ} (P │ᶜ E) a (R │ S) =
       let a′ , Q′ = id≤step∘unstep E (a , S) in a′ , [ ᴹ R │ Q′ ]
-   id≤step⁻∘unstep⁻ (_│•_ {R = P′} {x = x} {y} E F) ◻ (R │ S) = {!!}
+   id≤step⁻∘unstep⁻ (_│•_ {R = P′} {x = x} {y} E F) ◻ (R │ S)
+      with unren (pop y) P′ R | id≤ren∘unren (pop y) P′ R
+   ... | pop-y , R′ | R″
+      with step E (unstep E (◻ , R′)) | step F (unstep F (◻ , S)) |
+           id≤step∘unstep E (◻ , R′) | id≤step∘unstep F (◻ , S)
+   ... | ◻ , R† | _ , S′ | _ , P | _ , Q =
+      ◻ , [ ≤-trans R″ (({!!} *ᴹ) P) │ Q ]
+   ... | [ .x • ᵇ ] , proj₂ | ◻ , proj₃ | proj₁ , P₁ | proj₄ , Q₁ = {!!}
+   ... | [ .x • ᵇ ] , R† | [ • .x 〈 y′ 〉 ᶜ ] , S′ | ◻ , P | ◻ , Q =
+      ◻ , [ ≤-trans R″ ((≤-trans pop-top (popᴹ {!!}) *ᴹ) P) │ {!!} ]
    id≤step⁻∘unstep⁻ (_│•_ {R = P′} {x = x} {y} E F) [ τ ᶜ ] (R │ S)
       with unren (pop y) P′ R | id≤ren∘unren (pop y) P′ R
    ... | pop-y , R′ | R″
       with step E (unstep E ([ x • ᵇ ] , R′)) | step F (unstep F ([ • x 〈 pop-y ᴺ.zero 〉 ᶜ ] , S)) |
            id≤step∘unstep E ([ x • ᵇ ] , R′) | id≤step∘unstep F ([ • x 〈 pop-y ᴺ.zero 〉 ᶜ ] , S)
    ... | [ .x • ᵇ ] , _ | [ • .x 〈 y′ 〉 ᶜ ] , _ | [ .x • ᵇ ] , P | [ • .x 〈 y″ 〉 ᶜ ] , Q =
-      [ τ ᶜ ] , [ ≤-trans R″ ((≤-trans pop-top (ᴿ̃.popᴹ y″) *ᴹ) (≤-trans (ᴹ R′) P)) │ Q ]
+      [ τ ᶜ ] , [ ≤-trans R″ ((≤-trans pop-top (popᴹ y″) *ᴹ) (≤-trans (ᴹ R′) P)) │ Q ]
    id≤step⁻∘unstep⁻ (_│ᵥ_ {x = x} E F) ◻ (ν ◻)
       with step E (unstep E (◻ , ◻)) | step F (unstep F (◻ , ◻)) |
            id≤step∘unstep E (◻ , ◻) | id≤step∘unstep F (◻ , ◻)
@@ -126,21 +135,21 @@ module Transition.Lattice.GaloisConnection where
    id≤step⁻∘unstep⁻ {a = x • ᵇ} (νᵇ_ {R = P′} E) ◻ (ν R)
       with unren swap P′ R | id≤ren∘unren swap P′ R; ... | ρ , R′ | R″
       with step E (unstep E (◻ , R′)) | id≤step∘unstep E (◻ , R′)
-   ... | ◻ , _ | _ , P = ◻ , [ ν ≤-trans R″ ((ᴿ̃.top swap *ᴹ) P) ]
-   ... | [ ._ • ᵇ ] , _ | _ , P = ◻ , [ ν ≤-trans R″ ((ᴿ̃.top swap *ᴹ) P) ]
+   ... | ◻ , _ | _ , P = ◻ , [ ν ≤-trans R″ ((top swap *ᴹ) P) ]
+   ... | [ ._ • ᵇ ] , _ | _ , P = ◻ , [ ν ≤-trans R″ ((top swap *ᴹ) P) ]
    id≤step⁻∘unstep⁻ {a = x • ᵇ} (νᵇ_ {R = P′} E) [ .x • ᵇ ] (ν R)
       with unren swap P′ R | id≤ren∘unren swap P′ R; ... | ρ , R′ | R″
       with step E (unstep E ([ ᴺ.suc x • ᵇ ] , R′)) | id≤step∘unstep E ([ ᴺ.suc x • ᵇ ] , R′)
-   ... | [ ._ • ᵇ ] , _ | [ ._ • ᵇ ] , P = [ x • ᵇ ] , [ ν ≤-trans R″ ((ᴿ̃.top swap *ᴹ) P) ]
+   ... | [ ._ • ᵇ ] , _ | [ ._ • ᵇ ] , P = [ x • ᵇ ] , [ ν ≤-trans R″ ((top swap *ᴹ) P) ]
    id≤step⁻∘unstep⁻ {a = (• x) ᵇ} (νᵇ_ {R = P′} E) ◻ (ν R)
       with unren swap P′ R | id≤ren∘unren swap P′ R; ... | ρ , R′ | R″
       with step E (unstep E (◻ , R′)) | id≤step∘unstep E (◻ , R′)
-   ... | ◻ , _ | _ , P = ◻ , [ ν ≤-trans R″ ((ᴿ̃.top swap *ᴹ) P) ]
-   ... | [ (• ._) ᵇ ] , _ | _ , P = ◻ , [ ν ≤-trans R″ ((ᴿ̃.top swap *ᴹ) P) ]
+   ... | ◻ , _ | _ , P = ◻ , [ ν ≤-trans R″ ((top swap *ᴹ) P) ]
+   ... | [ (• ._) ᵇ ] , _ | _ , P = ◻ , [ ν ≤-trans R″ ((top swap *ᴹ) P) ]
    id≤step⁻∘unstep⁻ (νᵇ_ {R = P′} E) [ (• x) ᵇ ] (ν R)
       with unren swap P′ R | id≤ren∘unren swap P′ R; ... | ρ , R′ | R″
       with step E (unstep E ([ (• ᴺ.suc x) ᵇ ] , R′)) | id≤step∘unstep E ([ (• ᴺ.suc x) ᵇ ] , R′)
-   ... | [ (• ._) ᵇ ] , _ | [ (• ._) ᵇ ] , P = [ (• x) ᵇ ] , [ ν ≤-trans R″ ((ᴿ̃.top swap *ᴹ) P) ]
+   ... | [ (• ._) ᵇ ] , _ | [ (• ._) ᵇ ] , P = [ (• x) ᵇ ] , [ ν ≤-trans R″ ((top swap *ᴹ) P) ]
    id≤step⁻∘unstep⁻ {a = • x 〈 y 〉 ᶜ} (νᶜ_ {R = P′} E) ◻ (ν R)
       with step E (unstep E (◻ , R)) | id≤step∘unstep E (◻ , R)
    ... | ◻ , _ | _ , P = ◻ , [ ν P ]
