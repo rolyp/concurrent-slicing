@@ -111,20 +111,16 @@ module Transition.Lattice.GaloisConnection where
            id≤step⁻∘unstep-◻ E (x • ᵇ) | id≤step⁻∘unstep-◻ F ((• x) ᵇ)
    ... | [ .x • ᵇ ] , _ | [ (• .x) ᵇ ] , _ | [ ._ • ᵇ ] | [ (• .x) ᵇ ] = [ τ ᶜ ] , [ ν ◻ ]
    id≤step⁻∘unstep⁻ (E │ᵥ F) ◻ (ν [ R │ S ])
-      with unren idᶠ (ᵀ.tgt E) R | id≤ren∘unren idᶠ (ᵀ.tgt E) R
-   ... | repl-y , R′ | R″
-      with step E (unstep E (◻ , R′)) | step F (unstep F (◻ , S)) |
-           id≤step∘unstep E (◻ , R′) | id≤step∘unstep F (◻ , S)
-   ... | ◻ , R† | _ , S′ | _ , P | _ , Q = ◻ , [ ν [ ≤-trans R″ (({!!} *ᴹ) P) │ Q ] ]
-   ... | [ (x •) ᵇ ] , R† | ◻ , S′ | _ , P | _ , Q = ◻ , [ ν [ {!!} │ Q ] ]
-   ... | [ (x •) ᵇ ] , R† | [ (• .x) ᵇ ] , S′ | _ , P | _ , Q = ◻ , [ ν [ {!!} │ Q ] ]
-   id≤step⁻∘unstep⁻ (_│ᵥ_ {x = x} E F) [ τ ᶜ ] (ν [ R │ S ]) = {!!}
-{-
+      with step E (unstep E (◻ , R)) | step F (unstep F (◻ , S)) |
+           id≤step∘unstep E (◻ , R) | id≤step∘unstep F (◻ , S)
+   ... | ◻ , R† | _ , S′ | _ , P | _ , Q = ◻ , [ ν [ P │ Q ] ]
+   ... | [ x • ᵇ ] , R† | ◻ , S′ | _ , P | _ , Q = ◻ , [ ν [ P │ Q ] ]
+   ... | [ x • ᵇ ] , R† | [ (• .x) ᵇ ] , S′ | _ , P | _ , Q = ◻ , [ ν [ P │ Q ] ]
+   id≤step⁻∘unstep⁻ (_│ᵥ_ {x = x} E F) [ τ ᶜ ] (ν [ R │ S ])
       with step E (unstep E ([ x • ᵇ ] , R)) | step F (unstep F ([ (• x) ᵇ ] , S)) |
-           id≤step∘unstep E ([ [ x ] • ᵇ ] , R) | id≤step∘unstep F ([ (• [ x ]) ᵇ ] , S)
-   ... | [ [ .x ] • ᵇ ] , _ | [ (• [ .x ]) ᵇ ] , _ | [ [ ._ ] • ᵇ ] , P | [ (• [ ._ ]) ᵇ ] , Q =
+           id≤step∘unstep E ([ x • ᵇ ] , R) | id≤step∘unstep F ([ (• x) ᵇ ] , S)
+   ... | [ .x • ᵇ ] , _ | [ (• .x) ᵇ ] , _ | [ ._ • ᵇ ] , P | [ (• ._) ᵇ ] , Q =
       [ τ ᶜ ] , [ ν [ P │ Q ] ]
--}
    id≤step⁻∘unstep⁻ (ν•_ {x = x} E) ◻ R
       with step⁻ E (unstep⁻ E ◻ R) | id≤step⁻∘unstep⁻ E ◻ R
    ... | ◻ , _ | _ , P = ◻ , P
@@ -218,14 +214,10 @@ module Transition.Lattice.GaloisConnection where
       [ ≤-trans (unstepᴹ E ([ x • ᵇ ] , P″)) P │ ≤-trans (unstepᴹ F ([ • _ 〈 pop-y′ ᴺ.zero 〉 ᶜ ] , ᴹ S′)) Q ]
    unstep∘step⁻≤id (E │ᵥ F) (R │ S)
       with step E R | step F S | unstep∘step≤id E R | unstep∘step≤id F S
-   ... | ◻ , R′ | ◻ , _ | P | Q =
-      [ ≤-trans (unstepᴹ E (◻ , (π₂ (unren∘ren≤id (ᴿ̃.repl ◻) R′)))) P │ Q ]
-   ... | ◻ , R′ | [ (• x) ᵇ ] , S′ | P | Q =
-      [ ≤-trans (unstepᴹ E (◻ , (π₂ (unren∘ren≤id (ᴿ̃.repl ◻) R′)))) P │ ≤-trans (unstepᴹ F (◻ , ᴹ S′)) Q ]
-   ... | [ ._ • ᵇ ] , R′ | ◻ , _ | P | Q =
-      [ ≤-trans (unstepᴹ E (◻ , (π₂ (unren∘ren≤id (ᴿ̃.repl ◻) R′)))) P │ Q ]
-   ... | [ x • ᵇ ] , R′ | [ (• .x) ᵇ ] , _ | P | Q =
-      [ ≤-trans (unstepᴹ E ([ (x •) ᵇ ] , π₂ (unren∘ren≤id (ᴿ̃.repl zero) R′))) P │ Q ]
+   ... | ◻ , R′ | ◻ , _ | P | Q = [ P │ Q ]
+   ... | ◻ , R′ | [ (• x) ᵇ ] , S′ | P | Q = [ P │ ≤-trans (unstepᴹ F (◻ , ᴹ S′)) Q ]
+   ... | [ ._ • ᵇ ] , R′ | ◻ , _ | P | Q = [ ≤-trans (unstepᴹ E (◻ , ᴹ R′)) P │ Q ]
+   ... | [ x • ᵇ ] , R′ | [ (• .x) ᵇ ] , _ | P | Q = [ P │ Q ]
    unstep∘step⁻≤id (ν• E) (ν R) with step E R | unstep∘step≤id E R
    ... | ◻ , ◻ | _ = ◻
    ... | ◻ , [ R′ ] | P = [ ν P ]
