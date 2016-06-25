@@ -90,7 +90,7 @@ module Transition.Lattice.GaloisConnection where
            id≤step∘unstep E ([ x • ᵇ ] , R′) | id≤step∘unstep F ([ • x 〈 pop-y ᴺ.zero 〉 ᶜ ] , S)
    ... | [ .x • ᵇ ] , _ | [ • .x 〈 y′ 〉 ᶜ ] , _ | [ .x • ᵇ ] , P | [ • .x 〈 y″ 〉 ᶜ ] , Q
       with ≤-trans R″ ((≤-trans pop-top (ᴿ̃.popᴹ y″) *ᴹ) (≤-trans (ᴹ R′) P))
-   ... | P″ = top (τ ᶜ) , [ P″ │ Q ]
+   ... | P″ = {!!} -- top (τ ᶜ) , [ P″ │ Q ]
    id≤step⁻∘unstep⁻ (_│ᵥ_ {x = x} E F) ◻ (ν ◻)
       with step E (unstep E (◻ , ◻)) | step F (unstep F (◻ , ◻)) |
            id≤step∘unstep E (◻ , ◻) | id≤step∘unstep F (◻ , ◻)
@@ -202,7 +202,7 @@ module Transition.Lattice.GaloisConnection where
    ... | ◻ , R′ | _ , S′ | P | Q = {!!} -- ◻
    ... | [ x • ᵇ ] , R′ | ◻ , S′ | P | Q =
       let pop-◻ , P″ = unren∘ren≤id (ᴿ̃.pop ◻) R′ in
-      [ ≤-trans (unstepᴹ E ([ x • ᵇ ] , P″)) P │ {!!} ]
+      [ ≤-trans (unstepᴹ E (◻ , P″)) P │ Q ]
    ... | [ x • ᵇ ] , R′ | [ • .x 〈 y′ 〉 ᶜ ] , S′ | P | Q =
       let pop-y′ , P″ = unren∘ren≤id (ᴿ̃.pop y′) R′ in
       [ ≤-trans (unstepᴹ E ([ x • ᵇ ] , P″)) P │ ≤-trans (unstepᴹ F ([ • _ 〈 pop-y′ ᴺ.zero 〉 ᶜ ] , ᴹ S′)) Q ]
