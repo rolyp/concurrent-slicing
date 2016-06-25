@@ -18,7 +18,7 @@ module Transition.Lattice where
    import Proc.Lattice as ᴾ̃; open ᴾ̃.↓_; open ᴾ̃.↓⁻_; open ᴾ̃._≤_; open ᴾ̃._≤⁻_
    open import Proc.Ren.Lattice renaming (_* to _*̃)
    open import Ren as ᴿ using (module Renameable); open Renameable ⦃...⦄
-   open import Ren.Lattice as ᴿ̃ using (pop; popᴹ; id; repl; replᴹ; push; swap)
+   open import Ren.Lattice as ᴿ̃ using (pop; popᴹ; id; push; swap)
    open import Transition as ᵀ using (_—[_-_]→_; module _—[_-_]→_); open _—[_-_]→_
 
    open module Action×Proc {Γ} = Lattice.Product (Action Γ) (Proc ∘ᶠ ᴬ.tgt) using (×-prefixes)
@@ -205,7 +205,9 @@ module Transition.Lattice where
    unstep⁻ {a = _ ᶜ} (E ᶜ│ Q) a (R │ S) = unstep E (a , R) │ S
    unstep⁻ {a = _ ᵇ} (P │ᵇ E) a (R │ S) = π₂ (unren ᴿ.push P R) │ unstep E (a , S)
    unstep⁻ {a = _ ᶜ} (P │ᶜ E) a (R │ S) = R │ unstep E (a , S)
-   unstep⁻ (_│•_ {R = P′} {y = y} E F) ◻ (R │ S) = unstep E (◻ , π₂ (unren (ᴿ.pop y) P′ R)) │ unstep F (◻ , S)
+   unstep⁻ (_│•_ {R = P′} {x = x} {y} E F) ◻ (R │ S) with (π₁ (unren (ᴿ.pop y) P′ R)) ᴺ.zero
+   ... | ◻ = unstep E (◻ , π₂ (unren (ᴿ.pop y) P′ R)) │ unstep F (◻ , S)
+   ... | [ .y ] = unstep E (◻ , π₂ (unren (ᴿ.pop y) P′ R)) │ unstep F ([ • x 〈 [ y ] 〉 ᶜ ] , S)
    unstep⁻ (_│•_ {R = P′} {x = x} {y} E F) [ τ ᶜ ] (R │ S) =
       let pop-y , R′ = unren (ᴿ.pop y) P′ R in
       unstep E ([ x • ᵇ ] , R′) │ unstep F ([ • x 〈 pop-y ᴺ.zero 〉 ᶜ ] , S)
@@ -314,10 +316,10 @@ module Transition.Lattice where
    unstep⁻ᴹ (E ᶜ│ Q) a′ (R │ S) = unstepᴹ E (a′ , R) │ S
    unstep⁻ᴹ (P │ᵇ E) a′ (R │ S) = π₂ (unrenᴹ ᴿ.push P R) │ unstepᴹ E (a′ , S)
    unstep⁻ᴹ (P │ᶜ E) a′ (R │ S) = R │ unstepᴹ E (a′ , S)
-   unstep⁻ᴹ (_│•_ {R = P′} {y = y} E F) {a″ = ◻} ◻ (R │ S) =
-      unstepᴹ E (◻ , π₂ (unrenᴹ (ᴿ.pop y) P′ R)) │ unstepᴹ F (◻ , S)
-   unstep⁻ᴹ (_│•_ {R = P′} {y = y} E F) {a″ = [ τ ᶜ ]} ◻ (R │ S) =
-      unstepᴹ E (◻ , π₂ (unrenᴹ (ᴿ.pop y) P′ R)) │ unstepᴹ F (◻ , S)
+   unstep⁻ᴹ (_│•_ {R = P′} {y = y} E F) {a″ = ◻} ◻ (R │ S) = {!!}
+--      unstepᴹ E (◻ , π₂ (unrenᴹ (ᴿ.pop y) P′ R)) │ unstepᴹ F (◻ , S)
+   unstep⁻ᴹ (_│•_ {R = P′} {y = y} E F) {a″ = [ τ ᶜ ]} ◻ (R │ S) = {!!}
+--      unstepᴹ E (◻ , π₂ (unrenᴹ (ᴿ.pop y) P′ R)) │ unstepᴹ F (◻ , S)
    unstep⁻ᴹ (_│•_ {R = P′} {y = y} E F) {a″ = [ τ ᶜ ]} [ τ ᶜ ] (R │ S) =
       let pop-y , R′ = unrenᴹ (ᴿ.pop y) P′ R in
       unstepᴹ E ([ _ • ᵇ ] , R′) │ unstepᴹ F ([ • _ 〈 pop-y ᴺ.zero 〉 ᶜ ] , S)
