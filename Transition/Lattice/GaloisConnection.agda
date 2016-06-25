@@ -209,10 +209,10 @@ module Transition.Lattice.GaloisConnection where
    ... | ◻ , ◻ | _ = [ ᴹ R │ ◻ ]
    unstep∘step⁻≤id (_│•_ {y = y} E F) (R │ S)
       with step E R | step F S | unstep∘step≤id E R | unstep∘step≤id F S
-   ... | ◻ , R′ | _ , S′ | P | Q = {!!} -- ◻
+   ... | ◻ , R′ | _ , S′ | P | Q =
+      [ ≤-trans (unstepᴹ E (◻ , π₂ (unren∘ren≤id (ᴿ̃.pop ◻) R′))) P │ (≤-trans (unstepᴹ F (◻ , ᴹ S′)) Q) ]
    ... | [ x • ᵇ ] , R′ | ◻ , S′ | P | Q =
-      let pop-◻ , P″ = unren∘ren≤id (ᴿ̃.pop ◻) R′ in
-      [ ≤-trans (unstepᴹ E (◻ , P″)) P │ Q ]
+      [ ≤-trans (unstepᴹ E (◻ , π₂ (unren∘ren≤id (ᴿ̃.pop ◻) R′))) P │ Q ]
    ... | [ x • ᵇ ] , R′ | [ • .x 〈 y′ 〉 ᶜ ] , S′ | P | Q =
       let pop-y′ , P″ = unren∘ren≤id (ᴿ̃.pop y′) R′ in
       [ ≤-trans (unstepᴹ E ([ x • ᵇ ] , P″)) P │ ≤-trans (unstepᴹ F ([ • _ 〈 pop-y′ ᴺ.zero 〉 ᶜ ] , ᴹ S′)) Q ]

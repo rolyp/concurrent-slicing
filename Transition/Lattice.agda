@@ -46,8 +46,8 @@ module Transition.Lattice where
    ... | [ (x •) ᵇ ] , R | ◻ , S = ◻ , [ (pop ◻ *̃) R │ S ]
    ... | [ (x •) ᵇ ] , R | [ • .x 〈 y 〉 ᶜ ] , S = [ τ ᶜ ] , [ (pop y *̃) R │ S ]
    step⁻ (E │ᵥ F) (P │ Q) with step E P | step F Q
-   ... | [ x • ᵇ ] , R | [ (• .x) ᵇ ] , S = [ τ ᶜ ] , [ ν [ (repl zero *̃) R │ S ] ]
-   ... | _ , R | _ , S = ◻ , [ ν [ (repl ◻ *̃) R │ S ] ]
+   ... | [ x • ᵇ ] , R | [ (• .x) ᵇ ] , S = [ τ ᶜ ] , [ ν [ R │ S ] ]
+   ... | _ , R | _ , S = ◻ , [ ν [ R │ S ] ]
    step⁻ (ν•_ {x = x} E) (ν P) with step E P
    ... | [ • .(ᴺ.suc x) 〈 [ .ᴺ.zero ] 〉 ᶜ ] , R = [ (• x) ᵇ ] , R
    ... | _ , R = ◻ , R
@@ -96,18 +96,18 @@ module Transition.Lattice where
 
    step⁻ᴹ (E │ᵥ F) {P │ Q} {P′ │ Q′} (P† │ Q†)
       with step E P | step E P′ | stepᴹ E P†
-   ... | ◻ , _ | ◻ , _ | _ , R† = let _ , S† = stepᴹ F Q† in ◻ , [ ν [ (ᴹ (repl ◻) *ᴹ) R† │ S† ] ]
+   ... | ◻ , _ | ◻ , _ | _ , R† = let _ , S† = stepᴹ F Q† in ◻ , [ ν [ R† │ S† ] ]
    ... | ◻ , _ | [ (x •) ᵇ ] , _ | _ , R†
       with step F Q′ | stepᴹ F Q†
-   ... | ◻ , _ | _ , S† = ◻ , [ ν [ (ᴹ (repl ◻) *ᴹ) R† │ S† ] ]
-   ... | [ (• .x) ᵇ ] , _ | _ , S† = ◻ , [ ν [ (replᴹ ◻ *ᴹ) R† │ S† ] ]
+   ... | ◻ , _ | _ , S† = ◻ , [ ν [ R† │ S† ] ]
+   ... | [ (• .x) ᵇ ] , _ | _ , S† = ◻ , [ ν [ R† │ S† ] ]
    step⁻ᴹ (E │ᵥ F) {P │ Q} {P′ │ Q′} (P† │ Q†) | [ _ ] , _ | ◻ , _ | () , _
    step⁻ᴹ (E │ᵥ F) {P │ Q} {P′ │ Q′} (P† │ Q†) | [ ( x •) ᵇ ] , _ | [ (.x •) ᵇ ] , _ | _ , R†
       with step F Q | step F Q′ | stepᴹ F Q†
-   ... | ◻ , _ | ◻ , _ | _ , S† = ◻ , [ ν [ (ᴹ (repl ◻) *ᴹ) R† │ S† ] ]
-   ... | ◻ , _ | [ (• .x) ᵇ ] , _ | _ , S† = ◻ , [ ν [ (replᴹ ◻ *ᴹ) R† │ S† ] ]
+   ... | ◻ , _ | ◻ , _ | _ , S† = ◻ , [ ν [ R† │ S† ] ]
+   ... | ◻ , _ | [ (• .x) ᵇ ] , _ | _ , S† = ◻ , [ ν [ R† │ S† ] ]
    ... | [ (• .x) ᵇ ] , _ | ◻ , _ | () , _
-   ... | [ (• .x) ᵇ ] , _ | [ (• .x) ᵇ ] , _ | _ , S† = [ τ ᶜ ] , [ ν [ (ᴹ (repl zero) *ᴹ) R† │ S† ] ]
+   ... | [ (• .x) ᵇ ] , _ | [ (• .x) ᵇ ] , _ | _ , S† = [ τ ᶜ ] , [ ν [ R† │ S† ] ]
 
    step⁻ᴹ (ν•_ {x = x} E) {ν P} {ν P′} (ν P†)
       with step E P | step E P′ | stepᴹ E P†
@@ -211,8 +211,8 @@ module Transition.Lattice where
       unstep E ([ x • ᵇ ] , R′) │ unstep F ([ • x 〈 pop-y ᴺ.zero 〉 ᶜ ] , S)
    unstep⁻ (E │ᵥ F) ◻ (ν ◻) = unstep E (◻ , ◻) │ unstep F (◻ , ◻)
    unstep⁻ (E │ᵥ F) [ τ ᶜ ] (ν ◻) = [ unstep-◻ E (_ • ᵇ) ] │ [ unstep-◻ F ((• _) ᵇ) ]
-   unstep⁻ (E │ᵥ F) ◻ (ν [ R │ S ]) = unstep E (◻ , π₂ (unren idᶠ (ᵀ.tgt E) R)) │ unstep F (◻ , S)
-   unstep⁻ (E │ᵥ F) [ τ ᶜ ] (ν [ R │ S ]) = unstep E ([ _ • ᵇ ] , π₂ (unren idᶠ (ᵀ.tgt E) R)) │ unstep F ([ (• _) ᵇ ] , S)
+   unstep⁻ (E │ᵥ F) ◻ (ν [ R │ S ]) = unstep E (◻ , R) │ unstep F (◻ , S)
+   unstep⁻ (E │ᵥ F) [ τ ᶜ ] (ν [ R │ S ]) = unstep E ([ _ • ᵇ ] , R) │ unstep F ([ (• _) ᵇ ] , S)
    unstep⁻ (ν• E) ◻ R = ν [ unstep⁻ E ◻ R ]
    unstep⁻ (ν• E) [ (• x) ᵇ ] R = ν [ unstep⁻ E [ • ᴺ.suc x 〈 zero 〉 ᶜ ] R ]
    unstep⁻ {a = x • ᵇ} (νᵇ_ {R = P′} E) ◻ (ν R) = ν unstep E (◻ , π₂ (unren ᴿ.swap P′ R))
@@ -278,7 +278,7 @@ module Transition.Lattice where
    unstep-◻-min⁻ (ν• E) ((• _) ᵇ) P = ν [ unstep-◻-min⁻ E (• ᴺ.suc _ 〈 zero 〉 ᶜ) P ]
    unstep-◻-min⁻ (E │ᵥ F) (τ ᶜ) (ν ◻) = [ ⁻ᴹ (unstep-◻ E (_ • ᵇ)) ] │ [ ⁻ᴹ (unstep-◻ F ((• _) ᵇ)) ]
    unstep-◻-min⁻ (E │ᵥ F) (τ ᶜ) (ν [ P │ Q ]) =
-      unstep-◻-min E (_ • ᵇ) (π₂ (unren idᶠ (ᵀ.tgt E) P)) │ unstep-◻-min F ((• _) ᵇ) Q
+      unstep-◻-min E (_ • ᵇ) P │ unstep-◻-min F ((• _) ᵇ) Q
    unstep-◻-min⁻ {a = x • ᵇ} (νᵇ_ {R = P′} E) (.x • ᵇ) (ν P) =
       ν unstep-◻-min E (ᴺ.suc x • ᵇ) (π₂ (unren ᴿ.swap P′ P))
    unstep-◻-min⁻ {a = (• x) ᵇ} (νᵇ_ {R = P′} E) ((• .x) ᵇ) (ν P) =
@@ -331,13 +331,13 @@ module Transition.Lattice where
    unstep⁻ᴹ (E │ᵥ F) {a″ = ◻} {R = ν ◻} {ν [ P │ Q ]} ◻ (ν ◻) = ◻ │ ◻
    unstep⁻ᴹ (E │ᵥ F) {a″ = [ τ ᶜ ]} {R = ν ◻} {ν [ P │ Q ]} ◻ (ν ◻) = ◻ │ ◻
    unstep⁻ᴹ (E │ᵥ F) {a″ = [ τ ᶜ ]} {R = ν ◻} {ν [ P │ Q ]} [ τ ᶜ ] (ν ◻) =
-      unstep-◻-min E (_ • ᵇ) (π₂ (unren idᶠ (ᵀ.tgt E) P)) │ unstep-◻-min F ((• _) ᵇ) Q
+      unstep-◻-min E (_ • ᵇ) P │ unstep-◻-min F ((• _) ᵇ) Q
    unstep⁻ᴹ (E │ᵥ F) {a″ = ◻} {R = ν [ _ │ _ ]} {ν [ _ │ _ ]} ◻ (ν [ R │ S ]) =
-      unstepᴹ E (◻ , π₂ (unrenᴹ idᶠ (ᵀ.tgt E) R)) │ unstepᴹ F (◻ , S)
+      unstepᴹ E (◻ , R) │ unstepᴹ F (◻ , S)
    unstep⁻ᴹ (E │ᵥ F) {a″ = [ τ ᶜ ]} {R = ν [ _ │ _ ]} {ν [ _ │ _ ]} ◻ (ν [ R │ S ]) =
-      unstepᴹ E (◻ , π₂ (unrenᴹ idᶠ (ᵀ.tgt E) R)) │ unstepᴹ F (◻ , S)
+      unstepᴹ E (◻ , R) │ unstepᴹ F (◻ , S)
    unstep⁻ᴹ (E │ᵥ F) {a″ = [ τ ᶜ ]} {R = ν [ _ │ _ ]} {ν [ _ │ _ ]} [ τ ᶜ ] (ν [ R │ S ]) =
-      unstepᴹ E ([ _ • ᵇ ] , π₂ (unrenᴹ idᶠ (ᵀ.tgt E) R)) │ unstepᴹ F ([ (• _) ᵇ ] , S)
+      unstepᴹ E ([ _ • ᵇ ] , R) │ unstepᴹ F ([ (• _) ᵇ ] , S)
    unstep⁻ᴹ {a = x • ᵇ} (νᵇ_ {R = P′} E) {a″ = ◻} ◻ (ν R) = ν unstepᴹ E (◻ , π₂ (unrenᴹ ᴿ.swap P′ R))
    unstep⁻ᴹ (νᵇ_ {R = P′} E) {a″ = [ x • ᵇ ]} ◻ (ν R) = ν unstepᴹ E (◻ , π₂ (unrenᴹ ᴿ.swap P′ R))
    unstep⁻ᴹ (νᵇ_ {R = P′} E) {a″ = [ x • ᵇ ]} [ .x • ᵇ ] (ν R) =
