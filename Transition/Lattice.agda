@@ -18,7 +18,7 @@ module Transition.Lattice where
    import Proc.Lattice as ᴾ̃; open ᴾ̃.↓_; open ᴾ̃.↓⁻_; open ᴾ̃._≤_; open ᴾ̃._≤⁻_
    open import Proc.Ren.Lattice renaming (_* to _*̃)
    open import Ren as ᴿ using (module Renameable); open Renameable ⦃...⦄
-   open import Ren.Lattice as ᴿ̃ using (pop; popᴹ; id; push; swap)
+   open import Ren.Lattice as ᴿ̃ using (pop; popᴹ; id; push; swap; _̃ᴹ)
    open import Transition as ᵀ using (_—[_-_]→_; module _—[_-_]→_); open _—[_-_]→_
 
    open module Action×Proc {Γ} = Lattice.Product (Action Γ) (Proc ∘ᶠ ᴬ.tgt) using (×-prefixes)
@@ -322,8 +322,11 @@ module Transition.Lattice where
    ... | ◻ | [ .y ] | _ = unstepᴹ E (◻ , π₂ (unrenᴹ (ᴿ.pop y) P′ R)) │ unstepᴹ F (◻ , S)
    ... | [ .y ] | ◻ | ()
    ... | [ .y ] | [ .y ] | _ = unstepᴹ E (◻ , π₂ (unrenᴹ (ᴿ.pop y) P′ R)) │ unstepᴹ F ([ • x 〈 [ y ] 〉 ᶜ ] , S)
-   unstep⁻ᴹ (_│•_ {R = P′} {y = y} E F) {a″ = [ τ ᶜ ]} ◻ (R │ S) = {!!}
---      unstepᴹ E (◻ , π₂ (unrenᴹ (ᴿ.pop y) P′ R)) │ unstepᴹ F (◻ , S)
+   unstep⁻ᴹ (_│•_ {R = P′} {x = x} {y} E F) {a″ = [ τ ᶜ ]} {R = R′ │ S′} ◻ (R │ S)
+      with π₁ (unren (ᴿ.pop y) P′ R′) ᴺ.zero
+   ... | ◻ = unstepᴹ E (◻ , π₂ (unrenᴹ (ᴿ.pop y) P′ R)) │ unstepᴹ F (◻ , S)
+   ... | [ .y ] =
+      unstepᴹ E (◻ , π₂ (unrenᴹ (ᴿ.pop y) P′ R)) │ (unstepᴹ F ([ • x 〈 {!!} {-({!!} ̃ᴹ) (ᴹ zero)-} 〉 ᶜ ] , S))
    unstep⁻ᴹ (_│•_ {R = P′} {y = y} E F) {a″ = [ τ ᶜ ]} [ τ ᶜ ] (R │ S) =
       let pop-y , R′ = unrenᴹ (ᴿ.pop y) P′ R in
       unstepᴹ E ([ _ • ᵇ ] , R′) │ unstepᴹ F ([ • _ 〈 pop-y ᴺ.zero 〉 ᶜ ] , S)
