@@ -115,7 +115,7 @@ module Transition.Lattice.GaloisConnection where
    ... | repl-y , R′ | R″
       with step E (unstep E (◻ , R′)) | step F (unstep F (◻ , S)) |
            id≤step∘unstep E (◻ , R′) | id≤step∘unstep F (◻ , S)
-   ... | ◻ , R† | _ , S′ | _ , P | _ , Q = ◻ , [ ν [ (≤-trans R″ (({!!} *ᴹ) P)) │ Q ] ]
+   ... | ◻ , R† | _ , S′ | _ , P | _ , Q = ◻ , [ ν [ ≤-trans R″ (({!!} *ᴹ) P) │ Q ] ]
    ... | [ (x •) ᵇ ] , R† | ◻ , S′ | _ , P | _ , Q = ◻ , [ ν [ {!!} │ Q ] ]
    ... | [ (x •) ᵇ ] , R† | [ (• .x) ᵇ ] , S′ | _ , P | _ , Q = ◻ , [ ν [ {!!} │ Q ] ]
    id≤step⁻∘unstep⁻ (_│ᵥ_ {x = x} E F) [ τ ᶜ ] (ν [ R │ S ]) = {!!}
