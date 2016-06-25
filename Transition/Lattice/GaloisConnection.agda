@@ -83,14 +83,14 @@ module Transition.Lattice.GaloisConnection where
       a′ , [ ≤-trans (id≤ren∘unren push P R) ((ᴿ̃.top push *ᴹ) (ᴹ P′)) │ Q′ ]
    id≤step⁻∘unstep⁻ {a = _ ᶜ} (P │ᶜ E) a (R │ S) =
       let a′ , Q′ = id≤step∘unstep E (a , S) in a′ , [ ᴹ R │ Q′ ]
-   id≤step⁻∘unstep⁻ (_│•_ {R = P′} {x = x} {y} E F) a (R │ S)
+   id≤step⁻∘unstep⁻ (_│•_ {R = P′} {x = x} {y} E F) ◻ (R │ S) = {!!}
+   id≤step⁻∘unstep⁻ (_│•_ {R = P′} {x = x} {y} E F) [ τ ᶜ ] (R │ S)
       with unren (pop y) P′ R | id≤ren∘unren (pop y) P′ R
    ... | pop-y , R′ | R″
       with step E (unstep E ([ x • ᵇ ] , R′)) | step F (unstep F ([ • x 〈 pop-y ᴺ.zero 〉 ᶜ ] , S)) |
            id≤step∘unstep E ([ x • ᵇ ] , R′) | id≤step∘unstep F ([ • x 〈 pop-y ᴺ.zero 〉 ᶜ ] , S)
-   ... | [ .x • ᵇ ] , _ | [ • .x 〈 y′ 〉 ᶜ ] , _ | [ .x • ᵇ ] , P | [ • .x 〈 y″ 〉 ᶜ ] , Q
-      with ≤-trans R″ ((≤-trans pop-top (ᴿ̃.popᴹ y″) *ᴹ) (≤-trans (ᴹ R′) P))
-   ... | P″ = {!!} -- top (τ ᶜ) , [ P″ │ Q ]
+   ... | [ .x • ᵇ ] , _ | [ • .x 〈 y′ 〉 ᶜ ] , _ | [ .x • ᵇ ] , P | [ • .x 〈 y″ 〉 ᶜ ] , Q =
+      [ τ ᶜ ] , [ ≤-trans R″ ((≤-trans pop-top (ᴿ̃.popᴹ y″) *ᴹ) (≤-trans (ᴹ R′) P)) │ Q ]
    id≤step⁻∘unstep⁻ (_│ᵥ_ {x = x} E F) ◻ (ν ◻)
       with step E (unstep E (◻ , ◻)) | step F (unstep F (◻ , ◻)) |
            id≤step∘unstep E (◻ , ◻) | id≤step∘unstep F (◻ , ◻)
