@@ -106,14 +106,7 @@ module Transition.Lattice.GaloisConnection where
    ... | [ (.x •) ᵇ ] , R† | [ • .x 〈 [ .y ] 〉 ᶜ ] , S′ | _ , P | [ • .x 〈 [ .y ] 〉 ᶜ ] , Q rewrite ≡y† =
       let open ≤-Reasoning
           blib : pop-y† ᴿ̃.≤ ᴿ̃.pop [ y ]
-          blib =
-             begin
-                pop-y†
-             ≤⟨ pop-top ⟩
-                ᴿ̃.pop (pop-y† ᴺ.zero)
-             ≈⟨ cong-app (cong ᴿ̃.pop ≡y†) ⟩
-                ᴿ̃.pop [ y ]
-             ∎
+          blib = ≤-trans pop-top (≤-reflexive (cong-app (cong ᴿ̃.pop ≡y†)))
           blah : R ≤ (ᴿ̃.pop [ y ] *̃) R†
           blah =
              begin
