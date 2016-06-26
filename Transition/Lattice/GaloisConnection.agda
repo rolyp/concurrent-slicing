@@ -97,22 +97,34 @@ module Transition.Lattice.GaloisConnection where
       ◻ , [ ≤-trans pop-◻≤ (((≤-trans (subst (λ y† → pop-◻ ≤ ᴿ̃.pop y†) ≡y† pop-top) (popᴹ ◻)) *ᴹ) P) │ Q ]
    ... | [ (.x •) ᵇ ] , R† | [ • .x 〈 y′ 〉 ᶜ ] , S′ | _ , P | _ , Q =
       ◻ , [ ≤-trans pop-◻≤ (((≤-trans (subst (λ y† → pop-◻ ≤ ᴿ̃.pop y†) ≡y† pop-top) (popᴹ ◻)) *ᴹ) P) │ Q ]
-   id≤step⁻∘unstep⁻ (_│•_ {x = x} {y} E F) ◻ (R │ S) | pop-◻ | pop-◻≤ | [ .y ] | [ ≡y† ]
+   id≤step⁻∘unstep⁻ (_│•_ {x = x} {y} E F) ◻ (R │ S) | pop-y† | pop-y†≤ | [ .y ] | [ ≡y† ]
       with step E (unstep E (◻ , π₂ (unren (pop y) (ᵀ.tgt E) R))) | step F (unstep F ([ • x 〈 [ y ] 〉 ᶜ ] , S)) |
            id≤step∘unstep E (◻ , π₂ (unren (pop y) (ᵀ.tgt E) R)) | id≤step∘unstep F ([ • x 〈 [ y ] 〉 ᶜ ] , S)
    ... | ◻ , R† | ◻ , S′ | _ , P | _ , Q = {!!}
    ... | ◻ , R† | [ • .x 〈 y′ 〉 ᶜ ] , S′ | _ , P | _ , Q = {!!}
    ... | [ (.x •) ᵇ ] , R† | ◻ , S′ | _ , P | _ , Q = {!!}
-   ... | [ (.x •) ᵇ ] , R† | [ • .x 〈 y′ 〉 ᶜ ] , S′ | _ , P | _ , Q =
+   ... | [ (.x •) ᵇ ] , R† | [ • .x 〈 [ .y ] 〉 ᶜ ] , S′ | _ , P | [ • .x 〈 [ .y ] 〉 ᶜ ] , Q rewrite ≡y† =
       let open ≤-Reasoning
-          blah : R ≤ (ᴿ̃.pop y′ *̃) R†
+          blib : pop-y† ᴿ̃.≤ ᴿ̃.pop [ y ]
+          blib =
+             begin
+                pop-y†
+             ≤⟨ pop-top ⟩
+                ᴿ̃.pop (pop-y† ᴺ.zero)
+             ≈⟨ cong-app (cong ᴿ̃.pop ≡y†) ⟩
+                ᴿ̃.pop [ y ]
+             ∎
+          blah : R ≤ (ᴿ̃.pop [ y ] *̃) R†
           blah =
              begin
                 R
-             ≤⟨ {!!} ⟩
-                (ᴿ̃.pop y′ *̃) R†
-             ∎ in
-      ◻ , [ {!blah!} │ Q ]
+             ≤⟨ pop-y†≤ ⟩
+                (pop-y† *̃) (π₂ (unren (pop y) (ᵀ.tgt E) R))
+             ≤⟨ (blib *ᴹ) P ⟩
+                (ᴿ̃.pop [ y ] *̃) R†
+             ∎
+             in
+      ◻ , [ blah │ Q ]
 {-
       with unren (pop y) P′ R | id≤ren∘unren (pop y) P′ R
    ... | pop-y , R′ | R″
