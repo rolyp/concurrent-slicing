@@ -101,9 +101,9 @@ module Transition.Lattice.GaloisConnection where
       with step E (unstep E (◻ , π₂ (unren (pop y) (ᵀ.tgt E) R))) | step F (unstep F ([ • x 〈 [ y ] 〉 ᶜ ] , S)) |
            id≤step∘unstep E (◻ , π₂ (unren (pop y) (ᵀ.tgt E) R)) | id≤step∘unstep F ([ • x 〈 [ y ] 〉 ᶜ ] , S)
    ... | ◻ , R† | ◻ , S′ | _ , P | _ , Q = {!!}
-   ... | ◻ , R† | [ • .x 〈 y′ 〉 ᶜ ] , S′ | _ , P | _ , Q = {!!}
-   ... | [ (.x •) ᵇ ] , R† | ◻ , S′ | _ , P | _ , Q = {!!}
-   ... | [ (.x •) ᵇ ] , R† | [ • .x 〈 [ .y ] 〉 ᶜ ] , S′ | _ , P | [ • .x 〈 [ .y ] 〉 ᶜ ] , Q rewrite ≡y† =
+   ... | ◻ , R† | [ • .x 〈 y′ 〉 ᶜ ] , S′ | _ , P | ◻ , Q = {!!}
+   ... | [ (.x •) ᵇ ] , R† | ◻ , S′ | _ , P | () , Q
+   ... | [ (.x •) ᵇ ] , R† | [ • .x 〈 [ .y ] 〉 ᶜ ] , S′ | _ , P | [ • .x 〈 [ .y ] 〉 ᶜ ] , Q =
       let open ≤-Reasoning
           blib : pop-y† ᴿ̃.≤ ᴿ̃.pop [ y ]
           blib = ≤-trans pop-top (≤-reflexive (cong-app (cong ᴿ̃.pop ≡y†)))
