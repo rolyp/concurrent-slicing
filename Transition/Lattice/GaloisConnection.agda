@@ -84,35 +84,20 @@ module Transition.Lattice.GaloisConnection where
    id≤step⁻∘unstep⁻ {a = _ ᶜ} (P │ᶜ E) a (R │ S) =
       let a′ , Q′ = id≤step∘unstep E (a , S) in a′ , [ ᴹ R │ Q′ ]
    id≤step⁻∘unstep⁻ (_│•_ {x = x} {y} E F) ◻ (R │ S)
-      with π₁ (unren (pop y) (ᵀ.tgt E) R) ᴺ.zero | inspect (π₁ (unren (pop y) (ᵀ.tgt E) R)) ᴺ.zero
-   ... | ◻ | [ ≡y† ]
+      with π₁ (unren (pop y) (ᵀ.tgt E) R) | id≤ren∘unren (pop y) (ᵀ.tgt E) R |
+           π₁ (unren (pop y) (ᵀ.tgt E) R) ᴺ.zero | inspect (π₁ (unren (pop y) (ᵀ.tgt E) R)) ᴺ.zero
+   ... | pop-◻ | pop-◻≤ | ◻ | [ ≡y† ]
       with step E (unstep E (◻ , π₂ (unren (pop y) (ᵀ.tgt E) R))) | step F (unstep F (◻ , S)) |
            id≤step∘unstep E (◻ , π₂ (unren (pop y) (ᵀ.tgt E) R)) | id≤step∘unstep F (◻ , S)
-   ... | ◻ , R† | ◻ , S′ | _ , P | _ , Q = ◻ , [ {!!} │ Q ]
-   ... | ◻ , R† | [ • .x 〈 y′ 〉 ᶜ ] , S′ | p_ , P | _ , Q = ◻ , [ {!!} │ Q ]
-   ... | [ (.x •) ᵇ ] , R† | ◻ , S′ | _ , P | _ , Q = ◻ , [ {!!} │ Q ]
-   ... | [ (.x •) ᵇ ] , R† | [ • .x 〈 y′ 〉 ᶜ ] , S′ | _ , P | _ , Q rewrite ≡y† =
-      let open ≤-Reasoning
-          wib : π₁ (unren (pop y) (ᵀ.tgt E) R) ≤ ᴿ̃.pop y′
-          wib =
-             begin
-                π₁ (unren (pop y) (ᵀ.tgt E) R)
-             ≤⟨ subst (λ y† → π₁ (unren (pop y) (ᵀ.tgt E) R) ≤ ᴿ̃.pop y†) ≡y† pop-top ⟩
-                ᴿ̃.pop ◻
-             ≤⟨ popᴹ ◻ ⟩
-                ᴿ̃.pop y′
-             ∎
-          blah : R ≤ (ᴿ̃.pop y′ *̃) R†
-          blah =
-             begin
-                R
-             ≤⟨ id≤ren∘unren (pop y) (ᵀ.tgt E) R ⟩
-                (π₁ (unren (pop y) (ᵀ.tgt E) R) *̃) (π₂ (unren (pop y) (ᵀ.tgt E) R))
-             ≤⟨ (wib *ᴹ) P ⟩
-                (ᴿ̃.pop y′ *̃) R†
-             ∎ in
-      ◻ , [ blah │ Q ]
-   id≤step⁻∘unstep⁻ (_│•_ {x = x} {y} E F) ◻ (R │ S) | [ .y ] | [ ≡y† ] = {!!}
+   ... | ◻ , R† | ◻ , S′ | _ , P | _ , Q =
+      ◻ , [ ≤-trans pop-◻≤ (((≤-trans (subst (λ y† → pop-◻ ≤ ᴿ̃.pop y†) ≡y† pop-top) (popᴹ ◻)) *ᴹ) P) │ Q ]
+   ... | ◻ , R† | [ • .x 〈 y′ 〉 ᶜ ] , S′ | _ , P | _ , Q =
+      ◻ , [ ≤-trans pop-◻≤ (((≤-trans (subst (λ y† → pop-◻ ≤ ᴿ̃.pop y†) ≡y† pop-top) (popᴹ ◻)) *ᴹ) P) │ Q ]
+   ... | [ (.x •) ᵇ ] , R† | ◻ , S′ | _ , P | _ , Q =
+      ◻ , [ ≤-trans pop-◻≤ (((≤-trans (subst (λ y† → pop-◻ ≤ ᴿ̃.pop y†) ≡y† pop-top) (popᴹ ◻)) *ᴹ) P) │ Q ]
+   ... | [ (.x •) ᵇ ] , R† | [ • .x 〈 y′ 〉 ᶜ ] , S′ | _ , P | _ , Q =
+      ◻ , [ ≤-trans pop-◻≤ (((≤-trans (subst (λ y† → pop-◻ ≤ ᴿ̃.pop y†) ≡y† pop-top) (popᴹ ◻)) *ᴹ) P) │ Q ]
+   id≤step⁻∘unstep⁻ (_│•_ {x = x} {y} E F) ◻ (R │ S) | pop-◻′ | pop-◻≤ | [ .y ] | [ ≡y† ] = {!!}
 {-
       with unren (pop y) P′ R | id≤ren∘unren (pop y) P′ R
    ... | pop-y , R′ | R″
