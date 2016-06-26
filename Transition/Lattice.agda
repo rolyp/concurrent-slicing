@@ -382,3 +382,10 @@ module Transition.Lattice where
    ... | _ │ ◻ | _ │ ◻ | P │ ◻ = ! P
    ... | _ │ ◻ | P │ [ ! P′ ] | P† │ _ = ! ≤-trans P† (P ⊔ʳ P′)
    ... | _ │ [ ! _ ] | _ │ [ ! _ ] | P │ [ ! P′ ] = ! (P ⊔ᴹ P′)
+
+   -- Called 'bwd' in the paper.
+   src : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓′ R → ↓′ P
+   src E R = unstep E (◻ , R)
+
+   srcᴹ : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) {R R′ : ↓′ R} → R ≤′ R′ → src E R ≤′ src E R′
+   srcᴹ E R = unstepᴹ E (◻ , R)

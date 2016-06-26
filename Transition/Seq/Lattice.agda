@@ -13,9 +13,10 @@ module Transition.Seq.Lattice where
    open import Proc using (Proc; Proc↱; Proc↲)
    import Proc.Lattice as ᴾ̃; open ᴾ̃.↓_; open ᴾ̃.↓⁻_
    open import Transition as ᵀ using (_—[_-_]→_); open ᵀ._—[_-_]→_
-   import Transition.Lattice as ᵀ̃
+   open import Transition.Lattice as ᵀ̃ using (tgt)
    open import Transition.Seq as ᵀ⋆ using (_—[_]→⋆_); open ᵀ⋆._—[_]→⋆_
 
+{-
    -- Not sure it makes sense to allow a trace slice to have ◻ as a constitutent transition.
    mutual
       infixr 5 _ᵇ∷_ _ᶜ∷_
@@ -244,3 +245,9 @@ module Transition.Seq.Lattice where
 
    postulate
       target⋆ᴹ : ∀ {Γ P} {a⋆ : Action⋆ Γ} {R} {E₀⋆ : P —[ a⋆ ]→⋆ R} {E⋆ E′⋆ : ↓ E₀⋆} → E⋆ ≤ E′⋆ → target⋆ E⋆ ≤′ target⋆ E′⋆
+-}
+
+   source⋆ : ∀ {Γ P} {a⋆ : Action⋆ Γ} {R} (E⋆ : P —[ a⋆ ]→⋆ R) → ↓′ R → ↓′ P
+   source⋆ [] P = P
+   source⋆ (E ᵇ∷ E⋆) R = {!source ?!}
+   source⋆ (E ᶜ∷ E⋆) R = {!!}
