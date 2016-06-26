@@ -93,8 +93,10 @@ module Transition.Concur.Cofinal.Lattice.case.sync-propagate-b
            step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
    ... | ◻ , S‡ | [ ≡S‡ ] | ◻ , S† | [ ≡S† ] =
       subcase S† S‡ R′ P′ ◻ ◻ (,-inj₂ ≡R′) (,-inj₂ ≡P′) (,-inj₂ ≡S†) (,-inj₂ ≡S‡) refl
-   ... | ◻ , S‡ | [ ≡S‡ ] | [ • ._ 〈 y† 〉 ᶜ ] , S† | [ ≡S† ] = {!!}
-   ... | [ • ._ 〈 y‡ 〉 ᶜ ] , S‡ | [ ≡S‡ ] | ◻ , S† | [ ≡S† ] = {!!}
+   ... | ◻ , S‡ | [ ≡S‡ ] | [ • ._ 〈 y† 〉 ᶜ ] , S† | [ ≡S† ] =
+      ⊥-elim (◻≢[-] (trans (cong (push ᴬ*̃) (sym (,-inj₁ ≡S‡))) (trans (renᶜ-action-comm F push Q) (,-inj₁ ≡S†))))
+   ... | [ • ._ 〈 y‡ 〉 ᶜ ] , S‡ | [ ≡S‡ ] | ◻ , S† | [ ≡S† ] =
+      ⊥-elim (◻≢[-] (trans (sym (,-inj₁ ≡S†)) (trans (sym (renᶜ-action-comm F push Q)) (cong (push ᴬ*̃) (,-inj₁ ≡S‡)))))
    ... | [ • ._ 〈 y‡ 〉 ᶜ ] , S‡ | [ ≡S‡ ] | [ • ._ 〈 y† 〉 ᶜ ] , S† | [ ≡S† ] =
       let α : [ • ᴺ.suc x 〈 (push ̃) y‡ 〉 ᶜ ] ≡ [ • ᴺ.suc x 〈 y† 〉 ᶜ ]
           α = trans (sym (cong (push ᴬ*̃) (,-inj₁ ≡S‡))) (trans (renᶜ-action-comm F push Q) (,-inj₁ ≡S†)) in
