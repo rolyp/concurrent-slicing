@@ -9,11 +9,11 @@ module Transition.Seq.Lattice where
       open Lattice.Prefixes ⦃...⦄
          using (ᴹ; _⊔ᴹ_; _⊔ʳ_; ≤-trans)
          renaming (↓_ to ↓′_; ↓⁻_ to ↓⁻′_; _≤_ to _≤′_; _≤⁻_ to _≤⁻′_; _⊔_ to _⊔′_; _⊓_ to _⊓′_; ≤ᴸ⇒≤ to ≤′ᴸ⇒≤′; ≤⇒≤ᴸ to ≤′⇒≤′ᴸ)
-   open import Name using (+-assoc)
+   open import Name using (_+_; +-assoc)
    open import Proc using (Proc; Proc↱; Proc↲)
    import Proc.Lattice as ᴾ̃; open ᴾ̃.↓_; open ᴾ̃.↓⁻_
    open import Transition as ᵀ using (_—[_-_]→_); open ᵀ._—[_-_]→_
-   open import Transition.Lattice as ᵀ̃ using (tgt)
+   open import Transition.Lattice as ᵀ̃ using (src; tgt)
    open import Transition.Seq as ᵀ⋆ using (_—[_]→⋆_); open ᵀ⋆._—[_]→⋆_
 
 {-
@@ -247,7 +247,9 @@ module Transition.Seq.Lattice where
       target⋆ᴹ : ∀ {Γ P} {a⋆ : Action⋆ Γ} {R} {E₀⋆ : P —[ a⋆ ]→⋆ R} {E⋆ E′⋆ : ↓ E₀⋆} → E⋆ ≤ E′⋆ → target⋆ E⋆ ≤′ target⋆ E′⋆
 -}
 
-   source⋆ : ∀ {Γ P} {a⋆ : Action⋆ Γ} {R} (E⋆ : P —[ a⋆ ]→⋆ R) → ↓′ R → ↓′ P
-   source⋆ [] P = P
-   source⋆ (E ᵇ∷ E⋆) R = {!source ?!}
-   source⋆ (E ᶜ∷ E⋆) R = {!!}
+   src⋆ : ∀ {Γ P} {a⋆ : Action⋆ Γ} {R} (E⋆ : P —[ a⋆ ]→⋆ R) → ↓′ R → ↓′ P
+   src⋆ [] P = P
+   src⋆ {Γ} {a⋆ = a ᵇ∷ a⋆} (E ᵇ∷ E⋆) R =
+      src E (src⋆ E⋆ (≅-subst✴ Proc ↓′_ (sym (+-assoc Γ 1 (inc⋆ a⋆))) (Proc↲ (+-assoc Γ 1 (inc⋆ a⋆)) (ᵀ⋆.tgt⋆ E⋆)) R))
+   src⋆ {Γ} {a⋆ = a ᶜ∷ a⋆} (E ᶜ∷ E⋆) R =
+      src E (src⋆ E⋆ (≅-subst✴ Proc ↓′_ (sym (+-assoc Γ 0 (inc⋆ a⋆))) (Proc↲ (+-assoc Γ 0 (inc⋆ a⋆)) (ᵀ⋆.tgt⋆ E⋆)) R))
