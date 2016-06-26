@@ -88,10 +88,18 @@ module Transition.Concur.Cofinal.Lattice.case.sync-propagate-b
       with step E′ P | inspect (step E′) P
    case | ◻ , R′ | [ ≡R′ ]
       with step (E′/E (⊖₁ 𝐸)) (tgt E P) | inspect (step (E′/E (⊖₁ 𝐸))) (tgt E P)
-   ... | ◻ , P′ | [ ≡P′ ] =
-      let S† = tgt ((ᴿ.push *ᶜ) F) ((push *̃) Q); S‡ = tgt F Q in
-      subcase S† S‡ R′ P′ ◻ ◻ (,-inj₂ ≡R′) (,-inj₂ ≡P′) refl refl refl
-   ... | [ (._ •) ᵇ ] , P′ | [ ≡P′ ] =
+   ... | ◻ , P′ | [ ≡P′ ]
+      with step F Q | inspect (step F) Q |
+           step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
+   ... | ◻ , S‡ | [ ≡S‡ ] | ◻ , S† | [ ≡S† ] =
+      subcase S† S‡ R′ P′ ◻ ◻ (,-inj₂ ≡R′) (,-inj₂ ≡P′) (,-inj₂ ≡S†) (,-inj₂ ≡S‡) refl
+   ... | ◻ , S‡ | [ ≡S‡ ] | [ • ._ 〈 y† 〉 ᶜ ] , S† | [ ≡S† ] = {!!}
+   ... | [ • ._ 〈 y‡ 〉 ᶜ ] , S‡ | [ ≡S‡ ] | ◻ , S† | [ ≡S† ] = {!!}
+   ... | [ • ._ 〈 y‡ 〉 ᶜ ] , S‡ | [ ≡S‡ ] | [ • ._ 〈 y† 〉 ᶜ ] , S† | [ ≡S† ] =
+      let α : [ • ᴺ.suc x 〈 (push ̃) y‡ 〉 ᶜ ] ≡ [ • ᴺ.suc x 〈 y† 〉 ᶜ ]
+          α = trans (sym (cong (push ᴬ*̃) (,-inj₁ ≡S‡))) (trans (renᶜ-action-comm F push Q) (,-inj₁ ≡S†)) in
+      subcase S† S‡ R′ P′ y† y‡ (,-inj₂ ≡R′) (,-inj₂ ≡P′) (,-inj₂ ≡S†) (,-inj₂ ≡S‡) (sym ([•x〈-〉ᶜ]-inj α))
+   case | ◻ , R′ | [ ≡R′ ] | [ (._ •) ᵇ ] , P′ | [ ≡P′ ] =
       ⊥-elim (◻≢[-] (trans (cong (push ᴬ*̃) (sym (,-inj₁ ≡R′))) (trans (sym (π₁ (ᴬgamma₁ 𝐸 P))) (,-inj₁ ≡P′))))
    case
       | [ ._ • ᵇ ] , R′ | [ ≡R′ ]
@@ -103,7 +111,7 @@ module Transition.Concur.Cofinal.Lattice.case.sync-propagate-b
       with step ((ᴿ.push *ᶜ) F) ((push *̃) Q) | inspect (step ((ᴿ.push *ᶜ) F)) ((push *̃) Q)
    ... | ◻ , S† | [ ≡S† ] =
       subcase S† S‡ R′ P′ ◻ ◻ (,-inj₂ ≡R′) (,-inj₂ ≡P′) (,-inj₂ ≡S†) (,-inj₂ ≡S‡) refl
-   ... | [ • ._ 〈 y′ 〉 ᶜ ] , S† | [ ≡S† ] =
+   ... | [ • ._ 〈 y† 〉 ᶜ ] , S† | [ ≡S† ] =
       ⊥-elim (◻≢[-] (trans (cong (push ᴬ*̃) (sym (,-inj₁ ≡S‡))) (trans (renᶜ-action-comm F push Q) (,-inj₁ ≡S†))))
    case
       | [ ._ • ᵇ ] , R′ | [ ≡R′ ] | ◻ , P′ | [ ≡P′ ] | [ • .x 〈 y‡ 〉 ᶜ ] , S‡ | [ ≡S‡ ] =
