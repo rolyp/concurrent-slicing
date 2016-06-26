@@ -28,6 +28,10 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-x-x-nu-sync
       (R : ↓ R₀) (R′ : ↓ R′₀) (S : ↓ S₀) (S′ : ↓ S′₀) (≡R : tgt E P ≡ R) (≡R′ : tgt E′ P ≡ R′)
       (≡S : tgt F Q ≡ S) (≡S′ : tgt F′ Q ≡ S′) where
 
+      postulate
+         cheat : (y† y‡ : ↓ ᴺ.zero) →
+                 (pop y† *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)) ≅ (pop y‡ *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
+
       base : (P′ : ↓ P′₀) (Q′ : ↓ Q′₀) (P″ : ↓ P″₀) (Q″ : ↓ Q″₀) →
              tgt (E′/E (⊖₁ 𝐸)) R ≡ P′ → tgt (E′/E (⊖₁ 𝐹)) S ≡ Q′ →
              tgt (E/E′ (⊖₁ 𝐸)) R′ ≡ P″ → tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″ → (y† y‡ : ↓ ᴺ.zero) →
@@ -42,7 +46,7 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-x-x-nu-sync
                    (pop y† *̃) (tgt (E′/E (⊖₁ 𝐸)) R)
                 ≡⟨ cong ((pop y† *̃) ∘ᶠ tgt (E′/E (⊖₁ 𝐸))) (sym ≡R) ⟩
                    (pop y† *̃) (tgt (E′/E (⊖₁ 𝐸)) ((tgt E P)))
-                ≅⟨ {!!} ⟩
+                ≅⟨ cheat y† y‡ ⟩
                    (pop y‡ *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
                 ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) (pop y‡ *̃) (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _)) ⟩
                    (pop y‡ *̃) (braiding ᵇ∇ᵇ {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
@@ -53,13 +57,6 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-x-x-nu-sync
                 ≡⟨ cong (pop y‡ *̃) ≡P″ ⟩
                    (pop y‡ *̃) P″
                 ∎
-
-{-
-                   (pop y′ *̃) ((suc (repl y‡) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
-                ≅⟨ ≅-sym (pop-swap̃ y′ y‡ _) ⟩
-                   (pop y‡ *̃) ((suc (repl y′) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
--}
-
              δ = Q′ ≅ Q″
              δ = let open ≅-Reasoning in
                 begin
