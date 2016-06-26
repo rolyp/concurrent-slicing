@@ -101,33 +101,10 @@ module Transition.Lattice.GaloisConnection where
       with step E (unstep E (◻ , π₂ (unren (pop y) (ᵀ.tgt E) R))) | step F (unstep F ([ • x 〈 [ y ] 〉 ᶜ ] , S)) |
            id≤step∘unstep E (◻ , π₂ (unren (pop y) (ᵀ.tgt E) R)) | id≤step∘unstep F ([ • x 〈 [ y ] 〉 ᶜ ] , S)
    ... | _ , R† | ◻ , S′ | _ , P | () , Q
-   ... | ◻ , R† | [ • .x 〈 [ .y ] 〉 ᶜ ] , S′ | ◻ , P | [ • .x 〈 [ .y ] 〉 ᶜ ] , Q = {!!}
+   ... | ◻ , R† | [ • .x 〈 [ .y ] 〉 ᶜ ] , S′ | ◻ , P | [ • .x 〈 [ .y ] 〉 ᶜ ] , Q =
+      ◻ , [ ≤-trans pop-y†≤ (((≤-trans pop-top (≤-reflexive (cong-app (cong ᴿ̃.pop ≡y†)))) *ᴹ) P) │ Q ]
    ... | [ (.x •) ᵇ ] , R† | [ • .x 〈 [ .y ] 〉 ᶜ ] , S′ | _ , P | [ • .x 〈 [ .y ] 〉 ᶜ ] , Q =
-      let open ≤-Reasoning
-          blib : pop-y† ᴿ̃.≤ ᴿ̃.pop [ y ]
-          blib = ≤-trans pop-top (≤-reflexive (cong-app (cong ᴿ̃.pop ≡y†)))
-          blah : R ≤ (ᴿ̃.pop [ y ] *̃) R†
-          blah =
-             begin
-                R
-             ≤⟨ pop-y†≤ ⟩
-                (pop-y† *̃) (π₂ (unren (pop y) (ᵀ.tgt E) R))
-             ≤⟨ (blib *ᴹ) P ⟩
-                (ᴿ̃.pop [ y ] *̃) R†
-             ∎
-             in
-      ◻ , [ blah │ Q ]
-{-
-      with unren (pop y) P′ R | id≤ren∘unren (pop y) P′ R
-   ... | pop-y , R′ | R″
-      with step E (unstep E (◻ , R′)) | step F (unstep F (◻ , S)) |
-           id≤step∘unstep E (◻ , R′) | id≤step∘unstep F (◻ , S)
-   ... | ◻ , R† | _ , S′ | _ , P | _ , Q = ◻ , [ ≤-trans R″ (({!!} *ᴹ) P) │ Q ]
-   ... | [ .x • ᵇ ] , proj₂ | ◻ , proj₃ | proj₁ , P₁ | proj₄ , Q₁ = {!!}
-   ... | [ .x • ᵇ ] , R† | [ • .x 〈 y′ 〉 ᶜ ] , S′ | ◻ , P | ◻ , Q =
-      ◻ , [ ≤-trans R″ ((≤-trans pop-top (popᴹ {!!}) *ᴹ) P) │ {!!} ]
--}
-
+      ◻ , [ ≤-trans pop-y†≤ (((≤-trans pop-top (≤-reflexive (cong-app (cong ᴿ̃.pop ≡y†)))) *ᴹ) P) │ Q ]
    id≤step⁻∘unstep⁻ (_│•_ {x = x} {y} E F) [ τ ᶜ ] (R │ S)
       with unren (pop y) (ᵀ.tgt E) R | id≤ren∘unren (pop y) (ᵀ.tgt E) R
    ... | pop-y , R′ | R″
