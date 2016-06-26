@@ -6,7 +6,7 @@ module Transition.Seq.Lattice.GaloisConnection where
    open import Ext.Algebra.Structures
 
    open import Action as ᴬ using (Action; Actionᵇ; Actionᶜ); open ᴬ.Action; open ᴬ.Actionᵇ; open ᴬ.Actionᶜ
-   open import Action.Lattice as ᴬ̃ using (↓ᵇ⁻_; ↓ᶜ⁻_); open ᴬ̃.↓_; open ᴬ̃.↓⁻_; open ᴬ̃.↓ᵇ⁻_; open ᴬ̃.↓ᶜ⁻_; open ᴬ̃._≤_
+   open import Action.Lattice as ᴬ̃ using (↓ᵇ_; ↓ᶜ_); open ᴬ̃.↓_; open ᴬ̃.↓⁻_; open ᴬ̃.↓ᵇ_; open ᴬ̃.↓ᶜ_; open ᴬ̃._≤_
    open import Action.Seq as ᴬ⋆ using (Action⋆; inc⋆); open ᴬ⋆.Action⋆
    import Lattice; open Lattice.Prefixes ⦃...⦄
    open import Proc using (Proc; Proc↱; Proc↲)
