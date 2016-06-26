@@ -38,34 +38,26 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-x-x-nu-sync
              β = let open ≅-Reasoning in
                 begin
                    (pop y† *̃) P′
-                ≅⟨ ? ⟩
+                ≡⟨ cong (pop y† *̃) (sym ≡P′) ⟩
+                   (pop y† *̃) (tgt (E′/E (⊖₁ 𝐸)) R)
+                ≡⟨ cong ((pop y† *̃) ∘ᶠ tgt (E′/E (⊖₁ 𝐸))) (sym ≡R) ⟩
+                   (pop y† *̃) (tgt (E′/E (⊖₁ 𝐸)) ((tgt E P)))
+                ≅⟨ {!!} ⟩
+                   (pop y‡ *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
+                ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) (pop y‡ *̃) (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _)) ⟩
+                   (pop y‡ *̃) (braiding ᵇ∇ᵇ {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
+                ≡⟨ cong (pop y‡ *̃) IH₁ ⟩
+                   (pop y‡ *̃) (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))
+                ≡⟨ cong ((pop y‡ *̃) ∘ᶠ tgt (E/E′ (⊖₁ 𝐸))) ≡R′ ⟩
+                   (pop y‡ *̃) (tgt (E/E′ (⊖₁ 𝐸)) R′)
+                ≡⟨ cong (pop y‡ *̃) ≡P″ ⟩
                    (pop y‡ *̃) P″
                 ∎
 
 {-
-                begin
-                   (pop y† *̃) P′
-                ≡⟨ cong (pop y† *̃) (sym ≡P′) ⟩
-                   (pop y† *̃) (tgt ((idᶠ *ᵇ) (E′/E (⊖₁ 𝐸))) ((repl y *̃) R))
-                ≡⟨ cong (pop y† *̃) (sym (renᵇ-tgt-comm (E′/E (⊖₁ 𝐸)) (repl y) R)) ⟩
-                   (pop y† *̃) ((suc (repl y) *̃) (tgt (E′/E (⊖₁ 𝐸)) R))
-                ≡⟨ cong ((pop y† *̃) ∘ᶠ (suc (repl y) *̃) ∘ᶠ tgt (E′/E (⊖₁ 𝐸))) (sym ≡R) ⟩
-                   (pop y† *̃) ((suc (repl y) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
-                ≡⟨ cong₂ (λ z z′ → ((pop z *̃) ((suc (repl z′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))) trustMe trustMe ⟩
                    (pop y′ *̃) ((suc (repl y‡) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
                 ≅⟨ ≅-sym (pop-swap̃ y′ y‡ _) ⟩
                    (pop y‡ *̃) ((suc (repl y′) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
-                ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) ((pop y‡ *̃) ∘ᶠ (suc (repl y′) *̃)) (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _)) ⟩
-                   (pop y‡ *̃) ((suc (repl y′) *̃) (braiding ᵇ∇ᵇ {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
-                ≡⟨ cong ((pop y‡ *̃) ∘ᶠ (suc (repl y′) *̃)) IH₁ ⟩
-                   (pop y‡ *̃) ((suc (repl y′) *̃) (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P)))
-                ≡⟨ cong ((pop y‡ *̃) ∘ᶠ ((suc (repl y′) *̃) ∘ᶠ tgt (E/E′ (⊖₁ 𝐸)))) ≡R′ ⟩
-                   (pop y‡ *̃) ((suc (repl y′) *̃) (tgt (E/E′ (⊖₁ 𝐸)) R′))
-                ≡⟨ cong (pop y‡ *̃) (renᵇ-tgt-comm (E/E′ (⊖₁ 𝐸)) (repl y′) R′) ⟩
-                   (pop y‡ *̃) (tgt ((idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸))) ((repl y′ *̃) R′))
-                ≡⟨ cong (pop y‡ *̃) ≡P″ ⟩
-                   (pop y‡ *̃) P″
-                ∎
 -}
 
              δ = Q′ ≅ Q″
