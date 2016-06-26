@@ -13,9 +13,9 @@ module Transition.Seq.Lattice.GaloisConnection where
    open import Name as ᴺ using (_+_; +-assoc)
    import Name.Lattice as ᴺ̃; open ᴺ̃.↓_
    import Proc.Lattice as ᴾ̃; open ᴾ̃.↓⁻_; open ᴾ̃.↓_; open ᴾ̃._≤_; open ᴾ̃._≤⁻_
-   import Transition.Lattice as ᵀ̃
+   open import Transition.Lattice as ᵀ̃ using (step; stepᴹ; unstep; tgt; tgtᴹ; src; srcᴹ)
    open import Transition.Lattice.GaloisConnection
-      using (step; stepᴹ; unstep; fwd; fwdᴹ; fwd⁻; fwd⁻ᴹ; bwd; bwdᴹ; bwd⁻; bwd⁻ᴹ; id≤fwd∘bwd; id≤fwd⁻∘bwd⁻; bwd∘fwd≤id)
+      using (fwd⁻; fwd⁻ᴹ; bwd⁻; bwd⁻ᴹ; id≤fwd∘bwd; id≤fwd⁻∘bwd⁻; bwd∘fwd≤id)
    open import Transition.Seq as ᵀ⋆ using (_—[_]→⋆_; action⋆); open ᵀ⋆._—[_]→⋆_
    open import Transition.Seq.Lattice as ᵀ̃⋆ using (source⋆; target⋆; target⋆ᴹ);
       open ᵀ̃⋆.↓_; open ᵀ̃⋆.↓⁻_; open ᵀ̃⋆._≤_; open ᵀ̃⋆._≤⁻_
@@ -47,12 +47,6 @@ module Transition.Seq.Lattice.GaloisConnection where
    nibble : ∀ {Γ Δ} (eq : Γ ≡ Δ) (S : Proc Γ) (R′ : ↓⁻ S) (R : ↓⁻ (Proc↱ eq S)) (eq′ : R ≅ R′) →
             _≅_ {A = ↓ S} [ R′ ] {B = ↓ (Proc↱ eq S)} [ R ]
    nibble {Γ} {.Γ} refl _ R .R ≅-refl = ≅-refl
-
-   fwd⋆ : ∀ {Γ P} {a⋆ : Action⋆ Γ} {R} (E⋆ : P —[ a⋆ ]→⋆ R) → ↓ P → ↓ R
-   fwd⋆ _ ◻ = ◻
-   fwd⋆ [] [ P ] = [ P ]
-   fwd⋆ (E ᵇ∷ E⋆) [ P ] = quib 1 E⋆ (fwd⋆ E⋆ (π₂ (fwd⁻ E P)))
-   fwd⋆ (E ᶜ∷ E⋆) [ P ] = quib 0 E⋆ (fwd⋆ E⋆ (π₂ (fwd⁻ E P)))
 
    fwd⋆ᴹ : ∀ {Γ P₀} {a⋆ : Action⋆ Γ} {R} (E⋆ : P₀ —[ a⋆ ]→⋆ R) {P P′ : ↓ P₀} → P ≤ P′ → fwd⋆ E⋆ P ≤ fwd⋆ E⋆ P′
    fwd⋆ᴹ _ ◻ = ◻
