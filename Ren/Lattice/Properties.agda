@@ -16,7 +16,7 @@ module Ren.Lattice.Properties where
       )
    open import Ren as ᴿ using (Ren; +-preserves-involutivity); open ᴿ.Renameable ⦃...⦄
    open import Ren.Lattice as ᴿ̃
-      using (_̃; _ᴿ+_; to-↓; to-↓-preserves-≃ₑ; to-↓-preserves-+; suc; swap; push; id; pop; repl; weaken)
+      using (_̃; _ᴿ+_; to-↓; to-↓-preserves-≃ₑ; to-↓-preserves-+; suc; swap; push; id; pop; weaken)
    open import Ren.Properties
 
    -- Should be able to generalise along the lines of Ren.Properties, but tricky.
@@ -66,17 +66,18 @@ module Ren.Lattice.Properties where
       swap∘push̃ : ∀ {Γ} {P : Proc (Γ + 1)} (P′ : ↓ P) → (suc push *̃) P′ ≅ (swap *̃) ((push *̃) P′)
       pop∘swap̃ : ∀ {Γ} {y : Name Γ} (y′ : ↓ y) {P : Proc (Γ + 2)} (P′ : ↓ P) →
                   (suc (pop y′) *̃) P′ ≅ ((pop ((push ̃) y′)) *̃) ((swap *̃) P′)
-      pop-swap̃ : ∀ {Γ} (y y′ : ↓ ᴺ.zero) {P : Proc (Γ + 2)} (P′ : ↓ P) →
-                  (pop y′ *̃) ((suc (repl y) *̃) ((swap {Γ} *̃) P′)) ≅ (pop y *̃) ((suc (repl y′) *̃) P′)
+      pop-swap̃ : ∀ {Γ} (y : ↓ ᴺ.zero) {P : Proc (Γ + 2)} (P′ : ↓ P) →
+                  (pop y *̃) ((swap {Γ} *̃) P′) ≅ (pop y *̃) P′
       pop∘suc-push̃ : ∀ {Γ} {y : Name Γ} (y′ : ↓ y) {P : Proc (Γ + 1)} (P′ : ↓ P) →
                      (push *̃) ((pop y′ *̃) P′) ≅ (pop ((push ̃) y′) *̃) ((suc push *̃) P′)
       pop-zero∘suc-push̃ : ∀ {Γ} (y : ↓ ᴺ.zero) {P : Proc (Γ + 1)} (P′ : ↓ P) →
-                           (pop {Γ + 1} y *̃) ((suc push *̃) P′) ≅ (repl y *̃) P′
+                           (pop {Γ + 1} y *̃) ((suc push *̃) P′) ≅ P′
       swap-swap̃ : ∀ {Γ} {P P′ : Proc (Γ + 2)} {P† : ↓ P} {P‡ : ↓ P′} → (swap *̃) P† ≅ P‡ → P† ≅ (swap *̃) P‡
-
+{-
       -- Corresponds to id ∘ swap = swap ∘ id, which is too trivial to have a Ren.Properties counterpart.
       id-swap̃ : ∀ {Γ} (y : ↓ ᴺ.zero) {P : Proc (Γ + 2)} (P′ : ↓ P) →
                     (repl ((weaken ̃) y) *̃) ((swap *̃) P′) ≅ (swap *̃) ((suc (repl y) *̃) P′)
       -- Corresponds to id ∘ suc push ≡ swap ∘ push ∘ id, which we prove inline rather than as a lemma.
       id∘suc-push̃ : ∀ {Γ} {y : ↓ ᴺ.zero} {P : Proc (Γ + 1)} (P′ : ↓ P) →
                     (repl ((weaken ̃) y) *̃) ((suc push *̃) P′) ≅ (suc push *̃) ((repl y *̃) P′)
+-}
