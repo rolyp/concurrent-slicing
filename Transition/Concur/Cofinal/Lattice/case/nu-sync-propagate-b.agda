@@ -18,23 +18,14 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-propagate-b
       where
 
       module _
-         (P′ : ↓ P′₀) (S′ : ↓ (ᴿ.suc ᴿ.push *) S₀) (id*E/E′ : (idᶠ *) R′₀ —[ ᴺ.suc x′ • ᵇ - _ ]→ (ᴿ.suc idᶠ *) P″₀)
-         (S : ↓ S₀) (R′ : ↓ R′₀) (y : ↓ ᴺ.zero) (≡id*E/E′ : (idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸)) ≡ id*E/E′)
+         (P′ : ↓ P′₀) (S′ : ↓ (ᴿ.suc ᴿ.push *) S₀)  (S : ↓ S₀) (R′ : ↓ R′₀)
          (≡P′ : tgt (E′/E (⊖₁ 𝐸)) (tgt E P) ≡ P′) (≡S : tgt F Q ≡ S) (≡S′ : tgt ((ᴿ.push *ᵇ) F) ((push *̃) Q) ≡ S′)
          (≡R′ : tgt E′ P ≡ R′)
-         (let α : (idᶠ *) P′₀ ≡ (ᴿ.swap *) ((ᴿ.suc idᶠ *) P″₀)
-              α = (let open EqReasoning (setoid _) in
-                begin
-                   (idᶠ *) P′₀
-                ≡⟨ *-preserves-id P′₀ ⟩
-                   P′₀
-                ≡⟨ swap-swap (γ₁ 𝐸) ⟩
-                   (ᴿ.swap *) P″₀
-                ≡⟨ cong (ᴿ.swap *) (sym (+-id-elim 1 P″₀)) ⟩
-                   (ᴿ.swap *) ((ᴿ.suc idᶠ *) P″₀)
-                ∎))
+         (let α : P′₀ ≡ (ᴿ.swap *) P″₀
+              α = swap-swap (γ₁ 𝐸))
          where
 
+{-
          base :
             (P″ : ↓ (ᴿ.suc idᶠ *) P″₀) (≡P″ : tgt id*E/E′ ((repl y *̃) R′) ≡ P″) →
             braiding (ᵇ∇ᶜ {a = x′ •} {τ}) {0} (cong ν_ (cong₂ _│_ α (swap∘push S₀)))
@@ -88,15 +79,21 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-propagate-b
             ≅⟨ [ν-]-cong (cong₂ _│_ α (swap∘push S₀)) ([-│-]-cong α β (swap∘push S₀) δ) ⟩
                [ ν [ (swap *̃) P″ │ (swap *̃) ((push *̃) S) ] ]
             ∎)
+-}
 
-         subcase :
+         postulate
+          subcase :
             braiding (ᵇ∇ᶜ {a = x′ •} {τ}) {0} (cong ν_ (cong₂ _│_ α (swap∘push S₀)))
-            [ ν [ (repl ((weaken ̃) y) *̃) P′ │ S′ ] ] ≡
-            π₂ (step⁻ (νᵇ (id*E/E′ ᵇ│ S₀)) (ν [ (repl y *̃) R′ │ S ]))
+            [ ν [ P′ │ S′ ] ]
+            ≡
+            π₂ (step⁻ (νᵇ (E/E′ (⊖₁ 𝐸) ᵇ│ S₀)) (ν [ R′ │ S ]))
+
+{-
          subcase
             with step id*E/E′ ((repl y *̃) R′) | inspect (step id*E/E′) ((repl y *̃) R′)
          ... | ◻ , P″ | [ ≡P″ ] = base P″ (,-inj₂ ≡P″)
          ... | [ ._ • ᵇ ] , P″ | [ ≡P″ ] = base P″ (,-inj₂ ≡P″)
+-}
 
       case :
          braiding (ᵇ∇ᶜ {a = x′ •} {τ}) {0} (γ₁ (𝐸 │ᵥᵇ F))
@@ -104,29 +101,28 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-propagate-b
          ≡
          tgt (E/E′ (⊖₁ (𝐸 │ᵥᵇ F))) (tgt (E′ │ᵥ F) [ P │ Q ])
       case
-         with (idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸)) | step E′ P | step F Q | step (E′/E (⊖₁ 𝐸)) (tgt E P) |
-              step ((ᴿ.push *ᵇ) F) ((push *̃) Q) | inspect (idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸)) | inspect (step E′) P |
+         with step E′ P | step F Q | step (E′/E (⊖₁ 𝐸)) (tgt E P) |
+              step ((ᴿ.push *ᵇ) F) ((push *̃) Q) | inspect (step E′) P |
               inspect (step F) Q | inspect (step (E′/E (⊖₁ 𝐸))) (tgt E P) | inspect (step ((ᴿ.push *ᵇ) F)) ((push *̃) Q)
-      ... | id*E/E′ | [ ._ • ᵇ ] , R′ | _ , S | ◻ , P′ | _ , S′ | [ ≡id*E/E′ ] | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
+      ... | [ ._ • ᵇ ] , R′ | _ , S | ◻ , P′ | _ , S′ | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
          ⊥-elim (◻≢[-] (trans (sym (,-inj₁ ≡P′)) (trans (π₁ (ᴬgamma₁ 𝐸 P)) (cong (push ᴬ*̃) (,-inj₁ ≡R′)))))
-      ... | id*E/E′ | ◻ , R′ | _ , S | [ ._ • ᵇ ] , P′ | _ , S′ | [ ≡id*E/E′ ] | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
+      ... | ◻ , R′ | _ , S | [ ._ • ᵇ ] , P′ | _ , S′ | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
          ⊥-elim (◻≢[-] (trans (cong (push ᴬ*̃) (sym (,-inj₁ ≡R′))) (trans (sym (π₁ (ᴬgamma₁ 𝐸 P))) (,-inj₁ ≡P′))))
-      ... | id*E/E′ | _ , R′ | [ (• ._) ᵇ ] , S | _ , P′ | ◻ , S′ | [ ≡id*E/E′ ] | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
+      ... | _ , R′ | [ (• ._) ᵇ ] , S | _ , P′ | ◻ , S′ | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
          ⊥-elim (◻≢[-] (trans (sym (,-inj₁ ≡S′)) (trans (sym (renᵇ-action-comm F push Q)) (cong (push ᴬ*̃) (,-inj₁ ≡S)))))
-      ... | id*E/E′ | _ , R′ | ◻ , S | _ , P′ | [ (• ._) ᵇ ] , S′ | [ ≡id*E/E′ ] | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
+      ... | _ , R′ | ◻ , S | _ , P′ | [ (• ._) ᵇ ] , S′ | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
          ⊥-elim (◻≢[-] (trans (cong (push ᴬ*̃) (sym (,-inj₁ ≡S))) (trans (renᵇ-action-comm F push Q) (,-inj₁ ≡S′))))
-      ... | id*E/E′ | ◻ , R′ | ◻ , S | ◻ , P′ | ◻ , S′ | [ ≡id*E/E′ ] | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
-         subcase P′ S′ id*E/E′ S R′ ◻ ≡id*E/E′ (,-inj₂ ≡P′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (,-inj₂ ≡R′)
-      ... | id*E/E′ | ◻ , R′ | [ (• ._) ᵇ ] , S | ◻ , P′ | [ (• ._) ᵇ ] , S′ |
-         [ ≡id*E/E′ ] | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
-         subcase P′ S′ id*E/E′ S R′ ◻ ≡id*E/E′ (,-inj₂ ≡P′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (,-inj₂ ≡R′)
-      ... | id*E/E′ | [ ._ • ᵇ ] , R′ | ◻ , S | [ ._ • ᵇ ] , P′ | ◻ , S′ |
-         [ ≡id*E/E′ ] | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
-         subcase P′ S′ id*E/E′ S R′ ◻ ≡id*E/E′ (,-inj₂ ≡P′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (,-inj₂ ≡R′)
-      ... | id*E/E′ | [ ._ • ᵇ ] , R′ | [ (• ._) ᵇ ] , S | [ ._ • ᵇ ] , P′ | [ (• ._) ᵇ ] , S′ |
-         [ ≡id*E/E′ ] | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
-         subcase P′ S′ id*E/E′ S R′ zero ≡id*E/E′ (,-inj₂ ≡P′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (,-inj₂ ≡R′)
+      ... | ◻ , R′ | ◻ , S | ◻ , P′ | ◻ , S′ | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
+         subcase P′ S′ S R′ (,-inj₂ ≡P′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (,-inj₂ ≡R′)
+      ... | ◻ , R′ | [ (• ._) ᵇ ] , S | ◻ , P′ | [ (• ._) ᵇ ] , S′ | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
+         subcase P′ S′ S R′ (,-inj₂ ≡P′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (,-inj₂ ≡R′)
+      ... | [ ._ • ᵇ ] , R′ | ◻ , S | [ ._ • ᵇ ] , P′ | ◻ , S′ | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
+         subcase P′ S′ S R′ (,-inj₂ ≡P′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (,-inj₂ ≡R′)
+      ... | [ ._ • ᵇ ] , R′ | [ (• ._) ᵇ ] , S | [ ._ • ᵇ ] , P′ | [ (• ._) ᵇ ] , S′ |
+         [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
+         subcase P′ S′ S R′ (,-inj₂ ≡P′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (,-inj₂ ≡R′)
 
+{-
    module •x
       {x′ : Name Γ} {E : P₀ —[ (• x′) ᵇ - _ ]→ R₀} {E′ : P₀ —[ x • ᵇ - _ ]→ R′₀}
       (𝐸 : E ⌣₁[ ᵇ∇ᵇ ] E′) (F : Q₀ —[ (• x) ᵇ - _ ]→ S₀) (let P′₀ = tgt₁ (⊖₁ 𝐸); P″₀ = tgt₂ (⊖₁ 𝐸))
@@ -151,6 +147,7 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-propagate-b
                  ∎)
          where
 
+{-
          base :
             (P″ : ↓ (ᴿ.suc idᶠ *) P″₀) (≡P″ : tgt id*E/E′ ((repl y *̃) R′) ≡ P″) →
             braiding (ᵇ∇ᶜ {a = • x′} {τ}) {0} (cong ν_ (cong₂ _│_ α (swap∘push S₀)))
@@ -204,15 +201,21 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-propagate-b
             ≅⟨ [ν-]-cong (cong₂ _│_ α (swap∘push S₀)) ([-│-]-cong α β (swap∘push S₀) δ) ⟩
                [ ν [ (swap *̃) P″ │ (swap *̃) ((push *̃) S) ] ]
             ∎)
+-}
 
-         subcase :
+         postulate
+          subcase :
             braiding (ᵇ∇ᶜ {a = • x′} {τ}) {0} (cong ν_ (cong₂ _│_ α (swap∘push S₀)))
-            [ ν [ (repl ((weaken ̃) y) *̃) P′ │ S′ ] ] ≡
-            π₂ (step⁻ (νᵇ (id*E/E′ ᵇ│ S₀)) (ν [ (repl y *̃) R′ │ S ]))
+            [ ν [ P′ │ S′ ] ]
+            ≡
+            π₂ (step⁻ (νᵇ (id*E/E′ ᵇ│ S₀)) (ν [ R′ │ S ]))
+
+{-
          subcase
             with step id*E/E′ ((repl y *̃) R′) | inspect (step id*E/E′) ((repl y *̃) R′)
          ... | ◻ , P″ | [ ≡P″ ] = base P″ (,-inj₂ ≡P″)
          ... | [ (• ._) ᵇ ] , P″ | [ ≡P″ ] = base P″ (,-inj₂ ≡P″)
+-}
 
       case :
          braiding (ᵇ∇ᶜ {a = • x′} {τ}) {0} (γ₁ (𝐸 │ᵥᵇ F))
@@ -242,3 +245,4 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-propagate-b
       ... | id*E/E′ | [ ._ • ᵇ ] , R′ | [ (• ._) ᵇ ] , S | [ ._ • ᵇ ] , P′ | [ (• ._) ᵇ ] , S′ |
          [ ≡id*E/E′ ] | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
          subcase P′ S′ id*E/E′ S R′ zero ≡id*E/E′ (,-inj₂ ≡P′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (,-inj₂ ≡R′)
+-}
