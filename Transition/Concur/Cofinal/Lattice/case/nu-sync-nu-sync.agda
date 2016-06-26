@@ -14,20 +14,16 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
       (R : ↓ R₀) (R′ : ↓ R′₀) (S : ↓ S₀) (S′ : ↓ S′₀) (≡R : tgt E P ≡ R) (≡R′ : tgt E′ P ≡ R′)
       (≡S : tgt F Q ≡ S) (≡S′ : tgt F′ Q ≡ S′) where
 
-{-
       coerce-braid : (P′ : ↓ tgt₁ (⊖₁ 𝐸)) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) →
                      braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ P′ │ Q′ ] ] ] ≅
                      braid̂ (νν-swapᵣ (tgt₁ (⊖₁ 𝐸) │ tgt₁ (⊖₁ 𝐹))) [ ν [ ν [ P′ │ Q′ ] ] ]
       coerce-braid _ _ rewrite (sym (γ₁ 𝐸)) | (sym (γ₁ 𝐹)) = ≅-refl
--}
 
-      postulate
-         base : (P′ : ↓ (tgt₁ (⊖₁ 𝐸))) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) (P″ : ↓ (tgt₂ (⊖₁ 𝐸)))
-                (Q″ : ↓ tgt₂ (⊖₁ 𝐹)) → tgt (E′/E (⊖₁ 𝐸)) R ≡ P′ →
-                tgt (E′/E (⊖₁ 𝐹)) S ≡ Q′ → tgt (E/E′ (⊖₁ 𝐸)) R′ ≡ P″ → tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″ →
-                braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ P′ │ Q′ ] ] ] ≡ [ ν [ ν [ P″ │ Q″ ] ] ]
+      base : (P′ : ↓ (tgt₁ (⊖₁ 𝐸))) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) (P″ : ↓ (tgt₂ (⊖₁ 𝐸)))
+             (Q″ : ↓ tgt₂ (⊖₁ 𝐹)) → tgt (E′/E (⊖₁ 𝐸)) R ≡ P′ →
+             tgt (E′/E (⊖₁ 𝐹)) S ≡ Q′ → tgt (E/E′ (⊖₁ 𝐸)) R′ ≡ P″ → tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″ →
+             braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ P′ │ Q′ ] ] ] ≡ [ ν [ ν [ P″ │ Q″ ] ] ]
 
-{-
       base P′ Q′ P″ Q″ ≡P′ ≡Q′ ≡P″ ≡Q″ =
          let β : (swap *̃) P′ ≅ P″
              β = let open ≅-Reasoning in
@@ -58,7 +54,7 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
              open ≅-Reasoning in ≅-to-≡ (
          begin
             braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ P′ │ Q′ ] ] ]
-         ≅⟨ ? {-coerce-braid P′ Q′-} ⟩
+         ≅⟨ coerce-braid P′ Q′ ⟩
             braid̂ (νν-swapᵣ (tgt₁ (⊖₁ 𝐸) │ tgt₁ (⊖₁ 𝐹))) [ ν [ ν [ P′ │ Q′ ] ] ]
          ≡⟨ refl ⟩
             [ ν [ ν [ (swap *̃) P′ │ (swap *̃) Q′ ] ] ]
@@ -66,7 +62,6 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
                       ([ν-]-cong (cong₂ _│_ (γ₁ 𝐸) (γ₁ 𝐹)) ([-│-]-cong (γ₁ 𝐸) β (γ₁ 𝐹) γ)) ⟩
             [ ν [ ν [ P″ │ Q″ ] ] ]
          ∎)
--}
 
       subcase :
          braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹))
