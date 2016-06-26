@@ -223,11 +223,14 @@ module Transition.Lattice.GaloisConnection where
    ... | [ .y ] | ()
    unstep∘step⁻≤id (_│•_ {y = y} E F) (R │ S) | ◻ , R′ | [ • x 〈 y′ 〉 ᶜ ] , S′ | P | Q
       with π₁ (unren (pop y) (ᵀ.tgt E) ((ᴿ̃.pop y′ *̃) R′)) ᴺ.zero | π₁ (unren∘ren≤id (ᴿ̃.pop y′) R′) ᴺ.zero
-   ... | ◻ | _ = [ ≤-trans (unstepᴹ E (◻ , π₂ (unren∘ren≤id (ᴿ̃.pop y′) R′))) P │ ≤-trans (unstepᴹ F (◻ , ᴹ S′)) Q ]
+   ... | ◻ | _ =
+      [ ≤-trans (unstepᴹ E (◻ , π₂ (unren∘ren≤id (ᴿ̃.pop y′) R′))) P │ ≤-trans (unstepᴹ F (◻ , ᴹ S′)) Q ]
    unstep∘step⁻≤id (_│•_ {y = y} E F) (R │ S) | ◻ , R′ | [ • x 〈 [ .y ] 〉 ᶜ ] , S′ | P | Q |
       [ .y ] | [ .y ] = [ ≤-trans (unstepᴹ E (◻ , π₂ (unren∘ren≤id (ᴿ̃.pop [ y ]) R′))) P │ Q ]
-   unstep∘step⁻≤id (_│•_ {y = y} E F) (R │ S) | [ x • ᵇ ] , R′ | ◻ , S′ | P | Q =
-      {!!} -- [ ≤-trans (unstepᴹ E (◻ , π₂ (unren∘ren≤id (ᴿ̃.pop ◻) R′))) P │ Q ]
+   unstep∘step⁻≤id (_│•_ {y = y} E F) (R │ S) | [ x • ᵇ ] , R′ | ◻ , S′ | P | Q
+      with π₁ (unren (pop y) (ᵀ.tgt E) ((ᴿ̃.pop ◻ *̃) R′)) ᴺ.zero | π₁ (unren∘ren≤id (ᴿ̃.pop {x₀ = y} ◻) R′) ᴺ.zero
+   ... | ◻ | _ = [ ≤-trans (unstepᴹ E (◻ , π₂ (unren∘ren≤id (ᴿ̃.pop ◻) R′))) P │ Q ]
+   ... | [ .y ] | ()
    unstep∘step⁻≤id (_│•_ {y = y} E F) (R │ S) | [ x • ᵇ ] , R′ | [ • .x 〈 y′ 〉 ᶜ ] , S′ | P | Q =
       let pop-y′ , P″ = unren∘ren≤id (ᴿ̃.pop y′) R′ in
       [ ≤-trans (unstepᴹ E ([ x • ᵇ ] , P″)) P │ ≤-trans (unstepᴹ F ([ • _ 〈 pop-y′ ᴺ.zero 〉 ᶜ ] , ᴹ S′)) Q ]
