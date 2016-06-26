@@ -219,7 +219,8 @@ module Transition.Lattice.GaloisConnection where
       with step E R | step F S | unstep∘step≤id E R | unstep∘step≤id F S
    ... | ◻ , R′ | ◻ , S′ | P | Q
       with π₁ (unren (pop y) (ᵀ.tgt E) ((ᴿ̃.pop ◻ *̃) R′)) ᴺ.zero | π₁ (unren∘ren≤id (ᴿ̃.pop {x₀ = y} ◻) R′) ᴺ.zero
-   ... | ◻ | _ = [ {!!} │ Q ]
+   ... | ◻ | _ =
+      [ ≤-trans (unstepᴹ E (◻ , π₂ (unren∘ren≤id (ᴿ̃.pop ◻) R′))) P │ Q ]
    ... | [ .y ] | ()
    unstep∘step⁻≤id (_│•_ {y = y} E F) (R │ S) | ◻ , R′ | [ • x 〈 y′ 〉 ᶜ ] , S′ | P | Q =
       {!!} -- [ ≤-trans (unstepᴹ E (◻ , π₂ (unren∘ren≤id (ᴿ̃.pop ◻) R′))) P │ (≤-trans (unstepᴹ F (◻ , ᴹ S′)) Q) ]
