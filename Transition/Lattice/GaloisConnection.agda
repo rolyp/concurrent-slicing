@@ -100,9 +100,8 @@ module Transition.Lattice.GaloisConnection where
    id≤step⁻∘unstep⁻ (_│•_ {x = x} {y} E F) ◻ (R │ S) | pop-y† | pop-y†≤ | [ .y ] | [ ≡y† ]
       with step E (unstep E (◻ , π₂ (unren (pop y) (ᵀ.tgt E) R))) | step F (unstep F ([ • x 〈 [ y ] 〉 ᶜ ] , S)) |
            id≤step∘unstep E (◻ , π₂ (unren (pop y) (ᵀ.tgt E) R)) | id≤step∘unstep F ([ • x 〈 [ y ] 〉 ᶜ ] , S)
-   ... | ◻ , R† | ◻ , S′ | _ , P | _ , Q = {!!}
-   ... | ◻ , R† | [ • .x 〈 y′ 〉 ᶜ ] , S′ | _ , P | ◻ , Q = {!!}
-   ... | [ (.x •) ᵇ ] , R† | ◻ , S′ | _ , P | () , Q
+   ... | _ , R† | ◻ , S′ | _ , P | () , Q
+   ... | ◻ , R† | [ • .x 〈 [ .y ] 〉 ᶜ ] , S′ | ◻ , P | [ • .x 〈 [ .y ] 〉 ᶜ ] , Q = {!!}
    ... | [ (.x •) ᵇ ] , R† | [ • .x 〈 [ .y ] 〉 ᶜ ] , S′ | _ , P | [ • .x 〈 [ .y ] 〉 ᶜ ] , Q =
       let open ≤-Reasoning
           blib : pop-y† ᴿ̃.≤ ᴿ̃.pop [ y ]
