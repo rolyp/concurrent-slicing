@@ -59,7 +59,8 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
                      (pop z† *̃) ((suc (pop y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
                   ≡⟨ cong₂ (λ z‡ y‡ → (pop z‡ *̃) ((suc (pop y‡) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))) trustMe trustMe ⟩
                      (pop z′ *̃) ((suc (pop y†) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
-                  ≅⟨ ≅-cong✴ ↓_ (sym (swap-involutive _)) ((pop z′ *̃) ∘ᶠ (suc (pop y†) *̃)) (≅-sym (swap-involutivẽ _)) ⟩
+                  ≅⟨ ≅-cong✴ ↓_ (sym (swap-involutive (tgt₁ (⊖₁ 𝐸))))
+                     ((pop z′ *̃) ∘ᶠ (suc (pop y†) *̃)) (≅-sym (swap-involutivẽ (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))) ⟩
                      (pop z′ *̃) ((suc (pop y†) *̃) ((swap *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))))
                   ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) ((pop z′ *̃) ∘ᶠ (suc (pop y†) *̃) ∘ᶠ (swap *̃)) (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _)) ⟩
                      (pop z′ *̃)
