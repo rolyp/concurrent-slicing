@@ -32,6 +32,15 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
       (≡pop-z*E/E′ : (ᴿ.pop z *ᵇ) (E/E′ (⊖₁ 𝐸)) ≡ pop-z*E/E′)
       where
 
+      base :
+         (P′ : ↓ (ᴿ.suc (ᴿ.pop y) *) P′₀) (P″ : ↓ tgt₁ (⊖₁ 𝐹)) (Q′ : ↓ (ᴿ.suc (ᴿ.pop z) *) (tgt₂ (⊖₁ 𝐸)))
+         (Q″ : ↓ tgt₂ (⊖₁ 𝐹)) (z† : ↓ z) (y† : ↓ y) →
+         braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} (cong₂ _│_ α (γ₁ 𝐹))
+         [ (pop z† *̃) P′ │ P″ ]
+         ≡
+         [ (pop y† *̃) Q′ │ Q″ ]
+      base = ?
+
       subcase :
          braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} (cong₂ _│_ α (γ₁ 𝐹))
          (π₂ (step⁻ (pop-y*E′/E │• E′/E (⊖₁ 𝐹)) ((pop y′ *̃) R │ S)))
