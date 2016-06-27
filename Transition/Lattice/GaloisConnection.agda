@@ -286,7 +286,15 @@ module Transition.Lattice.GaloisConnection where
    id≤tgt∘src E R′ = π₂ (id≤step∘unstep E (◻ , R′))
 
    src∘tgt≤id : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) (P′ : ↓ P) → (src E ∘ᶠ tgt E) P′ ≤ P′
-   src∘tgt≤id E P′ = ?
+   src∘tgt≤id E P′ =
+      let open ≤-Reasoning in
+      begin
+         unstep E (◻ , π₂ (step E P′))
+      ≤⟨ unstepᴹ E (◻ , ᴹ (π₂ (step E P′))) ⟩
+         unstep E (step E P′)
+      ≤⟨ unstep∘step≤id E P′ ⟩
+         P′
+      ∎
 
    gc′ : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) →
         IsGaloisConnection (poset {a = P}) (poset {a = R}) (tgt E) (src E)
