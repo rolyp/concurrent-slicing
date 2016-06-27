@@ -281,7 +281,7 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync
          braiding (ᵇ∇ᶜ {a = x′ •} {τ}) {0} β
          (tgt ((ᴿ.push *ᵇ) E │ᵥ E′/E (⊖₁ 𝐹)) (tgt (P₀ │ᵇ F) [ P │ Q ]))
          ≡
-         (tgt (νᵇ (ᵀ.tgt E │ᵇ E/E′ (⊖₁ 𝐹))) (tgt (E │ᵥ F′) [ P │ Q ]))
+         tgt (νᵇ (ᵀ.tgt E │ᵇ E/E′ (⊖₁ 𝐹))) (tgt (E │ᵥ F′) [ P │ Q ])
       case
          with step E P | step ((ᴺ.suc *ᵇ) E) ((push *̃) P) | step F′ Q | step (E′/E (⊖₁ 𝐹)) (tgt F Q) |
                    inspect (step E) P | inspect (step ((ᴺ.suc *ᵇ) E)) ((push *̃) P) | inspect (step F′) Q |
