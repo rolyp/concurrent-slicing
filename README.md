@@ -14,14 +14,17 @@ Appendix A of the paper.
 
 ### Minor todos:
 
-* `Ren.Lattice.Properties` postulate counterpart to `Ren.Properties`
-* `Transition.Ren.Lattice` postulates
-* Functor-like postulates in `Proc.Ren.Lattice`:
-  * `*-preserves-≃ₑ`
-  * `*-preserves-∘`
 * Example
 * Sync Agda names with paper:
   * `∘ᶠ` → `∘ᶠ`, `idᶠ` → `id`
-  * `tgt` → `fwd`
+  * `tgt` → `fwd` ?
   * `get`/`put` → `app`/`unapp`
 * Bump revision numbers for `agda-stdlib-ext`, `proof-relevant-pi` and `concurrent-slicing`
+
+### Postulates which will remain postulates:
+
+* `Proc.Ren.Lattice`:
+  * `*-preserves-≃ₑ`
+  * `*-preserves-∘`
+* `Ren.Lattice.Properties` postulate counterpart to `Ren.Properties`
+* `Transition.Ren.Lattice` postulates
