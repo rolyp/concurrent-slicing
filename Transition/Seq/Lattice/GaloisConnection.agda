@@ -48,20 +48,6 @@ module Transition.Seq.Lattice.GaloisConnection where
             _≅_ {A = ↓ S} [ R′ ] {B = ↓ (Proc↱ eq S)} [ R ]
    nibble {Γ} {.Γ} refl _ R .R ≅-refl = ≅-refl
 
-   fwd⋆ᴹ : ∀ {Γ P₀} {a⋆ : Action⋆ Γ} {R} (E⋆ : P₀ —[ a⋆ ]→⋆ R) {P P′ : ↓ P₀} → P ≤ P′ → fwd⋆ E⋆ P ≤ fwd⋆ E⋆ P′
-   fwd⋆ᴹ _ ◻ = ◻
-   fwd⋆ᴹ [] [ P ] = [ P ]
-   fwd⋆ᴹ {a⋆ = _ ᵇ∷ a⋆} (E ᵇ∷ E⋆) {[ P ]} {[ P′ ]} [ P† ] =
-      bibble (eq 1 a⋆) (≅-sym (Proc↲ (eq 1 a⋆) (ᵀ⋆.target⋆ E⋆)))
-         (quib-removable 1 E⋆ (fwd⋆ E⋆ (π₂ (fwd⁻ E P))))
-         (quib-removable 1 E⋆ (fwd⋆ E⋆ (π₂ (fwd⁻ E P′))))
-         (fwd⋆ᴹ E⋆ (π₂ (fwd⁻ᴹ E P†)))
-   fwd⋆ᴹ {a⋆ = _ ᶜ∷ a⋆} (E ᶜ∷ E⋆) {[ P ]} {[ P′ ]} [ P† ] =
-      bibble (eq 0 a⋆) (≅-sym (Proc↲ (eq 0 a⋆) (ᵀ⋆.target⋆ E⋆)))
-         (quib-removable 0 E⋆ (fwd⋆ E⋆ (π₂ (fwd⁻ E P))))
-         (quib-removable 0 E⋆ (fwd⋆ E⋆ (π₂ (fwd⁻ E P′))))
-         (fwd⋆ᴹ E⋆ (π₂ (fwd⁻ᴹ E P†)))
-
    -- bwd⋆ reflects ◻.
    bwd⋆⁻ : ∀ {Γ P} {a⋆ : Action⋆ Γ} {R} (E⋆ : P —[ a⋆ ]→⋆ R) → ↓⁻ R → ↓⁻ P
    bwd⋆⁻ [] R = R
