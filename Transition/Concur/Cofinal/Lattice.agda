@@ -102,7 +102,8 @@ module Transition.Concur.Cofinal.Lattice where
       let open ᵇ│ᵥ.ᵇ∇ᵇ-x• in case E 𝐹 P Q (gamma₁ 𝐹 Q)
    gamma₁ (_ᶜ│ᵥ_ {a = • x′ 〈 y′ 〉} E 𝐹) [ P │ Q ] =
       let open ᶜ│ᵥ.•x〈y〉 in case E 𝐹 P Q (gamma₁ 𝐹 Q)
-   gamma₁ (_ᶜ│ᵥ_ {a = τ} {𝑎} E 𝐹) [ P │ Q ] = {!!}
+   gamma₁ (_ᶜ│ᵥ_ {a = τ} {𝑎} E 𝐹) [ P │ Q ] =
+      let open ᶜ│ᵥ.τ in case E 𝐹 P Q (gamma₁ 𝐹 Q)
    gamma₁ (𝐸 │• 𝐹) P = trustMe
    gamma₁ (𝐸 │•ᵥ 𝐹) P = trustMe
    gamma₁ {E = E │ᵥ F} {E′ │ᵥ F′} (𝐸 │ᵥ 𝐹) [ P │ Q ] =
