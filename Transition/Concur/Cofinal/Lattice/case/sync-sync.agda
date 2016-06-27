@@ -43,14 +43,19 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
             [ (pop z† *̃) P′ │ Q′ ]
             ≡
             [ (pop y† *̃) P″ │ Q″ ]
-         base = ≅-to-≡ (
-            let open ≅-Reasoning in
+         base =
+            let
+               β : (pop z† *̃) P′ ≅ (pop y† *̃) P″
+               β = {!!}
+               δ : Q′ ≅ Q″
+               δ = {!!}
+               open ≅-Reasoning in ≅-to-≡ (
             begin
                braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} (cong₂ _│_ α (γ₁ 𝐹))
                [ (pop z† *̃) P′ │ Q′ ]
             ≅⟨ reduce-ᶜ∇ᶜ (cong₂ _│_ α (γ₁ 𝐹)) _ ⟩
                [ (pop z† *̃) P′ │ Q′ ]
-            ≅⟨ {!!} ⟩
+            ≅⟨ [-│-]-cong α β (γ₁ 𝐹) δ ⟩
                [ (pop y† *̃) P″ │ Q″ ]
             ∎)
 
