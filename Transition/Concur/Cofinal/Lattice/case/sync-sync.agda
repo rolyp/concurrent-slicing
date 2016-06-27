@@ -46,7 +46,30 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
          base =
             let
                β : (pop z† *̃) P′ ≅ (pop y† *̃) P″
-               β = {!!}
+               β = let open ≅-Reasoning in
+                  begin
+                     (pop z† *̃) P′
+                  ≡⟨ cong (pop z† *̃) (sym ≡P′) ⟩
+                     (pop z† *̃) (tgt pop-y*E′/E ((pop y′ *̃) R))
+                  ≡⟨ cong ((pop z† *̃) ∘ᶠ tgt pop-y*E′/E ∘ᶠ (pop y′ *̃)) (sym ≡R) ⟩
+                     (pop z† *̃) (tgt pop-y*E′/E ((pop y′ *̃) (tgt E P)))
+                  ≡⟨ cong (λ E† → (pop z† *̃) (tgt E† ((pop y′ *̃) (tgt E P)))) (sym ≡pop-y*E′/E) ⟩
+                     (pop z† *̃) (tgt ((ᴿ.pop y *ᵇ) (E′/E (⊖₁ 𝐸))) ((pop y′ *̃) (tgt E P)))
+                  ≡⟨ cong (pop z† *̃) (sym (renᵇ-tgt-comm (E′/E (⊖₁ 𝐸)) (pop y′) (tgt E P))) ⟩
+                     (pop z† *̃) ((suc (pop y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
+                  ≅⟨ {!!} ⟩
+                     (pop z′ *̃) ((suc (pop y†) *̃) ((swap *̃) (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))))
+                  ≅⟨ pop-pop-swap̃ z′ y† _ ⟩
+                     (pop y† *̃) ((suc (pop z′) *̃) (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P)))
+                  ≡⟨ cong (pop y† *̃) (renᵇ-tgt-comm (E/E′ (⊖₁ 𝐸)) (pop z′) (tgt E′ P)) ⟩
+                     (pop y† *̃) (tgt ((ᴿ.pop z *ᵇ) (E/E′ (⊖₁ 𝐸))) ((pop z′ *̃) (tgt E′ P)))
+                  ≡⟨ cong (λ E† → (pop y† *̃) (tgt E† ((pop z′ *̃) (tgt E′ P)))) ≡pop-z*E/E′ ⟩
+                     (pop y† *̃) (tgt pop-z*E/E′ ((pop z′ *̃) (tgt E′ P)))
+                  ≡⟨ cong ((pop y† *̃) ∘ᶠ tgt pop-z*E/E′ ∘ᶠ (pop z′ *̃)) ≡R′ ⟩
+                     (pop y† *̃) (tgt pop-z*E/E′ ((pop z′ *̃) R′))
+                  ≡⟨ cong (pop y† *̃) ≡P″ ⟩
+                     (pop y† *̃) P″
+                  ∎
                δ : Q′ ≅ Q″
                δ = let open ≅-Reasoning in
                   begin
