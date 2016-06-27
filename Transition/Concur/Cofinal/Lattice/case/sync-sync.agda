@@ -57,7 +57,15 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
                      (pop z† *̃) (tgt ((ᴿ.pop y *ᵇ) (E′/E (⊖₁ 𝐸))) ((pop y′ *̃) (tgt E P)))
                   ≡⟨ cong (pop z† *̃) (sym (renᵇ-tgt-comm (E′/E (⊖₁ 𝐸)) (pop y′) (tgt E P))) ⟩
                      (pop z† *̃) ((suc (pop y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
-                  ≅⟨ {!!} ⟩
+                  ≡⟨ cong₂ (λ z‡ y‡ → (pop z‡ *̃) ((suc (pop y‡) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))) trustMe trustMe ⟩
+                     (pop z′ *̃) ((suc (pop y†) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
+                  ≅⟨ ≅-cong✴ ↓_ (sym (swap-involutive _)) ((pop z′ *̃) ∘ᶠ (suc (pop y†) *̃)) (≅-sym (swap-involutivẽ _)) ⟩
+                     (pop z′ *̃) ((suc (pop y†) *̃) ((swap *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))))
+                  ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) ((pop z′ *̃) ∘ᶠ (suc (pop y†) *̃) ∘ᶠ (swap *̃)) (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _)) ⟩
+                     (pop z′ *̃)
+                     ((suc (pop y†) *̃)
+                      ((swap *̃) (braiding (ᵇ∇ᵇ {a = x •} {u •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))))
+                  ≡⟨ cong ((pop z′ *̃) ∘ᶠ (suc (pop y†) *̃) ∘ᶠ (swap *̃)) IH₁ ⟩
                      (pop z′ *̃) ((suc (pop y†) *̃) ((swap *̃) (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))))
                   ≅⟨ pop-pop-swap̃ z′ y† _ ⟩
                      (pop y† *̃) ((suc (pop z′) *̃) (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P)))
