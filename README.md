@@ -19,8 +19,6 @@ Appendix A of the paper.
 * Functor-like postulates in `Proc.Ren.Lattice`:
   * `*-preserves-≃ₑ`
   * `*-preserves-∘`
-* Better names in Galois connection for transition sequences
-* `target⋆ᴹ` for transition sequences
 * Example
 * Sync Agda names with paper:
   * `∘ᶠ` → `∘ᶠ`, `idᶠ` → `id`
