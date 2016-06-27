@@ -15,48 +15,13 @@ module Transition.Seq.Lattice.GaloisConnection where
    import Proc.Lattice as ᴾ̃; open ᴾ̃.↓⁻_; open ᴾ̃.↓_; open ᴾ̃._≤_; open ᴾ̃._≤⁻_
    open import Transition.Lattice as ᵀ̃ using (step; stepᴹ; unstep; tgt; tgtᴹ; src; srcᴹ)
    open import Transition.Lattice.GaloisConnection
-      using (fwd⁻; fwd⁻ᴹ; bwd⁻; bwd⁻ᴹ; id≤fwd∘bwd; id≤fwd⁻∘bwd⁻; bwd∘fwd≤id)
+      using (id≤step∘unstep; unstep∘step≤id)
    open import Transition.Seq as ᵀ⋆ using (_—[_]→⋆_; action⋆); open ᵀ⋆._—[_]→⋆_
-   open import Transition.Seq.Lattice as ᵀ̃⋆ using (source⋆; target⋆; target⋆ᴹ);
-      open ᵀ̃⋆.↓_; open ᵀ̃⋆.↓⁻_; open ᵀ̃⋆._≤_; open ᵀ̃⋆._≤⁻_
-
-   eq : ∀ Δ {Γ} (a⋆ : Action⋆ (Γ + Δ)) → Γ + Δ + inc⋆ a⋆ ≡ Γ + (Δ + inc⋆ a⋆)
-   eq Δ {Γ} = +-assoc Γ Δ ∘ᶠ inc⋆
-
-   -- TODO: give these some better or more local names!
-   quib : ∀ Δ {Γ P} {a⋆ : Action⋆ (Γ + Δ)} {R} (_ : P —[ a⋆ ]→⋆ R) (R′ : ↓ R) → ↓ (Proc↱ (eq Δ a⋆) R)
-   quib Δ {a⋆ = a⋆} {R} _ = ≅-subst✴ Proc ↓_ (eq Δ a⋆) (≅-sym (Proc↲ (eq Δ a⋆) R))
-
-   quib⁻ : ∀ Δ {Γ P} {a⋆ : Action⋆ (Γ + Δ)} {R} (_ : P —[ a⋆ ]→⋆ R) (R′ : ↓⁻ (Proc↱ (eq Δ a⋆) R)) → ᴾ̃.↓⁻ R
-   quib⁻ Δ {a⋆ = a⋆} {R} _ = ≅-subst✴ Proc ↓⁻_ (sym (eq Δ a⋆)) (Proc↲ (eq Δ a⋆) R)
-
-   quib⁻-removable : ∀ Δ {Γ P} {a⋆ : Action⋆ (Γ + Δ)} {R} (E⋆ : P —[ a⋆ ]→⋆ R) (R′ : ↓⁻ (Proc↱ (eq Δ a⋆) R)) → R′ ≅ quib⁻ Δ E⋆ R′
-   quib⁻-removable Δ {a⋆ = a⋆} {R} _ = ≅-sym ∘ᶠ ≅-subst✴-removable Proc ↓⁻_ (sym (eq Δ a⋆)) (Proc↲ (eq Δ a⋆) R)
-
-   quib-removable : ∀ Δ {Γ P} {a⋆ : Action⋆ (Γ + Δ)} {R} (E⋆ : P —[ a⋆ ]→⋆ R) (R′ : ↓ R) → R′ ≅ quib Δ E⋆ R′
-   quib-removable Δ {a⋆ = a⋆} {R} _ = ≅-sym ∘ᶠ ≅-subst✴-removable Proc ↓_ (eq Δ a⋆) (≅-sym (Proc↲ (eq Δ a⋆) R))
-
-   bibble : ∀ {Γ Γ′} {P₀ : Proc Γ} {Q₀ : Proc Γ′} {P P′ : ↓ P₀} {Q Q′ : ↓ Q₀} →
-            Γ ≡ Γ′ → P₀ ≅ Q₀ → P ≅ Q → P′ ≅ Q′ → P ≤ P′ → Q ≤ Q′
-   bibble refl ≅-refl ≅-refl ≅-refl = idᶠ
-
-   bibble⁻ : ∀ {Γ Γ′} {P₀ : Proc Γ} {Q₀ : Proc Γ′} {P P′ : ↓⁻ P₀} {Q Q′ : ↓⁻ Q₀} →
-            Γ ≡ Γ′ → P₀ ≅ Q₀ → P ≅ Q → P′ ≅ Q′ → P ≤⁻ P′ → Q ≤⁻ Q′
-   bibble⁻ refl ≅-refl ≅-refl ≅-refl = idᶠ
+   open import Transition.Seq.Lattice as ᵀ̃⋆ using (src⋆; tgt⋆; tgt⋆ᴹ)
 
    nibble : ∀ {Γ Δ} (eq : Γ ≡ Δ) (S : Proc Γ) (R′ : ↓⁻ S) (R : ↓⁻ (Proc↱ eq S)) (eq′ : R ≅ R′) →
             _≅_ {A = ↓ S} [ R′ ] {B = ↓ (Proc↱ eq S)} [ R ]
    nibble {Γ} {.Γ} refl _ R .R ≅-refl = ≅-refl
-
-   -- bwd⋆ reflects ◻.
-   bwd⋆⁻ : ∀ {Γ P} {a⋆ : Action⋆ Γ} {R} (E⋆ : P —[ a⋆ ]→⋆ R) → ↓⁻ R → ↓⁻ P
-   bwd⋆⁻ [] R = R
-   bwd⋆⁻ (E ᵇ∷ E⋆) R = bwd⁻ E ◻ (bwd⋆⁻ E⋆ (quib⁻ 1 E⋆ R))
-   bwd⋆⁻ (E ᶜ∷ E⋆) R = bwd⁻ E ◻ (bwd⋆⁻ E⋆ (quib⁻ 0 E⋆ R))
-
-   bwd⋆ : ∀ {Γ P} {a⋆ : Action⋆ Γ} {R} (E⋆ : P —[ a⋆ ]→⋆ R) → ↓ R → ↓ P
-   bwd⋆ _ ◻ = ◻
-   bwd⋆ E⋆ [ R ] = [ bwd⋆⁻ E⋆ R ]
 
    id≤fwd⋆∘bwd⋆⁻ : ∀ {Γ P} {a⋆ : Action⋆ Γ} {R} (E⋆ : P —[ a⋆ ]→⋆ R) (R′ : ↓⁻ R) → [ R′ ] ≤ fwd⋆ E⋆ [ bwd⋆⁻ E⋆ R′ ]
    id≤fwd⋆∘bwd⋆⁻ [] R = [ ⁻ᴹ R ]
