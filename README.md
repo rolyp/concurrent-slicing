@@ -14,7 +14,6 @@ Appendix A of the paper.
 
 ### Minor todos:
 
-* Example
 * Sync Agda names with paper:
   * `∘ᶠ` → `∘ᶠ`, `idᶠ` → `id`
   * `tgt` → `fwd` ?
