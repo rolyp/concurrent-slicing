@@ -1,10 +1,10 @@
+-- Proof of pentagon theorem. Module for each main case, otherwise type-checking is too slow.
 module Transition.Concur.Cofinal.Lattice where
 
    open import ConcurrentSlicingCommon
 
    open import Transition.Concur.Cofinal.Lattice.Common
    open import Transition.Concur.Cofinal.Lattice.Common using (braiding) public
-   -- Module for each main case, otherwise type-checking is too slow.
    import Transition.Concur.Cofinal.Lattice.case.propagate-b-par-b as ᵇ│ᵇ
    import Transition.Concur.Cofinal.Lattice.case.propagate-par-b-b as │ᵇᵇ
    import Transition.Concur.Cofinal.Lattice.case.propagate-par-b-c as │ᵇᶜ
@@ -14,6 +14,7 @@ module Transition.Concur.Cofinal.Lattice where
    import Transition.Concur.Cofinal.Lattice.case.propagate-c-c-par as ᶜᶜ│
    import Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync as ᵇ│ᵥ
    import Transition.Concur.Cofinal.Lattice.case.propagate-c-nu-sync as ᶜ│ᵥ
+   import Transition.Concur.Cofinal.Lattice.case.sync-sync as │•
    import Transition.Concur.Cofinal.Lattice.case.sync-propagate-b as │•ᵇ
    import Transition.Concur.Cofinal.Lattice.case.sync-propagate-c as │•ᶜ
    import Transition.Concur.Cofinal.Lattice.case.propagate-b-sync as ᵇ│•
@@ -104,8 +105,9 @@ module Transition.Concur.Cofinal.Lattice where
       let open ᶜ│ᵥ.•x〈y〉 in case E 𝐹 P Q (gamma₁ 𝐹 Q)
    gamma₁ (_ᶜ│ᵥ_ {a = τ} {𝑎} E 𝐹) [ P │ Q ] =
       let open ᶜ│ᵥ.τ in case E 𝐹 P Q (gamma₁ 𝐹 Q)
-   gamma₁ (𝐸 │• 𝐹) P = trustMe
-   gamma₁ (𝐸 │•ᵥ 𝐹) P = trustMe
+   gamma₁ (𝐸 │• 𝐹) [ P │ Q ] =
+      let open │• in case 𝐸 𝐹 P Q (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q)
+   gamma₁ (𝐸 │•ᵥ 𝐹) [ P │ Q ] = trustMe
    gamma₁ {E = E │ᵥ F} {E′ │ᵥ F′} (𝐸 │ᵥ 𝐹) [ P │ Q ] =
       let open │ᵥ in case 𝐸 𝐹 P Q (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q)
    gamma₁ {E = E │ᵥ F} {E′ │ᵥ F′} (𝐸 │ᵥ′ 𝐹) [ P │ Q ] =
