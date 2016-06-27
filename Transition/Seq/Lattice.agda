@@ -15,8 +15,15 @@ module Transition.Seq.Lattice where
    adjust : ∀ Δ {Γ} (a⋆ : Action⋆ (Γ + Δ)) {R : Proc (Γ + Δ + inc⋆ a⋆)} (R′ : ↓ R) → ↓ (Proc↱ (eq Δ a⋆) R)
    adjust Δ a⋆ {R} = ≅-subst✴ Proc ↓_ (eq Δ a⋆) (≅-sym (Proc↲ (eq Δ a⋆) R))
 
+   sym-adjust : ∀ Δ {Γ} (a⋆ : Action⋆ (Γ + Δ)) {R} (R′ : ↓ (Proc↱ (eq Δ a⋆) R)) → ↓ R
+   sym-adjust Δ a⋆ {R} = ≅-subst✴ Proc ↓_ (sym (eq Δ a⋆)) (Proc↲ (eq Δ a⋆) R)
+
    adjust-removable : ∀ Δ {Γ P} {a⋆ : Action⋆ (Γ + Δ)} {R} (E⋆ : P —[ a⋆ ]→⋆ R) (R′ : ↓ R) → R′ ≅ adjust Δ a⋆ R′
    adjust-removable Δ {a⋆ = a⋆} {R} _ = ≅-sym ∘ᶠ ≅-subst✴-removable Proc ↓_ (eq Δ a⋆) (≅-sym (Proc↲ (eq Δ a⋆) R))
+
+   sym-adjust-removable : ∀ Δ {Γ P} {a⋆ : Action⋆ (Γ + Δ)} {R} (E⋆ : P —[ a⋆ ]→⋆ R)
+                          (R′ : ↓ (Proc↱ (eq Δ a⋆) R)) → R′ ≅ sym-adjust Δ a⋆ R′
+   sym-adjust-removable Δ {a⋆ = a⋆} {R} _ = ≅-sym ∘ᶠ ≅-subst✴-removable Proc ↓_ (sym (eq Δ a⋆)) (Proc↲ (eq Δ a⋆) R)
 
    ≤-preserves-≅ : ∀ {Γ Γ′} {P₀ : Proc Γ} {Q₀ : Proc Γ′} {P P′ : ↓ P₀} {Q Q′ : ↓ Q₀} →
                    Γ ≡ Γ′ → P₀ ≅ Q₀ → P ≅ Q → P′ ≅ Q′ → P ≤ P′ → Q ≤ Q′
@@ -48,3 +55,12 @@ module Transition.Seq.Lattice where
          (adjust-removable 0 E⋆ (tgt⋆ E⋆ (tgt E P)))
          (adjust-removable 0 E⋆ (tgt⋆ E⋆ (tgt E P′)))
          (tgt⋆ᴹ E⋆ (tgtᴹ E P†))
+
+   src⋆ᴹ : ∀ {Γ P} {a⋆ : Action⋆ Γ} {R₀} (E⋆ : P —[ a⋆ ]→⋆ R₀) {R R′ : ↓ R₀} → R ≤ R′ → src⋆ E⋆ R ≤ src⋆ E⋆ R′
+   src⋆ᴹ [] R = R
+   src⋆ᴹ {a⋆ = _ ᵇ∷ a⋆} (E ᵇ∷ E⋆) {R} {R′} R† =
+      srcᴹ E (src⋆ᴹ E⋆ (≤-preserves-≅ (sym (eq 1 a⋆))
+         (Proc↲ (eq 1 a⋆) (ᵀ⋆.tgt⋆ E⋆)) (sym-adjust-removable 1 E⋆ R) (sym-adjust-removable 1 E⋆ R′) R†))
+   src⋆ᴹ {a⋆ = _ ᶜ∷ a⋆} (E ᶜ∷ E⋆) {R} {R′} R† =
+      srcᴹ E (src⋆ᴹ E⋆ (≤-preserves-≅ (sym (eq 0 a⋆))
+         (Proc↲ (eq 0 a⋆) (ᵀ⋆.tgt⋆ E⋆)) (sym-adjust-removable 0 E⋆ R) (sym-adjust-removable 0 E⋆ R′) R†))

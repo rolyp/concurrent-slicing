@@ -58,19 +58,6 @@ module Transition.Seq.Lattice.GaloisConnection where
    bwd⋆ _ ◻ = ◻
    bwd⋆ E⋆ [ R ] = [ bwd⋆⁻ E⋆ R ]
 
-   bwd⋆⁻ᴹ : ∀ {Γ P} {a⋆ : Action⋆ Γ} {R₀} (E⋆ : P —[ a⋆ ]→⋆ R₀) {R R′ : ↓⁻ R₀} → R ≤⁻ R′ → bwd⋆⁻ E⋆ R ≤⁻ bwd⋆⁻ E⋆ R′
-   bwd⋆⁻ᴹ [] R = R
-   bwd⋆⁻ᴹ {a⋆ = _ ᵇ∷ a⋆} (E ᵇ∷ E⋆) {R} {R′} R† =
-      bwd⁻ᴹ E ◻ (bwd⋆⁻ᴹ E⋆ (bibble⁻ (sym (eq 1 a⋆))
-         (Proc↲ (eq 1 a⋆) (ᵀ⋆.target⋆ E⋆)) (quib⁻-removable 1 E⋆ R) (quib⁻-removable 1 E⋆ R′) R†))
-   bwd⋆⁻ᴹ {a⋆ = _ ᶜ∷ a⋆} (E ᶜ∷ E⋆) {R} {R′} R† =
-      bwd⁻ᴹ E ◻ (bwd⋆⁻ᴹ E⋆ (bibble⁻ (sym (eq 0 a⋆))
-         (Proc↲ (eq 0 a⋆) (ᵀ⋆.target⋆ E⋆)) (quib⁻-removable 0 E⋆ R) (quib⁻-removable 0 E⋆ R′) R†))
-
-   bwd⋆ᴹ : ∀ {Γ P} {a⋆ : Action⋆ Γ} {R₀} (E⋆ : P —[ a⋆ ]→⋆ R₀) {R R′ : ↓ R₀} → R ≤ R′ → bwd⋆ E⋆ R ≤ bwd⋆ E⋆ R′
-   bwd⋆ᴹ _ ◻ = ◻
-   bwd⋆ᴹ E⋆ [ R ] = [ bwd⋆⁻ᴹ E⋆ R ]
-
    id≤fwd⋆∘bwd⋆⁻ : ∀ {Γ P} {a⋆ : Action⋆ Γ} {R} (E⋆ : P —[ a⋆ ]→⋆ R) (R′ : ↓⁻ R) → [ R′ ] ≤ fwd⋆ E⋆ [ bwd⋆⁻ E⋆ R′ ]
    id≤fwd⋆∘bwd⋆⁻ [] R = [ ⁻ᴹ R ]
    id≤fwd⋆∘bwd⋆⁻ {a⋆ = a ᵇ∷ a⋆} (E ᵇ∷ E⋆) R
