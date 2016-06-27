@@ -18,7 +18,7 @@ module Transition.Seq.Lattice.GaloisConnection where
       using (id≤step∘unstep; unstep∘step≤id)
    open import Transition.Seq as ᵀ⋆ using (_—[_]→⋆_; action⋆); open ᵀ⋆._—[_]→⋆_
    open import Transition.Seq.Lattice as ᵀ̃⋆
-      using (eq; adjust-removable; sym-adjust; sym-adjust-removable; ≤-preserves-≅; src⋆; tgt⋆; tgt⋆ᴹ)
+      using (eq; adjust; adjust-removable; sym-adjust; sym-adjust-removable; ≤-preserves-≅; src⋆; src⋆ᴹ; tgt⋆; tgt⋆ᴹ)
 
    -- Can't think of a useful name for this thing.
    β : ∀ {Γ Δ} (eq : Γ ≡ Δ) {S : Proc Γ} (R′ : ↓ S) (R : ↓ (Proc↱ eq S)) (eq′ : R ≅ R′) →
@@ -44,41 +44,39 @@ module Transition.Seq.Lattice.GaloisConnection where
          (adjust-removable 0 a⋆ (tgt⋆ E⋆ (tgt E P)))
          (≤-trans (id≤tgt⋆∘src⋆ E⋆ (sym-adjust 0 a⋆ R)) (tgt⋆ᴹ E⋆ P′))
 
-{-
-   wib′ : ∀ {Δ Γ} (eq : Γ ≡ Δ) {S : Proc Γ} (R : ↓⁻ Proc↱ eq S) (R′ : ↓⁻ S) →
-         _≅_ {A = ↓ S} [ R′ ] {B = ↓ (Proc↱ eq S)} [ R ] →
-         _≅_ {A = ↓⁻ S} R′ {B = ↓⁻ S} (≅-subst✴ Proc ↓⁻_ (sym eq) (Proc↲ eq S) R)
+   wib′ : ∀ {Δ Γ} (eq : Γ ≡ Δ) {S : Proc Γ} (R : ↓ Proc↱ eq S) (R′ : ↓ S) →
+         _≅_ {A = ↓ S} R′ {B = ↓ (Proc↱ eq S)} R →
+         _≅_ {A = ↓ S} R′ {B = ↓ S} (≅-subst✴ Proc ↓_ (sym eq) (Proc↲ eq S) R)
    wib′ refl R .R ≅-refl = ≅-refl
 
    src⋆∘tgt⋆≤id : ∀ {Γ P} {a⋆ : Action⋆ Γ} {R} (E⋆ : P —[ a⋆ ]→⋆ R) (P′ : ↓ P) → (src⋆ E⋆ ∘ᶠ tgt⋆ E⋆) P′ ≤ P′
-   src⋆∘tgt⋆≤id _ ◻ = ◻
-   src⋆∘tgt⋆≤id [] [ P ] = [ ⁻ᴹ P ]
-   src⋆∘tgt⋆≤id {a⋆ = a ᵇ∷ a⋆} (E ᵇ∷ E⋆) [ P ]
-      with tgt⋆ E⋆ (π₂ (tgt⁻ E P)) | quib 1 E⋆ (tgt⋆ E⋆ (π₂ (tgt⁻ E P))) |
-           quib-removable 1 E⋆ (tgt⋆ E⋆ (π₂ (tgt⁻ E P))) | src⋆∘tgt⋆≤id E⋆ (π₂ (tgt⁻ E P))
-   ... | _ | ◻ | _ | _ = ◻
-   ... | ◻ | [ _ ] | () | _
-   ... | [ R′ ] | [ R ] | bib | blab =
-      let jib : src E (◻ , src⋆ E⋆ [ quib⁻ 1 E⋆ R ]) ≤ src E (◻ , π₂ (tgt⁻ E P))
-          jib = bibble refl ≅-refl
-             (≅-cong (λ R → src E (◻ , [ src⋆⁻ E⋆ R ])) (wib′ (eq 1 a⋆) R R′ bib))
+   src⋆∘tgt⋆≤id [] P = ᴹ P
+   src⋆∘tgt⋆≤id {a⋆ = _ ᵇ∷ a⋆} (E ᵇ∷ E⋆) P
+      with tgt⋆ E⋆ (tgt E P) | adjust 1 a⋆ (tgt⋆ E⋆ (tgt E P)) |
+           adjust-removable 1 a⋆ (tgt⋆ E⋆ (tgt E P)) | src⋆∘tgt⋆≤id E⋆ (tgt E P)
+--   ... | _ | ◻ | _ | _ = ? -- ◻
+--   ... | ◻ | [ _ ] | () | _
+   ... | R′ | R | bib | blab =
+      let jib : src E (src⋆ E⋆ (sym-adjust 1 a⋆ R)) ≤ src E (tgt E P)
+          jib = ≤-preserves-≅ refl ≅-refl
+             (≅-cong (λ R → src E (src⋆ E⋆ R)) (wib′ (eq 1 a⋆) R R′ bib))
              ≅-refl
-             (srcᴹ E (ᴹ ◻ , blab))
+             (srcᴹ E blab)
       in
-      ≤-trans (≤-trans jib (srcᴹ E ( ◻ , ᴹ (π₂ (tgt⁻ E P))))) (src∘tgt≤id E [ P ])
-   src⋆∘tgt⋆≤id {a⋆ = a ᶜ∷ a⋆} (E ᶜ∷ E⋆) [ P ]
-      with tgt⋆ E⋆ (π₂ (tgt⁻ E P)) | quib 0 E⋆ (tgt⋆ E⋆ (π₂ (tgt⁻ E P))) |
-           quib-removable 0 E⋆ (tgt⋆ E⋆ (π₂ (tgt⁻ E P))) | src⋆∘tgt⋆≤id E⋆ (π₂ (tgt⁻ E P))
-   ... | _ | ◻ | _ | _ = ◻
-   ... | ◻ | [ _ ] | () | _
-   ... | [ R′ ] | [ R ] | bib | blab =
-      let jib : src E (◻ , src⋆ E⋆ [ quib⁻ 0 E⋆ R ]) ≤ src E (◻ , π₂ (tgt⁻ E P))
-          jib = bibble refl ≅-refl
-             (≅-cong (λ R → src E (◻ , [ src⋆⁻ E⋆ R ])) (wib′ (eq 0 a⋆) R R′ bib))
+      ≤-trans (≤-trans jib (srcᴹ E (ᴹ (tgt E P)))) {!!} -- (unstep∘step≤id E P)
+   src⋆∘tgt⋆≤id {a⋆ = a ᶜ∷ a⋆} (E ᶜ∷ E⋆) P
+      with tgt⋆ E⋆ (tgt E P) | adjust 0 a⋆ (tgt⋆ E⋆ (tgt E P)) |
+           adjust-removable 0 a⋆ (tgt⋆ E⋆ (tgt E P)) | src⋆∘tgt⋆≤id E⋆ (tgt E P)
+--   ... | _ | ◻ | _ | _ = ◻
+--   ... | ◻ | [ _ ] | () | _
+   ... | R′ | R | bib | blab =
+      let jib : src E (src⋆ E⋆ (sym-adjust 0 a⋆ R)) ≤ src E (tgt E P)
+          jib = ≤-preserves-≅ refl ≅-refl
+             (≅-cong (λ R → src E (src⋆ E⋆ R)) (wib′ (eq 0 a⋆) R R′ bib))
              ≅-refl
-             (srcᴹ E (ᴹ ◻ , blab))
+             (srcᴹ E blab)
       in
-      ≤-trans (≤-trans jib (srcᴹ E ( ◻ , ᴹ (π₂ (tgt⁻ E P))))) (src∘tgt≤id E [ P ])
+      ≤-trans (≤-trans jib (srcᴹ E (ᴹ (tgt E P)))) {!!} -- (unstep∘step≤id E P)
 
    gc : ∀ {Γ P} {a⋆ : Action⋆ Γ} {R} (E⋆ : P —[ a⋆ ]→⋆ R) →
         IsGaloisConnection (poset {a = P}) (poset {a = R}) (tgt⋆ E⋆) (src⋆ E⋆)
@@ -88,4 +86,3 @@ module Transition.Seq.Lattice.GaloisConnection where
          id≤f∘g = ≤⇒≤ᴸ ∘ᶠ id≤tgt⋆∘src⋆ E⋆;
          g∘f≤id = ≤⇒≤ᴸ ∘ᶠ src⋆∘tgt⋆≤id E⋆
       }
--}
