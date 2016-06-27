@@ -17,75 +17,74 @@ module Transition.Seq.Lattice.GaloisConnection where
    open import Transition.Lattice.GaloisConnection
       using (id≤step∘unstep; unstep∘step≤id)
    open import Transition.Seq as ᵀ⋆ using (_—[_]→⋆_; action⋆); open ᵀ⋆._—[_]→⋆_
-   open import Transition.Seq.Lattice as ᵀ̃⋆ using (src⋆; tgt⋆; tgt⋆ᴹ)
+   open import Transition.Seq.Lattice as ᵀ̃⋆
+      using (eq; adjust-removable; sym-adjust; sym-adjust-removable; ≤-preserves-≅; src⋆; tgt⋆; tgt⋆ᴹ)
 
-   nibble : ∀ {Γ Δ} (eq : Γ ≡ Δ) (S : Proc Γ) (R′ : ↓⁻ S) (R : ↓⁻ (Proc↱ eq S)) (eq′ : R ≅ R′) →
-            _≅_ {A = ↓ S} [ R′ ] {B = ↓ (Proc↱ eq S)} [ R ]
+   nibble : ∀ {Γ Δ} (eq : Γ ≡ Δ) (S : Proc Γ) (R′ : ↓ S) (R : ↓ (Proc↱ eq S)) (eq′ : R ≅ R′) →
+            _≅_ {A = ↓ S} R′ {B = ↓ (Proc↱ eq S)} R
    nibble {Γ} {.Γ} refl _ R .R ≅-refl = ≅-refl
 
-   id≤fwd⋆∘bwd⋆⁻ : ∀ {Γ P} {a⋆ : Action⋆ Γ} {R} (E⋆ : P —[ a⋆ ]→⋆ R) (R′ : ↓⁻ R) → [ R′ ] ≤ fwd⋆ E⋆ [ bwd⋆⁻ E⋆ R′ ]
-   id≤fwd⋆∘bwd⋆⁻ [] R = [ ⁻ᴹ R ]
-   id≤fwd⋆∘bwd⋆⁻ {a⋆ = a ᵇ∷ a⋆} (E ᵇ∷ E⋆) R
-      with bwd⁻ E ◻ (bwd⋆⁻ E⋆ (quib⁻ 1 E⋆ R)) | π₂ (id≤fwd⁻∘bwd⁻ E ◻ (bwd⋆⁻ E⋆ (quib⁻ 1 E⋆ R)))
+   id≤tgt⋆∘src⋆ : ∀ {Γ P} {a⋆ : Action⋆ Γ} {R} (E⋆ : P —[ a⋆ ]→⋆ R) (R′ : ↓ R) → R′ ≤ (tgt⋆ E⋆ ∘ᶠ src⋆ E⋆) R′
+   id≤tgt⋆∘src⋆ [] R = ᴹ R
+   id≤tgt⋆∘src⋆ {a⋆ = a ᵇ∷ a⋆} (E ᵇ∷ E⋆) R
+      with src E (src⋆ E⋆ (sym-adjust 1 a⋆ R)) | π₂ (id≤step∘unstep E (◻ , src⋆ E⋆ (sym-adjust 1 a⋆ R)))
    ... | P | blab =
-      let S = ᵀ⋆.target⋆ E⋆ in
-      bibble (eq 1 a⋆) (≅-sym (Proc↲ (eq 1 a⋆) S))
-         (nibble (eq 1 a⋆) S (quib⁻ 1 E⋆ R) R (quib⁻-removable 1 E⋆ R))
-         (quib-removable 1 E⋆ (fwd⋆ E⋆ (π₂ (fwd E [ P ]))))
-         (≤-trans (id≤fwd⋆∘bwd⋆⁻ E⋆ (quib⁻ 1 E⋆ R)) (fwd⋆ᴹ E⋆ blab))
-   id≤fwd⋆∘bwd⋆⁻ {a⋆ = a ᶜ∷ a⋆} (E ᶜ∷ E⋆) R
-      with bwd⁻ E ◻ (bwd⋆⁻ E⋆ (quib⁻ 0 E⋆ R)) | π₂ (id≤fwd⁻∘bwd⁻ E ◻ (bwd⋆⁻ E⋆ (quib⁻ 0 E⋆ R)))
+      let S = ᵀ⋆.tgt⋆ E⋆ in
+      ≤-preserves-≅ (eq 1 a⋆) (≅-sym (Proc↲ (eq 1 a⋆) S))
+         (nibble (eq 1 a⋆) S (sym-adjust 1 a⋆ R) R (sym-adjust-removable 1 a⋆ R))
+         (adjust-removable 1 a⋆ (tgt⋆ E⋆ (tgt E P)))
+         (≤-trans (id≤tgt⋆∘src⋆ E⋆ (sym-adjust 1 a⋆ R)) (tgt⋆ᴹ E⋆ blab))
+   id≤tgt⋆∘src⋆ {a⋆ = a ᶜ∷ a⋆} (E ᶜ∷ E⋆) R
+      with src E (src⋆ E⋆ (sym-adjust 0 a⋆ R)) | π₂ (id≤step∘unstep E (◻ , src⋆ E⋆ (sym-adjust 0 a⋆ R)))
    ... | P | blab =
-      let S = ᵀ⋆.target⋆ E⋆ in
-      bibble (eq 0 a⋆) (≅-sym (Proc↲ (eq 0 a⋆) S))
-         (nibble (eq 0 a⋆) S (quib⁻ 0 E⋆ R) R (quib⁻-removable 0 E⋆ R))
-         (quib-removable 0 E⋆ (fwd⋆ E⋆ (π₂ (fwd E [ P ]))))
-         (≤-trans (id≤fwd⋆∘bwd⋆⁻ E⋆ (quib⁻ 0 E⋆ R)) (fwd⋆ᴹ E⋆ blab))
+      let S = ᵀ⋆.tgt⋆ E⋆ in
+      ≤-preserves-≅ (eq 0 a⋆) (≅-sym (Proc↲ (eq 0 a⋆) S))
+         (nibble (eq 0 a⋆) S (sym-adjust 0 a⋆ R) R (sym-adjust-removable 0 a⋆ R))
+         (adjust-removable 0 a⋆ (tgt⋆ E⋆ (tgt E P)))
+         (≤-trans (id≤tgt⋆∘src⋆ E⋆ (sym-adjust 0 a⋆ R)) (tgt⋆ᴹ E⋆ blab))
 
+{-
    wib′ : ∀ {Δ Γ} (eq : Γ ≡ Δ) {S : Proc Γ} (R : ↓⁻ Proc↱ eq S) (R′ : ↓⁻ S) →
          _≅_ {A = ↓ S} [ R′ ] {B = ↓ (Proc↱ eq S)} [ R ] →
          _≅_ {A = ↓⁻ S} R′ {B = ↓⁻ S} (≅-subst✴ Proc ↓⁻_ (sym eq) (Proc↲ eq S) R)
    wib′ refl R .R ≅-refl = ≅-refl
 
-   id≤fwd⋆∘bwd⋆ : ∀ {Γ P} {a⋆ : Action⋆ Γ} {R} (E⋆ : P —[ a⋆ ]→⋆ R) (R′ : ↓ R) → R′ ≤ (fwd⋆ E⋆ ∘ᶠ bwd⋆ E⋆) R′
-   id≤fwd⋆∘bwd⋆ _ ◻ = ◻
-   id≤fwd⋆∘bwd⋆ E⋆ [ R ] = id≤fwd⋆∘bwd⋆⁻ E⋆ R
-
-   bwd⋆∘fwd⋆≤id : ∀ {Γ P} {a⋆ : Action⋆ Γ} {R} (E⋆ : P —[ a⋆ ]→⋆ R) (P′ : ↓ P) → (bwd⋆ E⋆ ∘ᶠ fwd⋆ E⋆) P′ ≤ P′
-   bwd⋆∘fwd⋆≤id _ ◻ = ◻
-   bwd⋆∘fwd⋆≤id [] [ P ] = [ ⁻ᴹ P ]
-   bwd⋆∘fwd⋆≤id {a⋆ = a ᵇ∷ a⋆} (E ᵇ∷ E⋆) [ P ]
-      with fwd⋆ E⋆ (π₂ (fwd⁻ E P)) | quib 1 E⋆ (fwd⋆ E⋆ (π₂ (fwd⁻ E P))) |
-           quib-removable 1 E⋆ (fwd⋆ E⋆ (π₂ (fwd⁻ E P))) | bwd⋆∘fwd⋆≤id E⋆ (π₂ (fwd⁻ E P))
+   src⋆∘tgt⋆≤id : ∀ {Γ P} {a⋆ : Action⋆ Γ} {R} (E⋆ : P —[ a⋆ ]→⋆ R) (P′ : ↓ P) → (src⋆ E⋆ ∘ᶠ tgt⋆ E⋆) P′ ≤ P′
+   src⋆∘tgt⋆≤id _ ◻ = ◻
+   src⋆∘tgt⋆≤id [] [ P ] = [ ⁻ᴹ P ]
+   src⋆∘tgt⋆≤id {a⋆ = a ᵇ∷ a⋆} (E ᵇ∷ E⋆) [ P ]
+      with tgt⋆ E⋆ (π₂ (tgt⁻ E P)) | quib 1 E⋆ (tgt⋆ E⋆ (π₂ (tgt⁻ E P))) |
+           quib-removable 1 E⋆ (tgt⋆ E⋆ (π₂ (tgt⁻ E P))) | src⋆∘tgt⋆≤id E⋆ (π₂ (tgt⁻ E P))
    ... | _ | ◻ | _ | _ = ◻
    ... | ◻ | [ _ ] | () | _
    ... | [ R′ ] | [ R ] | bib | blab =
-      let jib : bwd E (◻ , bwd⋆ E⋆ [ quib⁻ 1 E⋆ R ]) ≤ bwd E (◻ , π₂ (fwd⁻ E P))
+      let jib : src E (◻ , src⋆ E⋆ [ quib⁻ 1 E⋆ R ]) ≤ src E (◻ , π₂ (tgt⁻ E P))
           jib = bibble refl ≅-refl
-             (≅-cong (λ R → bwd E (◻ , [ bwd⋆⁻ E⋆ R ])) (wib′ (eq 1 a⋆) R R′ bib))
+             (≅-cong (λ R → src E (◻ , [ src⋆⁻ E⋆ R ])) (wib′ (eq 1 a⋆) R R′ bib))
              ≅-refl
-             (bwdᴹ E (ᴹ ◻ , blab))
+             (srcᴹ E (ᴹ ◻ , blab))
       in
-      ≤-trans (≤-trans jib (bwdᴹ E ( ◻ , ᴹ (π₂ (fwd⁻ E P))))) (bwd∘fwd≤id E [ P ])
-   bwd⋆∘fwd⋆≤id {a⋆ = a ᶜ∷ a⋆} (E ᶜ∷ E⋆) [ P ]
-      with fwd⋆ E⋆ (π₂ (fwd⁻ E P)) | quib 0 E⋆ (fwd⋆ E⋆ (π₂ (fwd⁻ E P))) |
-           quib-removable 0 E⋆ (fwd⋆ E⋆ (π₂ (fwd⁻ E P))) | bwd⋆∘fwd⋆≤id E⋆ (π₂ (fwd⁻ E P))
+      ≤-trans (≤-trans jib (srcᴹ E ( ◻ , ᴹ (π₂ (tgt⁻ E P))))) (src∘tgt≤id E [ P ])
+   src⋆∘tgt⋆≤id {a⋆ = a ᶜ∷ a⋆} (E ᶜ∷ E⋆) [ P ]
+      with tgt⋆ E⋆ (π₂ (tgt⁻ E P)) | quib 0 E⋆ (tgt⋆ E⋆ (π₂ (tgt⁻ E P))) |
+           quib-removable 0 E⋆ (tgt⋆ E⋆ (π₂ (tgt⁻ E P))) | src⋆∘tgt⋆≤id E⋆ (π₂ (tgt⁻ E P))
    ... | _ | ◻ | _ | _ = ◻
    ... | ◻ | [ _ ] | () | _
    ... | [ R′ ] | [ R ] | bib | blab =
-      let jib : bwd E (◻ , bwd⋆ E⋆ [ quib⁻ 0 E⋆ R ]) ≤ bwd E (◻ , π₂ (fwd⁻ E P))
+      let jib : src E (◻ , src⋆ E⋆ [ quib⁻ 0 E⋆ R ]) ≤ src E (◻ , π₂ (tgt⁻ E P))
           jib = bibble refl ≅-refl
-             (≅-cong (λ R → bwd E (◻ , [ bwd⋆⁻ E⋆ R ])) (wib′ (eq 0 a⋆) R R′ bib))
+             (≅-cong (λ R → src E (◻ , [ src⋆⁻ E⋆ R ])) (wib′ (eq 0 a⋆) R R′ bib))
              ≅-refl
-             (bwdᴹ E (ᴹ ◻ , blab))
+             (srcᴹ E (ᴹ ◻ , blab))
       in
-      ≤-trans (≤-trans jib (bwdᴹ E ( ◻ , ᴹ (π₂ (fwd⁻ E P))))) (bwd∘fwd≤id E [ P ])
+      ≤-trans (≤-trans jib (srcᴹ E ( ◻ , ᴹ (π₂ (tgt⁻ E P))))) (src∘tgt≤id E [ P ])
 
    gc : ∀ {Γ P} {a⋆ : Action⋆ Γ} {R} (E⋆ : P —[ a⋆ ]→⋆ R) →
-        IsGaloisConnection (poset {a = P}) (poset {a = R}) (fwd⋆ E⋆) (bwd⋆ E⋆)
+        IsGaloisConnection (poset {a = P}) (poset {a = R}) (tgt⋆ E⋆) (src⋆ E⋆)
    gc E⋆ = record {
-         f-mono = λ _ _ → ≤⇒≤ᴸ ∘ᶠ fwd⋆ᴹ E⋆ ∘ᶠ ≤ᴸ⇒≤;
-         g-mono = λ _ _ → ≤⇒≤ᴸ ∘ᶠ bwd⋆ᴹ E⋆ ∘ᶠ ≤ᴸ⇒≤;
-         id≤f∘g = ≤⇒≤ᴸ ∘ᶠ id≤fwd⋆∘bwd⋆ E⋆;
-         g∘f≤id = ≤⇒≤ᴸ ∘ᶠ bwd⋆∘fwd⋆≤id E⋆
+         f-mono = λ _ _ → ≤⇒≤ᴸ ∘ᶠ tgt⋆ᴹ E⋆ ∘ᶠ ≤ᴸ⇒≤;
+         g-mono = λ _ _ → ≤⇒≤ᴸ ∘ᶠ src⋆ᴹ E⋆ ∘ᶠ ≤ᴸ⇒≤;
+         id≤f∘g = ≤⇒≤ᴸ ∘ᶠ id≤tgt⋆∘src⋆ E⋆;
+         g∘f≤id = ≤⇒≤ᴸ ∘ᶠ src⋆∘tgt⋆≤id E⋆
       }
+-}
