@@ -283,9 +283,9 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync
          ≡
          tgt (νᵇ (ᵀ.tgt E │ᵇ E/E′ (⊖₁ 𝐹))) (tgt (E │ᵥ F′) [ P │ Q ])
       case
-         with step E P | step ((ᴺ.suc *ᵇ) E) ((push *̃) P) | step F′ Q | step (E′/E (⊖₁ 𝐹)) (tgt F Q) |
-                   inspect (step E) P | inspect (step ((ᴺ.suc *ᵇ) E)) ((push *̃) P) | inspect (step F′) Q |
-                   inspect (step (E′/E (⊖₁ 𝐹))) (tgt F Q)
+         with step E P | step ((ᴿ.push *ᵇ) E) ((push *̃) P) | step F′ Q | step (E′/E (⊖₁ 𝐹)) (tgt F Q) |
+              inspect (step E) P | inspect (step ((ᴿ.push *ᵇ) E)) ((push *̃) P) | inspect (step F′) Q |
+              inspect (step (E′/E (⊖₁ 𝐹))) (tgt F Q)
       ... | ◻ , R | [ ._ • ᵇ ] , P″ | _ , S′ | _ , P′ | [ ≡R ] | [ ≡P″ ] | [ ≡S′ ] | [ ≡P′ ] =
          ⊥-elim (◻≢[-] (trans (cong (push ᴬ*̃) (sym (,-inj₁ ≡R))) (trans (renᵇ-action-comm E push P) (,-inj₁ ≡P″))))
       ... | [ ._ • ᵇ ] , R | ◻ , P″ | _ , S′ | _ , P′ | [ ≡R ] | [ ≡P″ ] | [ ≡S′ ] | [ ≡P′ ] =

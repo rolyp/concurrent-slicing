@@ -18,12 +18,11 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-c-nu-sync
       (IH : braiding (ᶜ∇ᵇ {a = • x′ 〈 y 〉} {• x}) {0} (γ₁ 𝐹) (tgt (E′/E (⊖₁ 𝐹)) (tgt F Q)) ≡ tgt (E/E′ (⊖₁ 𝐹)) (tgt F′ Q))
       where
 
-{-
       module _
-         (R : ↓ R₀) (S′ : ↓ S′₀) (P″ : ↓ (ᴿ.suc ᴿ.push *) R₀) (P′ : ↓ Q′₀)
-         (≡R : tgt E P ≡ R) (≡S′ : tgt F′ Q ≡ S′) (≡P″ : tgt ((ᴺ.suc *ᵇ) E) ((push *̃) P) ≡ P″)
-         (≡P′ : tgt (E′/E (⊖₁ 𝐹)) (tgt F Q) ≡ P′) where
+         (R : ↓ R₀) (S′ : ↓ S′₀) (P′ : ↓ Q′₀) (≡R : tgt E P ≡ R) (≡S′ : tgt F′ Q ≡ S′) (≡P′ : tgt (E′/E (⊖₁ 𝐹)) (tgt F Q) ≡ P′)
+         where
 
+{-
          base :
             (Q″ : ↓ Q″₀) (≡Q″ : tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″) →
             braiding (ᵇ∇ᶜ {a = • x′} {τ}) {0} β
@@ -69,24 +68,38 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-c-nu-sync
             ≅⟨ [ν-]-cong (cong₂ _│_ α (swap-swap (γ₁ 𝐹))) ([-│-]-cong α γ (swap-swap (γ₁ 𝐹)) δ) ⟩
                [ ν [ (swap *̃) ((push *̃) R) │ (swap *̃) Q″ ] ]
             ∎)
+-}
 
-         subcase :
-            braiding (ᵇ∇ᶜ {a = • x′} {τ}) {0} β
-            [ ν [ P″ │ P′ ] ]
+
+         postulate
+          subcase :
+            braiding (ᶜ∇ᶜ {a = • x′ 〈 y 〉} {τ}) {0} (cong ν_ (cong₂ _│_ refl (γ₁ 𝐹)))
+            [ ν [ R │ P′ ] ]
             ≡
-            tgt (νᵇ (R₀ │ᵇ E/E′ (⊖₁ 𝐹))) [ ν [ R │ S′ ] ]
+            tgt (νᶜ (R₀ │ᶜ E/E′ (⊖₁ 𝐹))) [ ν [ R │ S′ ] ]
+{-
          subcase
             with step (E/E′ (⊖₁ 𝐹)) S′ | inspect (step (E/E′ (⊖₁ 𝐹))) S′
          ... | ◻ , Q″ | [ ≡Q″ ] = base Q″ (,-inj₂ ≡Q″)
          ... | [ (• ._) ᵇ ] , Q″ | [ ≡Q″ ] = base Q″ (,-inj₂ ≡Q″)
 -}
 
-      postulate
-       case :
+      case :
          braiding (ᶜ∇ᶜ {a = • x′ 〈 y 〉} {τ}) {0} (cong ν_ (cong₂ _│_ refl (γ₁ 𝐹)))
          (tgt (E │ᵥ E′/E (⊖₁ 𝐹)) (tgt (P₀ │ᶜ F) [ P │ Q ]))
          ≡
          tgt (νᶜ (ᵀ.tgt E │ᶜ E/E′ (⊖₁ 𝐹))) (tgt (E │ᵥ F′) [ P │ Q ])
+      case
+         with step E P | step F′ Q | step (E′/E (⊖₁ 𝐹)) (tgt F Q) |
+              inspect (step E) P | inspect (step F′) Q | inspect (step (E′/E (⊖₁ 𝐹))) (tgt F Q)
+      case | ◻ , R | ◻ , S′ | ◻ , P′ | [ ≡R ] | [ ≡S′ ] | [ ≡P′ ] = {!!}
+      case | ◻ , R | ◻ , S′ | [ _ ] , P′ | [ ≡R ] | [ ≡S′ ] | [ ≡P′ ] = {!!}
+      case | ◻ , R | [ _ ] , S′ | ◻ , P′ | [ ≡R ] | [ ≡S′ ] | [ ≡P′ ] = {!!}
+      case | ◻ , R | [ _ ] , S′ | [ _ ] , P′ | [ ≡R ] | [ ≡S′ ] | [ ≡P′ ] = {!!}
+      case | [ (.x •) ᵇ ] , R | ◻ , S′ | ◻ , P′ | [ ≡R ] | [ ≡S′ ] | [ ≡P′ ] = {!!}
+      case | [ (.x •) ᵇ ] , R | ◻ , S′ | [ (• .x) ᵇ ] , P′ | [ ≡R ] | [ ≡S′ ] | [ ≡P′ ] = {!!}
+      case | [ (.x •) ᵇ ] , R | [ (• .x) ᵇ ] , S′ | ◻ , P′ | [ ≡R ] | [ ≡S′ ] | [ ≡P′ ] = {!!}
+      case | [ (.x •) ᵇ ] , R | [ (• .x) ᵇ ] , S′ | [ (• .x) ᵇ ] , P′ | [ ≡R ] | [ ≡S′ ] | [ ≡P′ ] = {!!}
 {-
       case
          with step E P | step ((ᴿ.push *ᵇ) E) ((push *̃) P) | step F′ Q | step (E′/E (⊖₁ 𝐹)) (tgt F Q) |
