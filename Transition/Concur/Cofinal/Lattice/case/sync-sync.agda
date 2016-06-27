@@ -24,18 +24,19 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
    where
 
    module _
---      (pop-y*E′/E : ↓ _) (≡pop-y*E′/E : (ᴿ.pop y *ᵇ) (E′/E (⊖₁ 𝐸)) ≡ pop-y*E′/E) (y′ : ↓ y)
-      (R : ↓ R₀)
+      (pop-y*E′/E : (ᴿ.pop y *) R₀ —[ u • ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (tgt₁ (⊖₁ 𝐸)))
+      (≡pop-y*E′/E : (ᴿ.pop y *ᵇ) (E′/E (⊖₁ 𝐸)) ≡ pop-y*E′/E) (y′ : ↓ y)
+      (pop-z*E/E′ : (ᴿ.pop z *) R′₀ —[ (x •) ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop z) *) (tgt₂ (⊖₁ 𝐸)))
+      (≡pop-z*E/E′ : (ᴿ.pop z *ᵇ) (E/E′ (⊖₁ 𝐸)) ≡ pop-z*E/E′) (z′ : ↓ z)
+      (R : ↓ R₀) (R′ : ↓ R′₀) (S : ↓ S₀) (S′ : ↓ S′₀)
       where
 
-{-
       postulate
        subcase :
          braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} (cong₂ _│_ α (γ₁ 𝐹))
-         (π₂ (step⁻ (pop-y*E′/E │• E′/E (⊖₁ 𝐹)) ((pop y′ *̃) R │ R′)))
+         (π₂ (step⁻ (pop-y*E′/E │• E′/E (⊖₁ 𝐹)) ((pop y′ *̃) R │ S)))
          ≡
-         π₂ (step⁻ (pop-z*E/E′ │• E/E′ (⊖₁ 𝐹)) ((pop z′ *̃) S │ S′))
--}
+         π₂ (step⁻ (pop-z*E/E′ │• E/E′ (⊖₁ 𝐹)) ((pop z′ *̃) R′ │ S′))
 
    case :
       braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} (cong₂ _│_ α (γ₁ 𝐹))
