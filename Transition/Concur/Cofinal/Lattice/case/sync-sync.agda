@@ -12,8 +12,7 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
    (IH₂ : braiding (ᶜ∇ᶜ {a = • x 〈 y 〉} {• u 〈 z 〉}) {0} (γ₁ 𝐹) (tgt (E′/E (⊖₁ 𝐹)) (tgt F Q)) ≡ tgt (E/E′ (⊖₁ 𝐹)) (tgt F′ Q))
    (let
       P′₀ = tgt₁ (⊖₁ 𝐸); P″₀ = tgt₂(⊖₁ 𝐸)
-      open EqReasoning (setoid _)
-      α =
+      α = let open EqReasoning (setoid _) in
          begin
             (ᴿ.pop z *) ((ᴿ.suc (ᴿ.pop y) *) P′₀)
          ≡⟨ sym (pop-pop-swap y z _) ⟩
@@ -44,7 +43,16 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
             [ (pop z† *̃) P′ │ Q′ ]
             ≡
             [ (pop y† *̃) P″ │ Q″ ]
-         base = {!!}
+         base = ≅-to-≡ (
+            let open ≅-Reasoning in
+            begin
+               braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} (cong₂ _│_ α (γ₁ 𝐹))
+               [ (pop z† *̃) P′ │ Q′ ]
+            ≅⟨ reduce-ᶜ∇ᶜ (cong₂ _│_ α (γ₁ 𝐹)) _ ⟩
+               [ (pop z† *̃) P′ │ Q′ ]
+            ≅⟨ {!!} ⟩
+               [ (pop y† *̃) P″ │ Q″ ]
+            ∎)
 
       subcase :
          braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} (cong₂ _│_ α (γ₁ 𝐹))
