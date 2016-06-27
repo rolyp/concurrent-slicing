@@ -18,7 +18,8 @@ module Transition.Lattice.GaloisConnection where
    open import Ren as ᴿ using (push; pop; swap; ᴺren); open ᴿ.Renameable ⦃...⦄
    open import Ren.Lattice as ᴿ̃ using (pop-top; popᴹ; top)
    open import Transition as ᵀ using (_—[_-_]→_); open ᵀ._—[_-_]→_
-   open import Transition.Lattice as ᵀ̃ using (step; stepᴹ; step⁻; step⁻ᴹ; unstep; unstepᴹ; unstep-◻; unstep⁻; unstep⁻ᴹ)
+   open import Transition.Lattice as ᵀ̃
+      using (step; stepᴹ; step⁻; step⁻ᴹ; unstep; unstepᴹ; unstep-◻; unstep⁻; unstep⁻ᴹ; tgt; tgtᴹ; src; srcᴹ)
 
    id≤step∘unstep : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) (aR : ↓ (a , R)) → aR ≤ (step E ∘ᶠ unstep E) aR
    id≤step⁻∘unstep-◻ : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) (a′ : ↓⁻ a) → [ a′ ] ≤ π₁ (step⁻ E (unstep-◻ E a′))
@@ -279,4 +280,19 @@ module Transition.Lattice.GaloisConnection where
          g-mono = λ _ _ → ≤⇒≤ᴸ ∘ᶠ unstepᴹ E ∘ᶠ ≤ᴸ⇒≤;
          id≤f∘g = ≤⇒≤ᴸ ∘ᶠ id≤step∘unstep E;
          g∘f≤id = ≤⇒≤ᴸ ∘ᶠ unstep∘step≤id E
+      }
+
+   id≤tgt∘src : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) (R′ : ↓ R) → R′ ≤ (tgt E ∘ᶠ src E) R′
+   id≤tgt∘src E R′ = π₂ (id≤step∘unstep E (◻ , R′))
+
+   src∘tgt≤id : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) (P′ : ↓ P) → (src E ∘ᶠ tgt E) P′ ≤ P′
+   src∘tgt≤id E P′ = ?
+
+   gc′ : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) →
+        IsGaloisConnection (poset {a = P}) (poset {a = R}) (tgt E) (src E)
+   gc′ E = record {
+         f-mono = λ _ _ → ≤⇒≤ᴸ ∘ᶠ tgtᴹ E ∘ᶠ ≤ᴸ⇒≤;
+         g-mono = λ _ _ → ≤⇒≤ᴸ ∘ᶠ srcᴹ E ∘ᶠ ≤ᴸ⇒≤;
+         id≤f∘g = ≤⇒≤ᴸ ∘ᶠ id≤tgt∘src E;
+         g∘f≤id = ≤⇒≤ᴸ ∘ᶠ src∘tgt≤id E
       }
