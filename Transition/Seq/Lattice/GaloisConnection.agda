@@ -44,39 +44,28 @@ module Transition.Seq.Lattice.GaloisConnection where
          (adjust-removable 0 a⋆ (tgt⋆ E⋆ (tgt E P)))
          (≤-trans (id≤tgt⋆∘src⋆ E⋆ (sym-adjust 0 a⋆ R)) (tgt⋆ᴹ E⋆ P′))
 
-   wib′ : ∀ {Δ Γ} (eq : Γ ≡ Δ) {S : Proc Γ} (R : ↓ Proc↱ eq S) (R′ : ↓ S) →
+   -- No prospects for a meaningful name for this either.
+   δ : ∀ {Δ Γ} (eq : Γ ≡ Δ) {S : Proc Γ} (R : ↓ Proc↱ eq S) (R′ : ↓ S) →
          _≅_ {A = ↓ S} R′ {B = ↓ (Proc↱ eq S)} R →
          _≅_ {A = ↓ S} R′ {B = ↓ S} (≅-subst✴ Proc ↓_ (sym eq) (Proc↲ eq S) R)
-   wib′ refl R .R ≅-refl = ≅-refl
+   δ refl R .R ≅-refl = ≅-refl
 
    src⋆∘tgt⋆≤id : ∀ {Γ P} {a⋆ : Action⋆ Γ} {R} (E⋆ : P —[ a⋆ ]→⋆ R) (P′ : ↓ P) → (src⋆ E⋆ ∘ᶠ tgt⋆ E⋆) P′ ≤ P′
    src⋆∘tgt⋆≤id [] P = ᴹ P
    src⋆∘tgt⋆≤id {a⋆ = _ ᵇ∷ a⋆} (E ᵇ∷ E⋆) P
       with tgt⋆ E⋆ (tgt E P) | adjust 1 a⋆ (tgt⋆ E⋆ (tgt E P)) |
            adjust-removable 1 a⋆ (tgt⋆ E⋆ (tgt E P)) | src⋆∘tgt⋆≤id E⋆ (tgt E P)
---   ... | _ | ◻ | _ | _ = ? -- ◻
---   ... | ◻ | [ _ ] | () | _
-   ... | R′ | R | bib | blab =
-      let jib : src E (src⋆ E⋆ (sym-adjust 1 a⋆ R)) ≤ src E (tgt E P)
-          jib = ≤-preserves-≅ refl ≅-refl
-             (≅-cong (λ R → src E (src⋆ E⋆ R)) (wib′ (eq 1 a⋆) R R′ bib))
-             ≅-refl
-             (srcᴹ E blab)
-      in
-      ≤-trans (≤-trans jib (srcᴹ E (ᴹ (tgt E P)))) {!!} -- (unstep∘step≤id E P)
+   ... | R′ | R | R† | R″ =
+      let P′ : src E (src⋆ E⋆ (sym-adjust 1 a⋆ R)) ≤ src E (tgt E P)
+          P′ = ≤-preserves-≅ refl ≅-refl (≅-cong (src E ∘ᶠ src⋆ E⋆) (δ (eq 1 a⋆) R R′ R†)) ≅-refl (srcᴹ E R″) in
+      ≤-trans (≤-trans P′ (srcᴹ E (ᴹ (tgt E P)))) {!!} -- (unstep∘step≤id E P)
    src⋆∘tgt⋆≤id {a⋆ = a ᶜ∷ a⋆} (E ᶜ∷ E⋆) P
       with tgt⋆ E⋆ (tgt E P) | adjust 0 a⋆ (tgt⋆ E⋆ (tgt E P)) |
            adjust-removable 0 a⋆ (tgt⋆ E⋆ (tgt E P)) | src⋆∘tgt⋆≤id E⋆ (tgt E P)
---   ... | _ | ◻ | _ | _ = ◻
---   ... | ◻ | [ _ ] | () | _
-   ... | R′ | R | bib | blab =
-      let jib : src E (src⋆ E⋆ (sym-adjust 0 a⋆ R)) ≤ src E (tgt E P)
-          jib = ≤-preserves-≅ refl ≅-refl
-             (≅-cong (λ R → src E (src⋆ E⋆ R)) (wib′ (eq 0 a⋆) R R′ bib))
-             ≅-refl
-             (srcᴹ E blab)
-      in
-      ≤-trans (≤-trans jib (srcᴹ E (ᴹ (tgt E P)))) {!!} -- (unstep∘step≤id E P)
+   ... | R′ | R | R† | R″ =
+      let P′ : src E (src⋆ E⋆ (sym-adjust 0 a⋆ R)) ≤ src E (tgt E P)
+          P′ = ≤-preserves-≅ refl ≅-refl (≅-cong (src E ∘ᶠ src⋆ E⋆) (δ (eq 0 a⋆) R R′ R†)) ≅-refl (srcᴹ E R″) in
+      ≤-trans (≤-trans P′ (srcᴹ E (ᴹ (tgt E P)))) {!!} -- (unstep∘step≤id E P)
 
    gc : ∀ {Γ P} {a⋆ : Action⋆ Γ} {R} (E⋆ : P —[ a⋆ ]→⋆ R) →
         IsGaloisConnection (poset {a = P}) (poset {a = R}) (tgt⋆ E⋆) (src⋆ E⋆)
