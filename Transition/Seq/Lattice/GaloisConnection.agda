@@ -20,28 +20,29 @@ module Transition.Seq.Lattice.GaloisConnection where
    open import Transition.Seq.Lattice as ᵀ̃⋆
       using (eq; adjust-removable; sym-adjust; sym-adjust-removable; ≤-preserves-≅; src⋆; tgt⋆; tgt⋆ᴹ)
 
-   nibble : ∀ {Γ Δ} (eq : Γ ≡ Δ) (S : Proc Γ) (R′ : ↓ S) (R : ↓ (Proc↱ eq S)) (eq′ : R ≅ R′) →
-            _≅_ {A = ↓ S} R′ {B = ↓ (Proc↱ eq S)} R
-   nibble {Γ} {.Γ} refl _ R .R ≅-refl = ≅-refl
+   -- Can't think of a useful name for this thing.
+   β : ∀ {Γ Δ} (eq : Γ ≡ Δ) {S : Proc Γ} (R′ : ↓ S) (R : ↓ (Proc↱ eq S)) (eq′ : R ≅ R′) →
+       _≅_ {A = ↓ S} R′ {B = ↓ (Proc↱ eq S)} R
+   β {Γ} {.Γ} refl R .R ≅-refl = ≅-refl
 
    id≤tgt⋆∘src⋆ : ∀ {Γ P} {a⋆ : Action⋆ Γ} {R} (E⋆ : P —[ a⋆ ]→⋆ R) (R′ : ↓ R) → R′ ≤ (tgt⋆ E⋆ ∘ᶠ src⋆ E⋆) R′
    id≤tgt⋆∘src⋆ [] R = ᴹ R
    id≤tgt⋆∘src⋆ {a⋆ = a ᵇ∷ a⋆} (E ᵇ∷ E⋆) R
       with src E (src⋆ E⋆ (sym-adjust 1 a⋆ R)) | π₂ (id≤step∘unstep E (◻ , src⋆ E⋆ (sym-adjust 1 a⋆ R)))
-   ... | P | blab =
+   ... | P | P′ =
       let S = ᵀ⋆.tgt⋆ E⋆ in
       ≤-preserves-≅ (eq 1 a⋆) (≅-sym (Proc↲ (eq 1 a⋆) S))
-         (nibble (eq 1 a⋆) S (sym-adjust 1 a⋆ R) R (sym-adjust-removable 1 a⋆ R))
+         (β (eq 1 a⋆) (sym-adjust 1 a⋆ R) R (sym-adjust-removable 1 a⋆ R))
          (adjust-removable 1 a⋆ (tgt⋆ E⋆ (tgt E P)))
-         (≤-trans (id≤tgt⋆∘src⋆ E⋆ (sym-adjust 1 a⋆ R)) (tgt⋆ᴹ E⋆ blab))
+         (≤-trans (id≤tgt⋆∘src⋆ E⋆ (sym-adjust 1 a⋆ R)) (tgt⋆ᴹ E⋆ P′))
    id≤tgt⋆∘src⋆ {a⋆ = a ᶜ∷ a⋆} (E ᶜ∷ E⋆) R
       with src E (src⋆ E⋆ (sym-adjust 0 a⋆ R)) | π₂ (id≤step∘unstep E (◻ , src⋆ E⋆ (sym-adjust 0 a⋆ R)))
-   ... | P | blab =
+   ... | P | P′ =
       let S = ᵀ⋆.tgt⋆ E⋆ in
       ≤-preserves-≅ (eq 0 a⋆) (≅-sym (Proc↲ (eq 0 a⋆) S))
-         (nibble (eq 0 a⋆) S (sym-adjust 0 a⋆ R) R (sym-adjust-removable 0 a⋆ R))
+         (β (eq 0 a⋆) (sym-adjust 0 a⋆ R) R (sym-adjust-removable 0 a⋆ R))
          (adjust-removable 0 a⋆ (tgt⋆ E⋆ (tgt E P)))
-         (≤-trans (id≤tgt⋆∘src⋆ E⋆ (sym-adjust 0 a⋆ R)) (tgt⋆ᴹ E⋆ blab))
+         (≤-trans (id≤tgt⋆∘src⋆ E⋆ (sym-adjust 0 a⋆ R)) (tgt⋆ᴹ E⋆ P′))
 
 {-
    wib′ : ∀ {Δ Γ} (eq : Γ ≡ Δ) {S : Proc Γ} (R : ↓⁻ Proc↱ eq S) (R′ : ↓⁻ S) →
