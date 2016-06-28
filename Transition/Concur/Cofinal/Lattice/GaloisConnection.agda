@@ -63,7 +63,7 @@ module Transition.Concur.Cofinal.Lattice.GaloisConnection where
       let open ≅-Reasoning in ≅-to-≡ (
       begin
          ((swap ᴿ+ Δ) *̃) (braiding ᵇ∇ᵇ {Δ} (⋈̂-sym (ᵇ∇ᵇ {a = a} {a′}) Δ refl) P†)
-      ≅⟨ ≅-cong✴ ↓_ (sym (involutive (+-preserves-involutivity ᴿ.swap Δ swap-involutive) P))
+      ≅⟨ ≅-cong✴ ↓_ (sym (involutive (+-preserves-involutivity ᴿ.swap Δ ᴿ.swap-involutive) P))
                      ((swap ᴿ+ Δ) *̃) (reduce Δ (((ᴿ.swap ᴿ.ᴿ+ Δ) *) P) P a a′ P† (⋈̂-sym (ᵇ∇ᵇ {a = a} {a′}) Δ refl)) ⟩
          ((swap ᴿ+ Δ) *̃) (((swap ᴿ+ Δ) *̃) P†)
       ≅⟨ swap+-involutivẽ Δ P† ⟩

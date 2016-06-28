@@ -15,7 +15,7 @@ module Transition.Lattice.GaloisConnection where
    open import Proc.Ren.Lattice.GaloisConnection using (id≤ren∘unren; unren∘ren≤id)
    import Name as ᴺ
    open import Name.Lattice as ᴺ̃ using (zero; suc; sucᴹ); open ᴺ̃.↓_; open ᴺ̃._≤_
-   open import Ren as ᴿ using (push; pop; swap; ᴺren); open ᴿ.Renameable ⦃...⦄
+   open import Ren as ᴿ using (push; pop; swap); open ᴿ.Renameable ⦃...⦄
    open import Ren.Lattice as ᴿ̃ using (pop-top; popᴹ; top)
    open import Transition as ᵀ using (_—[_-_]→_); open ᵀ._—[_-_]→_
    open import Transition.Lattice as ᵀ̃
