@@ -39,7 +39,22 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
             β : P′ ≅ (pop y† *̃) P″
             β = {!!}
             δ : Q′ ≅ Q″
-            δ = {!!})
+            δ = (let open ≅-Reasoning in
+               begin
+                  Q′
+               ≡⟨ sym ≡Q′ ⟩
+                  tgt (E′/E (⊖₁ 𝐹)) S
+               ≡⟨ cong (tgt (E′/E (⊖₁ 𝐹))) (sym ≡S) ⟩
+                  tgt (E′/E (⊖₁ 𝐹)) (tgt F Q)
+               ≅⟨ ≅-sym (reduce-ᶜ∇ᵇ (γ₁ 𝐹) {!_!}) ⟩
+                  braiding (ᶜ∇ᵇ {a = • x 〈 y 〉} {• u}) {0} (γ₁ 𝐹) (tgt (E′/E (⊖₁ 𝐹)) (tgt F Q))
+               ≡⟨ IH₂ ⟩
+                  tgt (E/E′ (⊖₁ 𝐹)) (tgt F′ Q)
+               ≡⟨ cong (tgt (E/E′ (⊖₁ 𝐹))) ≡S′ ⟩
+                  tgt (E/E′ (⊖₁ 𝐹)) S′
+               ≡⟨ ≡Q″ ⟩
+                  Q″
+               ∎))
          where
 
          base :
