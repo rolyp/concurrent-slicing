@@ -3,6 +3,7 @@ open import Transition.Concur.Cofinal.Lattice.Common
 
 import Relation.Binary.EqReasoning as EqReasoning
 import Name as ᴺ
+import Name.Lattice as ᴺ̃
 import Ren as ᴿ
 
 module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
@@ -48,7 +49,12 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
                   tgt ((ᴿ.pop y *ᵇ) (E′/E (⊖₁ 𝐸))) ((pop y′ *̃) (tgt E P))
                ≡⟨ sym (renᵇ-tgt-comm (E′/E (⊖₁ 𝐸)) (pop y′) (tgt E P)) ⟩
                   (suc (pop y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))
-               ≅⟨ {!!} ⟩
+               ≅⟨ ≅-cong✴ ↓_ (sym (swap-involutive P′₀))
+                          (suc (pop y′) *̃) (≅-sym (swap-involutivẽ (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))) ⟩
+                  (suc (pop y′) *̃) ((swap *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
+               ≅⟨ suc-pop∘swap̃ y′ ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))) ⟩
+                  (pop (ᴺ̃.suc y′) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
+               ≡⟨ cong (λ y‡ → (pop y‡ *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))) trustMe ⟩
                   (pop y† *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
                ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) (pop y† *̃) (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _)) ⟩
                   (pop y† *̃) (braiding (ᵇ∇ᵇ {a = x •} {u •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
