@@ -32,7 +32,7 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
       where
 
       module _
-         (P′ : ↓ (ᴿ.suc (ᴿ.pop y) *) P′₀) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) (P″ : ↓ (ᴿ.suc (ᴿ.pop z) *) (tgt₂ (⊖₁ 𝐸)))
+         (P′ : ↓ (ᴿ.suc (ᴿ.pop y) *) P′₀) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) (P″ : ↓ (ᴿ.suc (ᴿ.pop z) *) P″₀)
          (Q″ : ↓ tgt₂ (⊖₁ 𝐹)) (z† : ↓ z) (y† : ↓ y)
          (≡P′ : tgt pop-y*E′/E ((pop y′ *̃) R) ≡ P′) (≡Q′ : tgt (E′/E (⊖₁ 𝐹)) S ≡ Q′)
          (≡P″ : tgt pop-z*E/E′ ((pop z′ *̃) R′) ≡ P″) (≡Q″ : tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″)
@@ -59,7 +59,7 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
                      (pop z† *̃) ((suc (pop y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
                   ≡⟨ cong₂ (λ z‡ y‡ → (pop z‡ *̃) ((suc (pop y‡) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))) trustMe trustMe ⟩
                      (pop z′ *̃) ((suc (pop y†) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
-                  ≅⟨ ≅-cong✴ ↓_ (sym (swap-involutive (tgt₁ (⊖₁ 𝐸))))
+                  ≅⟨ ≅-cong✴ ↓_ (sym (swap-involutive P′₀))
                      ((pop z′ *̃) ∘ᶠ (suc (pop y†) *̃)) (≅-sym (swap-involutivẽ (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))) ⟩
                      (pop z′ *̃) ((suc (pop y†) *̃) ((swap *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))))
                   ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) ((pop z′ *̃) ∘ᶠ (suc (pop y†) *̃) ∘ᶠ (swap *̃)) (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _)) ⟩
