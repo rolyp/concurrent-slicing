@@ -36,59 +36,66 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
          (Q″ : ↓ tgt₂ (⊖₁ 𝐹)) (z† : ↓ z) (y† : ↓ y)
          (≡P′ : tgt pop-y*E′/E ((pop y′ *̃) R) ≡ P′) (≡Q′ : tgt (E′/E (⊖₁ 𝐹)) S ≡ Q′)
          (≡P″ : tgt pop-z*E/E′ ((pop z′ *̃) R′) ≡ P″) (≡Q″ : tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″)
-         (let
-            β : (pop z† *̃) P′ ≅ (pop y† *̃) P″
-            β = let open ≅-Reasoning in
-               begin
-                  (pop z† *̃) P′
-               ≡⟨ cong (pop z† *̃) (sym ≡P′) ⟩
-                  (pop z† *̃) (tgt pop-y*E′/E ((pop y′ *̃) R))
-               ≡⟨ cong ((pop z† *̃) ∘ᶠ tgt pop-y*E′/E ∘ᶠ (pop y′ *̃)) (sym ≡R) ⟩
-                  (pop z† *̃) (tgt pop-y*E′/E ((pop y′ *̃) (tgt E P)))
-               ≡⟨ cong (λ E† → (pop z† *̃) (tgt E† ((pop y′ *̃) (tgt E P)))) (sym ≡pop-y*E′/E) ⟩
-                  (pop z† *̃) (tgt ((ᴿ.pop y *ᵇ) (E′/E (⊖₁ 𝐸))) ((pop y′ *̃) (tgt E P)))
-               ≡⟨ cong (pop z† *̃) (sym (renᵇ-tgt-comm (E′/E (⊖₁ 𝐸)) (pop y′) (tgt E P))) ⟩
-                  (pop z† *̃) ((suc (pop y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
-               ≡⟨ cong₂ (λ z‡ y‡ → (pop z‡ *̃) ((suc (pop y‡) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))) trustMe trustMe ⟩
-                  (pop z′ *̃) ((suc (pop y†) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
-               ≅⟨ ≅-cong✴ ↓_ (sym (swap-involutive P′₀))
-                  ((pop z′ *̃) ∘ᶠ (suc (pop y†) *̃)) (≅-sym (swap-involutivẽ (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))) ⟩
-                  (pop z′ *̃) ((suc (pop y†) *̃) ((swap *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))))
-               ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) ((pop z′ *̃) ∘ᶠ (suc (pop y†) *̃) ∘ᶠ (swap *̃)) (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _)) ⟩
-                  (pop z′ *̃)
-                  ((suc (pop y†) *̃)
-                   ((swap *̃) (braiding (ᵇ∇ᵇ {a = x •} {u •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))))
-               ≡⟨ cong ((pop z′ *̃) ∘ᶠ (suc (pop y†) *̃) ∘ᶠ (swap *̃)) IH₁ ⟩
-                  (pop z′ *̃) ((suc (pop y†) *̃) ((swap *̃) (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))))
-               ≅⟨ pop-pop-swap̃ z′ y† _ ⟩
-                  (pop y† *̃) ((suc (pop z′) *̃) (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P)))
-               ≡⟨ cong (pop y† *̃) (renᵇ-tgt-comm (E/E′ (⊖₁ 𝐸)) (pop z′) (tgt E′ P)) ⟩
-                  (pop y† *̃) (tgt ((ᴿ.pop z *ᵇ) (E/E′ (⊖₁ 𝐸))) ((pop z′ *̃) (tgt E′ P)))
-               ≡⟨ cong (λ E† → (pop y† *̃) (tgt E† ((pop z′ *̃) (tgt E′ P)))) ≡pop-z*E/E′ ⟩
-                  (pop y† *̃) (tgt pop-z*E/E′ ((pop z′ *̃) (tgt E′ P)))
-               ≡⟨ cong ((pop y† *̃) ∘ᶠ tgt pop-z*E/E′ ∘ᶠ (pop z′ *̃)) ≡R′ ⟩
-                  (pop y† *̃) (tgt pop-z*E/E′ ((pop z′ *̃) R′))
-               ≡⟨ cong (pop y† *̃) ≡P″ ⟩
-                  (pop y† *̃) P″
-               ∎
-            δ : Q′ ≅ Q″
-            δ = let open ≅-Reasoning in
-               begin
-                  Q′
-               ≡⟨ sym ≡Q′ ⟩
-                  tgt (E′/E (⊖₁ 𝐹)) S
-               ≡⟨ cong (tgt (E′/E (⊖₁ 𝐹))) (sym ≡S) ⟩
-                  tgt (E′/E (⊖₁ 𝐹)) (tgt F Q)
-               ≅⟨ ≅-sym (reduce-ᶜ∇ᶜ (γ₁ 𝐹) _) ⟩
-                  braiding (ᶜ∇ᶜ {a = • x 〈 y 〉} {• u 〈 z 〉}) {0} (γ₁ 𝐹) (tgt (E′/E (⊖₁ 𝐹)) (tgt F Q))
-               ≡⟨ IH₂ ⟩
-                  tgt (E/E′ (⊖₁ 𝐹)) (tgt F′ Q)
-               ≡⟨ cong (tgt (E/E′ (⊖₁ 𝐹))) ≡S′ ⟩
-                  tgt (E/E′ (⊖₁ 𝐹)) S′
-               ≡⟨ ≡Q″ ⟩
-                  Q″
-               ∎)
          where
+
+         cheat₁ : z† ≡ z′
+         cheat₁ = trustMe
+
+         cheat₂ : y† ≡ y′
+         cheat₂ = trustMe
+
+         β : (pop z† *̃) P′ ≅ (pop y† *̃) P″
+         β = let open ≅-Reasoning in
+            begin
+               (pop z† *̃) P′
+            ≡⟨ cong (pop z† *̃) (sym ≡P′) ⟩
+               (pop z† *̃) (tgt pop-y*E′/E ((pop y′ *̃) R))
+            ≡⟨ cong ((pop z† *̃) ∘ᶠ tgt pop-y*E′/E ∘ᶠ (pop y′ *̃)) (sym ≡R) ⟩
+               (pop z† *̃) (tgt pop-y*E′/E ((pop y′ *̃) (tgt E P)))
+            ≡⟨ cong (λ E† → (pop z† *̃) (tgt E† ((pop y′ *̃) (tgt E P)))) (sym ≡pop-y*E′/E) ⟩
+               (pop z† *̃) (tgt ((ᴿ.pop y *ᵇ) (E′/E (⊖₁ 𝐸))) ((pop y′ *̃) (tgt E P)))
+            ≡⟨ cong (pop z† *̃) (sym (renᵇ-tgt-comm (E′/E (⊖₁ 𝐸)) (pop y′) (tgt E P))) ⟩
+               (pop z† *̃) ((suc (pop y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
+            ≡⟨ cong₂ (λ z‡ y‡ → (pop z‡ *̃) ((suc (pop y‡) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))) cheat₁ (sym cheat₂) ⟩
+               (pop z′ *̃) ((suc (pop y†) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
+            ≅⟨ ≅-cong✴ ↓_ (sym (swap-involutive P′₀))
+               ((pop z′ *̃) ∘ᶠ (suc (pop y†) *̃)) (≅-sym (swap-involutivẽ (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))) ⟩
+               (pop z′ *̃) ((suc (pop y†) *̃) ((swap *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))))
+            ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) ((pop z′ *̃) ∘ᶠ (suc (pop y†) *̃) ∘ᶠ (swap *̃)) (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _)) ⟩
+               (pop z′ *̃)
+               ((suc (pop y†) *̃)
+                ((swap *̃) (braiding (ᵇ∇ᵇ {a = x •} {u •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))))
+            ≡⟨ cong ((pop z′ *̃) ∘ᶠ (suc (pop y†) *̃) ∘ᶠ (swap *̃)) IH₁ ⟩
+               (pop z′ *̃) ((suc (pop y†) *̃) ((swap *̃) (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))))
+            ≅⟨ pop-pop-swap̃ z′ y† _ ⟩
+               (pop y† *̃) ((suc (pop z′) *̃) (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P)))
+            ≡⟨ cong (pop y† *̃) (renᵇ-tgt-comm (E/E′ (⊖₁ 𝐸)) (pop z′) (tgt E′ P)) ⟩
+               (pop y† *̃) (tgt ((ᴿ.pop z *ᵇ) (E/E′ (⊖₁ 𝐸))) ((pop z′ *̃) (tgt E′ P)))
+            ≡⟨ cong (λ E† → (pop y† *̃) (tgt E† ((pop z′ *̃) (tgt E′ P)))) ≡pop-z*E/E′ ⟩
+               (pop y† *̃) (tgt pop-z*E/E′ ((pop z′ *̃) (tgt E′ P)))
+            ≡⟨ cong ((pop y† *̃) ∘ᶠ tgt pop-z*E/E′ ∘ᶠ (pop z′ *̃)) ≡R′ ⟩
+               (pop y† *̃) (tgt pop-z*E/E′ ((pop z′ *̃) R′))
+            ≡⟨ cong (pop y† *̃) ≡P″ ⟩
+               (pop y† *̃) P″
+            ∎
+
+         δ : Q′ ≅ Q″
+         δ = let open ≅-Reasoning in
+            begin
+               Q′
+            ≡⟨ sym ≡Q′ ⟩
+               tgt (E′/E (⊖₁ 𝐹)) S
+            ≡⟨ cong (tgt (E′/E (⊖₁ 𝐹))) (sym ≡S) ⟩
+               tgt (E′/E (⊖₁ 𝐹)) (tgt F Q)
+            ≅⟨ ≅-sym (reduce-ᶜ∇ᶜ (γ₁ 𝐹) _) ⟩
+               braiding (ᶜ∇ᶜ {a = • x 〈 y 〉} {• u 〈 z 〉}) {0} (γ₁ 𝐹) (tgt (E′/E (⊖₁ 𝐹)) (tgt F Q))
+            ≡⟨ IH₂ ⟩
+               tgt (E/E′ (⊖₁ 𝐹)) (tgt F′ Q)
+            ≡⟨ cong (tgt (E/E′ (⊖₁ 𝐹))) ≡S′ ⟩
+               tgt (E/E′ (⊖₁ 𝐹)) S′
+            ≡⟨ ≡Q″ ⟩
+               Q″
+            ∎
 
          base :
             braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} (cong₂ _│_ α (γ₁ 𝐹))

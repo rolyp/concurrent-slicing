@@ -13,7 +13,7 @@ module Proc.Ren.Lattice where
       open ᴿ.Renameable ⦃...⦄ renaming
          (_* to _*′; *-preserves-≃ₑ to *′-preserves-≃ₑ; *-preserves-∘ to *′-preserves-∘; *-preserves-id to *′-preserves-id)
    open import Ren.Lattice as ᴿ̃ using (
-         _̃; _̃ᴹ; ̃-preserves-id; to-↓; to-↓-preserves-+; _ᴿ+_; suc; suc-preserves-≃ₑ; sucᴹ; pre; preᴹ;
+         _̃_; _̃ᴹ_; ̃-preserves-id; to-↓; to-↓-preserves-+; _ᴿ+_; suc; suc-preserves-≃ₑ; sucᴹ; pre; preᴹ;
          _↦_; _↦ᴹ_; _⁻¹[_]_; _⁻¹ᴹ[_]_
       )
 
@@ -24,7 +24,7 @@ module Proc.Ren.Lattice where
 
    (ρ *⁻) Ο = Ο
    (_*⁻ {ρ = ρ₀} ρ) (x •∙ P) = ρ₀ x •∙ (suc ρ *) P
-   (_*⁻ {ρ = ρ₀} ρ) (• x 〈 y 〉∙ P) = • ρ₀ x 〈 (ρ ̃) y 〉∙ (ρ *) P
+   (_*⁻ {ρ = ρ₀} ρ) (• x 〈 y 〉∙ P) = • ρ₀ x 〈 ρ ̃ y 〉∙ (ρ *) P
    (ρ *⁻) (P ➕ Q) = (ρ *) P ➕ (ρ *) Q
    (ρ *⁻) (P │ Q) = (ρ *) P │ (ρ *) Q
    (ρ *⁻) (ν P) = ν (suc ρ *) P
@@ -37,7 +37,7 @@ module Proc.Ren.Lattice where
       *-preserves-≃ₑ : ∀ {Γ Γ′} {ρ₀ σ₀ : Ren Γ Γ′} {P : Proc Γ} {ρ : ↓ ρ₀} {σ : ↓ σ₀} →
                        (∀ x → ρ x ≅ σ x) → (P′ : ↓ P) → (ρ *) P′ ≅ (σ *) P′
       *-preserves-∘ : ∀ {Γ Δ Γ′} {ρ₀ : Ren Δ Γ′} {σ₀ : Ren Γ Δ} {P : Proc Γ} {ρ : ↓ ρ₀} {σ : ↓ σ₀}
-                      (P′ : ↓ P) → (ρ *) ((σ *) P′) ≅ (((ρ ̃) ∘ᶠ σ) *) P′
+                      (P′ : ↓ P) → (ρ *) ((σ *) P′) ≅ (((_̃_ ρ) ∘ᶠ σ) *) P′
 
    -- Rather tedious; wasn't able to usefully employ generic helpers.
    *-preserves-id : ∀ {Γ} {P : Proc Γ} (P′ : ↓ P) → (ᴿ̃.id *) P′ ≅ P′
@@ -90,7 +90,7 @@ module Proc.Ren.Lattice where
 
    (ρ *⁻ᴹ) Ο = Ο
    (_*⁻ᴹ {ρ₀ = ρ₀} ρ) (x •∙ P) =  ρ₀ x •∙ (sucᴹ ρ *ᴹ) P
-   (_*⁻ᴹ {ρ₀ = ρ₀} ρ) (• x 〈 y 〉∙ P) = • ρ₀ x 〈 (ρ ̃ᴹ) y 〉∙ (ρ *ᴹ) P
+   (_*⁻ᴹ {ρ₀ = ρ₀} ρ) (• x 〈 y 〉∙ P) = • ρ₀ x 〈 ρ ̃ᴹ y 〉∙ (ρ *ᴹ) P
    (ρ *⁻ᴹ) (P ➕ Q) = (ρ *ᴹ) P ➕ (ρ *ᴹ) Q
    (ρ *⁻ᴹ) (P │ Q) = (ρ *ᴹ) P │ (ρ *ᴹ) Q
    (ρ *⁻ᴹ) (ν P) = ν (sucᴹ ρ *ᴹ) P

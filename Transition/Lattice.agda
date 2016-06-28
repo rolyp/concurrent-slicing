@@ -18,7 +18,7 @@ module Transition.Lattice where
    import Proc.Lattice as ᴾ̃; open ᴾ̃.↓_; open ᴾ̃.↓⁻_; open ᴾ̃._≤_; open ᴾ̃._≤⁻_
    open import Proc.Ren.Lattice renaming (_* to _*̃)
    open import Ren as ᴿ using (module Renameable); open Renameable ⦃...⦄
-   open import Ren.Lattice as ᴿ̃ using (pop; popᴹ; id; push; swap; _̃ᴹ)
+   open import Ren.Lattice as ᴿ̃ using (pop; popᴹ; id; push; swap)
    open import Transition as ᵀ using (_—[_-_]→_; module _—[_-_]→_); open _—[_-_]→_
 
    open module Action×Proc {Γ} = Lattice.Product (Action Γ) (Proc ∘ᶠ ᴬ.tgt) using (×-prefixes)

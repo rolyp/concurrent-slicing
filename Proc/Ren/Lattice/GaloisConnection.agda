@@ -10,7 +10,7 @@ module Proc.Ren.Lattice.GaloisConnection where
    open import Proc.Ren
    open import Proc.Ren.Lattice using (_*⁻; _*ᴹ; unren; unrenᴹ; unren⁻; ᴿᴾ-prefixes) renaming (_* to _*̃)
    open import Ren as ᴿ using (Ren); open ᴿ.Renameable ⦃...⦄
-   open import Ren.Lattice as ᴿ̃ using (_̃; _̃ᴹ; ◻≤; _↦_; _⁻¹[_]_; suc; sucᴹ; pre; preᴹ)
+   open import Ren.Lattice as ᴿ̃ using (_̃_; _̃ᴹ_; ◻≤; _↦_; _⁻¹[_]_; suc; sucᴹ; pre; preᴹ)
    open import Ren.Lattice.GaloisConnection using (id≤get∘put; put₁∘get≤id; put∘get≤id; id≤suc∘pre; pre∘suc≡id)
 
    id≤ren∘unren : ∀ {Γ Γ′} (ρ : Ren Γ Γ′) (P : Proc Γ) (P′ : ↓ (ρ *) P) → let ρ′ , P″ = unren ρ P P′ in P′ ≤ (ρ′ *̃) P″
@@ -33,9 +33,9 @@ module Proc.Ren.Lattice.GaloisConnection where
       begin
          y′
       ≤⟨ id≤get∘put y y′ ⟩
-         (y ↦ y′ ̃) (ρ ⁻¹[ y ] y′)
-      ≤⟨ ((ρ′ ⊔ˡ y ↦ y′) ̃ᴹ) (ᴹ (ρ ⁻¹[ y ] y′)) ⟩
-         ((ρ′ ⊔ (y ↦ y′)) ̃) (ρ ⁻¹[ y ] y′)
+         y ↦ y′ ̃ (ρ ⁻¹[ y ] y′)
+      ≤⟨ (ρ′ ⊔ˡ y ↦ y′) ̃ᴹ (ᴹ (ρ ⁻¹[ y ] y′)) ⟩
+         (ρ′ ⊔ (y ↦ y′)) ̃ (ρ ⁻¹[ y ] y′)
       ∎) 〉∙
       let open ≤-Reasoning in
       begin

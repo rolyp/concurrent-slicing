@@ -22,8 +22,7 @@ Appendix A of the paper.
 
 ### Postulates which will remain postulates:
 
-* `Proc.Ren.Lattice`:
-  * `*-preserves-≃ₑ`
-  * `*-preserves-∘`
+* `Proc.Ren.Lattice.*-preserves-≃ₑ` and `*-preserves-∘`
 * `Ren.Lattice.Properties` postulate counterpart to `Ren.Properties`
 * `Transition.Ren.Lattice` postulates
+* `Transition.Concur.Cofinal.Lattice.Common.ᴬgamma₁`
