@@ -29,7 +29,7 @@ module Ren.Lattice.Properties where
          (((to-↓ ᴿ.swap ̃) ∘ᶠ to-↓ ᴿ.swap) *̃) P
       ≅⟨ *̃-preserves-≃ₑ (λ _ → ≡-to-≅ refl) P ⟩
          ((to-↓ (ᴿ.swap ∘ᶠ ᴿ.swap)) *̃) P
-      ≅⟨ *̃-preserves-≃ₑ (to-↓-preserves-≃ₑ swap-involutive) P ⟩
+      ≅⟨ *̃-preserves-≃ₑ (to-↓-preserves-≃ₑ ᴿ.swap-involutive) P ⟩
          (id *̃) P
       ≅⟨ *̃-preserves-id P ⟩
          P
@@ -48,7 +48,7 @@ module Ren.Lattice.Properties where
          ((((to-↓ (ᴿ.swap ᴿ.ᴿ+ Δ)) ̃) ∘ᶠ (to-↓ (ᴿ.swap ᴿ.ᴿ+ Δ))) *̃) P
       ≅⟨ *̃-preserves-≃ₑ (λ x → ≅-refl) P ⟩
          ((to-↓ ((ᴿ.swap ᴿ.ᴿ+ Δ) ∘ᶠ (ᴿ.swap ᴿ.ᴿ+ Δ))) *̃) P
-      ≅⟨ *̃-preserves-≃ₑ (to-↓-preserves-≃ₑ (+-preserves-involutivity ᴿ.swap Δ swap-involutive)) P ⟩
+      ≅⟨ *̃-preserves-≃ₑ (to-↓-preserves-≃ₑ (+-preserves-involutivity ᴿ.swap Δ ᴿ.swap-involutive)) P ⟩
          (to-↓ idᶠ *̃) P
       ≅⟨ *̃-preserves-id P ⟩
          P

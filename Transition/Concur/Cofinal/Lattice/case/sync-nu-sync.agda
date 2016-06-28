@@ -37,16 +37,37 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
          (≡P″ : tgt (E/E′ (⊖₁ 𝐸)) R′ ≡ P″) (≡Q″ : tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″)
          (let
             β : P′ ≅ (pop y† *̃) P″
-            β = {!!}
+            β = let open ≅-Reasoning in
+               begin
+                  P′
+               ≡⟨ sym ≡P′ ⟩
+                  tgt pop-y*E′/E ((pop y′ *̃) R)
+               ≡⟨ cong (tgt pop-y*E′/E ∘ᶠ (pop y′ *̃)) (sym ≡R) ⟩
+                  tgt pop-y*E′/E ((pop y′ *̃) (tgt E P))
+               ≡⟨ cong (λ E† → tgt E† ((pop y′ *̃) (tgt E P))) (sym ≡pop-y*E′/E) ⟩
+                  tgt ((ᴿ.pop y *ᵇ) (E′/E (⊖₁ 𝐸))) ((pop y′ *̃) (tgt E P))
+               ≡⟨ sym (renᵇ-tgt-comm (E′/E (⊖₁ 𝐸)) (pop y′) (tgt E P)) ⟩
+                  (suc (pop y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))
+               ≅⟨ {!!} ⟩
+                  (pop y† *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
+               ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) (pop y† *̃) (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _)) ⟩
+                  (pop y† *̃) (braiding (ᵇ∇ᵇ {a = x •} {u •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
+               ≡⟨ cong (pop y† *̃) IH₁ ⟩
+                  (pop y† *̃) (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))
+               ≡⟨ cong ((pop y† *̃) ∘ᶠ tgt (E/E′ (⊖₁ 𝐸))) ≡R′ ⟩
+                  (pop y† *̃) (tgt (E/E′ (⊖₁ 𝐸)) R′)
+               ≡⟨ cong (pop y† *̃) ≡P″ ⟩
+                  (pop y† *̃) P″
+               ∎
             δ : Q′ ≅ Q″
-            δ = (let open ≅-Reasoning in
+            δ = let open ≅-Reasoning in
                begin
                   Q′
                ≡⟨ sym ≡Q′ ⟩
                   tgt (E′/E (⊖₁ 𝐹)) S
                ≡⟨ cong (tgt (E′/E (⊖₁ 𝐹))) (sym ≡S) ⟩
                   tgt (E′/E (⊖₁ 𝐹)) (tgt F Q)
-               ≅⟨ ≅-sym (reduce-ᶜ∇ᵇ (γ₁ 𝐹) {!_!}) ⟩
+               ≅⟨ ≅-sym (reduce-ᶜ∇ᵇ (γ₁ 𝐹) _) ⟩
                   braiding (ᶜ∇ᵇ {a = • x 〈 y 〉} {• u}) {0} (γ₁ 𝐹) (tgt (E′/E (⊖₁ 𝐹)) (tgt F Q))
                ≡⟨ IH₂ ⟩
                   tgt (E/E′ (⊖₁ 𝐹)) (tgt F′ Q)
@@ -54,7 +75,7 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
                   tgt (E/E′ (⊖₁ 𝐹)) S′
                ≡⟨ ≡Q″ ⟩
                   Q″
-               ∎))
+               ∎)
          where
 
          base :

@@ -6,10 +6,10 @@ module Ren.Lattice.GaloisConnection where
    import Lattice; open Lattice.Prefixes ⦃...⦄
    open import Name as ᴺ using (Name; zero; _≟_)
    open import Name.Lattice as ᴺ̃ using (sucᴹ); open ᴺ̃.↓_; open ᴺ̃._≤_
-   open import Ren as ᴿ using (Ren; ᴺren); open ᴿ.Renameable ⦃...⦄
+   open import Ren as ᴿ using (Ren); open ᴿ.Renameable ⦃...⦄
    open import Ren.Lattice as ᴿ̃ using (◻≤; get; getᴹ; put; putᴹ; _̃; _̃ᴹ; suc; pre) renaming (◻ to ◻′)
 
-   id≤get∘put : ∀ {Γ Γ′} {ρ₀ : Ren Γ Γ′} (x₀ : Name Γ) (u : ↓ (ρ₀ *) x₀) → let ρ , x = put ρ₀ x₀ u in u ≤ (ρ ̃) x
+   id≤get∘put : ∀ {Γ Γ′} {ρ₀ : Ren Γ Γ′} (x₀ : Name Γ) (u : ↓ ρ₀ x₀) → let ρ , x = put ρ₀ x₀ u in u ≤ (ρ ̃) x
    id≤get∘put _ ◻ = ◻
    id≤get∘put {ρ₀ = ρ₀} x [ ._ ] with x ≟ x
    ... | yes refl = [ ρ₀ x ]
@@ -43,7 +43,7 @@ module Ren.Lattice.GaloisConnection where
    module Lattice′ {Γ Γ′} {ρx : Ren Γ Γ′ × Name Γ} = Ext.Algebra.Properties.Lattice.Product
       (isLattice {a = π₁ ρx}) (isLattice {a = π₂ ρx})
 
-   gc : ∀ {Γ Γ′} (ρ : Ren Γ Γ′) (x : Name Γ) → GaloisConnection (Lattice′.poset {ρx = ρ , x}) (poset {a = (ρ *) x})
+   gc : ∀ {Γ Γ′} (ρ : Ren Γ Γ′) (x : Name Γ) → GaloisConnection (Lattice′.poset {ρx = ρ , x}) (poset {a = ρ x})
    gc ρ x = ⟪ get {ρ = ρ} {x = x}, put ρ x ~ isGC ⟫
       where
          isGC = record {
