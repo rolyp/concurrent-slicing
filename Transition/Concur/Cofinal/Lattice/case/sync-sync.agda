@@ -108,9 +108,9 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
 
       subcase :
          braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} (cong₂ _│_ α (γ₁ 𝐹))
-         (π₂ (step⁻ (pop-y*E′/E │• E′/E (⊖₁ 𝐹)) ((pop y′ *̃) R │ S)))
+         (tgt (pop-y*E′/E │• E′/E (⊖₁ 𝐹)) [ (pop y′ *̃) R │ S ])
          ≡
-         π₂ (step⁻ (pop-z*E/E′ │• E/E′ (⊖₁ 𝐹)) ((pop z′ *̃) R′ │ S′))
+         tgt (pop-z*E/E′ │• E/E′ (⊖₁ 𝐹)) [ (pop z′ *̃) R′ │ S′ ]
       subcase
          with step pop-y*E′/E ((pop y′ *̃) R) | step (E′/E (⊖₁ 𝐹)) S |
               step pop-z*E/E′ ((pop z′ *̃) R′) | step (E/E′ (⊖₁ 𝐹)) S′ |
