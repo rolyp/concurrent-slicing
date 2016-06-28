@@ -3,7 +3,8 @@ module Action.Ren.Lattice where
    open import Action using (Action; Actionᵇ; Actionᶜ)
    open import Action.Lattice as ᴬ̃ using (↓ᵇ_; ↓ᶜ_); open ᴬ̃.↓_; open ᴬ̃.↓⁻_; open ᴬ̃.↓ᵇ_; open ᴬ̃.↓ᶜ_
    import Lattice; open Lattice.Prefixes ⦃...⦄
-   import Name.Lattice
+   import Name as ᴺ
+   import Name.Lattice as ᴺ̃; open ᴺ̃.↓_
    import Action.Ren
    open import Ren as ᴿ using (Ren);
       open ᴿ.Renameable ⦃...⦄ renaming (_* to _*′)
@@ -15,7 +16,8 @@ module Action.Ren.Lattice where
    _* : ∀ {Γ Γ′} {ρ : Ren Γ Γ′} {a : Action Γ} → ↓ ρ → ↓ a → ↓ (ρ *′) a
 
    (_*ᵇ {ρ = ρ₀} _) (x •) = ρ₀ x •
-   (_*ᵇ {ρ = ρ₀} _) (• x) = • ρ₀ x
+   (_*ᵇ {ρ = ρ₀} _) (• x ﹝ ◻ ﹚) = • ρ₀ x ﹝ ◻ ﹚
+   (_*ᵇ {ρ = ρ₀} _) (• x ﹝ [ .ᴺ.zero ] ﹚) = • ρ₀ x ﹝ [ ᴺ.zero ] ﹚
 
    (_*ᶜ {ρ = ρ₀} ρ) • x 〈 y 〉 = • ρ₀ x 〈 ρ ̃ y 〉
    (ρ *ᶜ) τ = τ

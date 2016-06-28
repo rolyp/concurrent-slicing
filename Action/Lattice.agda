@@ -13,7 +13,7 @@ module Action.Lattice where
             _⊓_ to _⊓′_; _⊓⁻_ to _⊓⁻′_; _⊔_ to _⊔′_; _⊔⁻_ to _⊔⁻′_; ⊓-idem to ⊓′-idem; ⊔-idem to ⊔′-idem
          )
    open import Name as ᴺ using (Cxt; Name; _+_)
-   open import Name.Lattice as ᴺ̃ using ([_])
+   open import Name.Lattice as ᴺ̃ using (); open ᴺ̃.↓_; open ᴺ̃._≤_
 
    data ↓ᵇ_ {Γ : Cxt} : Actionᵇ Γ → Set where
       _• : (x : Name Γ) → ↓ᵇ x •
@@ -57,7 +57,8 @@ module Action.Lattice where
    top : ∀ {Γ} (a : Action Γ) {a′ : ↓ a} → a′ ≤ to-↓ a
    top _ {◻} = ◻
    top (x • ᵇ) {[ .x • ᵇ ]} = [ x • ᵇ ]
-   top ((• x) ᵇ) {[ • .x ﹝ y ﹚ ᵇ ]} = [ • x ﹝ ? ﹚ ᵇ ]
+   top ((• x) ᵇ) {[ • .x ﹝ ᴺ̃.◻ ﹚ ᵇ ]} = [ • x ﹝ ᴺ̃.◻ ﹚ ᵇ ]
+   top ((• x) ᵇ) {[ • .x ﹝ [ .ᴺ.zero ] ﹚ ᵇ ]} = [ • x ﹝ [ ᴺ.zero ] ﹚ ᵇ ]
    top (• x 〈 y 〉 ᶜ) {[ • .x 〈 ᴺ̃.◻ 〉 ᶜ ]} = [ • x 〈 ᴺ̃.◻ 〉 ᶜ ]
    top (• x 〈 y 〉 ᶜ) {[ • .x 〈 [ .y ] 〉 ᶜ ]} = [ • x 〈 [ y ] 〉 ᶜ ]
    top (τ ᶜ) {[ τ ᶜ ]} = [ τ ᶜ ]
