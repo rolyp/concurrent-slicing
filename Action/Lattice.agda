@@ -17,11 +17,7 @@ module Action.Lattice where
 
    data ↓ᵇ_ {Γ : Cxt} : Actionᵇ Γ → Set where
       _• : (x : Name Γ) → ↓ᵇ x •
-      •_ : (x : Name Γ) → ↓ᵇ • x
-
-   data ↓ᵇ′_ {Γ : Cxt} : Actionᵇ Γ → Set where
-      _• : (x : Name Γ) → ↓ᵇ′ x •
-      •_﹝_﹚ : (x : Name Γ) (y : ↓′ (ᴺ.zero {Γ})) → ↓ᵇ′ • x
+      •_﹝_﹚ : (x : Name Γ) (y : ↓′ (ᴺ.zero {Γ})) → ↓ᵇ • x
 
    data ↓ᶜ_ {Γ : Cxt} : Actionᶜ Γ → Set where
       •_〈_〉 : (x : Name Γ) {y : Name Γ} → ↓′ y → ↓ᶜ • x 〈 y 〉
@@ -37,7 +33,7 @@ module Action.Lattice where
 
    data _≤ᵇ_ {Γ : Cxt} : {a : Actionᵇ Γ} → ↓ᵇ a → ↓ᵇ a → Set where
       _• : (x : Name Γ) → x • ≤ᵇ x •
-      •_ : (x : Name Γ) → • x ≤ᵇ • x
+      •_﹝_﹚ : (x : Name Γ) {y y′ : ↓′ ᴺ.zero} → y ≤′ y′ → • x ﹝ y ﹚ ≤ᵇ • x ﹝ y′ ﹚
 
    data _≤ᶜ_ {Γ : Cxt} : {a : Actionᶜ Γ} → ↓ᶜ a → ↓ᶜ a → Set where
       •_〈_〉 : (x : Name Γ) {y : Name Γ} {y′ y″ : ↓′ y} → y′ ≤′ y″ → • x 〈 y′ 〉 ≤ᶜ • x 〈 y″ 〉
@@ -54,21 +50,21 @@ module Action.Lattice where
    -- a is the greatest prefix of itself.
    to-↓ : ∀ {Γ} (a : Action Γ) → ↓ a
    to-↓ (x • ᵇ) = [ x • ᵇ ]
-   to-↓ ((• x) ᵇ) = [ (• x) ᵇ ]
+   to-↓ ((• x) ᵇ) = [ • x ﹝ [ ᴺ.zero ] ﹚ ᵇ ]
    to-↓ (• x 〈 y 〉 ᶜ) = [ • x 〈 [ y ] 〉 ᶜ ]
    to-↓ (τ ᶜ) = [ τ ᶜ ]
 
    top : ∀ {Γ} (a : Action Γ) {a′ : ↓ a} → a′ ≤ to-↓ a
    top _ {◻} = ◻
    top (x • ᵇ) {[ .x • ᵇ ]} = [ x • ᵇ ]
-   top ((• x) ᵇ) {[ (• .x) ᵇ ]} = [ (• x) ᵇ ]
+   top ((• x) ᵇ) {[ • .x ﹝ y ﹚ ᵇ ]} = [ • x ﹝ ? ﹚ ᵇ ]
    top (• x 〈 y 〉 ᶜ) {[ • .x 〈 ᴺ̃.◻ 〉 ᶜ ]} = [ • x 〈 ᴺ̃.◻ 〉 ᶜ ]
    top (• x 〈 y 〉 ᶜ) {[ • .x 〈 [ .y ] 〉 ᶜ ]} = [ • x 〈 [ y ] 〉 ᶜ ]
    top (τ ᶜ) {[ τ ᶜ ]} = [ τ ᶜ ]
 
    _⊓⁻_ : ∀ {Γ} {a₀ : Action Γ} → (a a′ : ↓⁻ a₀) → ↓⁻ a₀
    x • ᵇ ⊓⁻ .x • ᵇ = x • ᵇ
-   (• x) ᵇ ⊓⁻ (• .x) ᵇ = (• x) ᵇ
+   • x ﹝ y ﹚ ᵇ ⊓⁻ • .x ﹝ y′ ﹚ ᵇ = • x ﹝ y ⊓′ y′ ﹚ ᵇ
    • x 〈 y 〉 ᶜ ⊓⁻ • .x 〈 y′ 〉 ᶜ = • x 〈 y ⊓′ y′ 〉 ᶜ
    τ ᶜ ⊓⁻ τ ᶜ = τ ᶜ
 
@@ -79,7 +75,7 @@ module Action.Lattice where
 
    _⊔⁻_ : ∀ {Γ} {a₀ : Action Γ} → (a a′ : ↓⁻ a₀) → ↓⁻ a₀
    x • ᵇ ⊔⁻ .x • ᵇ = x • ᵇ
-   (• x) ᵇ ⊔⁻ (• .x) ᵇ = (• x) ᵇ
+   • x ﹝ y ﹚ ᵇ ⊔⁻ • .x ﹝ y′ ﹚ ᵇ = • x ﹝ y ⊔′ y′ ﹚ ᵇ
    • x 〈 y 〉 ᶜ ⊔⁻ • .x 〈 y′ 〉 ᶜ = • x 〈 y ⊔′ y′ 〉 ᶜ
    τ ᶜ ⊔⁻ τ ᶜ = τ ᶜ
 
@@ -98,7 +94,7 @@ module Action.Lattice where
 
    ⊓⁻-comm : ∀ {Γ} {a : Action Γ} → Commutative _≡_ (_⊓⁻_ {a₀ = a})
    ⊓⁻-comm (x • ᵇ) (.x • ᵇ) = refl
-   ⊓⁻-comm ((• x) ᵇ) ((• .x) ᵇ) = refl
+   ⊓⁻-comm (• x ﹝ y ﹚ ᵇ) (• .x ﹝ y′ ﹚ ᵇ) = cong (λ y → • x ﹝ y ﹚ ᵇ) (ᴺ̃.⊓-comm y y′)
    ⊓⁻-comm (• x 〈 y 〉 ᶜ) (• .x 〈 y′ 〉 ᶜ) = cong (λ y → • x 〈 y 〉 ᶜ) (ᴺ̃.⊓-comm y y′)
    ⊓⁻-comm (τ ᶜ) (τ ᶜ) = refl
 
@@ -109,7 +105,7 @@ module Action.Lattice where
 
    ⊓⁻-assoc : ∀ {Γ} {a : Action Γ} → Associative _≡_ (_⊓⁻_ {a₀ = a})
    ⊓⁻-assoc (x • ᵇ) (.x • ᵇ) (.x • ᵇ) = refl
-   ⊓⁻-assoc ((• x) ᵇ) ((• .x) ᵇ) ((• .x) ᵇ) = refl
+   ⊓⁻-assoc (• x ﹝ y₁ ﹚ ᵇ) (• .x ﹝ y₂ ﹚ ᵇ) (• .x ﹝ y₃ ﹚ ᵇ) = cong (λ y → • x ﹝ y ﹚ ᵇ) (ᴺ̃.⊓-assoc y₁ y₂ y₃)
    ⊓⁻-assoc (• x 〈 y₁ 〉 ᶜ) (• .x 〈 y₂ 〉 ᶜ) (• .x 〈 y₃ 〉 ᶜ) = cong (λ y → • x 〈 y 〉 ᶜ) (ᴺ̃.⊓-assoc y₁ y₂ y₃)
    ⊓⁻-assoc (τ ᶜ) (τ ᶜ) (τ ᶜ) = refl
 
@@ -133,7 +129,7 @@ module Action.Lattice where
 
    ⊔⁻-comm : ∀ {Γ} {a : Action Γ} → Commutative _≡_ (_⊔⁻_ {a₀ = a})
    ⊔⁻-comm (x • ᵇ) (.x • ᵇ) = refl
-   ⊔⁻-comm ((• x) ᵇ) ((• .x) ᵇ) = refl
+   ⊔⁻-comm (• x ﹝ y ﹚ ᵇ) (• .x ﹝ y′ ﹚ ᵇ) = cong (λ y → • x ﹝ y ﹚ ᵇ) (ᴺ̃.⊔-comm y y′)
    ⊔⁻-comm (• x 〈 y 〉 ᶜ) (• .x 〈 y′ 〉 ᶜ) = cong (λ y → • x 〈 y 〉 ᶜ) (ᴺ̃.⊔-comm y y′)
    ⊔⁻-comm (τ ᶜ) (τ ᶜ) = refl
 
@@ -144,7 +140,7 @@ module Action.Lattice where
 
    ⊔⁻-assoc : ∀ {Γ} {a : Action Γ} → Associative _≡_ (_⊔⁻_ {a₀ = a})
    ⊔⁻-assoc (x • ᵇ) (.x • ᵇ) (.x • ᵇ) = refl
-   ⊔⁻-assoc ((• x) ᵇ) ((• .x) ᵇ) ((• .x) ᵇ) = refl
+   ⊔⁻-assoc (• x ﹝ y₁ ﹚ ᵇ) (• .x ﹝ y₂ ﹚ ᵇ) (• .x ﹝ y₃ ﹚ ᵇ) = cong (λ y → • x ﹝ y ﹚ ᵇ) (ᴺ̃.⊔-assoc y₁ y₂ y₃)
    ⊔⁻-assoc (• x 〈 y₁ 〉 ᶜ) (• .x 〈 y₂ 〉 ᶜ) (• .x 〈 y₃ 〉 ᶜ) = cong (λ y → • x 〈 y 〉 ᶜ) (ᴺ̃.⊔-assoc y₁ y₂ y₃)
    ⊔⁻-assoc (τ ᶜ) (τ ᶜ) (τ ᶜ) = refl
 
@@ -158,7 +154,7 @@ module Action.Lattice where
 
    ⊔⁻-idem : ∀ {Γ} {a : Action Γ} → Idempotent _≡_ (_⊔⁻_ {a₀ = a})
    ⊔⁻-idem (x • ᵇ) = refl
-   ⊔⁻-idem ((• x) ᵇ) = refl
+   ⊔⁻-idem (• x ﹝ y ﹚ ᵇ) = cong (λ y → • x ﹝ y ﹚ ᵇ) (⊔′-idem y)
    ⊔⁻-idem (• x 〈 y 〉 ᶜ) = cong (λ y → • x 〈 y 〉 ᶜ) (⊔′-idem y)
    ⊔⁻-idem (τ ᶜ) = refl
 
@@ -168,7 +164,7 @@ module Action.Lattice where
 
    ⊔⁻-absorbs-⊓⁻ : ∀ {Γ} {a : Action Γ} → _Absorbs_ _≡_ (_⊔⁻_ {a₀ = a}) _⊓⁻_
    ⊔⁻-absorbs-⊓⁻ (x • ᵇ) (.x • ᵇ) = refl
-   ⊔⁻-absorbs-⊓⁻ ((• x) ᵇ) ((• .x) ᵇ) = refl
+   ⊔⁻-absorbs-⊓⁻ (• x ﹝ y ﹚ ᵇ) (• .x ﹝ y′ ﹚ ᵇ) = cong (λ y → • x ﹝ y ﹚ ᵇ) (ᴺ̃.⊔-absorbs-⊓ y y′)
    ⊔⁻-absorbs-⊓⁻ (• x 〈 y 〉 ᶜ) (• .x 〈 y′ 〉 ᶜ) = cong (λ y → • x 〈 y 〉 ᶜ) (ᴺ̃.⊔-absorbs-⊓ y y′)
    ⊔⁻-absorbs-⊓⁻ (τ ᶜ) (τ ᶜ) = refl
 
@@ -181,7 +177,7 @@ module Action.Lattice where
 
    ⊓⁻-idem : ∀ {Γ} {a : Action Γ} → Idempotent _≡_ (_⊓⁻_ {a₀ = a})
    ⊓⁻-idem (x • ᵇ) = refl
-   ⊓⁻-idem ((• x) ᵇ) = refl
+   ⊓⁻-idem (• x ﹝ y ﹚ ᵇ) = cong (λ y → • x ﹝ y ﹚ ᵇ) (⊓′-idem y)
    ⊓⁻-idem (• x 〈 y 〉 ᶜ) = cong (λ y → • x 〈 y 〉 ᶜ) (⊓′-idem y)
    ⊓⁻-idem (τ ᶜ) = refl
 
@@ -191,7 +187,7 @@ module Action.Lattice where
 
    ⊓⁻-absorbs-⊔⁻ : ∀ {Γ} {a : Action Γ} → _Absorbs_ _≡_ (_⊓⁻_ {a₀ = a}) _⊔⁻_
    ⊓⁻-absorbs-⊔⁻ ((x •) ᵇ) ((.x •) ᵇ) = refl
-   ⊓⁻-absorbs-⊔⁻ ((• x) ᵇ) ((• .x) ᵇ) = refl
+   ⊓⁻-absorbs-⊔⁻ (• x ﹝ y ﹚ ᵇ) (• .x ﹝ y′ ﹚ ᵇ) = cong (λ y → • x ﹝ y ﹚ ᵇ) (ᴺ̃.⊓-absorbs-⊔ y y′)
    ⊓⁻-absorbs-⊔⁻ (• x 〈 y 〉 ᶜ) (• .x 〈 y′ 〉 ᶜ) = cong (λ y → • x 〈 y 〉 ᶜ) (ᴺ̃.⊓-absorbs-⊔ y y′)
    ⊓⁻-absorbs-⊔⁻ (τ ᶜ) (τ ᶜ) = refl
 
@@ -236,7 +232,8 @@ module Action.Lattice where
 
    ≤⁻ᴸ⇒≤⁻ : ∀ {Γ} {a : Action Γ} → _≤⁻ᴸ_ lattices {a = a} ⇒ _≤⁻_
    ≤⁻ᴸ⇒≤⁻ {i = x • ᵇ} {.x • ᵇ} _ = (x •) ᵇ
-   ≤⁻ᴸ⇒≤⁻ {i = (• x) ᵇ} {(• .x) ᵇ} _ = (• x) ᵇ
+   ≤⁻ᴸ⇒≤⁻ {i = • x ﹝ y ﹚ ᵇ} {• .x ﹝ y′ ﹚ ᵇ} _ with y ⊓′ y′ | inspect (_⊓′_ y) y′
+   ≤⁻ᴸ⇒≤⁻ {i = • x ﹝ y ﹚ ᵇ} {• .x ﹝ y′ ﹚ ᵇ} refl | .y | [ y≤ᴸy′ ] = • x ﹝ ≤′ᴸ⇒≤′ (sym y≤ᴸy′) ﹚ ᵇ
    ≤⁻ᴸ⇒≤⁻ {i = • x 〈 y 〉 ᶜ} {• .x 〈 y′ 〉 ᶜ} _ with y ⊓′ y′ | inspect (_⊓′_ y) y′
    ≤⁻ᴸ⇒≤⁻ {i = • x 〈 y 〉 ᶜ} {• .x 〈 y′ 〉 ᶜ} refl | .y | [ y≤ᴸy′ ] = • x 〈 ≤′ᴸ⇒≤′ (sym y≤ᴸy′) 〉 ᶜ
    ≤⁻ᴸ⇒≤⁻ {i = τ ᶜ} {τ ᶜ} _ = τ ᶜ
@@ -249,7 +246,7 @@ module Action.Lattice where
 
    ≤⁻⇒≤⁻ᴸ : ∀ {Γ} {a : Action Γ} → _≤⁻_ ⇒ _≤⁻ᴸ_ lattices {a = a}
    ≤⁻⇒≤⁻ᴸ (x • ᵇ) = refl
-   ≤⁻⇒≤⁻ᴸ ((• x) ᵇ) = refl
+   ≤⁻⇒≤⁻ᴸ (• x ﹝ y ﹚ ᵇ) = cong (λ y → • x ﹝ y ﹚ ᵇ) (≤′⇒≤′ᴸ y)
    ≤⁻⇒≤⁻ᴸ (• x 〈 y 〉 ᶜ) = cong (λ y → • x 〈 y 〉 ᶜ) (≤′⇒≤′ᴸ y)
    ≤⁻⇒≤⁻ᴸ (τ ᶜ) = refl
 
