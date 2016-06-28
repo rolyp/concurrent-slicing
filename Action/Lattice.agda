@@ -12,12 +12,16 @@ module Action.Lattice where
             ↓_ to ↓′_; ↓⁻_ to ↓⁻′_; _≤⁻_ to _≤⁻′_; _≤_ to _≤′_; ≤ᴸ⇒≤ to ≤′ᴸ⇒≤′; ≤⇒≤ᴸ to ≤′⇒≤′ᴸ;
             _⊓_ to _⊓′_; _⊓⁻_ to _⊓⁻′_; _⊔_ to _⊔′_; _⊔⁻_ to _⊔⁻′_; ⊓-idem to ⊓′-idem; ⊔-idem to ⊔′-idem
          )
-   open import Name as ᴺ using (Cxt; Name)
+   open import Name as ᴺ using (Cxt; Name; _+_)
    open import Name.Lattice as ᴺ̃ using ([_])
 
    data ↓ᵇ_ {Γ : Cxt} : Actionᵇ Γ → Set where
       _• : (x : Name Γ) → ↓ᵇ x •
       •_ : (x : Name Γ) → ↓ᵇ • x
+
+   data ↓ᵇ′_ {Γ : Cxt} : Actionᵇ Γ → Set where
+      _• : (x : Name Γ) → ↓ᵇ′ x •
+      •_﹝_﹚ : (x : Name Γ) (y : ↓′ (ᴺ.zero {Γ})) → ↓ᵇ′ • x
 
    data ↓ᶜ_ {Γ : Cxt} : Actionᶜ Γ → Set where
       •_〈_〉 : (x : Name Γ) {y : Name Γ} → ↓′ y → ↓ᶜ • x 〈 y 〉
