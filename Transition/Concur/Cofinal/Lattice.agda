@@ -55,10 +55,13 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ {𝑎 = ᵛ∇ᵛ} 𝐸 ◻ = refl
    gamma₁ {a = a ᵇ} {a′ ᵇ} {E = .E ᵇ│ Q₀} {E′ = P₀ │ᵇ .F} (E ᵇ│ᵇ F) [ P │ Q ] =
       let open ᵇ│ᵇ in case E F P Q
-   gamma₁ (E ᵇ│ᶜ F) [ P │ Q ] = cong (λ Q′ → [ _ │ Q′ ]) (sym (renᶜ-tgt-comm F push Q))
-   gamma₁ (E ᶜ│ᵇ F) [ P │ Q ] = cong (λ P′ → [ P′ │ _ ]) (renᶜ-tgt-comm E push P)
+   gamma₁ (E ᵇ│ᶜ F) [ P │ Q ] =
+      cong (λ Q′ → [ _ │ Q′ ]) (sym (renᶜ-tgt-comm F push Q))
+   gamma₁ (E ᶜ│ᵇ F) [ P │ Q ] =
+      cong (λ P′ → [ P′ │ _ ]) (renᶜ-tgt-comm E push P)
    gamma₁ (E ᶜ│ᶜ F) [ P │ Q ] = refl
-   gamma₁ (𝐸 ➕₁ Q) [ P ➕ _ ] = gamma₁ 𝐸 P
+   gamma₁ (𝐸 ➕₁ Q) [ P ➕ _ ] =
+      gamma₁ 𝐸 P
    gamma₁ {𝑎 = ˣ∇ˣ {x = x} {u}} {E = _ │ᵇ F} {._ │ᵇ F′} (._ │ᵇᵇ 𝐹) [ P │ Q ] =
       let open │ᵇᵇ.ˣ∇ˣ in case 𝐹 P Q (gamma₁ 𝐹 Q)
    gamma₁ {𝑎 = ᵇ∇ᵇ} {E = P₀ │ᵇ F} {._ │ᵇ F′} (._ │ᵇᵇ 𝐹) [ P │ Q ] =
@@ -107,7 +110,7 @@ module Transition.Concur.Cofinal.Lattice where
       let open ᶜ│ᵥ.τ in case E 𝐹 P Q (gamma₁ 𝐹 Q)
    gamma₁ (𝐸 │• 𝐹) [ P │ Q ] =
       let open │• in case 𝐸 𝐹 P Q (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q)
-   gamma₁ (𝐸 │•ᵥ 𝐹) [ P │ Q ] = trustMe
+   gamma₁ (𝐸 │•ᵥ 𝐹) [ P │ Q ] = {!!}
    gamma₁ {E = E │ᵥ F} {E′ │ᵥ F′} (𝐸 │ᵥ 𝐹) [ P │ Q ] =
       let open │ᵥ in case 𝐸 𝐹 P Q (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q)
    gamma₁ {E = E │ᵥ F} {E′ │ᵥ F′} (𝐸 │ᵥ′ 𝐹) [ P │ Q ] =
