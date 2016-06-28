@@ -35,6 +35,11 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
          (P′ : ↓ (ᴿ.suc (ᴿ.pop y) *) P′₀) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) (P″ : ↓ P″₀) (Q″ : ↓ tgt₂ (⊖₁ 𝐹)) (y† : ↓ ᴺ.suc y)
          (≡P′ : tgt pop-y*E′/E ((pop y′ *̃) R) ≡ P′) (≡Q′ : tgt (E′/E (⊖₁ 𝐹)) S ≡ Q′)
          (≡P″ : tgt (E/E′ (⊖₁ 𝐸)) R′ ≡ P″) (≡Q″ : tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″)
+         (let
+            β : P′ ≅ (pop y† *̃) P″
+            β = {!!}
+            δ : Q′ ≅ Q″
+            δ = {!!})
          where
 
          base :
@@ -42,7 +47,15 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
             [ ν [ P′ │ Q′ ] ]
             ≡
             [ ν [ (pop y† *̃) P″ │ Q″ ] ]
-         base = {!!}
+         base =
+            let open ≅-Reasoning in ≅-to-≡ (
+            begin
+               braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} (cong ν_ (cong₂ _│_ α (γ₁ 𝐹))) [ ν [ P′ │ Q′ ] ]
+            ≅⟨ reduce-ᶜ∇ᶜ (cong ν_ (cong₂ _│_ α (γ₁ 𝐹))) _ ⟩
+               [ ν [ P′ │ Q′ ] ]
+            ≅⟨ [ν-]-cong (cong₂ _│_ α (γ₁ 𝐹)) ([-│-]-cong α β (γ₁ 𝐹) δ) ⟩
+               [ ν [ (pop y† *̃) P″ │ Q″ ] ]
+            ∎)
 
       subcase :
          braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} (cong ν_ (cong₂ _│_ α (γ₁ 𝐹)))
