@@ -16,8 +16,9 @@ module Name.Lattice where
       ◻ : {x : Name Γ} {u : ↓ x} → ◻ ≤ u
       [_] : (x : Name Γ) → [ x ] ≤ [ x ]
 
+   -- Probably overkill.
    to-↓ : ∀ {Γ} (x : Name Γ) → ↓ x
-   to-↓ x = [ x ]
+   to-↓ = [_]
 
    infixr 6 _⊔_
    _⊔_ : ∀ {Γ} {x₀ : Name Γ} → (x x′ : ↓ x₀) → ↓ x₀

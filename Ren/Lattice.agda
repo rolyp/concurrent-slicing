@@ -31,7 +31,7 @@ module Ren.Lattice where
    ◻≤ x = ᴺ̃.◻
 
    to-↓ : ∀ {Γ Γ′} (ρ : Ren Γ Γ′) → ↓ ρ
-   to-↓ ρ x = ᴺ̃.to-↓ (ρ x)
+   to-↓ ρ x = [ ρ x ]
 
    to-↓-preserves-≃ₑ : ∀ {Γ Γ′} {ρ ρ′ : Ren Γ Γ′} → ρ ≃ₑ ρ′ → ∀ x → to-↓ ρ x ≅ to-↓ ρ′ x
    to-↓-preserves-≃ₑ ρ = (≅-cong ᴺ̃.to-↓) ∘ᶠ ≡-to-≅ ∘ᶠ ρ

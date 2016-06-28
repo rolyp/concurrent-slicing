@@ -65,13 +65,13 @@ module Ren.Lattice.Properties where
       swap∘suc-push̃ : ∀ {Γ} {P : Proc (Γ + 1)} (P′ : ↓ P) → (push *̃) P′ ≅ (swap *̃) ((suc push *̃) P′)
       swap∘push̃ : ∀ {Γ} {P : Proc (Γ + 1)} (P′ : ↓ P) → (suc push *̃) P′ ≅ (swap *̃) ((push *̃) P′)
       pop∘suc-push̃ : ∀ {Γ} {y : Name Γ} (y′ : ↓ y) {P : Proc (Γ + 1)} (P′ : ↓ P) →
-                     (push *̃) ((pop y′ *̃) P′) ≅ (pop (ᴺ̃.suc  y′) *̃) ((suc push *̃) P′)
+                     (push *̃) ((pop y′ *̃) P′) ≅ (pop (push ̃ y′) *̃) ((suc push *̃) P′)
       pop-zero∘suc-push̃ : ∀ {Γ} (y : ↓ ᴺ.zero) {P : Proc (Γ + 1)} (P′ : ↓ P) →
                            (pop {Γ + 1} y *̃) ((suc push *̃) P′) ≅ P′
       pop-pop-swap̃ : ∀ {Γ} {x y : Name Γ} (x′ : ↓ x) (y′ : ↓ y) {P : Proc (Γ + 2)} (P′ : ↓ P) →
                       (pop x′ *̃) ((suc (pop y′) *̃) ((swap {Γ} *̃) P′)) ≅ (pop y′ *̃) ((suc (pop x′) *̃) P′)
       pop∘swap̃ : ∀ {Γ} {y : Name Γ} (y′ : ↓ y) {P : Proc (Γ + 2)} (P′ : ↓ P) →
-                  (suc (pop y′) *̃) P′ ≅ ((pop (ᴺ̃.suc y′)) *̃) ((swap *̃) P′)
+                  (suc (pop y′) *̃) P′ ≅ ((pop (push ̃ y′)) *̃) ((swap *̃) P′)
       suc-pop∘swap̃ : ∀ {Γ} {y : Name Γ} (y′ : ↓ y) {P : Proc (Γ + 2)} (P′ : ↓ P) →
-                      (suc (pop y′) *̃) ((swap *̃) P′) ≅ (pop (ᴺ̃.suc y′) *̃) P′
+                      (suc (pop y′) *̃) ((swap *̃) P′) ≅ (pop (push ̃ y′) *̃) P′
       swap-swap̃ : ∀ {Γ} {P P′ : Proc (Γ + 2)} {P† : ↓ P} {P‡ : ↓ P′} → (swap *̃) P† ≅ P‡ → P† ≅ (swap *̃) P‡
