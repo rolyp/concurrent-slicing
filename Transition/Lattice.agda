@@ -15,7 +15,7 @@ module Transition.Lattice where
    import Proc.Lattice as ᴾ̃; open ᴾ̃.↓_; open ᴾ̃.↓⁻_; open ᴾ̃._≤_; open ᴾ̃._≤⁻_
    open import Proc.Ren.Lattice using (_*ᴹ; unren; unrenᴹ) renaming (_* to _*̃)
    open import Ren as ᴿ using (module Renameable); open Renameable ⦃...⦄
-   open import Ren.Lattice as ᴿ̃ using (pop; popᴹ; repl; push; swap)
+   open import Ren.Lattice as ᴿ̃ using (pop; popᴹ; repl; replᴹ; push; swap)
    open import Transition as ᵀ using (_—[_-_]→_; module _—[_-_]→_); open _—[_-_]→_
 
    open module Action×Proc {Γ} = Lattice.Product (Action Γ) (Proc ∘ᶠ ᴬ.tgt) using (×-prefixes)
@@ -24,6 +24,10 @@ module Transition.Lattice where
    instance
       ᴬᴾ-prefixes : ∀ {Γ} → Lattice.Prefixes (Σ[ a ∈ Action Γ ] Proc (ᴬ.tgt a))
       ᴬᴾ-prefixes = ×-prefixes
+
+   wibble : ∀ {Γ} (P₀ : Proc Γ) {P P′ : ↓ (idᶠ *) P₀} → P ≤ P′ →
+            subst ↓_ (*-preserves-id P₀) P ≤ subst ↓_ (*-preserves-id P₀) P′
+   wibble = {!!}
 
    step : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓ P → ↓ ᵀ.out E
    step⁻ : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓⁻ P → ↓ ᵀ.out E
@@ -104,7 +108,7 @@ module Transition.Lattice where
       with step E P | step E P′ | stepᴹ E P† | step F Q | step F Q′ | stepᴹ F Q†
    ... | [ _ ] , _ | ◻ , _ | () , _ | _ | _ | _
    ... | _ | _ | _ | [ _ ] , _ | ◻ , _ | () , _
-   ... | ◻ , _ | ◻ , _ | _ , R | ◻ , _ | ◻ , _ | _ , S = ◻ , {!!}
+   ... | ◻ , _ | ◻ , _ | _ , R | ◻ , _ | ◻ , _ | _ , S = ◻ , [ ν [ wibble (ᵀ.tgt E) ((replᴹ ◻ *ᴹ) R) │ S ] ]
    ... | ◻ , _ | ◻ , _ | _ , R | ◻ , _ | [ • ._ ﹙ _ ﹚ ᵇ ] , _ | _ , S = ◻ , {!!}
    ... | ◻ , _ | ◻ , _ | _ , R | [ • x ﹙ _ ﹚ ᵇ ] , _ | [ • .x ﹙ _ ﹚ ᵇ ] , _ | _ , S = ◻ , {!!}
    ... | ◻ , _ | [ x • ᵇ ] , _ | _ , R | ◻ , _ | ◻ , _ | _ , S = ◻ , {!!}
