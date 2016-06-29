@@ -13,7 +13,7 @@ module Transition.Lattice where
    open import Name.Lattice as ᴺ̃ using (zero; suc; sucᴹ); open ᴺ̃.↓_; open ᴺ̃._≤_
    open import Proc as ᴾ using (Proc; module Proc); open ᴾ.Proc
    import Proc.Lattice as ᴾ̃; open ᴾ̃.↓_; open ᴾ̃.↓⁻_; open ᴾ̃._≤_; open ᴾ̃._≤⁻_
-   open import Proc.Ren.Lattice renaming (_* to _*̃)
+   open import Proc.Ren.Lattice using (_*ᴹ; unren; unrenᴹ) renaming (_* to _*̃)
    open import Ren as ᴿ using (module Renameable); open Renameable ⦃...⦄
    open import Ren.Lattice as ᴿ̃ using (pop; popᴹ; repl; push; swap)
    open import Transition as ᵀ using (_—[_-_]→_; module _—[_-_]→_); open _—[_-_]→_
@@ -45,8 +45,7 @@ module Transition.Lattice where
    ... | [ (x •) ᵇ ] , R | [ • .x 〈 y 〉 ᶜ ] , S = [ τ ᶜ ] , [ (pop y *̃) R │ S ]
    step⁻ (E │ᵥ F) (P │ Q) with step E P | step F Q
    ... | [ x • ᵇ ] , R | [ • .x ﹙ y ﹚ ᵇ ] , S =
-      let R′ = (repl y *̃) R in
-      [ τ ᶜ ] , [ ν [ R │ S ] ]
+      [ τ ᶜ ] , [ ν [ subst ↓_ (*-preserves-id (ᵀ.tgt E)) ((repl y *̃) R) │ S ] ]
    ... | _ , R | _ , S = ◻ , [ ν [ R │ S ] ]
    step⁻ (ν•_ {x = x} E) (ν P) with step E P
    ... | [ • .(ᴺ.suc x) 〈 ◻ 〉 ᶜ ] , R = [ (• x ﹙ ◻ ﹚) ᵇ ] , R
@@ -69,6 +68,7 @@ module Transition.Lattice where
    ... | ◻ , R = ◻ , [ ν R ]
    step⁻ (! E) (! P) = step E [ P │ [ ! P ] ]
 
+{-
    stepᴹ : ∀ {Γ P₀} {a : Action Γ} {P′} (E : P₀ —[ a - _ ]→ P′) {P P′ : ↓ P₀} → P ≤ P′ → step E P ≤ step E P′
    step⁻ᴹ : ∀ {Γ P₀} {a : Action Γ} {P′} (E : P₀ —[ a - _ ]→ P′) {P P′ : ↓⁻ P₀} → P ≤⁻ P′ → step⁻ E P ≤ step⁻ E P′
 
@@ -422,3 +422,4 @@ module Transition.Lattice where
 
    srcᴹ : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) {R R′ : ↓ R} → R ≤ R′ → src E R ≤ src E R′
    srcᴹ E R = unstepᴹ E (◻ , R)
+-}
