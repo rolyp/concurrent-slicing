@@ -106,8 +106,10 @@ module Transition.Lattice where
       [ τ ᶜ ] , [ (popᴹ y *ᴹ) R │ S ]
 
    step⁻ᴹ (E │ᵥ F) {P │ Q} {P′ │ Q′} (P† │ Q†)
-      with step E P | step E P′ | stepᴹ E P†
-   ... | ◻ , _ | ◻ , _ | _ , R† = {!!} -- let _ , S† = stepᴹ F Q† in ◻ , [ ν [ R† │ S† ] ]
+      with step E P | step E P′ | stepᴹ E P† | step F Q | step F Q′ | stepᴹ F Q†
+   ... | a , _ | b , _ | _ , R | c , _ | d , _ | _ , S = ?
+{-
+   ... | ◻ , _ | ◻ , _ | a , R† = {!!} -- let _ , S† = stepᴹ F Q† in ◻ , [ ν [ R† │ S† ] ]
    ... | ◻ , R | [ (x •) ᵇ ] , R′ | _ , R†
       with step F Q′ | stepᴹ F Q†
    ... | ◻ , _ | _ , S† = {!!} -- ◻ , [ ν [ R† │ S† ] ]
@@ -129,6 +131,7 @@ module Transition.Lattice where
    ... | ◻ , _ | [ • .x ﹙ y ﹚ ᵇ ] , _ | _ , S† = ◻ , [ ν [ {!!} │ S† ] ] -- R†
    ... | [ • .x ﹙ y ﹚ ᵇ ] , _ | ◻ , _ | () , _
    ... | [ • .x ﹙ y ﹚ ᵇ ] , _ | [ • .x ﹙ y′ ﹚ ᵇ ] , _ | _ , S† = [ τ ᶜ ] , [ ν [ {!!} │ S† ] ] -- R†
+-}
 
    step⁻ᴹ (ν•_ {x = x} E) {ν P} {ν P′} (ν P†)
       with step E P | step E P′ | stepᴹ E P†
