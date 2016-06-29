@@ -245,7 +245,9 @@ module Transition.Lattice where
       unstep E ([ x • ᵇ ] , R′) │ unstep F ([ • x 〈 pop-y ᴺ.zero 〉 ᶜ ] , S)
    unstep⁻ (E │ᵥ F) ◻ (ν ◻) = unstep E (◻ , ◻) │ unstep F (◻ , ◻)
    unstep⁻ (E │ᵥ F) [ τ ᶜ ] (ν ◻) = [ unstep-◻ E (_ • ᵇ) ] │ [ unstep-◻ F (• _ ﹙ ◻ ﹚ ᵇ) ]
+   -- TODO: unren ρ ≤ id, then two subcases depending on ρ 0.
    unstep⁻ (E │ᵥ F) ◻ (ν [ R │ S ]) = unstep E (◻ , R) │ unstep F (◻ , S)
+   -- TODO: unren ρ ≤ id and use for payload.
    unstep⁻ (E │ᵥ F) [ τ ᶜ ] (ν [ R │ S ]) = unstep E ([ _ • ᵇ ] , R) │ unstep F ([ • _ ﹙ ◻ ﹚ ᵇ ] , S)
    unstep⁻ (ν• E) ◻ R = ν [ unstep⁻ E ◻ R ]
    unstep⁻ (ν• E) [ • x ﹙ ◻ ﹚ ᵇ ] R = ν [ unstep⁻ E [ • ᴺ.suc x 〈 ◻ 〉 ᶜ ] R ]
