@@ -27,7 +27,10 @@ module Transition.Lattice where
 
    wibble : ∀ {Γ} (P₀ : Proc Γ) {P P′ : ↓ (idᶠ *) P₀} → P ≤ P′ →
             subst ↓_ (*-preserves-id P₀) P ≤ subst ↓_ (*-preserves-id P₀) P′
-   wibble = {!!}
+   wibble P₀ {P} {P′} =
+      ≅-subst✴₂ ↓_ _≤_ (*-preserves-id P₀)
+         (≅-sym (≡-subst-removable ↓_ (*-preserves-id P₀) P))
+         (≅-sym (≡-subst-removable ↓_ (*-preserves-id P₀) P′))
 
    step : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓ P → ↓ ᵀ.out E
    step⁻ : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓⁻ P → ↓ ᵀ.out E
