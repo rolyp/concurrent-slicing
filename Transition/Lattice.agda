@@ -15,7 +15,7 @@ module Transition.Lattice where
    import Proc.Lattice as ᴾ̃; open ᴾ̃.↓_; open ᴾ̃.↓⁻_; open ᴾ̃._≤_; open ᴾ̃._≤⁻_
    open import Proc.Ren.Lattice using (_*ᴹ; unren; unrenᴹ) renaming (_* to _*̃)
    open import Ren as ᴿ using (module Renameable); open Renameable ⦃...⦄
-   open import Ren.Lattice as ᴿ̃ using (pop; popᴹ; repl; replᴹ; push; swap)
+   open import Ren.Lattice as ᴿ̃ using (_̃_; pop; popᴹ; repl; replᴹ; push; swap)
    open import Transition as ᵀ using (_—[_-_]→_; module _—[_-_]→_); open _—[_-_]→_
 
    open module Action×Proc {Γ} = Lattice.Product (Action Γ) (Proc ∘ᶠ ᴬ.tgt) using (×-prefixes)
@@ -240,15 +240,16 @@ module Transition.Lattice where
    unstep⁻ (_│•_ {R = P′} {x = x} {y} E F) ◻ (R │ S) with (π₁ (unren (ᴿ.pop y) P′ R)) ᴺ.zero
    ... | ◻ = unstep E (◻ , π₂ (unren (ᴿ.pop y) P′ R)) │ unstep F (◻ , S)
    ... | [ .y ] = unstep E (◻ , π₂ (unren (ᴿ.pop y) P′ R)) │ unstep F ([ • x 〈 [ y ] 〉 ᶜ ] , S)
-   unstep⁻ (_│•_ {R = P′} {x = x} {y} E F) [ τ ᶜ ] (R │ S) =
-      let pop-y , R′ = unren (ᴿ.pop y) P′ R in
+   unstep⁻ (_│•_ {x = x} {y} E F) [ τ ᶜ ] (R │ S) =
+      let pop-y , R′ = unren (ᴿ.pop y) (ᵀ.tgt E) R in
       unstep E ([ x • ᵇ ] , R′) │ unstep F ([ • x 〈 pop-y ᴺ.zero 〉 ᶜ ] , S)
    unstep⁻ (E │ᵥ F) ◻ (ν ◻) = unstep E (◻ , ◻) │ unstep F (◻ , ◻)
    unstep⁻ (E │ᵥ F) [ τ ᶜ ] (ν ◻) = [ unstep-◻ E (_ • ᵇ) ] │ [ unstep-◻ F (• _ ﹙ ◻ ﹚ ᵇ) ]
    -- TODO: unren ρ ≤ id, then two subcases depending on ρ 0.
    unstep⁻ (E │ᵥ F) ◻ (ν [ R │ S ]) = unstep E (◻ , R) │ unstep F (◻ , S)
-   -- TODO: unren ρ ≤ id and use for payload.
-   unstep⁻ (E │ᵥ F) [ τ ᶜ ] (ν [ R │ S ]) = unstep E ([ _ • ᵇ ] , R) │ unstep F ([ • _ ﹙ ◻ ﹚ ᵇ ] , S)
+   unstep⁻ (E │ᵥ F) [ τ ᶜ ] (ν [ R │ S ]) =
+      let repl , _ = unren idᶠ (ᵀ.tgt E) (subst ↓_ (sym (*-preserves-id (ᵀ.tgt E))) R) in
+      unstep E ([ _ • ᵇ ] , R) │ unstep F ([ • _ ﹙ repl ̃ zero ﹚ ᵇ ] , S)
    unstep⁻ (ν• E) ◻ R = ν [ unstep⁻ E ◻ R ]
    unstep⁻ (ν• E) [ • x ﹙ ◻ ﹚ ᵇ ] R = ν [ unstep⁻ E [ • ᴺ.suc x 〈 ◻ 〉 ᶜ ] R ]
    unstep⁻ (ν• E) [ • x ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] R = ν [ unstep⁻ E [ • ᴺ.suc x 〈 zero 〉 ᶜ ] R ]
@@ -328,7 +329,8 @@ module Transition.Lattice where
    unstep-◻-min⁻ (ν• E) (• x ﹙ [ .ᴺ.zero ] ﹚ ᵇ) P = ν [ unstep-◻-min⁻ E (• ᴺ.suc x 〈 zero 〉 ᶜ) P ]
    unstep-◻-min⁻ (E │ᵥ F) (τ ᶜ) (ν ◻) = [ ⁻ᴹ (unstep-◻ E (_ • ᵇ)) ] │ [ ⁻ᴹ (unstep-◻ F (• _ ﹙ ◻ ﹚ ᵇ)) ]
    unstep-◻-min⁻ (E │ᵥ F) (τ ᶜ) (ν [ P │ Q ]) =
-      unstep-◻-min E (_ • ᵇ) P │ unstep-◻-min F (• _ ﹙ ◻ ﹚ ᵇ) Q
+      let repl , _ = unren idᶠ (ᵀ.tgt E) (subst ↓_ (sym (*-preserves-id (ᵀ.tgt E))) P) in
+      unstep-◻-min E (_ • ᵇ) P │ ≤-trans [ unstep-◻ᴹ F (• _ ﹙ ◻ ﹚ ᵇ) ] (unstep-◻-min F (• _ ﹙ repl ̃ zero ﹚ ᵇ) Q)
    unstep-◻-min⁻ {a = x • ᵇ} (νᵇ_ {R = P′} E) (.x • ᵇ) (ν P) =
       ν unstep-◻-min E (ᴺ.suc x • ᵇ) (π₂ (unren ᴿ.swap P′ P))
    unstep-◻-min⁻ {a = (• x) ᵇ} (νᵇ_ {R = P′} E) (• .x ﹙ ◻ ﹚ ᵇ) (ν P) =
@@ -394,13 +396,14 @@ module Transition.Lattice where
    unstep⁻ᴹ (E │ᵥ F) {a″ = ◻} {R′ = ν [ P │ Q ]} ◻ (ν ◻) = ◻ │ ◻
    unstep⁻ᴹ (E │ᵥ F) {a″ = [ τ ᶜ ]} {R′ = ν [ P │ Q ]} ◻ (ν ◻) = ◻ │ ◻
    unstep⁻ᴹ (E │ᵥ F) {a″ = [ τ ᶜ ]} {R′ = ν [ P │ Q ]} [ τ ᶜ ] (ν ◻) =
-      unstep-◻-min E (_ • ᵇ) P │ unstep-◻-min F (• _ ﹙ ◻ ﹚ ᵇ) Q
+      {!!}
+--    unstep-◻-min E (_ • ᵇ) P │ unstep-◻-min F (• _ ﹙ ◻ ﹚ ᵇ) Q
    unstep⁻ᴹ (E │ᵥ F) {a″ = ◻} {R′ = ν [ _ │ _ ]} ◻ (ν [ R │ S ]) =
       unstepᴹ E (◻ , R) │ unstepᴹ F (◻ , S)
    unstep⁻ᴹ (E │ᵥ F) {a″ = [ τ ᶜ ]} {R′ = ν [ _ │ _ ]} ◻ (ν [ R │ S ]) =
       unstepᴹ E (◻ , R) │ unstepᴹ F (◻ , S)
    unstep⁻ᴹ (E │ᵥ F) {a″ = [ τ ᶜ ]} {R′ = ν [ _ │ _ ]} [ τ ᶜ ] (ν [ R │ S ]) =
-      unstepᴹ E ([ _ • ᵇ ] , R) │ unstepᴹ F ([ • _ ﹙ ◻ ﹚ ᵇ ] , S)
+      {!!} -- unstepᴹ E ([ _ • ᵇ ] , R) │ unstepᴹ F ([ • _ ﹙ ◻ ﹚ ᵇ ] , S)
    unstep⁻ᴹ {a = x • ᵇ} (νᵇ_ {R = P′} E) {a″ = ◻} ◻ (ν R) = ν unstepᴹ E (◻ , π₂ (unrenᴹ ᴿ.swap P′ R))
    unstep⁻ᴹ (νᵇ_ {R = P′} E) {a″ = [ x • ᵇ ]} ◻ (ν R) = ν unstepᴹ E (◻ , π₂ (unrenᴹ ᴿ.swap P′ R))
    unstep⁻ᴹ (νᵇ_ {R = P′} E) {a″ = [ x • ᵇ ]} [ .x • ᵇ ] (ν R) =
