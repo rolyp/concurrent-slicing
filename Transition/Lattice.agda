@@ -407,7 +407,10 @@ module Transition.Lattice where
    unstep⁻ᴹ (E │ᵥ F) {a″ = [ τ ᶜ ]} {R′ = ν ◻} ◻ (ν ◻) = ◻ │ ◻
    unstep⁻ᴹ (E │ᵥ F) {a″ = [ τ ᶜ ]} {R′ = ν ◻} [ τ ᶜ ] (ν ◻) =
       [ ⁻ᴹ (unstep-◻ E (_ • ᵇ)) ] │ [ ⁻ᴹ (unstep-◻ F (• _ ﹙ ◻ ﹚ ᵇ)) ]
-   unstep⁻ᴹ (E │ᵥ F) {a″ = ◻} {R′ = ν [ P │ Q ]} ◻ (ν ◻) = {!!} -- ◻ │ ◻
+   unstep⁻ᴹ (E │ᵥ F) {a″ = ◻} {R′ = ν [ P │ Q ]} ◻ (ν ◻)
+      with π₁ (unren idᶠ (ᵀ.tgt E) (id-intro P)) ᴺ.zero
+   ... | ◻ = ◻ │ ◻
+   ... | [ .ᴺ.zero ] = ◻ │ ◻
    unstep⁻ᴹ (E │ᵥ F) {a″ = [ τ ᶜ ]} {R′ = ν [ P │ Q ]} ◻ (ν ◻) = ◻ │ ◻
    unstep⁻ᴹ (E │ᵥ F) {a″ = [ τ ᶜ ]} {R′ = ν [ P │ Q ]} [ τ ᶜ ] (ν ◻) =
       unstep-◻-min E (_ • ᵇ) P │ ≤-trans (unstep-◻-min F (• _ ﹙ ◻ ﹚ ᵇ) Q) (unstepᴹ F ([ • _ ﹙ ◻ ﹚ ᵇ ] , ᴹ Q))
