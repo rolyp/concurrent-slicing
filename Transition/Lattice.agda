@@ -7,10 +7,7 @@ module Transition.Lattice where
    import Action.Lattice as ᴬ̃;
       open ᴬ̃.↓_; open ᴬ̃.↓⁻_; open ᴬ̃.↓ᵇ_; open ᴬ̃.↓ᶜ_; open ᴬ̃._≤_; open ᴬ̃._≤⁻_; open ᴬ̃._≤ᵇ_; open ᴬ̃._≤ᶜ_
    open import Action.Ren
-   open import Lattice using (Lattices; Prefixes);
-      open Lattice.Prefixes ⦃...⦄
-         using (ᴹ; ⁻ᴹ; _⊔ᴹ_; _⊔ʳ_; ≤-trans; ≤⁻-trans)
-         renaming (↓_ to ↓′_; ↓⁻_ to ↓⁻′_; _≤_ to _≤′_; _≤⁻_ to _≤⁻′_; _⊔_ to _⊔′_; _⊔⁻_ to _⊔⁻′_)
+   open import Lattice using (Lattices; Prefixes); open Lattice.Prefixes ⦃...⦄
    import Lattice.Product
    open import Name as ᴺ using (Name; _+_)
    open import Name.Lattice as ᴺ̃ using (zero; suc; sucᴹ); open ᴺ̃.↓_; open ᴺ̃._≤_
@@ -18,7 +15,7 @@ module Transition.Lattice where
    import Proc.Lattice as ᴾ̃; open ᴾ̃.↓_; open ᴾ̃.↓⁻_; open ᴾ̃._≤_; open ᴾ̃._≤⁻_
    open import Proc.Ren.Lattice renaming (_* to _*̃)
    open import Ren as ᴿ using (module Renameable); open Renameable ⦃...⦄
-   open import Ren.Lattice as ᴿ̃ using (pop; popᴹ; id; push; swap)
+   open import Ren.Lattice as ᴿ̃ using (pop; popᴹ; repl; push; swap)
    open import Transition as ᵀ using (_—[_-_]→_; module _—[_-_]→_); open _—[_-_]→_
 
    open module Action×Proc {Γ} = Lattice.Product (Action Γ) (Proc ∘ᶠ ᴬ.tgt) using (×-prefixes)
@@ -28,8 +25,8 @@ module Transition.Lattice where
       ᴬᴾ-prefixes : ∀ {Γ} → Lattice.Prefixes (Σ[ a ∈ Action Γ ] Proc (ᴬ.tgt a))
       ᴬᴾ-prefixes = ×-prefixes
 
-   step : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓′ P → ↓′ ᵀ.out E
-   step⁻ : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓⁻′ P → ↓′ ᵀ.out E
+   step : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓ P → ↓ ᵀ.out E
+   step⁻ : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓⁻ P → ↓ ᵀ.out E
 
    step E [ P ] = step⁻ E P
    step E ◻ = ◻ , ◻
@@ -47,7 +44,9 @@ module Transition.Lattice where
    ... | [ (x •) ᵇ ] , R | ◻ , S = ◻ , [ (pop ◻ *̃) R │ S ]
    ... | [ (x •) ᵇ ] , R | [ • .x 〈 y 〉 ᶜ ] , S = [ τ ᶜ ] , [ (pop y *̃) R │ S ]
    step⁻ (E │ᵥ F) (P │ Q) with step E P | step F Q
-   ... | [ x • ᵇ ] , R | [ • .x ﹙ y ﹚ ᵇ ] , S = [ τ ᶜ ] , [ ν [ R │ S ] ]
+   ... | [ x • ᵇ ] , R | [ • .x ﹙ y ﹚ ᵇ ] , S =
+      let R′ = (repl y *̃) R in
+      [ τ ᶜ ] , [ ν [ R │ S ] ]
    ... | _ , R | _ , S = ◻ , [ ν [ R │ S ] ]
    step⁻ (ν•_ {x = x} E) (ν P) with step E P
    ... | [ • .(ᴺ.suc x) 〈 ◻ 〉 ᶜ ] , R = [ (• x ﹙ ◻ ﹚) ᵇ ] , R
@@ -70,8 +69,8 @@ module Transition.Lattice where
    ... | ◻ , R = ◻ , [ ν R ]
    step⁻ (! E) (! P) = step E [ P │ [ ! P ] ]
 
-   stepᴹ : ∀ {Γ P₀} {a : Action Γ} {P′} (E : P₀ —[ a - _ ]→ P′) {P P′ : ↓′ P₀} → P ≤′ P′ → step E P ≤′ step E P′
-   step⁻ᴹ : ∀ {Γ P₀} {a : Action Γ} {P′} (E : P₀ —[ a - _ ]→ P′) {P P′ : ↓⁻′ P₀} → P ≤⁻′ P′ → step⁻ E P ≤′ step⁻ E P′
+   stepᴹ : ∀ {Γ P₀} {a : Action Γ} {P′} (E : P₀ —[ a - _ ]→ P′) {P P′ : ↓ P₀} → P ≤ P′ → step E P ≤ step E P′
+   step⁻ᴹ : ∀ {Γ P₀} {a : Action Γ} {P′} (E : P₀ —[ a - _ ]→ P′) {P P′ : ↓⁻ P₀} → P ≤⁻ P′ → step⁻ E P ≤ step⁻ E P′
 
    stepᴹ E [ P ] = step⁻ᴹ E P
    stepᴹ E ◻ = ◻ , ◻
@@ -172,23 +171,23 @@ module Transition.Lattice where
 
    step⁻ᴹ (! E) (! P) = stepᴹ E [ P │ [ ! P ] ]
 
-   action : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓′ P → ↓′ a
+   action : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓ P → ↓ a
    action E = π₁ ∘ᶠ step E
 
-   actionᴹ : ∀ {Γ P₀} {a : Action Γ} {R} (E : P₀ —[ a - _ ]→ R) {P P′ : ↓′ P₀} → P ≤′ P′ → action E P ≤′ action E P′
+   actionᴹ : ∀ {Γ P₀} {a : Action Γ} {R} (E : P₀ —[ a - _ ]→ R) {P P′ : ↓ P₀} → P ≤ P′ → action E P ≤ action E P′
    actionᴹ E = π₁ ∘ᶠ stepᴹ E
 
    -- Called 'fwd' in the paper.
-   tgt : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓′ P → ↓′ R
+   tgt : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓ P → ↓ R
    tgt E = π₂ ∘ᶠ step E
 
-   tgtᴹ : ∀ {Γ P₀} {a : Action Γ} {R} (E : P₀ —[ a - _ ]→ R) {P P′ : ↓′ P₀} → P ≤′ P′ → tgt E P ≤′ tgt E P′
+   tgtᴹ : ∀ {Γ P₀} {a : Action Γ} {R} (E : P₀ —[ a - _ ]→ R) {P P′ : ↓ P₀} → P ≤ P′ → tgt E P ≤ tgt E P′
    tgtᴹ E = π₂ ∘ᶠ stepᴹ E
 
    -- unstep reflects ◻.
-   unstep : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) → ↓′ ᵀ.out E → ↓′ P
-   unstep-◻ : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) → ↓⁻′ a → ↓⁻′ P
-   unstep⁻ : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) → ↓′ a → ↓⁻′ P′ → ↓⁻′ P
+   unstep : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) → ↓ ᵀ.out E → ↓ P
+   unstep-◻ : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) → ↓⁻ a → ↓⁻ P
+   unstep⁻ : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) → ↓ a → ↓⁻ P′ → ↓⁻ P
 
    unstep E (a , [ P ]) = [ unstep⁻ E a P ]
    unstep E ([ a ] , ◻) = [ unstep-◻ E a ]
@@ -214,7 +213,7 @@ module Transition.Lattice where
    unstep-◻ {a = τ ᶜ} (νᶜ E) (τ ᶜ) = ν [ unstep-◻ E (τ ᶜ) ]
    unstep-◻ (! E) a with unstep-◻ E a
    ... | P │ ◻ = ! P
-   ... | P │ [ P′ ] = ! P ⊔⁻′ P′
+   ... | P │ [ P′ ] = ! P ⊔⁻ P′
 
    -- Slice with a non-◻ process.
    unstep⁻ (x •∙ _) _ R = x •∙ [ R ]
@@ -253,10 +252,10 @@ module Transition.Lattice where
    unstep⁻ {a = τ ᶜ} (νᶜ_ {R = P′} E) [ τ ᶜ ] (ν R) = ν unstep E ([ τ ᶜ ] , R)
    unstep⁻ (! E) a R with unstep⁻ E a R
    ... | P │ ◻ = ! P
-   ... | P │ [ P′ ] = ! P ⊔⁻′ P′
+   ... | P │ [ P′ ] = ! P ⊔⁻ P′
 
-   unstep-◻ᴹ : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) {a′ a″ : ↓⁻′ a} →
-               a′ ≤⁻′ a″ → unstep-◻ E a′ ≤⁻′ unstep-◻ E a″
+   unstep-◻ᴹ : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) {a′ a″ : ↓⁻ a} →
+               a′ ≤⁻ a″ → unstep-◻ E a′ ≤⁻ unstep-◻ E a″
    unstep-◻ᴹ (x •∙ _) (.x • ᵇ) = x •∙ ◻
    unstep-◻ᴹ (• x 〈 _ 〉∙ _) (• .x 〈 y 〉 ᶜ) = • x 〈 y 〉∙ ◻
    unstep-◻ᴹ (E ➕₁ _) a = [ unstep-◻ᴹ E a ] ➕ ◻
@@ -291,10 +290,10 @@ module Transition.Lattice where
    ... | _ │ [ ! _ ] | _ │ [ ! _ ] | P │ [ ! P′ ] = ! (P ⊔ᴹ P′)
 
    -- Auxiliary lemmas needed for monotonicity.
-   unstep-◻-min : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) (a′ : ↓⁻′ a) (R : ↓′ P′) →
-                  [ unstep-◻ E a′ ] ≤′ unstep E ([ a′ ] , R)
-   unstep-◻-min⁻ : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) (a′ : ↓⁻′ a) (R : ↓⁻′ P′) →
-                   unstep-◻ E a′ ≤⁻′ unstep⁻ E [ a′ ] R
+   unstep-◻-min : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) (a′ : ↓⁻ a) (R : ↓ P′) →
+                  [ unstep-◻ E a′ ] ≤ unstep E ([ a′ ] , R)
+   unstep-◻-min⁻ : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) (a′ : ↓⁻ a) (R : ↓⁻ P′) →
+                   unstep-◻ E a′ ≤⁻ unstep⁻ E [ a′ ] R
 
    unstep-◻-min E a ◻ = [ ⁻ᴹ (unstep-◻ E a) ]
    unstep-◻-min E a [ R ] = [ unstep-◻-min⁻ E a R ]
@@ -331,10 +330,10 @@ module Transition.Lattice where
    ... | _ │ ◻ | P │ [ ! P′ ] | P† │ _ = ! ≤-trans P† (P ⊔ʳ P′)
    ... | _ │ [ ! _ ] | _ │ [ ! _ ] | P │ [ ! P′ ] = ! (P ⊔ᴹ P′)
 
-   unstepᴹ : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) {aR a′R′ : ↓′ ᵀ.out E} →
-             aR ≤′ a′R′ → unstep E aR ≤′ unstep E a′R′
-   unstep⁻ᴹ : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) {a′ a″ : ↓′ a} {R R′ : ↓⁻′ P′} →
-              a′ ≤′ a″ → R ≤⁻′ R′ → unstep⁻ E a′ R ≤⁻′ unstep⁻ E a″ R′
+   unstepᴹ : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) {aR a′R′ : ↓ ᵀ.out E} →
+             aR ≤ a′R′ → unstep E aR ≤ unstep E a′R′
+   unstep⁻ᴹ : ∀ {Γ P} {a : Action Γ} {P′} (E : P —[ a - _ ]→ P′) {a′ a″ : ↓ a} {R R′ : ↓⁻ P′} →
+              a′ ≤ a″ → R ≤⁻ R′ → unstep⁻ E a′ R ≤⁻ unstep⁻ E a″ R′
 
    unstepᴹ E (a , [ R ]) = [ unstep⁻ᴹ E a R ]
    unstepᴹ E {[ _ ] , ◻} {[ _ ] , ◻} ([ a ] , ◻) = [ unstep-◻ᴹ E a ]
@@ -418,8 +417,8 @@ module Transition.Lattice where
    ... | _ │ [ ! _ ] | _ │ [ ! _ ] | P │ [ ! P′ ] = ! (P ⊔ᴹ P′)
 
    -- Called 'bwd' in the paper.
-   src : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓′ R → ↓′ P
+   src : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓ R → ↓ P
    src E R = unstep E (◻ , R)
 
-   srcᴹ : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) {R R′ : ↓′ R} → R ≤′ R′ → src E R ≤′ src E R′
+   srcᴹ : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) {R R′ : ↓ R} → R ≤ R′ → src E R ≤ src E R′
    srcᴹ E R = unstepᴹ E (◻ , R)
