@@ -256,8 +256,10 @@ module Transition.Lattice where
       unstep E ([ x • ᵇ ] , R′) │ unstep F ([ • x 〈 pop-y ᴺ.zero 〉 ᶜ ] , S)
    unstep⁻ (E │ᵥ F) ◻ (ν ◻) = unstep E (◻ , ◻) │ unstep F (◻ , ◻)
    unstep⁻ (E │ᵥ F) [ τ ᶜ ] (ν ◻) = [ unstep-◻ E (_ • ᵇ) ] │ [ unstep-◻ F (• _ ﹙ ◻ ﹚ ᵇ) ]
-   -- TODO: unren ρ ≤ id, then two subcases depending on ρ 0.
-   unstep⁻ (E │ᵥ F) ◻ (ν [ R │ S ]) = unstep E (◻ , R) │ unstep F (◻ , S)
+   unstep⁻ (E │ᵥ F) ◻ (ν [ R │ S ]) with (π₁ (unren idᶠ (ᵀ.tgt E) (id-intro R))) ᴺ.zero
+   ... | ◻ = {!!}
+   ... | [ .ᴺ.zero ] = {!!}
+--      unstep E (◻ , R) │ unstep F (◻ , S)
    unstep⁻ (E │ᵥ F) [ τ ᶜ ] (ν [ R │ S ]) =
       let repl , _ = unren idᶠ (ᵀ.tgt E) (id-intro R) in
       unstep E ([ _ • ᵇ ] , R) │ unstep F ([ • _ ﹙ repl ̃ zero ﹚ ᵇ ] , S)
@@ -406,14 +408,14 @@ module Transition.Lattice where
    unstep⁻ᴹ (E │ᵥ F) {a″ = [ τ ᶜ ]} {R′ = ν ◻} ◻ (ν ◻) = ◻ │ ◻
    unstep⁻ᴹ (E │ᵥ F) {a″ = [ τ ᶜ ]} {R′ = ν ◻} [ τ ᶜ ] (ν ◻) =
       [ ⁻ᴹ (unstep-◻ E (_ • ᵇ)) ] │ [ ⁻ᴹ (unstep-◻ F (• _ ﹙ ◻ ﹚ ᵇ)) ]
-   unstep⁻ᴹ (E │ᵥ F) {a″ = ◻} {R′ = ν [ P │ Q ]} ◻ (ν ◻) = ◻ │ ◻
+   unstep⁻ᴹ (E │ᵥ F) {a″ = ◻} {R′ = ν [ P │ Q ]} ◻ (ν ◻) = {!!} -- ◻ │ ◻
    unstep⁻ᴹ (E │ᵥ F) {a″ = [ τ ᶜ ]} {R′ = ν [ P │ Q ]} ◻ (ν ◻) = ◻ │ ◻
    unstep⁻ᴹ (E │ᵥ F) {a″ = [ τ ᶜ ]} {R′ = ν [ P │ Q ]} [ τ ᶜ ] (ν ◻) =
       unstep-◻-min E (_ • ᵇ) P │ ≤-trans (unstep-◻-min F (• _ ﹙ ◻ ﹚ ᵇ) Q) (unstepᴹ F ([ • _ ﹙ ◻ ﹚ ᵇ ] , ᴹ Q))
-   unstep⁻ᴹ (E │ᵥ F) {a″ = ◻} {R′ = ν [ _ │ _ ]} ◻ (ν [ R │ S ]) =
-      unstepᴹ E (◻ , R) │ unstepᴹ F (◻ , S)
+   unstep⁻ᴹ (E │ᵥ F) {a″ = ◻} {R′ = ν [ _ │ _ ]} ◻ (ν [ R │ S ]) = {!!}
+--      unstepᴹ E (◻ , R) │ unstepᴹ F (◻ , S)
    unstep⁻ᴹ (E │ᵥ F) {a″ = [ τ ᶜ ]} {R′ = ν [ _ │ _ ]} ◻ (ν [ R │ S ]) =
-      unstepᴹ E (◻ , R) │ unstepᴹ F (◻ , S)
+      {!!} -- unstepᴹ E (◻ , R) │ unstepᴹ F (◻ , S)
    unstep⁻ᴹ (E │ᵥ F) {a″ = [ τ ᶜ ]} {R′ = ν [ _ │ _ ]} [ τ ᶜ ] (ν [ R │ S ]) =
       unstepᴹ E ([ _ • ᵇ ] , R) │ unstepᴹ F ([ • _ ﹙ π₁ (unrenᴹ idᶠ (ᵀ.tgt E) (id-introᴹ R)) ᴺ.zero ﹚ ᵇ ] , S)
    unstep⁻ᴹ {a = x • ᵇ} (νᵇ_ {R = P′} E) {a″ = ◻} ◻ (ν R) = ν unstepᴹ E (◻ , π₂ (unrenᴹ ᴿ.swap P′ R))
