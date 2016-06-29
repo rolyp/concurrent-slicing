@@ -257,9 +257,8 @@ module Transition.Lattice where
    unstep⁻ (E │ᵥ F) ◻ (ν ◻) = unstep E (◻ , ◻) │ unstep F (◻ , ◻)
    unstep⁻ (E │ᵥ F) [ τ ᶜ ] (ν ◻) = [ unstep-◻ E (_ • ᵇ) ] │ [ unstep-◻ F (• _ ﹙ ◻ ﹚ ᵇ) ]
    unstep⁻ (E │ᵥ F) ◻ (ν [ R │ S ]) with (π₁ (unren idᶠ (ᵀ.tgt E) (id-intro R))) ᴺ.zero
-   ... | ◻ = {!!}
-   ... | [ .ᴺ.zero ] = {!!}
---      unstep E (◻ , R) │ unstep F (◻ , S)
+   ... | ◻ = unstep E ([ _ • ᵇ ] , R) │ unstep F (◻ , S)
+   ... | [ .ᴺ.zero ] = unstep E (◻ , R) │ unstep F ([ • _ ﹙ zero ﹚ ᵇ ] , S)
    unstep⁻ (E │ᵥ F) [ τ ᶜ ] (ν [ R │ S ]) =
       let repl , _ = unren idᶠ (ᵀ.tgt E) (id-intro R) in
       unstep E ([ _ • ᵇ ] , R) │ unstep F ([ • _ ﹙ repl ̃ zero ﹚ ᵇ ] , S)
