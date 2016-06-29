@@ -68,7 +68,6 @@ module Transition.Lattice where
    ... | ◻ , R = ◻ , [ ν R ]
    step⁻ (! E) (! P) = step E [ P │ [ ! P ] ]
 
-{-
    stepᴹ : ∀ {Γ P₀} {a : Action Γ} {P′} (E : P₀ —[ a - _ ]→ P′) {P P′ : ↓ P₀} → P ≤ P′ → step E P ≤ step E P′
    step⁻ᴹ : ∀ {Γ P₀} {a : Action Γ} {P′} (E : P₀ —[ a - _ ]→ P′) {P P′ : ↓⁻ P₀} → P ≤⁻ P′ → step⁻ E P ≤ step⁻ E P′
 
@@ -111,14 +110,14 @@ module Transition.Lattice where
    ... | ◻ , _ | [ (x •) ᵇ ] , _ | _ , R†
       with step F Q′ | stepᴹ F Q†
    ... | ◻ , _ | _ , S† = ◻ , [ ν [ R† │ S† ] ]
-   ... | [ • .x ﹙ y ﹚ ᵇ ] , _ | _ , S† = ◻ , [ ν [ R† │ S† ] ]
+   ... | [ • .x ﹙ y ﹚ ᵇ ] , _ | _ , S† = ◻ , ? -- [ ν [ R† │ S† ] ]
    step⁻ᴹ (E │ᵥ F) {P │ Q} {P′ │ Q′} (P† │ Q†) | [ _ ] , _ | ◻ , _ | () , _
    step⁻ᴹ (E │ᵥ F) {P │ Q} {P′ │ Q′} (P† │ Q†) | [ ( x •) ᵇ ] , _ | [ (.x •) ᵇ ] , _ | _ , R†
       with step F Q | step F Q′ | stepᴹ F Q†
    ... | ◻ , _ | ◻ , _ | _ , S† = ◻ , [ ν [ R† │ S† ] ]
-   ... | ◻ , _ | [ • .x ﹙ y ﹚ ᵇ ] , _ | _ , S† = ◻ , [ ν [ R† │ S† ] ]
+   ... | ◻ , _ | [ • .x ﹙ y ﹚ ᵇ ] , _ | _ , S† = ◻ , ? -- [ ν [ R† │ S† ] ]
    ... | [ • .x ﹙ y ﹚ ᵇ ] , _ | ◻ , _ | () , _
-   ... | [ • .x ﹙ y ﹚ ᵇ ] , _ | [ • .x ﹙ y′ ﹚ ᵇ ] , _ | _ , S† = [ τ ᶜ ] , [ ν [ R† │ S† ] ]
+   ... | [ • .x ﹙ y ﹚ ᵇ ] , _ | [ • .x ﹙ y′ ﹚ ᵇ ] , _ | _ , S† = [ τ ᶜ ] , ? -- [ ν [ R† │ S† ] ]
 
    step⁻ᴹ (ν•_ {x = x} E) {ν P} {ν P′} (ν P†)
       with step E P | step E P′ | stepᴹ E P†
@@ -422,4 +421,3 @@ module Transition.Lattice where
 
    srcᴹ : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) {R R′ : ↓ R} → R ≤ R′ → src E R ≤ src E R′
    srcᴹ E R = unstepᴹ E (◻ , R)
--}
