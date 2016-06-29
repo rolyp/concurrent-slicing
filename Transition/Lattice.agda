@@ -35,9 +35,12 @@ module Transition.Lattice where
          (≅-sym (≡-subst-removable ↓_ (*-preserves-id P₀) P))
          (≅-sym (≡-subst-removable ↓_ (*-preserves-id P₀) P′))
 
-   blah : ∀ {Γ} {P₀ : Proc Γ} {P P′ : ↓ P₀} → P ≤ P′ →
-          subst ↓_ (sym (*-preserves-id P₀)) P ≤ subst ↓_ (sym (*-preserves-id P₀)) P′
-   blah = {!!}
+   id-introᴹ : ∀ {Γ} {P₀ : Proc Γ} {P P′ : ↓ P₀} → P ≤ P′ →
+               subst ↓_ (sym (*-preserves-id P₀)) P ≤ subst ↓_ (sym (*-preserves-id P₀)) P′
+   id-introᴹ {P₀ = P₀} {P} {P′} =
+      ≅-subst✴₂ ↓_ _≤_ (sym (*-preserves-id P₀))
+         (≅-sym (≡-subst-removable ↓_ (sym (*-preserves-id P₀)) P))
+         (≅-sym (≡-subst-removable ↓_ (sym (*-preserves-id P₀)) P′))
 
    step : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓ P → ↓ ᵀ.out E
    step⁻ : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓⁻ P → ↓ ᵀ.out E
@@ -408,20 +411,7 @@ module Transition.Lattice where
    unstep⁻ᴹ (E │ᵥ F) {a″ = [ τ ᶜ ]} {R′ = ν [ _ │ _ ]} ◻ (ν [ R │ S ]) =
       unstepᴹ E (◻ , R) │ unstepᴹ F (◻ , S)
    unstep⁻ᴹ (E │ᵥ F) {a″ = [ τ ᶜ ]} {R′ = ν [ _ │ _ ]} [ τ ᶜ ] (ν [ R │ S ]) =
-      unstepᴹ E ([ _ • ᵇ ] , R) │ unstepᴹ F ([ • _ ﹙ π₁ (unrenᴹ idᶠ (ᵀ.tgt E) (blah R)) ᴺ.zero ﹚ ᵇ ] , S)
-{-
-(π₁
-       (unren idᶠ (ᵀ.tgt E)
-        (subst (Lattice.Lattices.↓ .Proc.Lattice.lattices)
-         (sym (.Proc.Ren._.*-preserves-id (ᵀ.tgt E))) P))
-       ᴺ.zero
-       ᴺ̃.≤
-       π₁
-       (unren idᶠ (ᵀ.tgt E)
-        (subst (Lattice.Lattices.↓ .Proc.Lattice.lattices)
-         (sym (.Proc.Ren._.*-preserves-id (ᵀ.tgt E))) P′))
-       ᴺ.zero)
--}
+      unstepᴹ E ([ _ • ᵇ ] , R) │ unstepᴹ F ([ • _ ﹙ π₁ (unrenᴹ idᶠ (ᵀ.tgt E) (id-introᴹ R)) ᴺ.zero ﹚ ᵇ ] , S)
    unstep⁻ᴹ {a = x • ᵇ} (νᵇ_ {R = P′} E) {a″ = ◻} ◻ (ν R) = ν unstepᴹ E (◻ , π₂ (unrenᴹ ᴿ.swap P′ R))
    unstep⁻ᴹ (νᵇ_ {R = P′} E) {a″ = [ x • ᵇ ]} ◻ (ν R) = ν unstepᴹ E (◻ , π₂ (unrenᴹ ᴿ.swap P′ R))
    unstep⁻ᴹ (νᵇ_ {R = P′} E) {a″ = [ x • ᵇ ]} [ .x • ᵇ ] (ν R) =
