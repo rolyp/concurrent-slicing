@@ -39,11 +39,12 @@ module Transition.Lattice where
    step⁻ {a = _ ᵇ} (_ │ᵇ F) (P │ Q) = let a , S = step F Q in a , [ (push *̃) P │ S ]
    step⁻ {a = _ ᶜ} (_ │ᶜ F) (P │ Q) = let a , S = step F Q in a , [ P │ S ]
    step⁻ (E │• F) (P │ Q) with step E P | step F Q
-   ... | ◻ , R | ◻ , S = ◻ , [ (pop ◻ *̃) R │ S ]
-   ... | ◻ , R | [ • ._ 〈 y 〉 ᶜ ] , S = ◻ , [ (pop y *̃) R │ S ]
-   ... | [ (x •) ᵇ ] , R | ◻ , S = ◻ , [ (pop ◻ *̃) R │ S ]
    ... | [ (x •) ᵇ ] , R | [ • .x 〈 y 〉 ᶜ ] , S = [ τ ᶜ ] , [ (pop y *̃) R │ S ]
+   ... | ◻ , R | [ • ._ 〈 y 〉 ᶜ ] , S = ◻ , [ (pop y *̃) R │ S ]
+   ... | _ , R | _ , S = ◻ , [ (pop ◻ *̃) R │ S ]
    step⁻ (E │ᵥ F) (P │ Q) with step E P | step F Q
+   ... | ◻ , R | [ • x ﹙ y ﹚ ᵇ ] , S =
+      ◻ , [ ν [ subst ↓_ (*-preserves-id (ᵀ.tgt E)) ((repl y *̃) R) │ S ] ]
    ... | [ x • ᵇ ] , R | [ • .x ﹙ y ﹚ ᵇ ] , S =
       [ τ ᶜ ] , [ ν [ subst ↓_ (*-preserves-id (ᵀ.tgt E)) ((repl y *̃) R) │ S ] ]
    ... | _ , R | _ , S = ◻ , [ ν [ R │ S ] ]
@@ -106,12 +107,21 @@ module Transition.Lattice where
 
    step⁻ᴹ (E │ᵥ F) {P │ Q} {P′ │ Q′} (P† │ Q†)
       with step E P | step E P′ | stepᴹ E P†
-   ... | ◻ , _ | ◻ , _ | _ , R† = let _ , S† = stepᴹ F Q† in ◻ , [ ν [ R† │ S† ] ]
+   ... | ◻ , _ | ◻ , _ | _ , R† = {!!} -- let _ , S† = stepᴹ F Q† in ◻ , [ ν [ R† │ S† ] ]
    ... | ◻ , R | [ (x •) ᵇ ] , R′ | _ , R†
       with step F Q′ | stepᴹ F Q†
-   ... | ◻ , _ | _ , S† = ◻ , [ ν [ R† │ S† ] ]
+   ... | ◻ , _ | _ , S† = {!!} -- ◻ , [ ν [ R† │ S† ] ]
    ... | [ • .x ﹙ y ﹚ ᵇ ] , _ | _ , S† =
-      ◻ , [ ν [ subst (λ R‡ → R ≤ R‡) ? R† │ S† ] ]
+      let R‡ =
+            let open ≤-Reasoning in
+            begin
+               R
+            ≤⟨ R† ⟩
+               R′
+            ≤⟨ {!!} ⟩
+               subst ↓_ (*-preserves-id (ᵀ.tgt E)) ((repl y *̃) R′)
+            ∎ in
+      {!!} -- ◻ , [ ν [ R‡ │ S† ] ]
    step⁻ᴹ (E │ᵥ F) {P │ Q} {P′ │ Q′} (P† │ Q†) | [ _ ] , _ | ◻ , _ | () , _
    step⁻ᴹ (E │ᵥ F) {P │ Q} {P′ │ Q′} (P† │ Q†) | [ ( x •) ᵇ ] , _ | [ (.x •) ᵇ ] , _ | _ , R†
       with step F Q | step F Q′ | stepᴹ F Q†
