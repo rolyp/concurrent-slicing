@@ -35,6 +35,10 @@ module Transition.Lattice where
          (≅-sym (≡-subst-removable ↓_ (*-preserves-id P₀) P))
          (≅-sym (≡-subst-removable ↓_ (*-preserves-id P₀) P′))
 
+   blah : ∀ {Γ} {P₀ : Proc Γ} {P P′ : ↓ P₀} → P ≤ P′ →
+          subst ↓_ (sym (*-preserves-id P₀)) P ≤ subst ↓_ (sym (*-preserves-id P₀)) P′
+   blah = {!!}
+
    step : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓ P → ↓ ᵀ.out E
    step⁻ : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓⁻ P → ↓ ᵀ.out E
 
@@ -368,18 +372,20 @@ module Transition.Lattice where
    unstep⁻ᴹ (E ᶜ│ Q) a′ (R │ S) = unstepᴹ E (a′ , R) │ S
    unstep⁻ᴹ (P │ᵇ E) a′ (R │ S) = π₂ (unrenᴹ ᴿ.push P R) │ unstepᴹ E (a′ , S)
    unstep⁻ᴹ (P │ᶜ E) a′ (R │ S) = R │ unstepᴹ E (a′ , S)
-   unstep⁻ᴹ (_│•_ {R = P′} {x = x} {y} E F) {a″ = ◻} {R = R′ │ _} {R″ │ _} ◻ (R │ S)
-      with π₁ (unren (ᴿ.pop y) P′ R′) ᴺ.zero | π₁ (unren (ᴿ.pop y) P′ R″) ᴺ.zero | π₁ (unrenᴹ (ᴿ.pop y) P′ R) ᴺ.zero
-   ... | ◻ | ◻ | _ = unstepᴹ E (◻ , π₂ (unrenᴹ (ᴿ.pop y) P′ R)) │ unstepᴹ F (◻ , S)
-   ... | ◻ | [ .y ] | _ = unstepᴹ E (◻ , π₂ (unrenᴹ (ᴿ.pop y) P′ R)) │ unstepᴹ F (◻ , S)
+   unstep⁻ᴹ (_│•_ {x = x} {y} E F) {a″ = ◻} {R = R′ │ _} {R″ │ _} ◻ (R │ S)
+      with π₁ (unren (ᴿ.pop y) (ᵀ.tgt E) R′) ᴺ.zero | π₁ (unren (ᴿ.pop y) (ᵀ.tgt E) R″) ᴺ.zero |
+           π₁ (unrenᴹ (ᴿ.pop y) (ᵀ.tgt E) R) ᴺ.zero
+   ... | ◻ | ◻ | _ = unstepᴹ E (◻ , π₂ (unrenᴹ (ᴿ.pop y) (ᵀ.tgt E) R)) │ unstepᴹ F (◻ , S)
+   ... | ◻ | [ .y ] | _ = unstepᴹ E (◻ , π₂ (unrenᴹ (ᴿ.pop y) (ᵀ.tgt E) R)) │ unstepᴹ F (◻ , S)
    ... | [ .y ] | ◻ | ()
-   ... | [ .y ] | [ .y ] | _ = unstepᴹ E (◻ , π₂ (unrenᴹ (ᴿ.pop y) P′ R)) │ unstepᴹ F ([ • x 〈 [ y ] 〉 ᶜ ] , S)
+   ... | [ .y ] | [ .y ] | _ =
+      unstepᴹ E (◻ , π₂ (unrenᴹ (ᴿ.pop y) (ᵀ.tgt E) R)) │ unstepᴹ F ([ • x 〈 [ y ] 〉 ᶜ ] , S)
    unstep⁻ᴹ (_│•_ {R = P′} {x = x} {y} E F) {a″ = [ τ ᶜ ]} {R = R′ │ _} {R″ │ _} ◻ (R │ S)
       with π₁ (unren (ᴿ.pop y) P′ R′) ᴺ.zero | π₁ (unren (ᴿ.pop y) P′ R″) ᴺ.zero |  π₁ (unrenᴹ (ᴿ.pop y) P′ R) ᴺ.zero
    ... | ◻ | _ | _ = unstepᴹ E (◻ , π₂ (unrenᴹ (ᴿ.pop y) P′ R)) │ unstepᴹ F (◻ , S)
    ... | [ .y ] | ◻ | ()
    ... | [ .y ] | [ .y ] | _ =
-      unstepᴹ E (◻ , π₂ (unrenᴹ (ᴿ.pop y) P′ R)) │ (unstepᴹ F ([ • x 〈 [ y ] 〉 ᶜ ] , S))
+      unstepᴹ E (◻ , π₂ (unrenᴹ (ᴿ.pop y) P′ R)) │ unstepᴹ F ([ • x 〈 [ y ] 〉 ᶜ ] , S)
    unstep⁻ᴹ (_│•_ {R = P′} {y = y} E F) {a″ = [ τ ᶜ ]} [ τ ᶜ ] (R │ S) =
       let pop-y , R′ = unrenᴹ (ᴿ.pop y) P′ R in
       unstepᴹ E ([ _ • ᵇ ] , R′) │ unstepᴹ F ([ • _ 〈 pop-y ᴺ.zero 〉 ᶜ ] , S)
@@ -396,14 +402,26 @@ module Transition.Lattice where
    unstep⁻ᴹ (E │ᵥ F) {a″ = ◻} {R′ = ν [ P │ Q ]} ◻ (ν ◻) = ◻ │ ◻
    unstep⁻ᴹ (E │ᵥ F) {a″ = [ τ ᶜ ]} {R′ = ν [ P │ Q ]} ◻ (ν ◻) = ◻ │ ◻
    unstep⁻ᴹ (E │ᵥ F) {a″ = [ τ ᶜ ]} {R′ = ν [ P │ Q ]} [ τ ᶜ ] (ν ◻) =
-      {!!}
---    unstep-◻-min E (_ • ᵇ) P │ unstep-◻-min F (• _ ﹙ ◻ ﹚ ᵇ) Q
+      unstep-◻-min E (_ • ᵇ) P │ ≤-trans (unstep-◻-min F (• _ ﹙ ◻ ﹚ ᵇ) Q) (unstepᴹ F ([ • _ ﹙ ◻ ﹚ ᵇ ] , ᴹ Q))
    unstep⁻ᴹ (E │ᵥ F) {a″ = ◻} {R′ = ν [ _ │ _ ]} ◻ (ν [ R │ S ]) =
       unstepᴹ E (◻ , R) │ unstepᴹ F (◻ , S)
    unstep⁻ᴹ (E │ᵥ F) {a″ = [ τ ᶜ ]} {R′ = ν [ _ │ _ ]} ◻ (ν [ R │ S ]) =
       unstepᴹ E (◻ , R) │ unstepᴹ F (◻ , S)
    unstep⁻ᴹ (E │ᵥ F) {a″ = [ τ ᶜ ]} {R′ = ν [ _ │ _ ]} [ τ ᶜ ] (ν [ R │ S ]) =
-      {!!} -- unstepᴹ E ([ _ • ᵇ ] , R) │ unstepᴹ F ([ • _ ﹙ ◻ ﹚ ᵇ ] , S)
+      unstepᴹ E ([ _ • ᵇ ] , R) │ unstepᴹ F ([ • _ ﹙ π₁ (unrenᴹ idᶠ (ᵀ.tgt E) (blah R)) ᴺ.zero ﹚ ᵇ ] , S)
+{-
+(π₁
+       (unren idᶠ (ᵀ.tgt E)
+        (subst (Lattice.Lattices.↓ .Proc.Lattice.lattices)
+         (sym (.Proc.Ren._.*-preserves-id (ᵀ.tgt E))) P))
+       ᴺ.zero
+       ᴺ̃.≤
+       π₁
+       (unren idᶠ (ᵀ.tgt E)
+        (subst (Lattice.Lattices.↓ .Proc.Lattice.lattices)
+         (sym (.Proc.Ren._.*-preserves-id (ᵀ.tgt E))) P′))
+       ᴺ.zero)
+-}
    unstep⁻ᴹ {a = x • ᵇ} (νᵇ_ {R = P′} E) {a″ = ◻} ◻ (ν R) = ν unstepᴹ E (◻ , π₂ (unrenᴹ ᴿ.swap P′ R))
    unstep⁻ᴹ (νᵇ_ {R = P′} E) {a″ = [ x • ᵇ ]} ◻ (ν R) = ν unstepᴹ E (◻ , π₂ (unrenᴹ ᴿ.swap P′ R))
    unstep⁻ᴹ (νᵇ_ {R = P′} E) {a″ = [ x • ᵇ ]} [ .x • ᵇ ] (ν R) =
