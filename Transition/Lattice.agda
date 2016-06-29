@@ -47,7 +47,7 @@ module Transition.Lattice where
       ◻ , [ ν [ subst ↓_ (*-preserves-id (ᵀ.tgt E)) ((repl y *̃) R) │ S ] ]
    ... | [ x • ᵇ ] , R | [ • .x ﹙ y ﹚ ᵇ ] , S =
       [ τ ᶜ ] , [ ν [ subst ↓_ (*-preserves-id (ᵀ.tgt E)) ((repl y *̃) R) │ S ] ]
-   ... | _ , R | _ , S = ◻ , [ ν [ R │ S ] ]
+   ... | _ , R | _ , S = ◻ , [ ν [ subst ↓_ (*-preserves-id (ᵀ.tgt E)) ((repl ◻ *̃) R) │ S ] ]
    step⁻ (ν•_ {x = x} E) (ν P) with step E P
    ... | [ • .(ᴺ.suc x) 〈 ◻ 〉 ᶜ ] , R = [ (• x ﹙ ◻ ﹚) ᵇ ] , R
    ... | [ • .(ᴺ.suc x) 〈 [ .ᴺ.zero ] 〉 ᶜ ] , R = [ (• x ﹙ zero ﹚) ᵇ ] , R
