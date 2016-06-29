@@ -25,7 +25,7 @@ module Transition.Lattice where
       ᴬᴾ-prefixes : ∀ {Γ} → Lattice.Prefixes (Σ[ a ∈ Action Γ ] Proc (ᴬ.tgt a))
       ᴬᴾ-prefixes = ×-prefixes
 
-   -- These should probably move to Ren.Lattice.
+   -- Should remove dependency on Proc and move to Ren.Lattice.
    id-elim : ∀ {Γ} {P₀ : Proc Γ} (P : ↓ (idᶠ *) P₀) → ↓ P₀
    id-elim {P₀ = P₀} = subst ↓_ (*-preserves-id P₀)
 
