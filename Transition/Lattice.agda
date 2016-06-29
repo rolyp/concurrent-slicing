@@ -25,9 +25,12 @@ module Transition.Lattice where
       ᴬᴾ-prefixes : ∀ {Γ} → Lattice.Prefixes (Σ[ a ∈ Action Γ ] Proc (ᴬ.tgt a))
       ᴬᴾ-prefixes = ×-prefixes
 
-   wibble : ∀ {Γ} (P₀ : Proc Γ) {P P′ : ↓ (idᶠ *) P₀} → P ≤ P′ →
-            subst ↓_ (*-preserves-id P₀) P ≤ subst ↓_ (*-preserves-id P₀) P′
-   wibble P₀ {P} {P′} =
+   nibble : ∀ {Γ} {P₀ : Proc Γ} (P : ↓ (idᶠ *) P₀) → ↓ P₀
+   nibble {P₀ = P₀} P = subst ↓_ (*-preserves-id P₀) P
+
+   nibbleᴹ : ∀ {Γ} {P₀ : Proc Γ} {P P′ : ↓ (idᶠ *) P₀} → P ≤ P′ →
+             subst ↓_ (*-preserves-id P₀) P ≤ subst ↓_ (*-preserves-id P₀) P′
+   nibbleᴹ {P₀ = P₀} {P} {P′} =
       ≅-subst✴₂ ↓_ _≤_ (*-preserves-id P₀)
          (≅-sym (≡-subst-removable ↓_ (*-preserves-id P₀) P))
          (≅-sym (≡-subst-removable ↓_ (*-preserves-id P₀) P′))
@@ -112,23 +115,23 @@ module Transition.Lattice where
    ... | [ _ ] , _ | ◻ , _ | () , _ | _ | _ | _
    ... | _ | _ | _ | [ _ ] , _ | ◻ , _ | () , _
    ... | ◻ , _ | ◻ , _ | _ , R | ◻ , _ | ◻ , _ | _ , S =
-      ◻ , [ ν [ wibble (ᵀ.tgt E) ((replᴹ ◻ *ᴹ) R) │ S ] ]
+      ◻ , [ ν [ nibbleᴹ ((replᴹ ◻ *ᴹ) R) │ S ] ]
    ... | ◻ , _ | ◻ , _ | _ , R | ◻ , _ | [ • ._ ﹙ _ ﹚ ᵇ ] , _ | _ , S =
-      ◻ , [ ν [ wibble (ᵀ.tgt E) ((replᴹ ◻ *ᴹ) R) │ S ] ]
+      ◻ , [ ν [ nibbleᴹ((replᴹ ◻ *ᴹ) R) │ S ] ]
    ... | ◻ , _ | ◻ , _ | _ , R | [ • x ﹙ _ ﹚ ᵇ ] , _ | [ • .x ﹙ _ ﹚ ᵇ ] , _ | [ • .x ﹙ y ﹚ ᵇ ] , S =
-      ◻ , [ ν [ wibble (ᵀ.tgt E) ((replᴹ y *ᴹ) R) │ S ] ]
+      ◻ , [ ν [ nibbleᴹ((replᴹ y *ᴹ) R) │ S ] ]
    ... | ◻ , _ | [ x • ᵇ ] , _ | _ , R | ◻ , _ | ◻ , _ | _ , S =
-      ◻ , [ ν [ wibble (ᵀ.tgt E) ((replᴹ ◻ *ᴹ) R) │ S ] ]
+      ◻ , [ ν [ nibbleᴹ((replᴹ ◻ *ᴹ) R) │ S ] ]
    ... | ◻ , _ | [ x • ᵇ ] , _ | _ , R | ◻ , _ | [ • .x ﹙ _ ﹚ ᵇ ] , _ | _ , S =
-      ◻ , [ ν [ wibble (ᵀ.tgt E) ((replᴹ ◻ *ᴹ) R) │ S ] ]
+      ◻ , [ ν [ nibbleᴹ((replᴹ ◻ *ᴹ) R) │ S ] ]
    ... | ◻ , _ | [ x • ᵇ ] , _ | _ , R | [ • .x ﹙ _ ﹚ ᵇ ] , _ | [ • .x ﹙ _ ﹚ ᵇ ] , _ | [ • .x ﹙ y ﹚ ᵇ ] , S =
-      ◻ , [ ν [ wibble (ᵀ.tgt E) ((replᴹ y *ᴹ) R) │ S ] ]
+      ◻ , [ ν [ nibbleᴹ((replᴹ y *ᴹ) R) │ S ] ]
    ... | [ x • ᵇ ] , _ | [ .x • ᵇ ] , _ | _ , R | ◻ , _ | ◻ , _ | _ , S =
-      ◻ , [ ν [ wibble (ᵀ.tgt E) ((replᴹ ◻ *ᴹ) R) │ S ] ]
+      ◻ , [ ν [ nibbleᴹ((replᴹ ◻ *ᴹ) R) │ S ] ]
    ... | [ x • ᵇ ] , _ | [ .x • ᵇ ] , _ | _ , R | ◻ , _ | [ • .x ﹙ _ ﹚ ᵇ ] , _ | _ , S =
-      ◻ , [ ν [ wibble (ᵀ.tgt E) ((replᴹ ◻ *ᴹ) R) │ S ] ]
+      ◻ , [ ν [ nibbleᴹ((replᴹ ◻ *ᴹ) R) │ S ] ]
    ... | [ x • ᵇ ] , _ | [ .x • ᵇ ] , _ | _ , R | [ • .x ﹙ _ ﹚ ᵇ ] , _ | [ • .x ﹙ _ ﹚ ᵇ ] , _ | [ • .x ﹙ y ﹚ ᵇ ] , S =
-      [ τ ᶜ ] , [ ν [ wibble (ᵀ.tgt E) ((replᴹ y *ᴹ) R) │ S ] ]
+      [ τ ᶜ ] , [ ν [ nibbleᴹ((replᴹ y *ᴹ) R) │ S ] ]
 
    step⁻ᴹ (ν•_ {x = x} E) {ν P} {ν P′} (ν P†)
       with step E P | step E P′ | stepᴹ E P†
