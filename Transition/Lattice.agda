@@ -85,8 +85,8 @@ module Transition.Lattice where
 
    step⁻ᴹ (E │• F) {P │ Q} {P′ │ Q′} (P† │ Q†)
       with step E P | step E P′ | stepᴹ E P† | step F Q | step F Q′ | stepᴹ F Q†
-   ... | _ | _ | _ | [ • x 〈 _ 〉 ᶜ ] , _ | ◻ , _ | () , _
-   ... | [ (x •) ᵇ ] , _ | ◻ , _ | () , _ | _ | _ | _
+   ... | [ _ ] , _ | ◻ , _ | () , _ | _ | _ | _
+   ... | _ | _ | _ | [ _ ] , _ | ◻ , _ | () , _
    ... | ◻ , _ | ◻ , _ | _ , R | ◻ , _ | ◻ , _ | _ , S = ◻ , [ (popᴹ ◻ *ᴹ) R │ S ]
    ... | ◻ , _ | ◻ , _ | _ , R | ◻ , _ | [ • x 〈 _ 〉 ᶜ ] , _ | _ , S = ◻ , [ (popᴹ ◻ *ᴹ) R │ S ]
    ... | ◻ , _ | ◻ , _ | _ , R | [ • x 〈 _ 〉 ᶜ ] , _ | [ • .x 〈 _ 〉 ᶜ ] , _ | [ • .x 〈 y 〉 ᶜ ] , S =
@@ -102,21 +102,16 @@ module Transition.Lattice where
 
    step⁻ᴹ (E │ᵥ F) {P │ Q} {P′ │ Q′} (P† │ Q†)
       with step E P | step E P′ | stepᴹ E P† | step F Q | step F Q′ | stepᴹ F Q†
+   ... | [ _ ] , _ | ◻ , _ | () , _ | _ | _ | _
+   ... | _ | _ | _ | [ _ ] , _ | ◻ , _ | () , _
    ... | ◻ , _ | ◻ , _ | _ , R₁ | ◻ , proj₄ | ◻ , proj₅ | proj₆ , S₁ = {!!}
    ... | ◻ , _ | ◻ , _ | _ , R₁ | ◻ , proj₄ | [ • ._ ﹙ _ ﹚ ᵇ ] , proj₅ | proj₆ , S₁ = {!!}
-   ... | ◻ , _ | ◻ , _ | _ , R₁ | [ x₁ ] , proj₄ | ◻ , proj₅ | proj₆ , S₁ = {!!}
    ... | ◻ , _ | ◻ , _ | _ , R₁ | [ x₁ ] , proj₄ | [ x₂ ] , proj₅ | proj₆ , S₁ = {!!}
    ... | ◻ , _ | [ x₁ ] , _ | _ , R₁ | ◻ , proj₄ | ◻ , proj₅ | proj₆ , S₁ = {!!}
    ... | ◻ , _ | [ x₁ ] , _ | _ , R₁ | ◻ , proj₄ | [ x₂ ] , proj₅ | proj₆ , S₁ = {!!}
-   ... | ◻ , _ | [ x₁ ] , _ | _ , R₁ | [ x₂ ] , proj₄ | ◻ , proj₅ | proj₆ , S₁ = {!!}
    ... | ◻ , _ | [ x₁ ] , _ | _ , R₁ | [ x₂ ] , proj₄ | [ x₃ ] , proj₅ | proj₆ , S₁ = {!!}
-   ... | [ x₁ ] , _ | ◻ , _ | _ , R₁ | ◻ , proj₄ | ◻ , proj₅ | proj₆ , S₁ = {!!}
-   ... | [ x₁ ] , _ | ◻ , _ | _ , R₁ | ◻ , proj₄ | [ x₂ ] , proj₅ | proj₆ , S₁ = {!!}
-   ... | [ x₁ ] , _ | ◻ , _ | _ , R₁ | [ x₂ ] , proj₄ | ◻ , proj₅ | proj₆ , S₁ = {!!}
-   ... | [ x₁ ] , _ | ◻ , _ | _ , R₁ | [ x₂ ] , proj₄ | [ x₃ ] , proj₅ | proj₆ , S₁ = {!!}
    ... | [ x₁ ] , _ | [ x₂ ] , _ | _ , R₁ | ◻ , proj₄ | ◻ , proj₅ | proj₆ , S₁ = {!!}
    ... | [ x₁ ] , _ | [ x₂ ] , _ | _ , R₁ | ◻ , proj₄ | [ x₃ ] , proj₅ | proj₆ , S₁ = {!!}
-   ... | [ x₁ ] , _ | [ x₂ ] , _ | _ , R₁ | [ x₃ ] , proj₄ | ◻ , proj₅ | proj₆ , S₁ = {!!}
    ... | [ x₁ ] , _ | [ x₂ ] , _ | _ , R₁ | [ x₃ ] , proj₄ | [ x₄ ] , proj₅ | proj₆ , S₁ = {!!}
 
 {-
