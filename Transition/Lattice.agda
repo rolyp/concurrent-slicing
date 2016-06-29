@@ -417,11 +417,10 @@ module Transition.Lattice where
    unstep⁻ᴹ (E │ᵥ F) {a″ = ◻} {R = ν [ P │ _ ]} {ν [ P′ │ _ ]} ◻ (ν [ R │ S ])
       with π₁ (unren idᶠ (ᵀ.tgt E) (id-intro P)) ᴺ.zero | π₁ (unren idᶠ (ᵀ.tgt E) (id-intro P′)) ᴺ.zero |
            π₁ (unrenᴹ idᶠ (ᵀ.tgt E) (id-introᴹ R)) ᴺ.zero
-   ... | ◻ | ◻ | _ = {!!} -- unstepᴹ E ([ _ • ᵇ ] , R) │ unstepᴹ F (◻ , S)
-   ... | ◻ | [ .ᴺ.zero ] | _ = {!unstepᴹ E (◻ , R)!} │ unstepᴹ F (◻ , S)
-   ... | [ .ᴺ.zero ] | ◻ | ()
+   ... | ◻ | ◻ | _ = unstepᴹ E (◻ , R) │ unstepᴹ F (◻ , S)
+   ... | ◻ | [ .ᴺ.zero ] | _ = unstepᴹ E (◻ , R) │ unstepᴹ F (◻ , S)
    ... | [ .ᴺ.zero ] | [ .ᴺ.zero ] | [ .ᴺ.zero ] = unstepᴹ E (◻ , R) │ unstepᴹ F ([ • _ ﹙ [ ᴺ.zero ] ﹚ ᵇ ] , S)
---      unstepᴹ E (◻ , R) │ unstepᴹ F (◻ , S)
+   ... | [ .ᴺ.zero ] | ◻ | ()
    unstep⁻ᴹ (E │ᵥ F) {a″ = [ τ ᶜ ]} {R′ = ν [ _ │ _ ]} ◻ (ν [ R │ S ]) =
       {!!} -- unstepᴹ E (◻ , R) │ unstepᴹ F (◻ , S)
    unstep⁻ᴹ (E │ᵥ F) {a″ = [ τ ᶜ ]} {R′ = ν [ _ │ _ ]} [ τ ᶜ ] (ν [ R │ S ]) =
