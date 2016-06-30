@@ -136,21 +136,21 @@ module Transition.Lattice.GaloisConnection where
            id≤step⁻∘unstep-◻ E (x • ᵇ) | id≤step⁻∘unstep-◻ F (• x ﹙ ◻ ﹚ ᵇ)
    ... | [ .x • ᵇ ] , _ | [ • .x ﹙ y ﹚ ᵇ ] , _ | [ ._ • ᵇ ] | [ • .x ﹙ y′ ﹚ ᵇ ] = [ τ ᶜ ] , [ ν ◻ ]
    id≤step⁻∘unstep⁻ (E │ᵥ F) ◻ (ν [ R │ S ])
-      with π₁ (unren idᶠ (ᵀ.tgt E) (id-intro R)) ᴺ.zero
-   id≤step⁻∘unstep⁻ (E │ᵥ F) ◻ (ν [ R │ S ]) | ◻
+      with π₁ (unren idᶠ (ᵀ.tgt E) (id-intro R)) ᴺ.zero | inspect (π₁ (unren idᶠ (ᵀ.tgt E) (id-intro R))) ᴺ.zero
+   id≤step⁻∘unstep⁻ (E │ᵥ F) ◻ (ν [ R │ S ]) | ◻ | [ ≡y ]
       with step E (unstep E (◻ , π₂ (unren idᶠ (ᵀ.tgt E) (id-intro R)))) | step F (unstep F (◻ , S)) |
            id≤step∘unstep E (◻ , π₂ (unren idᶠ (ᵀ.tgt E) (id-intro R))) | id≤step∘unstep F (◻ , S)
    ... | ◻ , R† | ◻ , S′ | _ , P | _ , Q =
       let ρ , R′ = unren idᶠ (ᵀ.tgt E) (id-intro R)
           blah : id-intro R ≤ (ρ *̃) R′
           blah = id≤ren∘unren idᶠ (ᵀ.tgt E) (id-intro R)
-          quib : (ρ *̃) R′ ≤ (repl ◻ *̃) R′
-          quib = ({!repl-top!} *ᴹ) (ᴹ R′) in
-      ◻ , [ ν [ ≤-trans {!!} {!!} │ Q ] ]
+          quib : (ρ *̃) R′ ≤ (repl ◻ *̃) R†
+          quib = (repl-top (subst (λ y → y ≤ ◻) (sym ≡y) ◻) *ᴹ) P in
+      ◻ , [ ν [ {!!} │ Q ] ]
    ... | ◻ , R† | [ • ._ ﹙ y ﹚ ᵇ ] , S′ | _ , P | _ , Q = ◻ , [ ν [ {!!} │ Q ] ]
    ... | [ x • ᵇ ] , R† | ◻ , S′ | _ , P | _ , Q = ◻ , [ ν [ {!!} │ Q ] ]
    ... | [ x • ᵇ ] , R† | [ • .x ﹙ y ﹚ ᵇ ] , S′ | _ , P | _ , Q = ◻ , [ ν [ {!!} │ Q ] ]
-   id≤step⁻∘unstep⁻ (E │ᵥ F) ◻ (ν [ R │ S ]) | [ .ᴺ.zero ] = {!!}
+   id≤step⁻∘unstep⁻ (E │ᵥ F) ◻ (ν [ R │ S ]) | [ .ᴺ.zero ] | [ ≡y ] = {!!}
 {-
       with step E (unstep E (◻ , R)) | step F (unstep F (◻ , S)) |
            id≤step∘unstep E (◻ , R) | id≤step∘unstep F (◻ , S)

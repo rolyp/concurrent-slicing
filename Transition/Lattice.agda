@@ -44,6 +44,9 @@ module Transition.Lattice where
          (≅-sym (≡-subst-removable ↓_ (sym (*-preserves-id P₀)) P))
          (≅-sym (≡-subst-removable ↓_ (sym (*-preserves-id P₀)) P′))
 
+   id-intro⃖ : ∀ {Γ} {P₀ : Proc Γ} {P : ↓ P₀} {P′ : ↓ (idᶠ *) P₀} → id-intro P ≤ P′ → P ≤ id-elim P′
+   id-intro⃖ {P₀ = P₀} {P} {P′} P† = ≅-subst✴₂ ↓_ _≤_ {!!} {!!} {!!} P†
+
    step : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓ P → ↓ ᵀ.out E
    step⁻ : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) → ↓⁻ P → ↓ ᵀ.out E
 
