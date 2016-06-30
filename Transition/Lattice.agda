@@ -29,8 +29,7 @@ module Transition.Lattice where
    id-elim : ∀ {Γ} {P₀ : Proc Γ} (P : ↓ (idᶠ *) P₀) → ↓ P₀
    id-elim {P₀ = P₀} = subst ↓_ (*-preserves-id P₀)
 
-   id-elimᴹ : ∀ {Γ} {P₀ : Proc Γ} {P P′ : ↓ (idᶠ *) P₀} → P ≤ P′ →
-              subst ↓_ (*-preserves-id P₀) P ≤ subst ↓_ (*-preserves-id P₀) P′
+   id-elimᴹ : ∀ {Γ} {P₀ : Proc Γ} {P P′ : ↓ (idᶠ *) P₀} → P ≤ P′ → id-elim P ≤ id-elim P′
    id-elimᴹ {P₀ = P₀} {P} {P′} =
       ≅-subst✴₂ ↓_ _≤_ (*-preserves-id P₀)
          (≅-sym (≡-subst-removable ↓_ (*-preserves-id P₀) P))
@@ -39,8 +38,7 @@ module Transition.Lattice where
    id-intro : ∀ {Γ} {P₀ : Proc Γ} (P : ↓ P₀) → ↓ (idᶠ *) P₀
    id-intro {P₀ = P₀} = subst ↓_ (sym (*-preserves-id P₀))
 
-   id-introᴹ : ∀ {Γ} {P₀ : Proc Γ} {P P′ : ↓ P₀} → P ≤ P′ →
-               subst ↓_ (sym (*-preserves-id P₀)) P ≤ subst ↓_ (sym (*-preserves-id P₀)) P′
+   id-introᴹ : ∀ {Γ} {P₀ : Proc Γ} {P P′ : ↓ P₀} → P ≤ P′ → id-intro P ≤ id-intro P′
    id-introᴹ {P₀ = P₀} {P} {P′} =
       ≅-subst✴₂ ↓_ _≤_ (sym (*-preserves-id P₀))
          (≅-sym (≡-subst-removable ↓_ (sym (*-preserves-id P₀)) P))

@@ -16,10 +16,11 @@ module Transition.Lattice.GaloisConnection where
    import Name as ᴺ
    open import Name.Lattice as ᴺ̃ using (zero; suc; sucᴹ); open ᴺ̃.↓_; open ᴺ̃._≤_
    open import Ren as ᴿ using (push; pop; swap); open ᴿ.Renameable ⦃...⦄
-   open import Ren.Lattice as ᴿ̃ using (pop-top; popᴹ; top)
+   open import Ren.Lattice as ᴿ̃ using (pop-top; popᴹ; top; replᴹ)
    open import Transition as ᵀ using (_—[_-_]→_); open ᵀ._—[_-_]→_
    open import Transition.Lattice as ᵀ̃ using (
-         step; stepᴹ; step⁻; step⁻ᴹ; unstep; unstepᴹ; unstep-◻; unstep⁻; unstep⁻ᴹ; tgt; tgtᴹ; src; srcᴹ; id-intro
+         step; stepᴹ; step⁻; step⁻ᴹ; unstep; unstepᴹ; unstep-◻; unstep⁻; unstep⁻ᴹ; tgt; tgtᴹ; src; srcᴹ;
+         id-intro; id-introᴹ; id-elim; id-elimᴹ
       )
 
    id≤step∘unstep : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) (aR : ↓ (a , R)) → aR ≤ (step E ∘ᶠ unstep E) aR
@@ -137,9 +138,11 @@ module Transition.Lattice.GaloisConnection where
    id≤step⁻∘unstep⁻ (E │ᵥ F) ◻ (ν [ R │ S ])
       with π₁ (unren idᶠ (ᵀ.tgt E) (id-intro R)) ᴺ.zero
    id≤step⁻∘unstep⁻ (E │ᵥ F) ◻ (ν [ R │ S ]) | ◻
-      with step E (unstep E (◻ , R)) | step F (unstep F (◻ , S)) |
-           id≤step∘unstep E (◻ , R) | id≤step∘unstep F (◻ , S)
-   ... | ◻ , R† | ◻ , S′ | _ , P | _ , Q = ◻ , [ ν [ {!!} │ Q ] ]
+      with step E (unstep E (◻ , π₂ (unren idᶠ (ᵀ.tgt E) (id-intro R)))) | step F (unstep F (◻ , S)) |
+           id≤step∘unstep E (◻ , π₂ (unren idᶠ (ᵀ.tgt E) (id-intro R))) | id≤step∘unstep F (◻ , S)
+   ... | ◻ , R† | ◻ , S′ | _ , P | _ , Q =
+      let blah = id-elimᴹ ((replᴹ ◻ *ᴹ) P) in
+      ◻ , [ ν [ {!!} │ Q ] ]
    ... | ◻ , R† | [ • ._ ﹙ y ﹚ ᵇ ] , S′ | _ , P | _ , Q = ◻ , [ ν [ {!!} │ Q ] ]
    ... | [ x • ᵇ ] , R† | ◻ , S′ | _ , P | _ , Q = ◻ , [ ν [ {!!} │ Q ] ]
    ... | [ x • ᵇ ] , R† | [ • .x ﹙ y ﹚ ᵇ ] , S′ | _ , P | _ , Q = ◻ , [ ν [ {!!} │ Q ] ]
