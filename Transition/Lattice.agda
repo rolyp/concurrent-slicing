@@ -415,9 +415,7 @@ module Transition.Lattice where
    ... | [ .ᴺ.zero ] = ◻ │ ◻
    unstep⁻ᴹ (E │ᵥ F) {a″ = [ τ ᶜ ]} {R′ = ν [ P │ Q ]} ◻ (ν ◻) = ◻ │ ◻
    unstep⁻ᴹ (E │ᵥ F) {a″ = [ τ ᶜ ]} {R′ = ν [ P │ Q ]} [ τ ᶜ ] (ν ◻) =
-      let blah : P ≤ π₂ (unren idᶠ (ᵀ.tgt E) (id-intro P))
-          blah = {!!} in
-      ≤-trans (unstep-◻-min E (_ • ᵇ) P) (unstepᴹ E ([ _ • ᵇ ] , blah)) │
+      unstep-◻-min E (_ • ᵇ) (π₂ (unren idᶠ (ᵀ.tgt E) (id-intro P))) │
       ≤-trans (unstep-◻-min F (• _ ﹙ ◻ ﹚ ᵇ) Q) (unstepᴹ F ([ • _ ﹙ ◻ ﹚ ᵇ ] , ᴹ Q))
    unstep⁻ᴹ (E │ᵥ F) {a″ = ◻} {R = ν [ P │ _ ]} {ν [ P′ │ _ ]} ◻ (ν [ R │ S ])
       with π₁ (unren idᶠ (ᵀ.tgt E) (id-intro P)) ᴺ.zero | π₁ (unren idᶠ (ᵀ.tgt E) (id-intro P′)) ᴺ.zero |
