@@ -188,6 +188,12 @@ module Ren.Lattice where
    repl y ᴺ.zero = y
    repl y x = [ x ]
 
+   repl-top : ∀ {Γ} {ρ : ↓_ {Γ + 1} idᶠ} {y : ↓′ ᴺ.zero} → ρ ᴺ.zero ≤′ y → ρ ≤ repl y
+   repl-top y ᴺ.zero = y
+   repl-top {ρ = ρ} y (ᴺ.suc x) with ρ (ᴺ.suc x)
+   ... | ᴺ̃.◻ = ᴺ̃.◻
+   ... | [ .(ᴺ.suc x) ] = [ ᴺ.suc x ]
+
    replᴹ : ∀ {Γ} {y y′ : ↓′ ᴺ.zero} → y ≤′ y′ → repl {Γ} y ≤ repl y′
    replᴹ x ᴺ.zero = x
    replᴹ _ (ᴺ.suc y) = [ ᴺ.suc y ]
