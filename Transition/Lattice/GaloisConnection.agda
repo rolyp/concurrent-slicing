@@ -294,7 +294,7 @@ module Transition.Lattice.GaloisConnection where
    ... | ◻ , R′ | ◻ , _ | P | Q
       with π₁ (unren idᶠ (ᵀ.tgt E) (id-intro (id-elim ((repl ◻ *̃) R′)))) ᴺ.zero
    ... | ◻ = [ {!!} │ Q ]
-   ... | [ .ᴺ.zero ] = [ {!!} │ {!!} ] --[ ? │ Q ]
+   ... | [ .ᴺ.zero ] = [ ≤-trans {!!} P │ {! !} ]
    unstep∘step⁻≤id (E │ᵥ F) (R │ S) | ◻ , R′ | [ • x ﹙ y ﹚ ᵇ ] , S′ | P | Q = {!!} -- [ P │ ≤-trans (unstepᴹ F (◻ , ᴹ S′)) Q ]
    unstep∘step⁻≤id (E │ᵥ F) (R │ S) | [ ._ • ᵇ ] , R′ | ◻ , _ | P | Q = {!!} -- [ ≤-trans (unstepᴹ E (◻ , ᴹ R′)) P │ Q ]
    unstep∘step⁻≤id (E │ᵥ F) (R │ S) | [ x • ᵇ ] , R′ | [ • .x ﹙ y ﹚ ᵇ ] , _ | P | Q = {!!} -- [ P │ Q ]
