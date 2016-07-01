@@ -192,7 +192,8 @@ module Transition.Lattice.GaloisConnection where
       with unren swap P′ R | id≤ren∘unren swap P′ R; ... | ρ , R′ | R″
       with step E (unstep E (◻ , R′)) | id≤step∘unstep E (◻ , R′)
    ... | ◻ , _ | _ , P = ◻ , [ ν ≤-trans R″ ((top swap *ᴹ) P) ]
-   ... | [ • ._ ﹙ y ﹚ ᵇ ] , _ | _ , P = ◻ , {!!} -- [ ν ≤-trans R″ ((top swap *ᴹ) P) ]
+   ... | [ • ._ ﹙ ◻ ﹚ ᵇ ] , _ | _ , P = ◻ , [ ν ≤-trans R″ ((top swap *ᴹ) P) ]
+   ... | [ • ._ ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , _ | _ , P = ◻ , [ ν ≤-trans R″ ((top swap *ᴹ) P) ]
    id≤step⁻∘unstep⁻ (νᵇ_ {R = P′} E) [ • x ﹙ y ﹚ ᵇ ] (ν R) = {!!}
 {-
       with unren swap P′ R | id≤ren∘unren swap P′ R; ... | ρ , R′ | R″
