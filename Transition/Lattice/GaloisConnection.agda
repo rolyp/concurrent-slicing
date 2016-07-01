@@ -309,8 +309,8 @@ module Transition.Lattice.GaloisConnection where
    unstep∘step⁻≤id (ν• E) (ν R) with step E R | unstep∘step≤id E R
    ... | ◻ , ◻ | _ = ◻
    ... | ◻ , [ R′ ] | P = [ ν P ]
-   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , ◻ | _ = {!!} -- ◻
-   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , [ R′ ] | P = {!!} -- [ ν (≤-trans [ unstep⁻ᴹ E ◻ (⁻ᴹ R′) ] P) ]
+   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , ◻ | P = [ ν P ]
+   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , [ R′ ] | P = [ ν P ]
    ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , ◻ | P = [ ν P ]
    ... | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , [ _ ] | P = [ ν P ]
    unstep∘step⁻≤id {a = x • ᵇ} (νᵇ E) (ν R) with step E R | unstep∘step≤id E R
