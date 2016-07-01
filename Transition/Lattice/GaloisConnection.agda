@@ -172,7 +172,11 @@ module Transition.Lattice.GaloisConnection where
    ... | ◻ , _ | _ , P = ◻ , P
    ... | [ • ._ 〈 ◻ 〉 ᶜ ] , _ | _ , P = ◻ , P
    ... | [ • ._ 〈 [ .ᴺ.zero ] 〉 ᶜ ] , _ | _ , P = ◻ , P
-   id≤step⁻∘unstep⁻ (ν• E) [ • x ﹙ y ﹚ ᵇ ] R = {!!}
+   id≤step⁻∘unstep⁻ (ν• E) [ • x ﹙ ◻ ﹚ ᵇ ] R
+      with step⁻ E (unstep⁻ E [ • ᴺ.suc x 〈 ◻ 〉 ᶜ ] R) | id≤step⁻∘unstep⁻ E [ • ᴺ.suc x 〈 ◻ 〉 ᶜ ] R
+   ... | [ • ._ 〈 ◻ 〉 ᶜ ] , _ | [ • ._ 〈 ◻ 〉 ᶜ ] , P = [ • x ﹙ ◻ ﹚ ᵇ ] , P
+   ... | [ • ._ 〈 [ .ᴺ.zero ] 〉 ᶜ ] , _ | [ • ._ 〈 ◻ 〉 ᶜ ] , P = [ • x ﹙ ◻ ﹚ ᵇ ] , P
+   id≤step⁻∘unstep⁻ (ν• E) [ • x ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] R₁ = {!!}
 {-
       with step⁻ E (unstep⁻ E [ • ᴺ.suc x 〈 zero 〉 ᶜ ] R) | id≤step⁻∘unstep⁻ E [ • ᴺ.suc x 〈 zero 〉 ᶜ ] R
    ... | [ • ._ 〈 ._ 〉 ᶜ ] , _ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , P = [ (• x) ᵇ ] , P
