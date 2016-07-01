@@ -194,7 +194,12 @@ module Transition.Lattice.GaloisConnection where
    ... | ◻ , _ | _ , P = ◻ , [ ν ≤-trans R″ ((top swap *ᴹ) P) ]
    ... | [ • ._ ﹙ ◻ ﹚ ᵇ ] , _ | _ , P = ◻ , [ ν ≤-trans R″ ((top swap *ᴹ) P) ]
    ... | [ • ._ ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , _ | _ , P = ◻ , [ ν ≤-trans R″ ((top swap *ᴹ) P) ]
-   id≤step⁻∘unstep⁻ (νᵇ_ {R = P′} E) [ • x ﹙ y ﹚ ᵇ ] (ν R) = {!!}
+   id≤step⁻∘unstep⁻ (νᵇ_ {R = P′} E) [ • x ﹙ ◻ ﹚ ᵇ ] (ν R)
+      with unren swap P′ R | id≤ren∘unren swap P′ R; ... | ρ , R′ | R″
+      with step E (unstep E ([ • ᴺ.suc x ﹙ ◻ ﹚ ᵇ ] , R′)) | id≤step∘unstep E ([ • ᴺ.suc x ﹙ ◻ ﹚ ᵇ ] , R′)
+   ... | [ • ._ ﹙ ◻ ﹚ ᵇ ] , _ | [ • ._ ﹙ y′ ﹚ ᵇ ] , P = [ • x ﹙ ◻ ﹚ ᵇ ] , [ ν ≤-trans R″ ((top swap *ᴹ) P) ]
+   ... | [ • ._ ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , _ | [ • ._ ﹙ y′ ﹚ ᵇ ] , P = [ • x ﹙ ◻ ﹚ ᵇ ] , [ ν ≤-trans R″ ((top swap *ᴹ) P) ]
+   id≤step⁻∘unstep⁻ (νᵇ_ {R = P′} E) [ • x ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] (ν R) = {!!}
 {-
       with unren swap P′ R | id≤ren∘unren swap P′ R; ... | ρ , R′ | R″
       with step E (unstep E ([ (• ᴺ.suc x) ᵇ ] , R′)) | id≤step∘unstep E ([ (• ᴺ.suc x) ᵇ ] , R′)
