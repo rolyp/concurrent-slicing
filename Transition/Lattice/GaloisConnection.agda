@@ -303,7 +303,9 @@ module Transition.Lattice.GaloisConnection where
       with π₁ (unren idᶠ (ᵀ.tgt E) ((repl ◻ *̃) R′)) ᴺ.zero | π₁ (unren∘ren≤id (repl ◻) R′) ᴺ.zero
    ... | ◻ | _ = [ ≤-trans (unstepᴹ E (◻ , π₂ (unren∘ren≤id (repl ◻) R′))) P │ Q ]
    ... | [ .ᴺ.zero ] | ()
-   unstep∘step⁻≤id (E │ᵥ F) (R │ S) | [ x • ᵇ ] , R′ | [ • .x ﹙ y ﹚ ᵇ ] , _ | P | Q = {!!} -- [ P │ Q ]
+   unstep∘step⁻≤id (E │ᵥ F) (R │ S) | [ x • ᵇ ] , R′ | [ • .x ﹙ y ﹚ ᵇ ] , S′ | P | Q =
+      [ ≤-trans (unstepᴹ E ([ x • ᵇ ] , π₂ (unren∘ren≤id (repl y) R′))) P │
+        ≤-trans (unstepᴹ F ([ • x ﹙ π₁ (unren∘ren≤id (repl y) R′) ᴺ.zero ﹚ ᵇ ] , ᴹ S′)) Q ]
    unstep∘step⁻≤id (ν• E) (ν R) with step E R | unstep∘step≤id E R
    ... | ◻ , ◻ | _ = ◻
    ... | ◻ , [ R′ ] | P = [ ν P ]
