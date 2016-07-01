@@ -148,14 +148,17 @@ module Transition.Lattice.GaloisConnection where
       ◻ , [ ν [ id-intro⃖ (≤-trans (id≤ren∘unren idᶠ (ᵀ.tgt E) (id-intro R)) ((repl′ *ᴹ) P)) │ Q ] ]
    ... | [ x • ᵇ ] , R† | [ • .x ﹙ y ﹚ ᵇ ] , S′ | _ , P | _ , Q =
       ◻ , [ ν [ id-intro⃖ (≤-trans (id≤ren∘unren idᶠ (ᵀ.tgt E) (id-intro R)) ((≤-trans repl′ (replᴹ ◻) *ᴹ) P)) │ Q ] ]
-   id≤step⁻∘unstep⁻ (E │ᵥ F) ◻ (ν [ R │ S ]) | [ .ᴺ.zero ] | q = {!!}
-{-
-      with step E (unstep E (◻ , R)) | step F (unstep F (◻ , S)) |
-           id≤step∘unstep E (◻ , R) | id≤step∘unstep F (◻ , S)
-   ... | ◻ , R† | _ , S′ | _ , P | _ , Q = ◻ , [ ν [ P │ Q ] ]
-   ... | [ x • ᵇ ] , R† | ◻ , S′ | _ , P | _ , Q = ◻ , [ ν [ P │ Q ] ]
-   ... | [ x • ᵇ ] , R† | [ (• .x) ᵇ ] , S′ | _ , P | _ , Q = ◻ , [ ν [ P │ Q ] ]
--}
+   id≤step⁻∘unstep⁻ (E │ᵥ F) ◻ (ν [ R │ S ]) | [ .ᴺ.zero ] | repl′
+      with step E (unstep E (◻ , π₂ (unren idᶠ (ᵀ.tgt E) (id-intro R)))) |
+           step F (unstep F ([ • _ ﹙ zero ﹚ ᵇ ] , S)) |
+           id≤step∘unstep E (◻ , π₂ (unren idᶠ (ᵀ.tgt E) (id-intro R))) |
+           id≤step∘unstep F ([ • _ ﹙ zero ﹚ ᵇ ] , S)
+   ... | ◻ , R† | ◻ , S′ | _ | () , Q
+   ... | [ x • ᵇ ] , R† | ◻ , S′ | _ | () , Q
+   ... | ◻ , R† | [ • x ﹙ y ﹚ ᵇ ] , S′ | _ , P | [ • .x ﹙ y′ ﹚ ᵇ ] , Q =
+      ◻ , [ ν [ id-intro⃖ (≤-trans (id≤ren∘unren idᶠ (ᵀ.tgt E) (id-intro R)) ((≤-trans repl′ (replᴹ y′) *ᴹ) P)) │ Q ] ]
+   ... | [ x • ᵇ ] , R† | [ • .x ﹙ y ﹚ ᵇ ] , S′ | _ , P | [ • .x ﹙ y′ ﹚ ᵇ ] , Q =
+      ◻ , [ ν [ id-intro⃖ (≤-trans (id≤ren∘unren idᶠ (ᵀ.tgt E) (id-intro R)) ((≤-trans repl′ (replᴹ y′) *ᴹ) P)) │ Q ] ]
    id≤step⁻∘unstep⁻ (_│ᵥ_ {x = x} E F) [ τ ᶜ ] (ν [ R │ S ]) = {!!}
 {-
       with step E (unstep E ([ x • ᵇ ] , R)) | step F (unstep F ([ (• x) ᵇ ] , S)) |
@@ -218,7 +221,6 @@ module Transition.Lattice.GaloisConnection where
    ... | R′ │ ◻ | a′ , P = ≤-trans (a′ , P) (stepᴹ E [ ᴹ R′ │ ◻ ])
    ... | R′ │ [ ! R″ ] | a′ , P = ≤-trans (a′ , P) (stepᴹ E [ R′ ⊔ʳ R″ │ [ ! (R′ ⊔ˡ R″) ] ])
 
-{-
    unstep∘step≤id : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) (P′ : ↓ P) → (unstep E ∘ᶠ step E) P′ ≤ P′
    unstep∘step⁻≤id : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) (P′ : ↓⁻ P) → (unstep E ∘ᶠ step⁻ E) P′ ≤ [ P′ ]
 
@@ -338,4 +340,3 @@ module Transition.Lattice.GaloisConnection where
          id≤f∘g = ≤⇒≤ᴸ ∘ᶠ id≤tgt∘src E;
          g∘f≤id = ≤⇒≤ᴸ ∘ᶠ src∘tgt≤id E
       }
--}
