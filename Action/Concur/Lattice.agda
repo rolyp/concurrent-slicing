@@ -14,7 +14,7 @@ module Action.Concur.Lattice where
    -- Need more consistent naming here. Lattice counterpart of ᴬ/, although this produces a/a'.
    residual : ∀ {Γ} {a a′ : Action Γ} (a⌣a′ : a ᴬ⌣ a′) → ↓ a → ↓ π₂ (ᴬ⊖ a⌣a′)
    residual ˣ∇ˣ ◻ = ◻
-   residual ˣ∇ˣ [ (• x) ᵇ ] = [ • ᴺ.suc x 〈 zero 〉 ᶜ ]
+   residual ˣ∇ˣ [ • x ﹙ y ﹚ ᵇ ] = [ • ᴺ.suc x 〈 y 〉 ᶜ ]
    residual ᵇ∇ᵇ = push *
    residual ᵇ∇ᶜ = idᶠ
    residual ᶜ∇ᵇ = push *
