@@ -292,10 +292,17 @@ module Transition.Lattice.GaloisConnection where
       with step E R | step F S | unstep∘step≤id E R | unstep∘step≤id F S
    ... | ◻ , R′ | ◻ , _ | P | Q
       with π₁ (unren idᶠ (ᵀ.tgt E) ((repl ◻ *̃) R′)) ᴺ.zero | π₁ (unren∘ren≤id (repl ◻) R′) ᴺ.zero
-   ... | ◻ | _ = [ ≤-trans (unstepᴹ E (◻ , (π₂ (unren∘ren≤id (repl ◻) R′)))) P │ Q ]
+   ... | ◻ | _ = [ ≤-trans (unstepᴹ E (◻ , π₂ (unren∘ren≤id (repl ◻) R′))) P │ Q ]
    ... | [ .ᴺ.zero ] | ()
-   unstep∘step⁻≤id (E │ᵥ F) (R │ S) | ◻ , R′ | [ • x ﹙ y ﹚ ᵇ ] , S′ | P | Q = {!!} -- [ P │ ≤-trans (unstepᴹ F (◻ , ᴹ S′)) Q ]
-   unstep∘step⁻≤id (E │ᵥ F) (R │ S) | [ ._ • ᵇ ] , R′ | ◻ , _ | P | Q = {!!} -- [ ≤-trans (unstepᴹ E (◻ , ᴹ R′)) P │ Q ]
+   unstep∘step⁻≤id (E │ᵥ F) (R │ S) | ◻ , R′ | [ • x ﹙ y ﹚ ᵇ ] , S′ | P | Q
+      with π₁ (unren idᶠ (ᵀ.tgt E) ((repl y *̃) R′)) ᴺ.zero | π₁ (unren∘ren≤id (repl y) R′) ᴺ.zero
+   ... | ◻ | _ = [ ≤-trans (unstepᴹ E (◻ , π₂ (unren∘ren≤id (repl y) R′))) P │ ≤-trans (unstepᴹ F (◻ , ᴹ S′)) Q ]
+   unstep∘step⁻≤id (E │ᵥ F) (R │ S) | ◻ , R′ | [ • x ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , S′ | P | Q | [ .ᴺ.zero ] | [ .ᴺ.zero ]  =
+      [ ≤-trans (unstepᴹ E (◻ , π₂ (unren∘ren≤id (repl [ ᴺ.zero ]) R′))) P │ Q ]
+   unstep∘step⁻≤id (E │ᵥ F) (R │ S) | [ ._ • ᵇ ] , R′ | ◻ , _ | P | Q
+      with π₁ (unren idᶠ (ᵀ.tgt E) ((repl ◻ *̃) R′)) ᴺ.zero | π₁ (unren∘ren≤id (repl ◻) R′) ᴺ.zero
+   ... | ◻ | _ = [ ≤-trans (unstepᴹ E (◻ , π₂ (unren∘ren≤id (repl ◻) R′))) P │ Q ]
+   ... | [ .ᴺ.zero ] | ()
    unstep∘step⁻≤id (E │ᵥ F) (R │ S) | [ x • ᵇ ] , R′ | [ • .x ﹙ y ﹚ ᵇ ] , _ | P | Q = {!!} -- [ P │ Q ]
    unstep∘step⁻≤id (ν• E) (ν R) with step E R | unstep∘step≤id E R
    ... | ◻ , ◻ | _ = ◻
