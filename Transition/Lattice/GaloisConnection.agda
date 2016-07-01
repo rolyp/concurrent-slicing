@@ -20,7 +20,7 @@ module Transition.Lattice.GaloisConnection where
    open import Transition as ᵀ using (_—[_-_]→_); open ᵀ._—[_-_]→_
    open import Transition.Lattice as ᵀ̃ using (
          step; stepᴹ; step⁻; step⁻ᴹ; unstep; unstepᴹ; unstep-◻; unstep⁻; unstep⁻ᴹ; tgt; tgtᴹ; src; srcᴹ;
-         id-intro; id-introᴹ; id-elim; id-elimᴹ
+         id-intro; id-introᴹ; id-intro⃖; id-elim; id-elimᴹ
       )
 
    id≤step∘unstep : ∀ {Γ P} {a : Action Γ} {R} (E : P —[ a - _ ]→ R) (aR : ↓ (a , R)) → aR ≤ (step E ∘ᶠ unstep E) aR
@@ -136,21 +136,19 @@ module Transition.Lattice.GaloisConnection where
            id≤step⁻∘unstep-◻ E (x • ᵇ) | id≤step⁻∘unstep-◻ F (• x ﹙ ◻ ﹚ ᵇ)
    ... | [ .x • ᵇ ] , _ | [ • .x ﹙ y ﹚ ᵇ ] , _ | [ ._ • ᵇ ] | [ • .x ﹙ y′ ﹚ ᵇ ] = [ τ ᶜ ] , [ ν ◻ ]
    id≤step⁻∘unstep⁻ (E │ᵥ F) ◻ (ν [ R │ S ])
-      with π₁ (unren idᶠ (ᵀ.tgt E) (id-intro R)) ᴺ.zero | inspect (π₁ (unren idᶠ (ᵀ.tgt E) (id-intro R))) ᴺ.zero
-   id≤step⁻∘unstep⁻ (E │ᵥ F) ◻ (ν [ R │ S ]) | ◻ | [ ≡y ]
+      with π₁ (unren idᶠ (ᵀ.tgt E) (id-intro R)) ᴺ.zero | repl-top (π₁ (unren idᶠ (ᵀ.tgt E) (id-intro R)))
+   id≤step⁻∘unstep⁻ (E │ᵥ F) ◻ (ν [ R │ S ]) | ◻ | repl′
       with step E (unstep E (◻ , π₂ (unren idᶠ (ᵀ.tgt E) (id-intro R)))) | step F (unstep F (◻ , S)) |
            id≤step∘unstep E (◻ , π₂ (unren idᶠ (ᵀ.tgt E) (id-intro R))) | id≤step∘unstep F (◻ , S)
    ... | ◻ , R† | ◻ , S′ | _ , P | _ , Q =
-      let ρ , R′ = unren idᶠ (ᵀ.tgt E) (id-intro R)
-          blah : id-intro R ≤ (ρ *̃) R′
-          blah = id≤ren∘unren idᶠ (ᵀ.tgt E) (id-intro R)
-          quib : (ρ *̃) R′ ≤ (repl ◻ *̃) R†
-          quib = (repl-top (subst (λ y → y ≤ ◻) (sym ≡y) ◻) *ᴹ) P in
-      ◻ , [ ν [ {!!} │ Q ] ]
-   ... | ◻ , R† | [ • ._ ﹙ y ﹚ ᵇ ] , S′ | _ , P | _ , Q = ◻ , [ ν [ {!!} │ Q ] ]
-   ... | [ x • ᵇ ] , R† | ◻ , S′ | _ , P | _ , Q = ◻ , [ ν [ {!!} │ Q ] ]
-   ... | [ x • ᵇ ] , R† | [ • .x ﹙ y ﹚ ᵇ ] , S′ | _ , P | _ , Q = ◻ , [ ν [ {!!} │ Q ] ]
-   id≤step⁻∘unstep⁻ (E │ᵥ F) ◻ (ν [ R │ S ]) | [ .ᴺ.zero ] | [ ≡y ] = {!!}
+      ◻ , [ ν [ id-intro⃖ (≤-trans (id≤ren∘unren idᶠ (ᵀ.tgt E) (id-intro R)) ((repl′ *ᴹ) P)) │ Q ] ]
+   ... | ◻ , R† | [ • ._ ﹙ y ﹚ ᵇ ] , S′ | _ , P | _ , Q =
+      ◻ , [ ν [ id-intro⃖ (≤-trans (id≤ren∘unren idᶠ (ᵀ.tgt E) (id-intro R)) ((≤-trans repl′ (replᴹ ◻) *ᴹ) P)) │ Q ] ]
+   ... | [ x • ᵇ ] , R† | ◻ , S′ | _ , P | _ , Q =
+      ◻ , [ ν [ id-intro⃖ (≤-trans (id≤ren∘unren idᶠ (ᵀ.tgt E) (id-intro R)) ((repl′ *ᴹ) P)) │ Q ] ]
+   ... | [ x • ᵇ ] , R† | [ • .x ﹙ y ﹚ ᵇ ] , S′ | _ , P | _ , Q =
+      ◻ , [ ν [ id-intro⃖ (≤-trans (id≤ren∘unren idᶠ (ᵀ.tgt E) (id-intro R)) ((≤-trans repl′ (replᴹ ◻) *ᴹ) P)) │ Q ] ]
+   id≤step⁻∘unstep⁻ (E │ᵥ F) ◻ (ν [ R │ S ]) | [ .ᴺ.zero ] | q = {!!}
 {-
       with step E (unstep E (◻ , R)) | step F (unstep F (◻ , S)) |
            id≤step∘unstep E (◻ , R) | id≤step∘unstep F (◻ , S)
