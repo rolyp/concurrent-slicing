@@ -6,32 +6,34 @@ module Transition.Concur.Cofinal.Lattice where
    open import Transition.Concur.Cofinal.Lattice.Common
    open import Transition.Concur.Cofinal.Lattice.Common using (braiding) public
    import Transition.Concur.Cofinal.Lattice.case.propagate-b-par-b as ᵇ│ᵇ
-   import Transition.Concur.Cofinal.Lattice.case.propagate-par-b-b as │ᵇᵇ
-   import Transition.Concur.Cofinal.Lattice.case.propagate-par-b-c as │ᵇᶜ
-   import Transition.Concur.Cofinal.Lattice.case.propagate-par-c-c as │ᶜᶜ
-   import Transition.Concur.Cofinal.Lattice.case.propagate-b-b-par as ᵇᵇ│
-   import Transition.Concur.Cofinal.Lattice.case.propagate-b-c-par as ᵇᶜ│
-   import Transition.Concur.Cofinal.Lattice.case.propagate-c-c-par as ᶜᶜ│
-   import Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync as ᵇ│ᵥ
-   import Transition.Concur.Cofinal.Lattice.case.propagate-c-nu-sync as ᶜ│ᵥ
-   import Transition.Concur.Cofinal.Lattice.case.sync-sync as │•
-   import Transition.Concur.Cofinal.Lattice.case.sync-nu-sync as │•ᵥ
    import Transition.Concur.Cofinal.Lattice.case.sync-propagate-b as │•ᵇ
    import Transition.Concur.Cofinal.Lattice.case.sync-propagate-c as │•ᶜ
    import Transition.Concur.Cofinal.Lattice.case.propagate-b-sync as ᵇ│•
    import Transition.Concur.Cofinal.Lattice.case.propagate-c-sync as ᶜ│•
    import Transition.Concur.Cofinal.Lattice.case.nu-sync-propagate-b as │ᵥᵇ
    import Transition.Concur.Cofinal.Lattice.case.nu-sync-propagate-c as │ᵥᶜ
+   import Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync as ᵇ│ᵥ
+   import Transition.Concur.Cofinal.Lattice.case.propagate-c-nu-sync as ᶜ│ᵥ
+   import Transition.Concur.Cofinal.Lattice.case.propagate-par-b-b as │ᵇᵇ
+   import Transition.Concur.Cofinal.Lattice.case.propagate-par-b-c as │ᵇᶜ
+   import Transition.Concur.Cofinal.Lattice.case.propagate-par-c-c as │ᶜᶜ
+   import Transition.Concur.Cofinal.Lattice.case.propagate-b-b-par as ᵇᵇ│
+   import Transition.Concur.Cofinal.Lattice.case.propagate-b-c-par as ᵇᶜ│
+   import Transition.Concur.Cofinal.Lattice.case.propagate-c-c-par as ᶜᶜ│
+{-
+   import Transition.Concur.Cofinal.Lattice.case.sync-sync as │•
+   import Transition.Concur.Cofinal.Lattice.case.sync-nu-sync as │•ᵥ
    import Transition.Concur.Cofinal.Lattice.case.nu-sync-x-x-nu-sync as │ᵥ
    import Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync as │ᵥ′
    import Transition.Concur.Cofinal.Lattice.case.nu-extrude-nu-extrude as ν•
-   import Transition.Concur.Cofinal.Lattice.case.nu-extrude-propagate-c as ν•ᶜ
    import Transition.Concur.Cofinal.Lattice.case.nu-extrude-propagate-b as ν•ᵇ
+   import Transition.Concur.Cofinal.Lattice.case.nu-extrude-propagate-c as ν•ᶜ
    import Transition.Concur.Cofinal.Lattice.case.nu-propagate-b-b as νᵇᵇ
    import Transition.Concur.Cofinal.Lattice.case.nu-propagate-x-x as νˣˣ
-   import Transition.Concur.Cofinal.Lattice.case.nu-propagate-c-c as νᶜᶜ
    import Transition.Concur.Cofinal.Lattice.case.nu-propagate-b-c as νᵇᶜ
+   import Transition.Concur.Cofinal.Lattice.case.nu-propagate-c-c as νᶜᶜ
    import Transition.Concur.Cofinal.Lattice.case.nu-propagate-nu-nu as νᵛᵛ
+-}
 
    private
       coerceCxt : ∀ {Γ} {a a′ : Action Γ} (𝑎 : a ᴬ⌣ a′) →
@@ -61,28 +63,6 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ (E ᶜ│ᵇ F) [ P │ Q ] =
       cong (λ P′ → [ P′ │ _ ]) (renᶜ-tgt-comm E push P)
    gamma₁ (E ᶜ│ᶜ F) [ P │ Q ] = refl
-   gamma₁ (𝐸 ➕₁ Q) [ P ➕ _ ] =
-      gamma₁ 𝐸 P
-   gamma₁ {𝑎 = ˣ∇ˣ {x = x} {u}} {E = _ │ᵇ F} {._ │ᵇ F′} (._ │ᵇᵇ 𝐹) [ P │ Q ] =
-      let open │ᵇᵇ.ˣ∇ˣ in case 𝐹 P Q (gamma₁ 𝐹 Q)
-   gamma₁ {𝑎 = ᵇ∇ᵇ} {E = P₀ │ᵇ F} {._ │ᵇ F′} (._ │ᵇᵇ 𝐹) [ P │ Q ] =
-      let open │ᵇᵇ.ᵇ∇ᵇ in case 𝐹 P Q (gamma₁ 𝐹 Q)
-   gamma₁ {E = _ │ᵇ F} {._ │ᶜ F′} (._ │ᵇᶜ 𝐹) [ P │ Q ] =
-      let open │ᵇᶜ in case 𝐹 P Q (gamma₁ 𝐹 Q)
-   gamma₁ {E = _ │ᶜ F} {._ │ᶜ F′} (._ │ᶜᶜ 𝐹) [ P │ Q ] =
-      let open │ᶜᶜ in case 𝐹 P Q (gamma₁ 𝐹 Q)
-   gamma₁ {E = P₀ │ᶜ F} {._ │ᶜ F′} (._ │ᵛᵛ 𝐹) [ P │ Q ] =
-      cong (λ Q → [ P │ Q ]) (gamma₁ 𝐹 Q)
-   gamma₁ {𝑎 = ˣ∇ˣ {x = x} {u}} {E = E ᵇ│ Q₀} {E′ ᵇ│ ._} (𝐸 ᵇᵇ│ ._) [ P │ Q ] =
-      let open ᵇᵇ│.ˣ∇ˣ in case 𝐸 P Q (gamma₁ 𝐸 P)
-   gamma₁ {𝑎 = ᵇ∇ᵇ} {E = E ᵇ│ Q₀} {E′ ᵇ│ ._} (𝐸 ᵇᵇ│ ._) [ P │ Q ] =
-      let open ᵇᵇ│.ᵇ∇ᵇ in case 𝐸 P Q (gamma₁ 𝐸 P)
-   gamma₁ {E = E ᵇ│ _} {E′ ᶜ│ ._} (𝐸 ᵇᶜ│ ._) [ P │ Q ] =
-      let open ᵇᶜ│ in case 𝐸 P Q (gamma₁ 𝐸 P)
-   gamma₁ {E = E ᶜ│ _} {E′ ᶜ│ ._} (𝐸 ᶜᶜ│ ._) [ P │ Q ] =
-      let open ᶜᶜ│ in case 𝐸 P Q (gamma₁ 𝐸 P)
-   gamma₁ {E = E ᶜ│ Q₀} {E′ ᶜ│ ._} (𝐸 ᵛᵛ│ ._) [ P │ Q ] =
-      cong (λ P → [ P │ Q ]) (gamma₁ 𝐸 P)
    gamma₁ {E = E ᵇ│ _} {E′ = E′ │• .F} (_│•ᵇ_ {x = x} {y} {a = a} 𝐸 F) [ P │ Q ] =
       let open │•ᵇ in case 𝐸 F P Q (gamma₁ 𝐸 P)
    gamma₁ {E = E ᶜ│ Q₀} {E′ = E′ │• .F} (𝐸 │•ᶜ F) [ P │ Q ] =
@@ -109,6 +89,28 @@ module Transition.Concur.Cofinal.Lattice where
       let open ᶜ│ᵥ.•x〈y〉 in case E 𝐹 P Q (gamma₁ 𝐹 Q)
    gamma₁ (_ᶜ│ᵥ_ {a = τ} E 𝐹) [ P │ Q ] =
       let open ᶜ│ᵥ.τ in case E 𝐹 P Q (gamma₁ 𝐹 Q)
+   gamma₁ (𝐸 ➕₁ Q) [ P ➕ _ ] =
+      gamma₁ 𝐸 P
+   gamma₁ {𝑎 = ˣ∇ˣ {x = x} {u}} {E = _ │ᵇ F} {._ │ᵇ F′} (._ │ᵇᵇ 𝐹) [ P │ Q ] =
+      let open │ᵇᵇ.ˣ∇ˣ in case 𝐹 P Q (gamma₁ 𝐹 Q)
+   gamma₁ {𝑎 = ᵇ∇ᵇ} {E = P₀ │ᵇ F} {._ │ᵇ F′} (._ │ᵇᵇ 𝐹) [ P │ Q ] =
+      let open │ᵇᵇ.ᵇ∇ᵇ in case 𝐹 P Q (gamma₁ 𝐹 Q)
+   gamma₁ {E = _ │ᵇ F} {._ │ᶜ F′} (._ │ᵇᶜ 𝐹) [ P │ Q ] =
+      let open │ᵇᶜ in case 𝐹 P Q (gamma₁ 𝐹 Q)
+   gamma₁ {E = _ │ᶜ F} {._ │ᶜ F′} (._ │ᶜᶜ 𝐹) [ P │ Q ] =
+      let open │ᶜᶜ in case 𝐹 P Q (gamma₁ 𝐹 Q)
+   gamma₁ {E = P₀ │ᶜ F} {._ │ᶜ F′} (._ │ᵛᵛ 𝐹) [ P │ Q ] =
+      cong (λ Q → [ P │ Q ]) (gamma₁ 𝐹 Q)
+   gamma₁ {𝑎 = ˣ∇ˣ {x = x} {u}} {E = E ᵇ│ Q₀} {E′ ᵇ│ ._} (𝐸 ᵇᵇ│ ._) [ P │ Q ] =
+      let open ᵇᵇ│.ˣ∇ˣ in case 𝐸 P Q (gamma₁ 𝐸 P)
+   gamma₁ {𝑎 = ᵇ∇ᵇ} {E = E ᵇ│ Q₀} {E′ ᵇ│ ._} (𝐸 ᵇᵇ│ ._) [ P │ Q ] =
+      let open ᵇᵇ│.ᵇ∇ᵇ in case 𝐸 P Q (gamma₁ 𝐸 P)
+   gamma₁ {E = E ᵇ│ _} {E′ ᶜ│ ._} (𝐸 ᵇᶜ│ ._) [ P │ Q ] =
+      let open ᵇᶜ│ in case 𝐸 P Q (gamma₁ 𝐸 P)
+   gamma₁ {E = E ᶜ│ _} {E′ ᶜ│ ._} (𝐸 ᶜᶜ│ ._) [ P │ Q ] =
+      let open ᶜᶜ│ in case 𝐸 P Q (gamma₁ 𝐸 P)
+   gamma₁ {E = E ᶜ│ Q₀} {E′ ᶜ│ ._} (𝐸 ᵛᵛ│ ._) [ P │ Q ] =
+      cong (λ P → [ P │ Q ]) (gamma₁ 𝐸 P)
    gamma₁ (𝐸 │• 𝐹) [ P │ Q ] =
       let open │• in case 𝐸 𝐹 P Q (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q)
    gamma₁ (𝐸 │•ᵥ 𝐹) [ P │ Q ] =
