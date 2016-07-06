@@ -10,6 +10,7 @@ module Transition.Concur.Cofinal.Lattice where
    import Transition.Concur.Cofinal.Lattice.case.sync-propagate-c as │•ᶜ
    import Transition.Concur.Cofinal.Lattice.case.propagate-b-sync as ᵇ│•
    import Transition.Concur.Cofinal.Lattice.case.propagate-c-sync as ᶜ│•
+{-
    import Transition.Concur.Cofinal.Lattice.case.nu-sync-propagate-b as │ᵥᵇ
    import Transition.Concur.Cofinal.Lattice.case.nu-sync-propagate-c as │ᵥᶜ
    import Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync as ᵇ│ᵥ
@@ -20,7 +21,6 @@ module Transition.Concur.Cofinal.Lattice where
    import Transition.Concur.Cofinal.Lattice.case.propagate-b-b-par as ᵇᵇ│
    import Transition.Concur.Cofinal.Lattice.case.propagate-b-c-par as ᵇᶜ│
    import Transition.Concur.Cofinal.Lattice.case.propagate-c-c-par as ᶜᶜ│
-{-
    import Transition.Concur.Cofinal.Lattice.case.sync-sync as │•
    import Transition.Concur.Cofinal.Lattice.case.sync-nu-sync as │•ᵥ
    import Transition.Concur.Cofinal.Lattice.case.nu-sync-x-x-nu-sync as │ᵥ
@@ -71,10 +71,13 @@ module Transition.Concur.Cofinal.Lattice where
       let open ᵇ│• in case E 𝐹 P Q (gamma₁ 𝐹 Q)
    gamma₁ {E = P₀ │ᶜ F} {E′ = .E │• F′} (_ᶜ│•_ {y = y} E 𝐹) [ P │ Q ] =
       let open ᶜ│• in case E 𝐹 P Q (gamma₁ 𝐹 Q)
-   gamma₁ {E = E ᵇ│ Q₀} {E′ │ᵥ .F} (_│ᵥᵇ_ {x = x} {a = x′ •} 𝐸 F) [ P │ Q ] =
-      let open │ᵥᵇ.x• in case 𝐸 F P Q (gamma₁ 𝐸 P)
-   gamma₁ {E = E ᵇ│ Q₀} {E′ │ᵥ .F} (_│ᵥᵇ_ {x = x} {a = • x′} 𝐸 F) [ P │ Q ] =
-      let open │ᵥᵇ.•x in case 𝐸 F P Q (gamma₁ 𝐸 P)
+   gamma₁ {E = E ᵇ│ Q₀} {E′ │ᵥ .F} (_│ᵥᵇ_ {x = x} {a = x′ •} 𝐸 F) [ P │ Q ] = ?
+--      let open │ᵥᵇ.x• in case 𝐸 F P Q (gamma₁ 𝐸 P)
+   gamma₁ {E = E ᵇ│ Q₀} {E′ │ᵥ .F} (_│ᵥᵇ_ {x = x} {a = • x′} 𝐸 F) [ P │ Q ] = ?
+--      let open │ᵥᵇ.•x in case 𝐸 F P Q (gamma₁ 𝐸 P)
+
+   gamma₁ _ _ = ?
+{-
    gamma₁ {E = E ᶜ│ Q₀} {E′ │ᵥ .F} (_│ᵥᶜ_ {a = τ} 𝐸 F) [ P │ Q ] =
       let open │ᵥᶜ.τ in case 𝐸 F P Q (gamma₁ 𝐸 P)
    gamma₁ {E = E ᶜ│ Q₀} {E′ │ᵥ .F} (_│ᵥᶜ_ {a = • x′ 〈 y′ 〉} 𝐸 F) [ P │ Q ] =
@@ -158,3 +161,4 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] =
       let open νᵛᵛ in case 𝐸 P (gamma₁ 𝐸 P)
    gamma₁ (! 𝐸) [ ! P ] = gamma₁ 𝐸 [ P │ [ ! P ] ]
+-}
