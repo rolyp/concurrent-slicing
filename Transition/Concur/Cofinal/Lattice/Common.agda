@@ -25,7 +25,7 @@ module Transition.Concur.Cofinal.Lattice.Common where
    open import Proc.Ren.Lattice using () renaming (_* to _*̃) public
    open import Ren as ᴿ using () public;
       open ᴿ.Renameable ⦃...⦄ public
-   open import Ren.Lattice as ᴿ̃ using (_̃_; swap; pop; push; id; _ᴿ+_; suc) public
+   open import Ren.Lattice as ᴿ̃ using (_̃_; swap; pop; push; id; repl; _ᴿ+_; suc) public
    open import Ren.Lattice.Properties public
    open import Ren.Properties public
    open import Transition as ᵀ using (_—[_-_]→_) public;

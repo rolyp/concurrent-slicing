@@ -8,7 +8,6 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-propagate-b
    import Relation.Binary.EqReasoning as EqReasoning
    import Name as ᴺ
    import Ren as ᴿ
-   import Ren.Lattice as ᴿ̃
 
    module x•
       {x′ : Name Γ} {E : P₀ —[ x′ • ᵇ - _ ]→ R₀} {E′ : P₀ —[ x • ᵇ - _ ]→ R′₀}
@@ -118,11 +117,10 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-propagate-b
 
       module _
          (id*E/E′ : (idᶠ *) R′₀ —[ (• ᴺ.suc x′) ᵇ - _ ]→ (ᴿ.suc idᶠ *) (tgt₂ (⊖₁ 𝐸))) (P′ : ↓ P′₀)
-         (S′ : ↓ (ᴿ.suc ᴿ.push *) S₀) (S : ↓ S₀) (R′ : ↓ R′₀) y y′
+         (S′ : ↓ (ᴿ.suc ᴿ.push *) S₀) (S : ↓ S₀) (R′ : ↓ R′₀) (y : ↓ ᴺ.zero {ᴺ.suc Γ}) (y′ : ↓ ᴺ.zero {Γ})
          (≡id*E/E′ : (idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸)) ≡ id*E/E′) (≡P′ : tgt (E′/E (⊖₁ 𝐸)) (tgt E P) ≡ P′) (≡S : tgt F Q ≡ S)
          (≡S′ : tgt ((ᴿ.push *ᵇ) F) ((push *̃) Q) ≡ S′) (≡R′ : tgt E′ P ≡ R′)
-         (let
-             α = let open EqReasoning (setoid _) in
+         (let α = let open EqReasoning (setoid _) in
                 begin
                    (idᶠ *) P′₀
                 ≡⟨ *-preserves-id P′₀ ⟩
@@ -186,19 +184,15 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-propagate-b
 {-
 -}
 
-          postulate
-           subcase :
+         subcase :
             braiding (ᵇ∇ᶜ {a = • x′} {τ}) {0} (cong ν_ (cong₂ _│_ α (swap∘push S₀)))
-            [ ν [ (ᴿ̃.repl y *̃) P′ │ S′ ] ]
+            [ ν [ (repl y *̃) P′ │ S′ ] ]
             ≡
-            tgt (νᵇ (id*E/E′ ᵇ│ S₀)) [ ν [ (ᴿ̃.repl y′ *̃) R′ │ S ] ]
-
-{-
+            tgt (νᵇ (id*E/E′ ᵇ│ S₀)) [ ν [ (repl y′ *̃) R′ │ S ] ]
          subcase
-            with step (E/E′ (⊖₁ 𝐸)) R′ | inspect (step (E/E′ (⊖₁ 𝐸))) R′
-         ... | ◻ , P″ | [ ≡P″ ] = base P″ (,-inj₂ ≡P″)
+            with step id*E/E′ ((repl y′ *̃) R′) | inspect (step id*E/E′) ((repl y′ *̃) R′)
+         ... | ◻ , P″ | [ ≡P″ ] = ? -- base P″ (,-inj₂ ≡P″)
          ... | [ • ._ ﹙ _ ﹚ ᵇ ] , P″ | [ ≡P″ ] = {!!} -- base P″ (,-inj₂ ≡P″)
--}
 
       case :
          braiding (ᵇ∇ᶜ {a = • x′} {τ}) {0} (γ₁ (𝐸 │ᵥᵇ F))
@@ -222,10 +216,10 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-propagate-b
          subcase id*E/E′ P′ S′ S R′ ◻ ◻ ≡id*E/E′ (,-inj₂ ≡P′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (,-inj₂ ≡R′)
       ... | id*E/E′ | ◻ , R′ | [ • ._ ﹙ y ﹚ ᵇ ] , S | ◻ , P′ | [ • ._ ﹙ y′ ﹚ ᵇ ] , S′ |
          [ ≡id*E/E′ ] | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
-         subcase id*E/E′ P′ S′ S R′ ? ? ≡id*E/E′ (,-inj₂ ≡P′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (,-inj₂ ≡R′)
+         subcase id*E/E′ P′ S′ S R′ y′ y ≡id*E/E′ (,-inj₂ ≡P′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (,-inj₂ ≡R′)
       ... | id*E/E′ | [ ._ • ᵇ ] , R′ | ◻ , S | [ ._ • ᵇ ] , P′ | ◻ , S′ |
          [ ≡id*E/E′ ] | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
          subcase id*E/E′ P′ S′ S R′ ◻ ◻ ≡id*E/E′ (,-inj₂ ≡P′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (,-inj₂ ≡R′)
       ... | id*E/E′ | [ ._ • ᵇ ] , R′ | [ • ._ ﹙ y ﹚ ᵇ ] , S | [ ._ • ᵇ ] , P′ | [ • ._ ﹙ y′ ﹚ ᵇ ] , S′ |
          [ ≡id*E/E′ ] | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
-         subcase id*E/E′ P′ S′ S R′ y y′ ≡id*E/E′ (,-inj₂ ≡P′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (,-inj₂ ≡R′)
+         subcase id*E/E′ P′ S′ S R′ y′ y ≡id*E/E′ (,-inj₂ ≡P′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (,-inj₂ ≡R′)
