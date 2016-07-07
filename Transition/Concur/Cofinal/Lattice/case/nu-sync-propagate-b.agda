@@ -225,29 +225,30 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-propagate-b
          [ ≡id*E/E′ ] | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
          subcase id*E/E′ P′ S′ S R′ ◻ ◻ ≡id*E/E′ (,-inj₂ ≡P′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (,-inj₂ ≡R′) refl
       ... | id*E/E′ | ◻ , R′ | [ • .x ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , S | ◻ , P′ | [ • .(ᴺ.suc x) ﹙ ◻ ﹚ ᵇ ] , S′ |
-         [ ≡id*E/E′ ] | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] = {!!}
-         let α :  [ • ᴺ.suc x ﹙ ◻ ﹚ ᵇ ] ≡ [ • ᴺ.suc x ﹙ [ ᴺ.zero ] ﹚ ᵇ ]
-             α = let open EqReasoning (setoid _) in
-                begin
-                   [ • ᴺ.suc x ﹙ ◻ ﹚ ᵇ ]
-                ≡⟨ sym (,-inj₁ ≡S′) ⟩
-                   action ((ᴿ.push *ᵇ) F) ((push *̃) Q)
-                ≡⟨ sym (renᵇ-action-comm F push Q) ⟩
-                   (push ᴬ*̃) (action F Q)
-                ≡⟨ {!!} ⟩
-                   (push ᴬ*̃) [ • x ﹙ [ ᴺ.zero ] ﹚ ᵇ ]
-                ≡⟨ {!!} ⟩
-                   [ • ᴺ.suc x ﹙ [ ᴺ.zero ] ﹚ ᵇ ]
-                ∎ in
-         {!!}
+         [ ≡id*E/E′ ] | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
+         let α = trans (sym (,-inj₁ ≡S′)) (trans (sym (renᵇ-action-comm F push Q)) (cong (push ᴬ*̃) (,-inj₁ ≡S))) in
+         ⊥-elim ([•x﹙[◻﹚〉ᵇ]≢[•x﹙[zero]﹚ᵇ] α)
       ... | id*E/E′ | ◻ , R′ | [ • .x ﹙ ◻ ﹚ ᵇ ] , S | ◻ , P′ | [ • .(ᴺ.suc x) ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , S′ |
-         [ ≡id*E/E′ ] | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] = {!!}
+         [ ≡id*E/E′ ] | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
+         let α = trans (sym (,-inj₁ ≡S′)) (trans (sym (renᵇ-action-comm F push Q)) (cong (push ᴬ*̃) (,-inj₁ ≡S))) in
+         ⊥-elim ([•x﹙[◻﹚〉ᵇ]≢[•x﹙[zero]﹚ᵇ] (sym α))
       ... | id*E/E′ | ◻ , R′ | [ • .x ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , S | ◻ , P′ | [ • .(ᴺ.suc x) ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , S′ |
          [ ≡id*E/E′ ] | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
          subcase id*E/E′ P′ S′ S R′ [ ᴺ.zero ] [ ᴺ.zero ] ≡id*E/E′ (,-inj₂ ≡P′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (,-inj₂ ≡R′) refl
       ... | id*E/E′ | [ ._ • ᵇ ] , R′ | ◻ , S | [ ._ • ᵇ ] , P′ | ◻ , S′ |
          [ ≡id*E/E′ ] | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
          subcase id*E/E′ P′ S′ S R′ ◻ ◻ ≡id*E/E′ (,-inj₂ ≡P′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (,-inj₂ ≡R′) refl
-      ... | id*E/E′ | [ ._ • ᵇ ] , R′ | [ • ._ ﹙ y ﹚ ᵇ ] , S | [ ._ • ᵇ ] , P′ | [ • ._ ﹙ y′ ﹚ ᵇ ] , S′ |
+      ... | id*E/E′ | [ ._ • ᵇ ] , R′ | [ • ._ ﹙ ◻ ﹚ ᵇ ] , S | [ ._ • ᵇ ] , P′ | [ • ._ ﹙ ◻ ﹚ ᵇ ] , S′ |
          [ ≡id*E/E′ ] | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
-         subcase id*E/E′ P′ S′ S R′ y′ y ≡id*E/E′ (,-inj₂ ≡P′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (,-inj₂ ≡R′) trustMe
+         subcase id*E/E′ P′ S′ S R′ ◻ ◻ ≡id*E/E′ (,-inj₂ ≡P′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (,-inj₂ ≡R′) refl
+      ... | id*E/E′ | [ ._ • ᵇ ] , R′ | [ • ._ ﹙ ◻ ﹚ ᵇ ] , S | [ ._ • ᵇ ] , P′ | [ • ._ ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , S′ |
+         [ ≡id*E/E′ ] | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
+         let α = trans (sym (,-inj₁ ≡S′)) (trans (sym (renᵇ-action-comm F push Q)) (cong (push ᴬ*̃) (,-inj₁ ≡S))) in
+         ⊥-elim ([•x﹙[◻﹚〉ᵇ]≢[•x﹙[zero]﹚ᵇ] (sym α))
+      ... | id*E/E′ | [ ._ • ᵇ ] , R′ | [ • ._ ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , S | [ ._ • ᵇ ] , P′ | [ • ._ ﹙ ◻ ﹚ ᵇ ] , S′ |
+         [ ≡id*E/E′ ] | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
+         let α = trans (sym (,-inj₁ ≡S′)) (trans (sym (renᵇ-action-comm F push Q)) (cong (push ᴬ*̃) (,-inj₁ ≡S))) in
+         ⊥-elim ([•x﹙[◻﹚〉ᵇ]≢[•x﹙[zero]﹚ᵇ] α)
+      ... | id*E/E′ | [ ._ • ᵇ ] , R′ | [ • ._ ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , S | [ ._ • ᵇ ] , P′ | [ • ._ ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , S′ |
+         [ ≡id*E/E′ ] | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
+         subcase id*E/E′ P′ S′ S R′ [ ᴺ.zero ] [ ᴺ.zero ] ≡id*E/E′ (,-inj₂ ≡P′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (,-inj₂ ≡R′) refl
