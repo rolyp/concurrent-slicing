@@ -16,7 +16,7 @@ module Ren.Lattice.Properties where
       )
    open import Ren as ᴿ using (Ren; +-preserves-involutivity); open ᴿ.Renameable ⦃...⦄
    open import Ren.Lattice as ᴿ̃
-      using (_̃_; _ᴿ+_; to-↓; to-↓-preserves-≃ₑ; to-↓-preserves-+; suc; swap; push; id; pop; weaken)
+      using (_̃_; _ᴿ+_; to-↓; to-↓-preserves-≃ₑ; to-↓-preserves-+; suc; swap; push; id; repl; pop; weaken)
    open import Ren.Properties
 
    -- Should be able to generalise along the lines of Ren.Properties, but tricky.
@@ -75,3 +75,7 @@ module Ren.Lattice.Properties where
       suc-pop∘swap̃ : ∀ {Γ} {y : Name Γ} (y′ : ↓ y) {P : Proc (Γ + 2)} (P′ : ↓ P) →
                       (suc (pop y′) *̃) ((swap *̃) P′) ≅ (pop (push ̃ y′) *̃) P′
       swap-swap̃ : ∀ {Γ} {P P′ : Proc (Γ + 2)} {P† : ↓ P} {P‡ : ↓ P′} → (swap *̃) P† ≅ P‡ → P† ≅ (swap *̃) P‡
+
+      -- Corresponds to id ∘ swap = swap ∘ id, which is too trivial to have a Ren.Properties counterpart.
+      id-swap-id̃ : ∀ {Γ} (y : ↓ ᴺ.zero) {P : Proc (Γ + 2)} (P′ : ↓ P) →
+                    (repl (weaken ̃ y) *̃) ((swap *̃) P′) ≅ (swap *̃) ((suc (repl y) *̃) P′)
