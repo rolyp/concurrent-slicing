@@ -15,12 +15,14 @@ module Transition.Concur.Cofinal.Lattice where
 {-
    import Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync as ᵇ│ᵥ
    import Transition.Concur.Cofinal.Lattice.case.propagate-c-nu-sync as ᶜ│ᵥ
+-}
    import Transition.Concur.Cofinal.Lattice.case.propagate-par-b-b as │ᵇᵇ
    import Transition.Concur.Cofinal.Lattice.case.propagate-par-b-c as │ᵇᶜ
    import Transition.Concur.Cofinal.Lattice.case.propagate-par-c-c as │ᶜᶜ
    import Transition.Concur.Cofinal.Lattice.case.propagate-b-b-par as ᵇᵇ│
    import Transition.Concur.Cofinal.Lattice.case.propagate-b-c-par as ᵇᶜ│
    import Transition.Concur.Cofinal.Lattice.case.propagate-c-c-par as ᶜᶜ│
+{-
    import Transition.Concur.Cofinal.Lattice.case.sync-sync as │•
    import Transition.Concur.Cofinal.Lattice.case.sync-nu-sync as │•ᵥ
    import Transition.Concur.Cofinal.Lattice.case.nu-sync-x-x-nu-sync as │ᵥ
@@ -92,23 +94,23 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ (𝐸 ➕₁ Q) [ P ➕ _ ] =
       gamma₁ 𝐸 P
    gamma₁ {𝑎 = ˣ∇ˣ {x = x} {u}} {E = _ │ᵇ F} {._ │ᵇ F′} (._ │ᵇᵇ 𝐹) [ P │ Q ] =
-      {!!} -- let open │ᵇᵇ.ˣ∇ˣ in case 𝐹 P Q (gamma₁ 𝐹 Q)
+      let open │ᵇᵇ.ˣ∇ˣ in case 𝐹 P Q (gamma₁ 𝐹 Q)
    gamma₁ {𝑎 = ᵇ∇ᵇ} {E = P₀ │ᵇ F} {._ │ᵇ F′} (._ │ᵇᵇ 𝐹) [ P │ Q ] =
-      {!!} -- let open │ᵇᵇ.ᵇ∇ᵇ in case 𝐹 P Q (gamma₁ 𝐹 Q)
+      let open │ᵇᵇ.ᵇ∇ᵇ in case 𝐹 P Q (gamma₁ 𝐹 Q)
    gamma₁ {E = _ │ᵇ F} {._ │ᶜ F′} (._ │ᵇᶜ 𝐹) [ P │ Q ] =
-      {!!} -- let open │ᵇᶜ in case 𝐹 P Q (gamma₁ 𝐹 Q)
+      let open │ᵇᶜ in case 𝐹 P Q (gamma₁ 𝐹 Q)
    gamma₁ {E = _ │ᶜ F} {._ │ᶜ F′} (._ │ᶜᶜ 𝐹) [ P │ Q ] =
-      {!!} -- let open │ᶜᶜ in case 𝐹 P Q (gamma₁ 𝐹 Q)
+      let open │ᶜᶜ in case 𝐹 P Q (gamma₁ 𝐹 Q)
    gamma₁ {E = P₀ │ᶜ F} {._ │ᶜ F′} (._ │ᵛᵛ 𝐹) [ P │ Q ] =
       cong (λ Q → [ P │ Q ]) (gamma₁ 𝐹 Q)
    gamma₁ {𝑎 = ˣ∇ˣ {x = x} {u}} {E = E ᵇ│ Q₀} {E′ ᵇ│ ._} (𝐸 ᵇᵇ│ ._) [ P │ Q ] =
-      {!!} -- let open ᵇᵇ│.ˣ∇ˣ in case 𝐸 P Q (gamma₁ 𝐸 P)
+      let open ᵇᵇ│.ˣ∇ˣ in case 𝐸 P Q (gamma₁ 𝐸 P)
    gamma₁ {𝑎 = ᵇ∇ᵇ} {E = E ᵇ│ Q₀} {E′ ᵇ│ ._} (𝐸 ᵇᵇ│ ._) [ P │ Q ] =
-      {!!} -- let open ᵇᵇ│.ᵇ∇ᵇ in case 𝐸 P Q (gamma₁ 𝐸 P)
+      let open ᵇᵇ│.ᵇ∇ᵇ in case 𝐸 P Q (gamma₁ 𝐸 P)
    gamma₁ {E = E ᵇ│ _} {E′ ᶜ│ ._} (𝐸 ᵇᶜ│ ._) [ P │ Q ] =
-      {!!} -- let open ᵇᶜ│ in case 𝐸 P Q (gamma₁ 𝐸 P)
+      let open ᵇᶜ│ in case 𝐸 P Q (gamma₁ 𝐸 P)
    gamma₁ {E = E ᶜ│ _} {E′ ᶜ│ ._} (𝐸 ᶜᶜ│ ._) [ P │ Q ] =
-      {!!} -- let open ᶜᶜ│ in case 𝐸 P Q (gamma₁ 𝐸 P)
+      let open ᶜᶜ│ in case 𝐸 P Q (gamma₁ 𝐸 P)
    gamma₁ {E = E ᶜ│ Q₀} {E′ ᶜ│ ._} (𝐸 ᵛᵛ│ ._) [ P │ Q ] =
       cong (λ P → [ P │ Q ]) (gamma₁ 𝐸 P)
    gamma₁ (𝐸 │• 𝐹) [ P │ Q ] =
