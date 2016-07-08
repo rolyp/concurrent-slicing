@@ -22,8 +22,8 @@ module Transition.Concur.Cofinal.Lattice where
    import Transition.Concur.Cofinal.Lattice.case.propagate-b-b-par as ᵇᵇ│
    import Transition.Concur.Cofinal.Lattice.case.propagate-b-c-par as ᵇᶜ│
    import Transition.Concur.Cofinal.Lattice.case.propagate-c-c-par as ᶜᶜ│
-{-
    import Transition.Concur.Cofinal.Lattice.case.sync-sync as │•
+{-
    import Transition.Concur.Cofinal.Lattice.case.sync-nu-sync as │•ᵥ
    import Transition.Concur.Cofinal.Lattice.case.nu-sync-x-x-nu-sync as │ᵥ
    import Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync as │ᵥ′
