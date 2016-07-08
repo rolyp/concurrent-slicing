@@ -11,8 +11,8 @@ module Transition.Concur.Cofinal.Lattice where
    import Transition.Concur.Cofinal.Lattice.case.propagate-b-sync as ᵇ│•
    import Transition.Concur.Cofinal.Lattice.case.propagate-c-sync as ᶜ│•
    import Transition.Concur.Cofinal.Lattice.case.nu-sync-propagate-b as │ᵥᵇ
-{-
    import Transition.Concur.Cofinal.Lattice.case.nu-sync-propagate-c as │ᵥᶜ
+{-
    import Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync as ᵇ│ᵥ
    import Transition.Concur.Cofinal.Lattice.case.propagate-c-nu-sync as ᶜ│ᵥ
    import Transition.Concur.Cofinal.Lattice.case.propagate-par-b-b as │ᵇᵇ
@@ -76,7 +76,7 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ {E = E ᵇ│ Q₀} {E′ │ᵥ .F} (_│ᵥᵇ_ {x = x} {a = • x′} 𝐸 F) [ P │ Q ] =
       let open │ᵥᵇ.•x in case 𝐸 F P Q (gamma₁ 𝐸 P)
    gamma₁ {E = E ᶜ│ Q₀} {E′ │ᵥ .F} (_│ᵥᶜ_ {a = τ} 𝐸 F) [ P │ Q ] =
-      {!!} -- let open │ᵥᶜ.τ in case 𝐸 F P Q (gamma₁ 𝐸 P)
+      let open │ᵥᶜ.τ in case 𝐸 F P Q (gamma₁ 𝐸 P)
    gamma₁ {E = E ᶜ│ Q₀} {E′ │ᵥ .F} (_│ᵥᶜ_ {a = • x′ 〈 y′ 〉} 𝐸 F) [ P │ Q ] =
       {!!} -- let open │ᵥᶜ.•x〈y〉 in case 𝐸 F P Q (gamma₁ 𝐸 P)
    gamma₁ {E = P₀ │ᵇ F} {.E │ᵥ F′} (_ᵇ│ᵥ_ {a = • x′} {ˣ∇ˣ} E 𝐹) [ P │ Q ] =

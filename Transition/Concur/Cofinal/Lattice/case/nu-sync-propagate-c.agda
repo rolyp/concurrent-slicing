@@ -28,23 +28,24 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-propagate-c
             [ ν [ P″ │ S ] ]
          base P″ ≡P″ = ≅-to-≡ (
             let α : (repl y *̃) P′ ≅ P″
-                α = {!!}
-{-
-                let open ≅-Reasoning in
+                α = let open ≅-Reasoning in
                    begin
-                      P′
-                   ≡⟨ sym ≡P′ ⟩
-                      tgt (E′/E (⊖₁ 𝐸)) (tgt E P)
-                   ≅⟨ ≅-sym (reduce-ᶜ∇ᵇ (γ₁ 𝐸) _) ⟩
-                      braiding (ᶜ∇ᵇ {a = τ} {x •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))
-                   ≡⟨ IH ⟩
-                      tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P)
-                   ≡⟨ cong (tgt (E/E′ (⊖₁ 𝐸))) ≡R′  ⟩
-                      tgt (E/E′ (⊖₁ 𝐸)) R′
+                      (repl y *̃) P′
+                   ≡⟨ cong (repl y *̃) (sym ≡P′) ⟩
+                      (repl y *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))
+                   ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) (repl y *̃) (≅-sym (reduce-ᶜ∇ᵇ (γ₁ 𝐸) _)) ⟩
+                      (repl y *̃) (braiding (ᶜ∇ᵇ {a = τ} {x •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
+                   ≡⟨ cong (repl y *̃) IH ⟩
+                      (repl y *̃) (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))
+                   ≡⟨ renᶜ-tgt-comm (E/E′ (⊖₁ 𝐸)) (repl y) (tgt E′ P) ⟩
+                      tgt ((idᶠ *ᶜ) (E/E′ (⊖₁ 𝐸))) ((repl y *̃) (tgt E′ P))
+                   ≡⟨ cong (λ E† → tgt E† ((repl y *̃) (tgt E′ P))) ≡id*E/E′ ⟩
+                      tgt id*E/E′ ((repl y *̃) (tgt E′ P))
+                   ≡⟨ cong (tgt id*E/E′ ∘ᶠ (repl y *̃)) ≡R′  ⟩
+                      tgt id*E/E′ ((repl y *̃) R′)
                    ≡⟨ ≡P″ ⟩
                       P″
                    ∎
--}
                 open ≅-Reasoning in
             begin
                braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} (cong ν_ (cong₂ _│_ (cong (idᶠ *) (γ₁ 𝐸)) refl))
@@ -63,8 +64,8 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-propagate-c
             tgt (νᶜ (id*E/E′ ᶜ│ S₀)) [ ν [ (repl y *̃) R′ │ S ] ]
          subcase
             with step id*E/E′ ((repl y *̃) R′) | inspect (step id*E/E′) ((repl y *̃) R′)
-         ... | ◻ , P″ | [ ≡P″ ] = {!!} -- base P″ (,-inj₂ ≡P″)
-         ... | [ τ ᶜ ] , P″ | [ ≡P″ ] = {!!} -- base P″ (,-inj₂ ≡P″)
+         ... | ◻ , P″ | [ ≡P″ ] = base P″ (,-inj₂ ≡P″)
+         ... | [ τ ᶜ ] , P″ | [ ≡P″ ] = base P″ (,-inj₂ ≡P″)
 
       case :
          braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} (γ₁ (𝐸 │ᵥᶜ F))
