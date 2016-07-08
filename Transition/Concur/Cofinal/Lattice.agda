@@ -78,7 +78,7 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ {E = E ᶜ│ Q₀} {E′ │ᵥ .F} (_│ᵥᶜ_ {a = τ} 𝐸 F) [ P │ Q ] =
       let open │ᵥᶜ.τ in case 𝐸 F P Q (gamma₁ 𝐸 P)
    gamma₁ {E = E ᶜ│ Q₀} {E′ │ᵥ .F} (_│ᵥᶜ_ {a = • x′ 〈 y′ 〉} 𝐸 F) [ P │ Q ] =
-      {!!} -- let open │ᵥᶜ.•x〈y〉 in case 𝐸 F P Q (gamma₁ 𝐸 P)
+      let open │ᵥᶜ.•x〈y〉 in case 𝐸 F P Q (gamma₁ 𝐸 P)
    gamma₁ {E = P₀ │ᵇ F} {.E │ᵥ F′} (_ᵇ│ᵥ_ {a = • x′} {ˣ∇ˣ} E 𝐹) [ P │ Q ] =
       {!!} -- let open ᵇ│ᵥ.ˣ∇ˣ in case E 𝐹 P Q (gamma₁ 𝐹 Q)
    gamma₁ {E = P₀ │ᵇ F} {.E │ᵥ F′} (_ᵇ│ᵥ_ {a = • x′} {ᵇ∇ᵇ} E 𝐹) [ P │ Q ] =
