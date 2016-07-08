@@ -17,7 +17,7 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-propagate-b
       where
 
       module _
-         (id*E/E′ : (idᶠ *) R′₀ —[ ᴺ.suc x′ • ᵇ - _ ]→ (ᴿ.suc idᶠ *) (tgt₂ (⊖₁ 𝐸))) (P′ : ↓ P′₀)
+         (id*E/E′ : (idᶠ *) R′₀ —[ ᴺ.suc x′ • ᵇ - _ ]→ (ᴿ.suc idᶠ *) P″₀) (P′ : ↓ P′₀)
          (S′ : ↓ (ᴿ.suc ᴿ.push *) S₀) (S : ↓ S₀) (R′ : ↓ R′₀) (y : ↓ ᴺ.zero {ᴺ.suc Γ}) (y′ : ↓ ᴺ.zero {Γ})
          (≡id*E/E′ : (idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸)) ≡ id*E/E′) (≡P′ : tgt (E′/E (⊖₁ 𝐸)) (tgt E P) ≡ P′) (≡S : tgt F Q ≡ S)
          (≡S′ : tgt ((ᴿ.push *ᵇ) F) ((push *̃) Q) ≡ S′) (≡R′ : tgt E′ P ≡ R′) (≡y : weaken ̃ y′ ≡ y)
