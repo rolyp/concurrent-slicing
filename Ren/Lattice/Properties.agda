@@ -67,7 +67,7 @@ module Ren.Lattice.Properties where
       pop∘suc-push̃ : ∀ {Γ} {y : Name Γ} (y′ : ↓ y) {P : Proc (Γ + 1)} (P′ : ↓ P) →
                      (push *̃) ((pop y′ *̃) P′) ≅ (pop (push ̃ y′) *̃) ((suc push *̃) P′)
       pop-zero∘suc-push̃ : ∀ {Γ} (y : ↓ ᴺ.zero) {P : Proc (Γ + 1)} (P′ : ↓ P) →
-                           (pop {Γ + 1} y *̃) ((suc push *̃) P′) ≅ P′
+                           (pop {Γ + 1} y *̃) ((suc push *̃) P′) ≅ (repl y *̃) P′
       pop-pop-swap̃ : ∀ {Γ} {x y : Name Γ} (x′ : ↓ x) (y′ : ↓ y) {P : Proc (Γ + 2)} (P′ : ↓ P) →
                       (pop x′ *̃) ((suc (pop y′) *̃) ((swap {Γ} *̃) P′)) ≅ (pop y′ *̃) ((suc (pop x′) *̃) P′)
       pop∘swap̃ : ∀ {Γ} {y : Name Γ} (y′ : ↓ y) {P : Proc (Γ + 2)} (P′ : ↓ P) →

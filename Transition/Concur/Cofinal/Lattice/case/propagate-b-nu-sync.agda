@@ -40,8 +40,8 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync
                    ≡⟨ cong (pop y *̃) (sym (renᵇ-tgt-comm E push P)) ⟩
                       (pop y *̃) ((suc push *̃) (tgt E P))
                    ≅⟨ pop-zero∘suc-push̃ y _ ⟩
-                      {!!}
-                   ≅⟨ {!!} ⟩
+                      (repl y *̃) (tgt E P)
+                   ≡⟨ cong (λ y† → (repl y† *̃) (tgt E P)) ≡y′ ⟩
                       (repl y′ *̃) (tgt E P)
                    ≡⟨ cong (repl y′ *̃) ≡R ⟩
                       (repl y′ *̃) R
