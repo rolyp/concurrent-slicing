@@ -156,7 +156,7 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync
             [ ν [ (swap *̃) ((push *̃) ((repl y′ *̃) R)) │ (swap *̃) Q″ ] ]
 {-
          base Q″ ≡Q″ =
-            let γ : P″ ≅ (swap *̃) ((push *̃) R)
+            let γ : P″ ≅ (swap *̃) ((push *̃) ((repl y′ *̃) R))
                 γ = let open ≅-Reasoning in
                    begin
                       P″
@@ -188,11 +188,12 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync
                    ∎
                 open ≅-Reasoning in ≅-to-≡ (
             begin
-               braiding (ᵇ∇ᶜ {a = • x′} {τ}) {0} β [ ν [ P″ │ P′ ] ]
+               braiding (ᵇ∇ᶜ {a = • x′} {τ}) {0} β
+               [ ν [ (repl y *̃) P″ │ P′ ] ]
             ≅⟨ reduce-ᵇ∇ᶜ β _ ⟩
-               [ ν [ P″ │ P′ ] ]
+               [ ν [ (repl y *̃) P″ │ P′ ] ]
             ≅⟨ [ν-]-cong (cong₂ _│_ α (swap-swap (γ₁ 𝐹))) ([-│-]-cong α γ (swap-swap (γ₁ 𝐹)) δ) ⟩
-               [ ν [ (swap *̃) ((push *̃) R) │ (swap *̃) Q″ ] ]
+               [ ν [ (swap *̃) ((push *̃) ((repl y′ *̃) R)) │ (swap *̃) Q″ ] ]
             ∎)
 -}
 
