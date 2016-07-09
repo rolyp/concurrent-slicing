@@ -80,5 +80,5 @@ module Ren.Lattice.Properties where
       id-swap-id̃ : ∀ {Γ} (y : ↓ ᴺ.zero) {P : Proc (Γ + 2)} (P′ : ↓ P) →
                     (repl (weaken ̃ y) *̃) ((swap *̃) P′) ≅ (swap *̃) ((suc (repl y) *̃) P′)
       -- Corresponds to id ∘ suc push ≡ swap ∘ push ∘ id, which we prove inline rather than as a lemma.
-      id∘suc-push̃ : ∀ {Γ} {y : ↓ ᴺ.zero} {P : Proc (Γ + 1)} (P′ : ↓ P) →
+      id∘suc-push̃ : ∀ {Γ} (y : ↓ ᴺ.zero) {P : Proc (Γ + 1)} (P′ : ↓ P) →
                     (repl (weaken ̃ y) *̃) ((suc push *̃) P′) ≅ (suc push *̃) ((repl y *̃) P′)

@@ -11,7 +11,6 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync
    import Ren.Lattice as ᴿ̃
    import Transition as ᵀ
 
-{-
    module ˣ∇ˣ
       {R₀ S₀ S′₀} {F : Q₀ —[ (• x′) ᵇ - _ ]→ S₀} {F′ : Q₀ —[ (• x) ᵇ - _ ]→ S′₀} (E : P₀ —[ x • ᵇ - _ ]→ R₀)
       (𝐹 : F ⌣₁[ ˣ∇ˣ ] F′) (let Q′₀ = tgt₁ (⊖₁ 𝐹); Q″₀ = tgt₂ (⊖₁ 𝐹)) (P : ↓ P₀) (Q : ↓ Q₀)
@@ -121,7 +120,6 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync
       ... | [ ._ • ᵇ ] , R | [ ._ • ᵇ ] , R′ | [ • ._ ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , S′ | [ • ._ 〈 [ .ᴺ.zero ] 〉 ᶜ ] , Q′ |
          [ ≡R ] | [ ≡R′ ] | [ ≡S′ ] | [ ≡Q′ ] =
          subcase R R′ S′ Q′ [ ᴺ.zero ] [ ᴺ.zero ] (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (,-inj₂ ≡Q′) refl
--}
 
    module ᵇ∇ᵇ-•x
       {R₀ S₀ S′₀ : Proc (Γ + 1)} {F : Q₀ —[ (• x′) ᵇ - _ ]→ S₀} {F′ : Q₀ —[ (• x) ᵇ - _ ]→ S′₀}
@@ -164,7 +162,7 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync
                       (repl y *̃) ((suc push *̃) (tgt E P))
                    ≡⟨ cong (λ y† → (repl y† *̃) ((suc push *̃) (tgt E P))) ≡y′ ⟩
                       (repl (weaken ̃ y′) *̃) ((suc push *̃) (tgt E P))
-                   ≅⟨ {!!} {-swap∘push̃ _-} ⟩
+                   ≅⟨ id∘suc-push̃ y′ _ ⟩
                       (suc push *̃) ((repl y′ *̃) (tgt E P))
                    ≅⟨ swap∘push̃ _ ⟩
                       (swap *̃) ((push *̃) ((repl y′ *̃) (tgt E P)))

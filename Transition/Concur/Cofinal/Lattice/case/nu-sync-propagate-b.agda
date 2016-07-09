@@ -120,11 +120,11 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-propagate-b
       ... | _ | _ , R′ | [ • ._ ﹙ ◻ ﹚ ᵇ ] , S | _ , P′ | [ • ._ ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , S′ |
          _ | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
          let α = trans (sym (,-inj₁ ≡S′)) (trans (sym (renᵇ-action-comm F push Q)) (cong (push ᴬ*̃) (,-inj₁ ≡S))) in
-         ⊥-elim ([•x﹙◻﹚〉ᵇ]≢[•x﹙[zero]﹚ᵇ] (sym α))
+         ⊥-elim ([•x﹙◻﹚ᵇ]≢[•x﹙[zero]﹚ᵇ] (sym α))
       ... | _ | _ , R′ | [ • ._ ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , S | _ , P′ | [ • ._ ﹙ ◻ ﹚ ᵇ ] , S′ |
          _ | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
          let α = trans (sym (,-inj₁ ≡S′)) (trans (sym (renᵇ-action-comm F push Q)) (cong (push ᴬ*̃) (,-inj₁ ≡S))) in
-         ⊥-elim ([•x﹙◻﹚〉ᵇ]≢[•x﹙[zero]﹚ᵇ] α)
+         ⊥-elim ([•x﹙◻﹚ᵇ]≢[•x﹙[zero]﹚ᵇ] α)
       ... | id*E/E′ | ◻ , R′ | ◻ , S | ◻ , P′ | ◻ , S′ |
          [ ≡id*E/E′ ] | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
          subcase id*E/E′ P′ S′ S R′ ◻ ◻ ≡id*E/E′ (,-inj₂ ≡P′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (,-inj₂ ≡R′) refl
@@ -255,11 +255,11 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-propagate-b
       ... | _ | _ , R′ | [ • .x ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , S | _ , P′ | [ • .(ᴺ.suc x) ﹙ ◻ ﹚ ᵇ ] , S′ |
          _ | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
          let α = trans (sym (,-inj₁ ≡S′)) (trans (sym (renᵇ-action-comm F push Q)) (cong (push ᴬ*̃) (,-inj₁ ≡S))) in
-         ⊥-elim ([•x﹙◻﹚〉ᵇ]≢[•x﹙[zero]﹚ᵇ] α)
+         ⊥-elim ([•x﹙◻﹚ᵇ]≢[•x﹙[zero]﹚ᵇ] α)
       ... | _ | _ , R′ | [ • .x ﹙ ◻ ﹚ ᵇ ] , S | _ , P′ | [ • .(ᴺ.suc x) ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , S′ |
          _ | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
          let α = trans (sym (,-inj₁ ≡S′)) (trans (sym (renᵇ-action-comm F push Q)) (cong (push ᴬ*̃) (,-inj₁ ≡S))) in
-         ⊥-elim ([•x﹙◻﹚〉ᵇ]≢[•x﹙[zero]﹚ᵇ] (sym α))
+         ⊥-elim ([•x﹙◻﹚ᵇ]≢[•x﹙[zero]﹚ᵇ] (sym α))
       ... | id*E/E′ | ◻ , R′ | ◻ , S | ◻ , P′ | ◻ , S′ |
          [ ≡id*E/E′ ] | [ ≡R′ ] | [ ≡S ] | [ ≡P′ ] | [ ≡S′ ] =
          subcase id*E/E′ P′ S′ S R′ ◻ ◻ ≡id*E/E′ (,-inj₂ ≡P′) (,-inj₂ ≡S) (,-inj₂ ≡S′) (,-inj₂ ≡R′) refl
