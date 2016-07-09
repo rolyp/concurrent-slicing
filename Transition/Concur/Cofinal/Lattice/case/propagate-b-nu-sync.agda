@@ -155,21 +155,18 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync
             [ ν [ (swap *̃) ((push *̃) ((repl y′ *̃) R)) │ (swap *̃) Q″ ] ]
          base Q″ ≡Q″ =
             let γ : (repl y *̃) P″ ≅ (swap *̃) ((push *̃) ((repl y′ *̃) R))
-                γ = ?
-{-
-                 let open ≅-Reasoning in
+                γ = let open ≅-Reasoning in
                    begin
-                      P″
-                   ≡⟨ sym ≡P″ ⟩
-                      tgt ((ᴿ.push *ᵇ) E) ((push *̃) P)
-                   ≡⟨ sym (renᵇ-tgt-comm E push P) ⟩
-                      (suc push *̃) (tgt E P)
-                   ≅⟨ swap∘push̃ _ ⟩
-                      (swap *̃) ((push *̃) (tgt E P))
-                   ≡⟨ cong ((swap *̃) ∘ᶠ (push *̃)) ≡R ⟩
-                      (swap *̃) ((push *̃) R)
+                      (repl y *̃) P″
+                   ≡⟨ cong (repl y *̃) (sym ≡P″) ⟩
+                      (repl y *̃) (tgt ((ᴿ.push *ᵇ) E) ((push *̃) P))
+                   ≡⟨ cong ((repl y *̃)) (sym (renᵇ-tgt-comm E push P)) ⟩
+                      (repl y *̃) ((suc push *̃) (tgt E P))
+                   ≅⟨ ? {-swap∘push̃ _-} ⟩
+                      (swap *̃) ((push *̃) ((repl y′ *̃) (tgt E P)))
+                   ≡⟨ cong ((swap *̃) ∘ᶠ (push *̃) ∘ᶠ (repl y′ *̃)) ≡R ⟩
+                      (swap *̃) ((push *̃) ((repl y′ *̃) R))
                    ∎
--}
                 δ : P′ ≅ (swap *̃) Q″
                 δ = let open ≅-Reasoning in
                    begin
