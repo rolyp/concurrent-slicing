@@ -147,13 +147,14 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync
          (≡R : tgt E P ≡ R) (≡S′ : tgt F′ Q ≡ S′) (≡P″ : tgt ((ᴺ.suc *ᵇ) E) ((push *̃) P) ≡ P″)
          (≡P′ : tgt (E′/E (⊖₁ 𝐹)) (tgt F Q) ≡ P′) where
 
-{-
-         base :
+         postulate
+          base :
             (Q″ : ↓ Q″₀) (≡Q″ : tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″) →
             braiding (ᵇ∇ᶜ {a = • x′} {τ}) {0} β
-            [ ν [ P″ │ P′ ] ]
+            [ ν [ (repl y *̃) P″ │ P′ ] ]
             ≡
-            [ ν [ (swap *̃) ((push *̃) R) │ (swap *̃) Q″ ] ]
+            [ ν [ (swap *̃) ((push *̃) ((repl y′ *̃) R)) │ (swap *̃) Q″ ] ]
+{-
          base Q″ ≡Q″ =
             let γ : P″ ≅ (swap *̃) ((push *̃) R)
                 γ = let open ≅-Reasoning in
@@ -202,8 +203,9 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync
             tgt (νᵇ ((idᶠ *) R₀ │ᵇ E/E′ (⊖₁ 𝐹))) [ ν [ (repl y′ *̃) R │ S′ ] ]
          subcase
             with step (E/E′ (⊖₁ 𝐹)) S′ | inspect (step (E/E′ (⊖₁ 𝐹))) S′
-         ... | ◻ , Q″ | [ ≡Q″ ] = {!!} -- base Q″ (,-inj₂ ≡Q″)
-         ... | [ • ._ ﹙ _ ﹚ ᵇ ] , Q″ | [ ≡Q″ ] = {!!} -- base Q″ (,-inj₂ ≡Q″)
+         ... | ◻ , Q″ | [ ≡Q″ ] = base Q″ (,-inj₂ ≡Q″)
+         ... | [ • ._ ﹙ ◻ ﹚ ᵇ ] , Q″ | [ ≡Q″ ] = base Q″ (,-inj₂ ≡Q″)
+         ... | [ • ._ ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , Q″ | [ ≡Q″ ] = base Q″ (,-inj₂ ≡Q″)
 
       case :
          braiding (ᵇ∇ᶜ {a = • x′} {τ}) {0} β
