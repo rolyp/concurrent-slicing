@@ -145,7 +145,7 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync
       module _
          (R : ↓ R₀) (S′ : ↓ S′₀) (P″ : ↓ (ᴿ.suc ᴿ.push *) R₀) (P′ : ↓ Q′₀) (y : ↓ ᴺ.zero {Γ + 1}) (y′ : ↓ ᴺ.zero {Γ})
          (≡R : tgt E P ≡ R) (≡S′ : tgt F′ Q ≡ S′) (≡P″ : tgt ((ᴺ.suc *ᵇ) E) ((push *̃) P) ≡ P″)
-         (≡P′ : tgt (E′/E (⊖₁ 𝐹)) (tgt F Q) ≡ P′) where
+         (≡P′ : tgt (E′/E (⊖₁ 𝐹)) (tgt F Q) ≡ P′) (≡y′ : y ≡ weaken ̃ y′) where
 
          base :
             (Q″ : ↓ Q″₀) (≡Q″ : tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″) →
@@ -162,7 +162,11 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync
                       (repl y *̃) (tgt ((ᴿ.push *ᵇ) E) ((push *̃) P))
                    ≡⟨ cong ((repl y *̃)) (sym (renᵇ-tgt-comm E push P)) ⟩
                       (repl y *̃) ((suc push *̃) (tgt E P))
-                   ≅⟨ ? {-swap∘push̃ _-} ⟩
+                   ≡⟨ cong (λ y† → (repl y† *̃) ((suc push *̃) (tgt E P))) ≡y′ ⟩
+                      (repl (weaken ̃ y′) *̃) ((suc push *̃) (tgt E P))
+                   ≅⟨ {!!} {-swap∘push̃ _-} ⟩
+                      (suc push *̃) ((repl y′ *̃) (tgt E P))
+                   ≅⟨ swap∘push̃ _ ⟩
                       (swap *̃) ((push *̃) ((repl y′ *̃) (tgt E P)))
                    ≡⟨ cong ((swap *̃) ∘ᶠ (push *̃) ∘ᶠ (repl y′ *̃)) ≡R ⟩
                       (swap *̃) ((push *̃) ((repl y′ *̃) R))
@@ -231,20 +235,20 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync
          let α = trans (sym (,-inj₁ ≡P′)) (trans (π₁ (ᴬgamma₁ 𝐹 Q)) (cong (push ᴬ*̃) (,-inj₁ ≡S′))) in
          ⊥-elim ([•x﹙◻﹚ᵇ]≢[•x﹙[zero]﹚ᵇ] α)
       ... | ◻ , R | ◻ , P″ | ◻ , S′ | ◻ , P′ | [ ≡R ] | [ ≡P″ ] | [ ≡S′ ] | [ ≡P′ ] =
-         subcase R S′ P″ P′ ◻ ◻ (,-inj₂ ≡R) (,-inj₂ ≡S′) (,-inj₂ ≡P″) (,-inj₂ ≡P′)
+         subcase R S′ P″ P′ ◻ ◻ (,-inj₂ ≡R) (,-inj₂ ≡S′) (,-inj₂ ≡P″) (,-inj₂ ≡P′) refl
       ... | ◻ , R | ◻ , P″ | [ • ._ ﹙ ◻ ﹚ ᵇ ] , S′ | [ • ._ ﹙ ◻ ﹚ ᵇ ] , P′ | [ ≡R ] | [ ≡P″ ] | [ ≡S′ ] | [ ≡P′ ] =
-         subcase R S′ P″ P′ ◻ ◻ (,-inj₂ ≡R) (,-inj₂ ≡S′) (,-inj₂ ≡P″) (,-inj₂ ≡P′)
+         subcase R S′ P″ P′ ◻ ◻ (,-inj₂ ≡R) (,-inj₂ ≡S′) (,-inj₂ ≡P″) (,-inj₂ ≡P′) refl
       ... | ◻ , R | ◻ , P″ | [ • ._ ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , S′ | [ • ._ ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , P′ |
          [ ≡R ] | [ ≡P″ ] | [ ≡S′ ] | [ ≡P′ ] =
-         subcase R S′ P″ P′ [ ᴺ.zero ] [ ᴺ.zero ] (,-inj₂ ≡R) (,-inj₂ ≡S′) (,-inj₂ ≡P″) (,-inj₂ ≡P′)
+         subcase R S′ P″ P′ [ ᴺ.zero ] [ ᴺ.zero ] (,-inj₂ ≡R) (,-inj₂ ≡S′) (,-inj₂ ≡P″) (,-inj₂ ≡P′) refl
       ... | [ ._ • ᵇ ] , R | [ ._ • ᵇ ] , P″ | ◻ , S′ | ◻ , P′ | [ ≡R ] | [ ≡P″ ] | [ ≡S′ ] | [ ≡P′ ] =
-         subcase R S′ P″ P′ ◻ ◻ (,-inj₂ ≡R) (,-inj₂ ≡S′) (,-inj₂ ≡P″) (,-inj₂ ≡P′)
+         subcase R S′ P″ P′ ◻ ◻ (,-inj₂ ≡R) (,-inj₂ ≡S′) (,-inj₂ ≡P″) (,-inj₂ ≡P′) refl
       ... | [ ._ • ᵇ ] , R | [ ._ • ᵇ ] , P″ | [ • ._ ﹙ ◻ ﹚ ᵇ ] , S′ | [ • ._ ﹙ ◻ ﹚ ᵇ ] , P′ |
          [ ≡R ] | [ ≡P″ ] | [ ≡S′ ] | [ ≡P′ ] =
-         subcase R S′ P″ P′ ◻ ◻ (,-inj₂ ≡R) (,-inj₂ ≡S′) (,-inj₂ ≡P″) (,-inj₂ ≡P′)
+         subcase R S′ P″ P′ ◻ ◻ (,-inj₂ ≡R) (,-inj₂ ≡S′) (,-inj₂ ≡P″) (,-inj₂ ≡P′) refl
       ... | [ ._ • ᵇ ] , R | [ ._ • ᵇ ] , P″ | [ • ._ ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , S′ | [ • ._ ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , P′ |
          [ ≡R ] | [ ≡P″ ] | [ ≡S′ ] | [ ≡P′ ] =
-         subcase R S′ P″ P′ [ ᴺ.zero ] [ ᴺ.zero ] (,-inj₂ ≡R) (,-inj₂ ≡S′) (,-inj₂ ≡P″) (,-inj₂ ≡P′)
+         subcase R S′ P″ P′ [ ᴺ.zero ] [ ᴺ.zero ] (,-inj₂ ≡R) (,-inj₂ ≡S′) (,-inj₂ ≡P″) (,-inj₂ ≡P′) refl
 
 {-
    module ᵇ∇ᵇ-x•
