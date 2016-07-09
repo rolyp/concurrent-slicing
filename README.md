@@ -1,9 +1,10 @@
 # concurrent-slicing
 
-Agda development accompanying the paper _Causally consistent dynamic
-slicing_, accepted to CONCUR 2016. To typecheck the entire development,
-compile `ConcurrentSlicing.agda`. The module structure is summarised in
-Appendix A of the paper.
+Agda development accompanying the paper
+[Causally consistent dynamic slicing](http://dynamicaspects.org/papers/concur16.pdf),
+accepted to CONCUR 2016. To typecheck the entire development, compile
+`ConcurrentSlicing.agda`. The module structure is summarised in Appendix
+A of the paper.
 
 ## Required compiler and libraries:
 
