@@ -120,17 +120,26 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync
       ... | [ ._ • ᵇ ] , R | [ ._ • ᵇ ] , R′ | [ • ._ ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , S′ | [ • ._ 〈 [ .ᴺ.zero ] 〉 ᶜ ] , Q′ |
          [ ≡R ] | [ ≡R′ ] | [ ≡S′ ] | [ ≡Q′ ] =
          subcase R R′ S′ Q′ [ ᴺ.zero ] [ ᴺ.zero ] (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S′) (,-inj₂ ≡Q′) refl
-{-
    module ᵇ∇ᵇ-•x
       {R₀ S₀ S′₀ : Proc (Γ + 1)} {F : Q₀ —[ (• x′) ᵇ - _ ]→ S₀} {F′ : Q₀ —[ (• x) ᵇ - _ ]→ S′₀}
       (E : P₀ —[ x • ᵇ - _ ]→ R₀) (𝐹 : F ⌣₁[ ᵇ∇ᵇ ] F′) (let Q′₀ = tgt₁ (⊖₁ 𝐹); Q″₀ = tgt₂ (⊖₁ 𝐹))
       (P : ↓ P₀) (Q : ↓ Q₀)
       (IH : braiding (ᵇ∇ᵇ {a = • x′} {• x}) {0} (γ₁ 𝐹) (tgt (E′/E (⊖₁ 𝐹)) (tgt F Q)) ≡ tgt (E/E′ (⊖₁ 𝐹)) (tgt F′ Q))
-      (let α : (ᴿ.suc ᴿ.push *) R₀ ≡ (ᴿ.swap *) ((ᴿ.push *) R₀)
-           α = swap∘push R₀
-           β : ν ((ᴿ.suc ᴿ.push *) R₀ │ Q′₀) ≡ ᵀ.tgt (νᵇ (R₀ │ᵇ E/E′ (⊖₁ 𝐹)))
-           β = cong ν_ (cong₂ _│_ α (swap-swap (γ₁ 𝐹)))) where
+      (let α : (idᶠ *) ((ᴿ.suc ᴿ.push *) R₀) ≡ (ᴿ.swap *) ((ᴿ.push *) ((idᶠ *) R₀))
+           α = let open EqReasoning (setoid _) in
+             begin
+                (idᶠ *) ((ᴿ.suc ᴿ.push *) R₀)
+             ≡⟨ *-preserves-id _ ⟩
+                (ᴿ.suc ᴿ.push *) R₀
+             ≡⟨ cong (ᴿ.suc ᴿ.push *) (sym (*-preserves-id R₀)) ⟩
+                (ᴿ.suc ᴿ.push *) ((idᶠ *) R₀)
+             ≡⟨ swap∘push _ ⟩
+                (ᴿ.swap *) ((ᴿ.push *) ((idᶠ *) R₀))
+             ∎
+           β : ν ((idᶠ *) ((ᴿ.suc ᴿ.push *) R₀) │ Q′₀) ≡ ν ((ᴿ.swap *) ((ᴿ.push *) ((idᶠ *) R₀)) │ (ᴿ.swap *) Q″₀)
+           β = (cong ν_ (cong₂ _│_ α (swap-swap (γ₁ 𝐹))))) where
 
+{-
       module _
          (R : ↓ R₀) (S′ : ↓ S′₀) (P″ : ↓ (ᴿ.suc ᴿ.push *) R₀) (P′ : ↓ Q′₀)
          (≡R : tgt E P ≡ R) (≡S′ : tgt F′ Q ≡ S′) (≡P″ : tgt ((ᴺ.suc *ᵇ) E) ((push *̃) P) ≡ P″)
@@ -191,12 +200,15 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync
             with step (E/E′ (⊖₁ 𝐹)) S′ | inspect (step (E/E′ (⊖₁ 𝐹))) S′
          ... | ◻ , Q″ | [ ≡Q″ ] = base Q″ (,-inj₂ ≡Q″)
          ... | [ (• ._) ᵇ ] , Q″ | [ ≡Q″ ] = base Q″ (,-inj₂ ≡Q″)
+-}
 
-      case :
+      postulate
+       case :
          braiding (ᵇ∇ᶜ {a = • x′} {τ}) {0} β
          (tgt ((ᴿ.push *ᵇ) E │ᵥ E′/E (⊖₁ 𝐹)) (tgt (P₀ │ᵇ F) [ P │ Q ]))
          ≡
-         (tgt (νᵇ (ᵀ.tgt E │ᵇ E/E′ (⊖₁ 𝐹))) (tgt (E │ᵥ F′) [ P │ Q ]))
+         (tgt (νᵇ ((idᶠ *) (ᵀ.tgt E) │ᵇ E/E′ (⊖₁ 𝐹))) (tgt (E │ᵥ F′) [ P │ Q ]))
+{-
       case
          with step E P | step ((ᴿ.push *ᵇ) E) ((push *̃) P) | step F′ Q | step (E′/E (⊖₁ 𝐹)) (tgt F Q) |
               inspect (step E) P | inspect (step ((ᴺ.suc *ᵇ) E)) ((push *̃) P) | inspect (step F′) Q |
@@ -217,7 +229,9 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync
          subcase R S′ P″ P′ (,-inj₂ ≡R) (,-inj₂ ≡S′) (,-inj₂ ≡P″) (,-inj₂ ≡P′)
       ... | [ ._ • ᵇ ] , R | [ ._ • ᵇ ] , P″ | [ (• ._) ᵇ ] , S′ | [ (• ._) ᵇ ] , P′ | [ ≡R ] | [ ≡P″ ] | [ ≡S′ ] | [ ≡P′ ] =
          subcase R S′ P″ P′ (,-inj₂ ≡R) (,-inj₂ ≡S′) (,-inj₂ ≡P″) (,-inj₂ ≡P′)
+-}
 
+{-
    module ᵇ∇ᵇ-x•
       {R₀ S₀ S′₀ : Proc (Γ + 1)} {F : Q₀ —[ x′ • ᵇ - _ ]→ S₀} {F′ : Q₀ —[ (• x) ᵇ - _ ]→ S′₀}
       (E : P₀ —[ x • ᵇ - _ ]→ R₀) (𝐹 : F ⌣₁[ ᵇ∇ᵇ ] F′) (let Q′₀ = tgt₁ (⊖₁ 𝐹); Q″₀ = tgt₂ (⊖₁ 𝐹))
