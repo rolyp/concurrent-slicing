@@ -62,6 +62,10 @@ module Transition.Concur.Cofinal.Lattice.Common where
                            _≡_ {A = ↓_ {A = Action Γ} ((• x) ᵇ)} [ • x ﹙ ◻ ﹚ ᵇ ] [ • x ﹙ [ ᴺ.zero ] ﹚ ᵇ ] → ⊥
    [•x﹙◻﹚ᵇ]≢[•x﹙[zero]﹚ᵇ] ()
 
+   [•x﹙-﹚ᵇ]-inj : ∀ {Γ} {x : Name Γ} {y′ y″ : ↓ ᴺ.zero} →
+                 _≡_ {A = ↓_ {A = Action Γ} ((• x) ᵇ)} [ • x ﹙ y′ ﹚ ᵇ ] [ • x ﹙ y″ ﹚ ᵇ ] → y′ ≡ y″
+   [•x﹙-﹚ᵇ]-inj {y′ = y′} {.y′} refl = refl
+
    -- Helpers arise from need to pattern-match on an equality to get braiding to reduce.
    reduce-ˣ∇ˣ : ∀ {Γ P P′} {x u : Name Γ} (γ : P ≡ P′) (P† : ↓ P) →
                 braiding (ˣ∇ˣ {x = x} {u}) {0} γ P† ≅ P†
