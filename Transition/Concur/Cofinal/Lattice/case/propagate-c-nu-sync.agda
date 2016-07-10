@@ -17,6 +17,7 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-c-nu-sync
       (P : ↓ P₀) (Q : ↓ Q₀)
       (IH : braiding (ᶜ∇ᵇ {a = • x′ 〈 y 〉} {• x}) {0} (γ₁ 𝐹) (tgt (E′/E (⊖₁ 𝐹)) (tgt F Q)) ≡ tgt (E/E′ (⊖₁ 𝐹)) (tgt F′ Q))
       where
+{-
 
       module _
          (R : ↓ R₀) (S′ : ↓ S′₀) (P′ : ↓ Q′₀) (≡R : tgt E P ≡ R) (≡S′ : tgt F′ Q ≡ S′) (≡P′ : tgt (E′/E (⊖₁ 𝐹)) (tgt F Q) ≡ P′)
@@ -66,12 +67,15 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-c-nu-sync
          ... | ◻ , Q″ | [ ≡Q″ ] = base Q″ (,-inj₂ ≡Q″)
          ... | [ • ._ 〈 ◻ 〉 ᶜ ] , Q″ | [ ≡Q″ ] = base Q″ (,-inj₂ ≡Q″)
          ... | [ • .(ᴺ.suc x′) 〈 [ .(ᴺ.suc y) ] 〉 ᶜ ] , Q″ | [ ≡Q″ ] = base Q″ (,-inj₂ ≡Q″)
+-}
 
-      case :
+      postulate
+       case :
          braiding (ᶜ∇ᶜ {a = • x′ 〈 y 〉} {τ}) {0} (cong ν_ (cong₂ _│_ refl (γ₁ 𝐹)))
          (tgt (E │ᵥ E′/E (⊖₁ 𝐹)) (tgt (P₀ │ᶜ F) [ P │ Q ]))
          ≡
-         tgt (νᶜ (ᵀ.tgt E │ᶜ E/E′ (⊖₁ 𝐹))) (tgt (E │ᵥ F′) [ P │ Q ])
+         tgt (νᶜ ((idᶠ *) (ᵀ.tgt E) │ᶜ E/E′ (⊖₁ 𝐹))) (tgt (E │ᵥ F′) [ P │ Q ])
+{-
       case
          with step E P | step F′ Q | step (E′/E (⊖₁ 𝐹)) (tgt F Q) |
               inspect (step E) P | inspect (step F′) Q | inspect (step (E′/E (⊖₁ 𝐹))) (tgt F Q)
@@ -91,7 +95,9 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-c-nu-sync
          subcase R S′ P′ (,-inj₂ ≡R) (,-inj₂ ≡S′) (,-inj₂ ≡P′)
       case | [ (.x •) ᵇ ] , R | [ (• .x) ᵇ ] , S′ | [ (• .x) ᵇ ] , P′ | [ ≡R ] | [ ≡S′ ] | [ ≡P′ ] =
          subcase R S′ P′ (,-inj₂ ≡R) (,-inj₂ ≡S′) (,-inj₂ ≡P′)
+-}
 
+{-
    module τ
       {R₀ S₀ S′₀} {F : Q₀ —[ τ ᶜ - _ ]→ S₀} {F′ : Q₀ —[ (• x) ᵇ - _ ]→ S′₀}
       (E : P₀ —[ x • ᵇ - _ ]→ R₀) (𝐹 : F ⌣₁[ ᶜ∇ᵇ ] F′) (let Q′₀ = tgt₁ (⊖₁ 𝐹); Q″₀ = tgt₂ (⊖₁ 𝐹))
@@ -171,3 +177,4 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-c-nu-sync
          subcase R S′ P′ (,-inj₂ ≡R) (,-inj₂ ≡S′) (,-inj₂ ≡P′)
       case | [ (.x •) ᵇ ] , R | [ (• .x) ᵇ ] , S′ | [ (• .x) ᵇ ] , P′ | [ ≡R ] | [ ≡S′ ] | [ ≡P′ ] =
          subcase R S′ P′ (,-inj₂ ≡R) (,-inj₂ ≡S′) (,-inj₂ ≡P′)
+-}
