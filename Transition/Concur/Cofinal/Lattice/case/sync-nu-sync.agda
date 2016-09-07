@@ -82,6 +82,10 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
          β = let open ≅-Reasoning in
             begin
                (repl y‡ *̃) P′
+            ≡⟨ cong (repl y‡ *̃) (sym ≡P′) ⟩
+               (repl y‡ *̃) (tgt pop-y*E′/E ((pop y′ *̃) R))
+            ≡⟨ cong (λ E† → (repl y‡ *̃) (tgt E† ((pop y′ *̃) R))) (sym ≡pop-y*E′/E) ⟩
+               (repl y‡ *̃) (tgt ((ᴿ.pop y *ᵇ) (E′/E (⊖₁ 𝐸))) ((pop y′ *̃) R))
             ≅⟨ {!!} ⟩
                {!!}
             ≡⟨ {!!} ⟩
