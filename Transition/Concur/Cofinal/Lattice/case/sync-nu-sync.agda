@@ -88,9 +88,13 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
                (repl y‡ *̃) (tgt ((ᴿ.pop y *ᵇ) (E′/E (⊖₁ 𝐸))) ((pop y′ *̃) R))
             ≡⟨ cong (repl y‡ *̃) (sym (renᵇ-tgt-comm (E′/E (⊖₁ 𝐸)) (pop y′) R)) ⟩
                (repl y‡ *̃) ((suc (pop y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) R))
+            ≡⟨ cong ((repl y‡ *̃) ∘ᶠ ((suc (pop y′) *̃)) ∘ᶠ tgt (E′/E (⊖₁ 𝐸))) (sym ≡R) ⟩
+               (repl y‡ *̃) ((suc (pop y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
             ≅⟨ {!!} ⟩
                {!!}
             ≡⟨ {!!} ⟩
+               (pop y† *̃) ((suc (repl y″) *̃) (braiding (ᵇ∇ᵇ {a = x •} {u •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
+            ≡⟨ cong ((pop y† *̃) ∘ᶠ (suc (repl y″) *̃)) IH₁ ⟩
                (pop y† *̃) ((suc (repl y″) *̃) (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P)))
             ≡⟨ cong ((pop y† *̃) ∘ᶠ ((suc (repl y″) *̃)) ∘ᶠ tgt (E/E′ (⊖₁ 𝐸))) ≡R′ ⟩
                (pop y† *̃) ((suc (repl y″) *̃) (tgt (E/E′ (⊖₁ 𝐸)) R′))
