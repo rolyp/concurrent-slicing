@@ -115,7 +115,7 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ {E = E ᶜ│ Q₀} {E′ ᶜ│ ._} (𝐸 ᵛᵛ│ ._) [ P │ Q ] =
       cong (λ P → [ P │ Q ]) (gamma₁ 𝐸 P)
    gamma₁ (𝐸 │• 𝐹) [ P │ Q ] =
-      {!!} -- let open │• in case 𝐸 𝐹 P Q (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q)
+      let open │• in case 𝐸 𝐹 P Q (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q)
    gamma₁ (𝐸 │•ᵥ 𝐹) [ P │ Q ] =
       {!!} -- let open │•ᵥ in case 𝐸 𝐹 P Q (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q)
    gamma₁ {E = E │ᵥ F} {E′ │ᵥ F′} (𝐸 │ᵥ 𝐹) [ P │ Q ] =
