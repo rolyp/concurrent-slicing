@@ -84,7 +84,9 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
                (repl y‡ *̃) P′
             ≅⟨ {!!} ⟩
                {!!}
-            ≡⟨ ? ⟩
+            ≡⟨ {!!} ⟩
+               (pop y† *̃) ((suc (repl y″) *̃) (tgt (E/E′ (⊖₁ 𝐸)) R′))
+            ≡⟨ cong (pop y† *̃) (renᵇ-tgt-comm (E/E′ (⊖₁ 𝐸)) (repl y″) R′) ⟩
                (pop y† *̃) (tgt ((idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸))) ((repl y″ *̃) R′))
             ≡⟨ cong (pop y† *̃) ≡P″ ⟩
                (pop y† *̃) P″
