@@ -162,7 +162,7 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync
                       (repl y *̃) ((suc push *̃) (tgt E P))
                    ≡⟨ cong (λ y† → (repl y† *̃) ((suc push *̃) (tgt E P))) ≡y′ ⟩
                       (repl (weaken ̃ y′) *̃) ((suc push *̃) (tgt E P))
-                   ≅⟨ id∘suc-push̃ y′ _ ⟩
+                   ≅⟨ id-suc-push-id̃ y′ _ ⟩
                       (suc push *̃) ((repl y′ *̃) (tgt E P))
                    ≅⟨ swap∘push̃ _ ⟩
                       (swap *̃) ((push *̃) ((repl y′ *̃) (tgt E P)))
@@ -289,7 +289,7 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-b-nu-sync
                       (repl y *̃) ((suc push *̃) (tgt E P))
                    ≡⟨ cong (λ y† → (repl y† *̃) ((suc push *̃) (tgt E P))) ≡y′ ⟩
                       (repl (weaken ̃ y′) *̃) ((suc push *̃) (tgt E P))
-                   ≅⟨ id∘suc-push̃ y′ _ ⟩
+                   ≅⟨ id-suc-push-id̃ y′ _ ⟩
                       (suc push *̃) ((repl y′ *̃) (tgt E P))
                    ≅⟨ swap∘push̃ _ ⟩
                       (swap *̃) ((push *̃) ((repl y′ *̃) (tgt E P)))

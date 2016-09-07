@@ -50,37 +50,6 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
          cheat′ : y″ ≡ y‡
          cheat′ = trustMe
 
-{-
-         β : P′ ≅ (pop y† *̃) P″
-         β = let open ≅-Reasoning in
-            begin
-               P′
-            ≡⟨ sym ≡P′ ⟩
-               tgt pop-y*E′/E ((pop y′ *̃) R)
-            ≡⟨ cong (tgt pop-y*E′/E ∘ᶠ (pop y′ *̃)) (sym ≡R) ⟩
-               tgt pop-y*E′/E ((pop y′ *̃) (tgt E P))
-            ≡⟨ cong (λ E† → tgt E† ((pop y′ *̃) (tgt E P))) (sym ≡pop-y*E′/E) ⟩
-               tgt ((ᴿ.pop y *ᵇ) (E′/E (⊖₁ 𝐸))) ((pop y′ *̃) (tgt E P))
-            ≡⟨ sym (renᵇ-tgt-comm (E′/E (⊖₁ 𝐸)) (pop y′) (tgt E P)) ⟩
-               (suc (pop y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))
-            ≅⟨ ≅-cong✴ ↓_ (sym (swap-involutive P′₀))
-                       (suc (pop y′) *̃) (≅-sym (swap-involutivẽ (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))) ⟩
-               (suc (pop y′) *̃) ((swap *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
-            ≅⟨ suc-pop∘swap̃ y′ ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))) ⟩
-               (pop (push ̃ y′) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
-            ≡⟨ cong (λ y‡ → (pop y‡ *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))) cheat ⟩
-               (pop y† *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
-            ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) (pop y† *̃) (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _)) ⟩
-               (pop y† *̃) (braiding (ᵇ∇ᵇ {a = x •} {u •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
-            ≡⟨ cong (pop y† *̃) IH₁ ⟩
-               (pop y† *̃) (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))
-            ≡⟨ cong ((pop y† *̃) ∘ᶠ tgt (E/E′ (⊖₁ 𝐸))) ≡R′ ⟩
-               (pop y† *̃) (tgt (E/E′ (⊖₁ 𝐸)) R′)
-            ≡⟨ cong (pop y† *̃) ≡P″ ⟩
-               (pop y† *̃) P″
-            ∎
--}
-
          β : (repl y‡ *̃) P′ ≅ (pop y† *̃) P″
          β = let open ≅-Reasoning in
             begin
