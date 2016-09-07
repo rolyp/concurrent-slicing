@@ -99,7 +99,7 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
             ≅⟨ ≅-cong✴ ↓_ (suc-pop∘swap y ((ᴿ.swap *) (tgt₁ (⊖₁ 𝐸))))
                        (repl y‡ *̃) (suc-pop∘swap̃ y′ ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))) ⟩
                (repl y‡ *̃) ((pop (push ̃ y′) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
-            ≅⟨ {!!} ⟩
+            ≅⟨ id-pop-push-id̃ y′ y‡ ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))) ⟩
                (pop (push ̃ y′) *̃) ((suc (repl y‡) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
             ≡⟨ cong₂ (λ z z′ → (pop z *̃) ((suc (repl z′) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))) cheat (sym cheat′) ⟩
                (pop y† *̃) ((suc (repl y″) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
@@ -144,7 +144,7 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
                braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} (cong ν_ (cong₂ _│_ α (γ₁ 𝐹))) [ ν [ (repl y‡ *̃) P′ │ Q′ ] ]
             ≅⟨ reduce-ᶜ∇ᶜ (cong ν_ (cong₂ _│_ α (γ₁ 𝐹))) _ ⟩
                [ ν [ (repl y‡ *̃) P′ │ Q′ ] ]
-            ≅⟨ [ν-]-cong (cong₂ _│_ α (γ₁ 𝐹)) ([-│-]-cong α {!!}{-β-} (γ₁ 𝐹) δ) ⟩
+            ≅⟨ [ν-]-cong (cong₂ _│_ α (γ₁ 𝐹)) ([-│-]-cong α β (γ₁ 𝐹) δ) ⟩
                [ ν [ (pop y† *̃) P″ │ Q″ ] ]
             ∎)
 
