@@ -33,13 +33,13 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
 
    module _
       (pop-y*E′/E : (ᴿ.pop y *) R₀ —[ u • ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (tgt₁ (⊖₁ 𝐸))) (R : ↓ R₀) (R′ : ↓ R′₀)
-      (S : ↓ S₀) (S′ : ↓ S′₀) (y′ : ↓ y) (y″ : ᴺ̃.↓_ {ᴺ.suc Γ} ᴺ.zero) (≡R : tgt E P ≡ R) (≡R′ : tgt E′ P ≡ R′) (≡S : tgt F Q ≡ S)
-      (≡S′ : tgt F′ Q ≡ S′) (≡pop-y*E′/E : (ᴿ.pop y *ᵇ) (E′/E (⊖₁ 𝐸)) ≡ pop-y*E′/E)
+      (S : ↓ S₀) (S′ : ↓ S′₀) (y′ : ↓ y) (y″ : ᴺ̃.↓_ {ᴺ.suc Γ} ᴺ.zero) (≡R : tgt E P ≡ R) (≡R′ : tgt E′ P ≡ R′)
+      (≡S : tgt F Q ≡ S) (≡S′ : tgt F′ Q ≡ S′) (≡pop-y*E′/E : (ᴿ.pop y *ᵇ) (E′/E (⊖₁ 𝐸)) ≡ pop-y*E′/E)
       where
 
       module _
          (P′ : ↓ (ᴿ.suc (ᴿ.pop y) *) P′₀) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) (P″ : ↓ (ᴿ.suc idᶠ *) P″₀) (Q″ : ↓ tgt₂ (⊖₁ 𝐹))
-         (y† : ᴺ̃.↓_ {ᴺ.suc Γ} (ᴺ.suc {Γ} y)) (y‡ : ᴺ̃.↓_ {ᴺ.suc Γ} ᴺ.zero) (≡P′ : tgt pop-y*E′/E ((pop y′ *̃) R) ≡ P′)
+         (y† : ᴺ̃.↓_ {ᴺ.suc Γ} (ᴺ.suc y)) (y‡ : ᴺ̃.↓_ {ᴺ.suc Γ} ᴺ.zero) (≡P′ : tgt pop-y*E′/E ((pop y′ *̃) R) ≡ P′)
          (≡Q′ : tgt (E′/E (⊖₁ 𝐹)) S ≡ Q′) (≡P″ : tgt ((idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸))) ((repl y″ *̃) R′) ≡ P″)
          (≡Q″ : tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″)
          where
@@ -77,6 +77,18 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
                (pop y† *̃) P″
             ∎
 -}
+
+         β : (repl y‡ *̃) P′ ≅ (pop y† *̃) P″
+         β = let open ≅-Reasoning in
+            begin
+               (repl y‡ *̃) P′
+            ≅⟨ {!!} ⟩
+               {!!}
+            ≡⟨ ? ⟩
+               (pop y† *̃) (tgt ((idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸))) ((repl y″ *̃) R′))
+            ≡⟨ cong (pop y† *̃) ≡P″ ⟩
+               (pop y† *̃) P″
+            ∎
 
          δ : Q′ ≅ Q″
          δ = let open ≅-Reasoning in
