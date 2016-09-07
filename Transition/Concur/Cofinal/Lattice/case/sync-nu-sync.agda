@@ -44,10 +44,13 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
          (≡Q″ : tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″)
          where
 
-{-
          cheat : push ̃ y′ ≡ y†
          cheat = trustMe
 
+         cheat′ : y″ ≡ y‡
+         cheat′ = trustMe
+
+{-
          β : P′ ≅ (pop y† *̃) P″
          β = let open ≅-Reasoning in
             begin
@@ -93,6 +96,9 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
             ≅⟨ ≅-cong✴ ↓_ (sym (swap-involutive P′₀))
                        ((repl y‡ *̃) ∘ᶠ (suc (pop y′) *̃)) (≅-sym (swap-involutivẽ (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))) ⟩
                (repl y‡ *̃) ((suc (pop y′) *̃) ((swap *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))))
+            ≅⟨ ≅-cong✴ ↓_ (suc-pop∘swap y ((ᴿ.swap *) (tgt₁ (⊖₁ 𝐸))))
+                       (repl y‡ *̃) (suc-pop∘swap̃ y′ ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))) ⟩
+               (repl y‡ *̃) ((pop (push ̃ y′) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
             ≅⟨ {!!} ⟩
                {!!}
             ≡⟨ {!!} ⟩
