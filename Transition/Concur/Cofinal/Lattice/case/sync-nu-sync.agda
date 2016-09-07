@@ -90,6 +90,9 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
                (repl y‡ *̃) ((suc (pop y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) R))
             ≡⟨ cong ((repl y‡ *̃) ∘ᶠ ((suc (pop y′) *̃)) ∘ᶠ tgt (E′/E (⊖₁ 𝐸))) (sym ≡R) ⟩
                (repl y‡ *̃) ((suc (pop y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
+            ≅⟨ ≅-cong✴ ↓_ (sym (swap-involutive P′₀))
+                       ((repl y‡ *̃) ∘ᶠ (suc (pop y′) *̃)) (≅-sym (swap-involutivẽ (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))) ⟩
+               (repl y‡ *̃) ((suc (pop y′) *̃) ((swap *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))))
             ≅⟨ {!!} ⟩
                {!!}
             ≡⟨ {!!} ⟩
