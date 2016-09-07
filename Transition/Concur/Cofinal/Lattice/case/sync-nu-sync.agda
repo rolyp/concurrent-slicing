@@ -39,7 +39,7 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
 
       module _
          (P′ : ↓ (ᴿ.suc (ᴿ.pop y) *) P′₀) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) (P″ : ↓ (ᴿ.suc idᶠ *) P″₀) (Q″ : ↓ tgt₂ (⊖₁ 𝐹))
-         (y† : ↓ ᴺ.suc y) (y‡ : ᴺ̃.↓_ {ᴺ.suc Γ} ᴺ.zero) (≡P′ : tgt pop-y*E′/E ((pop y′ *̃) R) ≡ P′)
+         (y† : ᴺ̃.↓_ {ᴺ.suc Γ} (ᴺ.suc {Γ} y)) (y‡ : ᴺ̃.↓_ {ᴺ.suc Γ} ᴺ.zero) (≡P′ : tgt pop-y*E′/E ((pop y′ *̃) R) ≡ P′)
          (≡Q′ : tgt (E′/E (⊖₁ 𝐹)) S ≡ Q′) (≡P″ : tgt ((idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸))) ((repl y″ *̃) R′) ≡ P″)
          (≡Q″ : tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″)
          where
@@ -76,6 +76,7 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
             ≡⟨ cong (pop y† *̃) ≡P″ ⟩
                (pop y† *̃) P″
             ∎
+-}
 
          δ : Q′ ≅ Q″
          δ = let open ≅-Reasoning in
@@ -94,7 +95,6 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
             ≡⟨ ≡Q″ ⟩
                Q″
             ∎
--}
 
          base :
             braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} (cong ν_ (cong₂ _│_ α (γ₁ 𝐹)))
@@ -107,7 +107,7 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
                braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} (cong ν_ (cong₂ _│_ α (γ₁ 𝐹))) [ ν [ (repl y‡ *̃) P′ │ Q′ ] ]
             ≅⟨ reduce-ᶜ∇ᶜ (cong ν_ (cong₂ _│_ α (γ₁ 𝐹))) _ ⟩
                [ ν [ (repl y‡ *̃) P′ │ Q′ ] ]
-            ≅⟨ [ν-]-cong (cong₂ _│_ α (γ₁ 𝐹)) ([-│-]-cong α {!!}{-β-} (γ₁ 𝐹) {!!}{-δ-}) ⟩
+            ≅⟨ [ν-]-cong (cong₂ _│_ α (γ₁ 𝐹)) ([-│-]-cong α {!!}{-β-} (γ₁ 𝐹) δ) ⟩
                [ ν [ (pop y† *̃) P″ │ Q″ ] ]
             ∎)
 
