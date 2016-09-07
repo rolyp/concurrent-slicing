@@ -4,6 +4,7 @@ open import Transition.Concur.Cofinal.Lattice.Common
 import Relation.Binary.EqReasoning as EqReasoning
 import Name as ᴺ
 import Name.Lattice as ᴺ̃
+import Proc.Lattice as ᴾ̃
 import Ren as ᴿ
 
 module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
@@ -148,17 +149,26 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
          base P′ Q′ P″ Q″ y† (,-inj₂ ≡P′) (,-inj₂ ≡Q′) (,-inj₂ ≡P″) (,-inj₂ ≡Q″)
 -}
 
+      postulate
+       subcase :
+         braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} (cong ν_ (cong₂ _│_ {!!} (γ₁ 𝐹)))
+         (tgt (pop-y*E′/E │ᵥ E′/E (⊖₁ 𝐹)) [ (pop ◻ *̃) R │ S ])
+         ≡
+         tgt (νᶜ ((idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸)) │• E/E′ (⊖₁ 𝐹))) [ ν [ (repl ◻ *̃) R′ │ S′ ] ]
+
    case :
       braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} (γ₁ (𝐸 │•ᵥ 𝐹))
       (tgt (E′/E (⊖₁ (𝐸 │•ᵥ 𝐹))) (tgt (E │• F) [ P │ Q ]))
       ≡
       (tgt (E/E′ (⊖₁ (𝐸 │•ᵥ 𝐹))) (tgt (E′ │ᵥ F′) [ P │ Q ]))
-   case
-      with (ᴿ.pop y *ᵇ) (E′/E (⊖₁ 𝐸)) | inspect (ᴿ.pop y *ᵇ) (E′/E (⊖₁ 𝐸))
+   case with (ᴿ.pop y *ᵇ) (E′/E (⊖₁ 𝐸)) | inspect (ᴿ.pop y *ᵇ) (E′/E (⊖₁ 𝐸))
    ... | pop-y*E′/E | [ ≡pop-y*E′/E ]
       with step E P | step F Q | step E′ P | step F′ Q |
            inspect (step E) P | inspect (step F) Q | inspect (step E′) P | inspect (step F′) Q
+   ... | ◻ , R | ◻ , S | ◻ , R′ | ◻ , S′ | [ ≡R ] | [ ≡S ] | [ ≡R′ ] | [ ≡S′ ] =
+      subcase pop-y*E′/E R R′ S S′ ◻ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) ≡pop-y*E′/E
    ... | p , R | q , S | r , R′ | s , S′ | [ ≡R ] | [ ≡S ] | [ ≡R′ ] | [ ≡S′ ] = {!!}
+
 {-
    ... | ◻ , R | ◻ , S | ◻ , R′ | ◻ , S′ | [ ≡R ] | [ ≡S ] | [ ≡R′ ] | [ ≡S′ ] =
       subcase pop-y*E′/E R R′ S S′ ◻ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) ≡pop-y*E′/E
