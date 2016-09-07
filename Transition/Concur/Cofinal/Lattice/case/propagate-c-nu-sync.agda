@@ -113,16 +113,14 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-c-nu-sync
          (≡P′ : tgt (E′/E (⊖₁ 𝐹)) (tgt F Q) ≡ P′) (≡y″ : y′ ≡ y″)
          where
 
-{-
          base :
             (Q″ : ↓ Q″₀) (≡Q″ : tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″) →
             braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} (cong ν_ (cong₂ _│_ refl (γ₁ 𝐹)))
-            [ ν [ R │ P′ ] ]
+            [ ν [ (repl y′ *̃) R │ P′ ] ]
             ≡
-            [ ν [ R │ Q″ ] ]
-
+            [ ν [ (repl y″ *̃) R │ Q″ ] ]
          base Q″ ≡Q″ =
-            let α : ν (R₀ │ tgt₁ (⊖₁ 𝐹)) ≡ ν (R₀ │ Proc↱ refl (tgt₂ (⊖₁ 𝐹)))
+            let α : ν ((idᶠ *) R₀ │ tgt₁ (⊖₁ 𝐹)) ≡ ν ((idᶠ *) R₀ │ Proc↱ refl (tgt₂ (⊖₁ 𝐹)))
                 α = cong ν_ (cong₂ _│_ refl (γ₁ 𝐹))
                 δ : P′ ≅ Q″
                 δ = let open ≅-Reasoning in
@@ -141,26 +139,22 @@ module Transition.Concur.Cofinal.Lattice.case.propagate-c-nu-sync
                    ∎
                 open ≅-Reasoning in ≅-to-≡ (
             begin
-               braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} α [ ν [ R │ P′ ] ]
+               braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} α [ ν [ (repl y′ *̃) R │ P′ ] ]
             ≅⟨ reduce-ᶜ∇ᶜ α _ ⟩
-               [ ν [ R │ P′ ] ]
-            ≅⟨ [ν-]-cong (cong₂ _│_ refl (γ₁ 𝐹)) ([│-]-cong R (γ₁ 𝐹) δ) ⟩
-               [ ν [ R │ Q″ ] ]
+               [ ν [ (repl y′ *̃) R │ P′ ] ]
+            ≅⟨ [ν-]-cong (cong₂ _│_ refl (γ₁ 𝐹))
+                         ([-│-]-cong refl (≡-to-≅ (cong (λ y† → (repl y† *̃) R) ≡y″)) (γ₁ 𝐹) δ) ⟩
+               [ ν [ (repl y″ *̃) R │ Q″ ] ]
             ∎)
--}
 
-       postulate
          subcase :
             braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} (cong ν_ (cong₂ _│_ refl (γ₁ 𝐹)))
             [ ν [ (repl y′ *̃) R │ P′ ] ]
             ≡
             tgt (νᶜ ((idᶠ *) R₀ │ᶜ E/E′ (⊖₁ 𝐹))) [ ν [ (repl y″ *̃) R │ S′ ] ]
-{-
-         subcase
-            with step (E/E′ (⊖₁ 𝐹)) S′ | inspect (step (E/E′ (⊖₁ 𝐹))) S′
+         subcase with step (E/E′ (⊖₁ 𝐹)) S′ | inspect (step (E/E′ (⊖₁ 𝐹))) S′
          ... | ◻ , Q″ | [ ≡Q″ ] = base Q″ (,-inj₂ ≡Q″)
          ... | [ τ ᶜ ] , Q″ | [ ≡Q″ ] = base Q″ (,-inj₂ ≡Q″)
--}
 
       case :
          braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} (cong ν_ (cong₂ _│_ refl (γ₁ 𝐹)))
