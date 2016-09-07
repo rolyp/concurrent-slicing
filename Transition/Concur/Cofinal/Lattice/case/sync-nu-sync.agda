@@ -17,13 +17,17 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
       P′₀ = tgt₁ (⊖₁ 𝐸); P″₀ = tgt₂(⊖₁ 𝐸)
       α = let open EqReasoning (setoid _) in
          begin
-            ((ᴿ.suc (ᴿ.pop y) *) P′₀)
+            (idᶠ *) ((ᴿ.suc (ᴿ.pop y) *) P′₀)
+         ≡⟨ *-preserves-id _ ⟩
+            (ᴿ.suc (ᴿ.pop y) *) P′₀
          ≡⟨ cong (ᴿ.suc (ᴿ.pop y) *) (sym (swap-involutive _ )) ⟩
             (ᴿ.suc (ᴿ.pop y) *) ((ᴿ.swap *) ((ᴿ.swap *) P′₀))
          ≡⟨ cong (ᴿ.suc (ᴿ.pop y) *) (cong (ᴿ.swap *) (γ₁ 𝐸)) ⟩
             (ᴿ.suc (ᴿ.pop y) *) ((ᴿ.swap *) P″₀)
          ≡⟨ suc-pop∘swap y _ ⟩
             (ᴿ.pop (ᴺ.suc y) *) P″₀
+         ≡⟨ cong (ᴿ.pop (ᴺ.suc y) *) (sym (+-id-elim 1 P″₀)) ⟩
+            (ᴿ.pop (ᴺ.suc y) *) ((ᴿ.suc idᶠ *) P″₀)
          ∎)
    where
 
@@ -33,6 +37,7 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
       (≡S′ : tgt F′ Q ≡ S′) (≡pop-y*E′/E : (ᴿ.pop y *ᵇ) (E′/E (⊖₁ 𝐸)) ≡ pop-y*E′/E)
       where
 
+{-
       module _
          (P′ : ↓ (ᴿ.suc (ᴿ.pop y) *) P′₀) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) (P″ : ↓ P″₀) (Q″ : ↓ tgt₂ (⊖₁ 𝐹)) (y† : ↓ ᴺ.suc y)
          (≡P′ : tgt pop-y*E′/E ((pop y′ *̃) R) ≡ P′) (≡Q′ : tgt (E′/E (⊖₁ 𝐹)) S ≡ Q′)
@@ -104,7 +109,6 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
                [ ν [ (pop y† *̃) P″ │ Q″ ] ]
             ∎)
 
-{-
       subcase
          with step pop-y*E′/E ((pop y′ *̃) R) | step (E′/E (⊖₁ 𝐹)) S | step (E/E′ (⊖₁ 𝐸)) R′ | step (E/E′ (⊖₁ 𝐹)) S′ |
               inspect (step pop-y*E′/E) ((pop y′ *̃) R) | inspect (step (E′/E (⊖₁ 𝐹))) S |
@@ -151,7 +155,7 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
 
       postulate
        subcase :
-         braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} (cong ν_ (cong₂ _│_ {!!} (γ₁ 𝐹)))
+         braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} (cong ν_ (cong₂ _│_ α (γ₁ 𝐹)))
          (tgt (pop-y*E′/E │ᵥ E′/E (⊖₁ 𝐹)) [ (pop ◻ *̃) R │ S ])
          ≡
          tgt (νᶜ ((idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸)) │• E/E′ (⊖₁ 𝐹))) [ ν [ (repl ◻ *̃) R′ │ S′ ] ]
