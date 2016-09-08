@@ -58,10 +58,12 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-x-x-nu-sync
                 ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) (pop y‡ *̃) (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _)) ⟩
                    (pop y‡ *̃) (braiding ᵇ∇ᵇ {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
                 ≡⟨ cong (pop y‡ *̃) IH₁ ⟩
-                   (pop y‡ *̃) (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))
-                ≡⟨ cong ((pop y‡ *̃) ∘ᶠ tgt (E/E′ (⊖₁ 𝐸))) ≡R′ ⟩
 -}
                 ≅⟨ {!!} ⟩
+                   (pop y‡ *̃) ((suc (repl y′) *̃) (tgt ((E/E′ (⊖₁ 𝐸))) (tgt E′ P)))
+                ≡⟨ cong ((pop y‡ *̃) ∘ᶠ (suc (repl y′) *̃) ∘ᶠ tgt ((E/E′ (⊖₁ 𝐸)))) ≡R′ ⟩
+                   (pop y‡ *̃) ((suc (repl y′) *̃) (tgt ((E/E′ (⊖₁ 𝐸))) R′))
+                ≡⟨ cong (pop y‡ *̃) (renᵇ-tgt-comm (E/E′ (⊖₁ 𝐸)) (repl y′) R′) ⟩
                    (pop y‡ *̃) (tgt ((idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸))) ((repl y′ *̃) R′))
                 ≡⟨ cong (pop y‡ *̃) ≡P″ ⟩
                    (pop y‡ *̃) P″
