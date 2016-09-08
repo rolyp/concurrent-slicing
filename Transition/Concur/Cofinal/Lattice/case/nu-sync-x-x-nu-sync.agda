@@ -36,13 +36,13 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-x-x-nu-sync
          cheat : (y† y‡ : ↓ ᴺ.zero) →
                  (pop y† *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)) ≅ (pop y‡ *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
 
-         base : (P′ : ↓ (ᴿ.suc idᶠ *) P′₀) (Q′ : ↓ Q′₀) (P″ : ↓ (ᴿ.suc idᶠ *) P″₀) (Q″ : ↓ Q″₀) (y† y‡ : ↓ ᴺ.zero) →
-                tgt ((idᶠ *ᵇ) (E′/E (⊖₁ 𝐸))) ((repl y *̃) R) ≡ P′ → tgt (E′/E (⊖₁ 𝐹)) S ≡ Q′ →
-                tgt ((idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸))) ((repl y′ *̃) R′) ≡ P″ → tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″ →
-                braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} α
-                [ ν [ (pop y† *̃) P′ │ Q′ ] ] ≡ [ ν [ (pop y‡ *̃) P″ │ Q″ ] ]
+      base : (P′ : ↓ (ᴿ.suc idᶠ *) P′₀) (Q′ : ↓ Q′₀) (P″ : ↓ (ᴿ.suc idᶠ *) P″₀) (Q″ : ↓ Q″₀) (y† y‡ : ↓ ᴺ.zero) →
+             tgt ((idᶠ *ᵇ) (E′/E (⊖₁ 𝐸))) ((repl y *̃) R) ≡ P′ → tgt (E′/E (⊖₁ 𝐹)) S ≡ Q′ →
+             tgt ((idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸))) ((repl y′ *̃) R′) ≡ P″ → tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″ →
+             braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} α
+             [ ν [ (pop y† *̃) P′ │ Q′ ] ] ≡ [ ν [ (pop y‡ *̃) P″ │ Q″ ] ]
+      base P′ Q′ P″ Q″ y† y‡ ≡P′ ≡Q′ ≡P″ ≡Q″ =
 {-
-      base P′ Q′ P″ Q″ ≡P′ ≡Q′ ≡P″ ≡Q″ y† y‡ =
          let β : (pop y† *̃) P′ ≅ (pop y‡ *̃) P″
              β = let open ≅-Reasoning in
                 begin
@@ -62,7 +62,8 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-x-x-nu-sync
                 ≡⟨ cong (pop y‡ *̃) ≡P″ ⟩
                    (pop y‡ *̃) P″
                 ∎
-             δ = Q′ ≅ Q″
+-}
+         let δ = Q′ ≅ Q″
              δ = let open ≅-Reasoning in
                 begin
                    Q′
@@ -84,10 +85,9 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-x-x-nu-sync
             braiding ᶜ∇ᶜ {0} α [ ν [ (pop y† *̃) P′ │ Q′ ] ]
          ≅⟨ reduce-ᶜ∇ᶜ α _ ⟩
             [ ν [ (pop y† *̃) P′ │ Q′ ] ]
-         ≅⟨ [ν-]-cong (cong₂ _│_ γ (γ₁ 𝐹)) ([-│-]-cong γ β (γ₁ 𝐹) δ) ⟩
+         ≅⟨ [ν-]-cong (cong₂ _│_ γ (γ₁ 𝐹)) ([-│-]-cong γ {!!}{-β-} (γ₁ 𝐹) δ) ⟩
             [ ν [ (pop y‡ *̃) P″ │ Q″ ] ]
          ∎)
--}
 
       subcase :
           braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} α
