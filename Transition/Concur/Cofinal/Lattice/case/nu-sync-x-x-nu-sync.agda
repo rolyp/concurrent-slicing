@@ -54,7 +54,7 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-x-x-nu-sync
                    (pop y† *̃) ((suc (repl y) *̃) (tgt ((E′/E (⊖₁ 𝐸))) R))
                 ≡⟨ cong ((pop y† *̃) ∘ᶠ (suc (repl y) *̃) ∘ᶠ tgt (E′/E (⊖₁ 𝐸))) (sym ≡R) ⟩
                    (pop y† *̃) ((suc (repl y) *̃) (tgt ((E′/E (⊖₁ 𝐸))) (tgt E P)))
-                ≅⟨ {!!} ⟩
+                ≅⟨ ≅-sym (id-pop-swap̃ y y† (tgt ((E′/E (⊖₁ 𝐸))) (tgt E P))) ⟩
                    (pop y *̃) ((suc (repl y†) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
                 ≡⟨ cong₂ (λ z z′ → (pop z *̃) ((suc (repl z′) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))))
                          cheat₁ (sym cheat₂) ⟩
