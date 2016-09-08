@@ -76,7 +76,9 @@ module Ren.Lattice.Properties where
                       (suc (pop y′) *̃) ((swap *̃) P′) ≅ (pop (push ̃ y′) *̃) P′
       swap-swap̃ : ∀ {Γ} {P P′ : Proc (Γ + 2)} {P† : ↓ P} {P‡ : ↓ P′} → (swap *̃) P† ≅ P‡ → P† ≅ (swap *̃) P‡
 
-      -- Some id-related properties which become non-trivial in the presence of slicing.
+      -- Some id-related properties which become non-trivial in the presence of slicing; sanity-checked
+      -- on paper using string diagrams.
+
       -- Corresponds to id ∘ swap = swap ∘ id.
       id-swap-id̃ : ∀ {Γ} (y : ↓ ᴺ.zero) {P : Proc (Γ + 2)} (P′ : ↓ P) →
                     (repl (weaken ̃ y) *̃) ((swap *̃) P′) ≅ (swap *̃) ((suc (repl y) *̃) P′)
@@ -86,3 +88,7 @@ module Ren.Lattice.Properties where
       -- Corresponds to id ∘ pop (push y) ≡ pop (push y) ∘ id.
       id-pop-push-id̃ : ∀ {Γ} {y : Name Γ} (y† : ᴺ̃.↓ y) (y‡ : ᴺ̃.↓_ {ᴺ.suc Γ} ᴺ.zero) {P : Proc (Γ + 2)} (P′ : ↓ P) →
                         (repl y‡ *̃) ((pop (push ̃ y†) *̃) P′) ≅ (pop (push ̃ y†) *̃) ((suc (repl y‡) *̃) P′)
+
+      -- Corresponds to pop zero ∘ swap = pop zero
+      id-pop-swap̃ : ∀ {Γ} (y y′ : ↓ ᴺ.zero) {P : Proc (Γ + 2)} (P′ : ↓ P) →
+                     (pop y *̃) ((suc (repl y′) *̃) ((swap *̃) P′)) ≅ (pop y′ *̃) ((suc (repl y) *̃) P′)

@@ -32,17 +32,19 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-x-x-nu-sync
       (R : ↓ R₀) (R′ : ↓ R′₀) (S : ↓ S₀) (S′ : ↓ S′₀) (y y′ : ᴺ̃.↓_ {ᴺ.suc Γ} ᴺ.zero) (≡R : tgt E P ≡ R) (≡R′ : tgt E′ P ≡ R′)
       (≡S : tgt F Q ≡ S) (≡S′ : tgt F′ Q ≡ S′) where
 
-      postulate
-         cheat : (y† y‡ : ↓ ᴺ.zero) →
-                 (pop y† *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)) ≅ (pop y‡ *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
-
       base : (P′ : ↓ (ᴿ.suc idᶠ *) P′₀) (Q′ : ↓ Q′₀) (P″ : ↓ (ᴿ.suc idᶠ *) P″₀) (Q″ : ↓ Q″₀) (y† y‡ : ↓ ᴺ.zero) →
              tgt ((idᶠ *ᵇ) (E′/E (⊖₁ 𝐸))) ((repl y *̃) R) ≡ P′ → tgt (E′/E (⊖₁ 𝐹)) S ≡ Q′ →
              tgt ((idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸))) ((repl y′ *̃) R′) ≡ P″ → tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″ →
              braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} α
              [ ν [ (pop y† *̃) P′ │ Q′ ] ] ≡ [ ν [ (pop y‡ *̃) P″ │ Q″ ] ]
       base P′ Q′ P″ Q″ y† y‡ ≡P′ ≡Q′ ≡P″ ≡Q″ =
-         let β : (pop y† *̃) P′ ≅ (pop y‡ *̃) P″
+         let cheat₁ : y ≡ y‡
+             cheat₁ = trustMe
+
+             cheat₂ : y′ ≡ y†
+             cheat₂ = trustMe
+
+             β : (pop y† *̃) P′ ≅ (pop y‡ *̃) P″
              β = let open ≅-Reasoning in
                 begin
                    (pop y† *̃) P′
@@ -52,15 +54,15 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-x-x-nu-sync
                    (pop y† *̃) ((suc (repl y) *̃) (tgt ((E′/E (⊖₁ 𝐸))) R))
                 ≡⟨ cong ((pop y† *̃) ∘ᶠ (suc (repl y) *̃) ∘ᶠ tgt (E′/E (⊖₁ 𝐸))) (sym ≡R) ⟩
                    (pop y† *̃) ((suc (repl y) *̃) (tgt ((E′/E (⊖₁ 𝐸))) (tgt E P)))
-{-
-                ≅⟨ cheat y† y‡ ⟩
-                   (pop y‡ *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
-                ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) (pop y‡ *̃) (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _)) ⟩
-                   (pop y‡ *̃) (braiding ᵇ∇ᵇ {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
-                ≡⟨ cong (pop y‡ *̃) IH₁ ⟩
--}
                 ≅⟨ {!!} ⟩
-                   (pop y‡ *̃) ((suc (repl y′) *̃) (tgt ((E/E′ (⊖₁ 𝐸))) (tgt E′ P)))
+                   (pop y *̃) ((suc (repl y†) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
+                ≡⟨ cong₂ (λ z z′ → (pop z *̃) ((suc (repl z′) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))))
+                         cheat₁ (sym cheat₂) ⟩
+                   (pop y‡ *̃) ((suc (repl y′) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
+                ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) ((pop y‡ *̃) ∘ᶠ (suc (repl y′) *̃)) (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _)) ⟩
+                   (pop y‡ *̃) ((suc (repl y′) *̃) (braiding (ᵇ∇ᵇ {a = x •} {u •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
+                ≡⟨ cong ((pop y‡ *̃) ∘ᶠ (suc (repl y′) *̃)) IH₁ ⟩
+                   (pop y‡ *̃) ((suc (repl y′) *̃) (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P)))
                 ≡⟨ cong ((pop y‡ *̃) ∘ᶠ (suc (repl y′) *̃) ∘ᶠ tgt ((E/E′ (⊖₁ 𝐸)))) ≡R′ ⟩
                    (pop y‡ *̃) ((suc (repl y′) *̃) (tgt ((E/E′ (⊖₁ 𝐸))) R′))
                 ≡⟨ cong (pop y‡ *̃) (renᵇ-tgt-comm (E/E′ (⊖₁ 𝐸)) (repl y′) R′) ⟩
