@@ -48,11 +48,11 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-x-x-nu-sync
                    (pop y† *̃) P′
                 ≡⟨ cong (pop y† *̃) (sym ≡P′) ⟩
                    (pop y† *̃) (tgt ((idᶠ *ᵇ) (E′/E (⊖₁ 𝐸))) ((repl y *̃) R))
-                ≡⟨ cong (pop y† *̃) (sym (renᵇ-tgt-comm (E′/E (⊖₁ 𝐸)) (repl y) {!R!})) ⟩
+                ≡⟨ cong (pop y† *̃) (sym (renᵇ-tgt-comm (E′/E (⊖₁ 𝐸)) (repl y) R)) ⟩
                    (pop y† *̃) ((suc (repl y) *̃) (tgt ((E′/E (⊖₁ 𝐸))) R))
+                ≡⟨ cong ((pop y† *̃) ∘ᶠ (suc (repl y) *̃) ∘ᶠ tgt (E′/E (⊖₁ 𝐸))) (sym ≡R) ⟩
+                   (pop y† *̃) ((suc (repl y) *̃) (tgt ((E′/E (⊖₁ 𝐸))) (tgt E P)))
 {-
-                ≡⟨ cong ((pop y† *̃) ∘ᶠ tgt (E′/E (⊖₁ 𝐸))) (sym ≡R) ⟩
-                   (pop y† *̃) (tgt (E′/E (⊖₁ 𝐸)) ((tgt E P)))
                 ≅⟨ cheat y† y‡ ⟩
                    (pop y‡ *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
                 ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) (pop y‡ *̃) (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _)) ⟩
