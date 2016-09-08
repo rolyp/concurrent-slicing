@@ -46,9 +46,11 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-x-x-nu-sync
              β = let open ≅-Reasoning in
                 begin
                    (pop y† *̃) P′
-{-
                 ≡⟨ cong (pop y† *̃) (sym ≡P′) ⟩
-                   (pop y† *̃) (tgt (E′/E (⊖₁ 𝐸)) R)
+                   (pop y† *̃) (tgt ((idᶠ *ᵇ) (E′/E (⊖₁ 𝐸))) ((repl y *̃) R))
+                ≡⟨ cong (pop y† *̃) (sym (renᵇ-tgt-comm (E′/E (⊖₁ 𝐸)) (repl y) {!R!})) ⟩
+                   (pop y† *̃) ((suc (repl y) *̃) (tgt ((E′/E (⊖₁ 𝐸))) R))
+{-
                 ≡⟨ cong ((pop y† *̃) ∘ᶠ tgt (E′/E (⊖₁ 𝐸))) (sym ≡R) ⟩
                    (pop y† *̃) (tgt (E′/E (⊖₁ 𝐸)) ((tgt E P)))
                 ≅⟨ cheat y† y‡ ⟩
@@ -58,10 +60,10 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-x-x-nu-sync
                 ≡⟨ cong (pop y‡ *̃) IH₁ ⟩
                    (pop y‡ *̃) (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P))
                 ≡⟨ cong ((pop y‡ *̃) ∘ᶠ tgt (E/E′ (⊖₁ 𝐸))) ≡R′ ⟩
-                   (pop y‡ *̃) (tgt (E/E′ (⊖₁ 𝐸)) R′)
-                ≡⟨ cong (pop y‡ *̃) ≡P″ ⟩
 -}
-                ≅⟨ ? ⟩
+                ≅⟨ {!!} ⟩
+                   (pop y‡ *̃) (tgt ((idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸))) ((repl y′ *̃) R′))
+                ≡⟨ cong (pop y‡ *̃) ≡P″ ⟩
                    (pop y‡ *̃) P″
                 ∎
              δ = Q′ ≅ Q″
