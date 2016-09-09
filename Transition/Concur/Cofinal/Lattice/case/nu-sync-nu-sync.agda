@@ -36,7 +36,7 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
                    (swap *̃) ((repl y† *̃) ((suc (repl y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
                 ≡⟨ cong (λ z → (swap *̃) ((repl z *̃) ((suc (repl y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))) (sym cheat₁) ⟩
                    (swap *̃) ((repl (weaken ̃ y) *̃) ((suc (repl y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
-                ≅⟨ {!!} ⟩
+                ≅⟨ ≅-sym (id-suc-id-swap-id-suc-id̃ y y′ (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))) ⟩
                    (repl (weaken ̃ y′) *̃) ((suc (repl y) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
                 ≡⟨ cong (λ z → ((repl z *̃) ((suc (repl y) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))))) cheat₂ ⟩
                    (repl y‡ *̃) ((suc (repl y) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))

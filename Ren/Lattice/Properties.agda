@@ -82,6 +82,10 @@ module Ren.Lattice.Properties where
       -- Corresponds to id ∘ swap = swap ∘ id.
       id-swap-id̃ : ∀ {Γ} (y : ↓ ᴺ.zero) {P : Proc (Γ + 2)} (P′ : ↓ P) →
                     (repl (weaken ̃ y) *̃) ((swap *̃) P′) ≅ (swap *̃) ((suc (repl y) *̃) P′)
+      -- Corresponds to id ∘ suc id ∘ swap = swap ∘ id ∘ suc id.
+      id-suc-id-swap-id-suc-id̃ : ∀ {Γ} (y y′ : ↓ ᴺ.zero) {P : Proc (Γ + 2)} (P′ : ↓ P) →
+                                  (repl (weaken ̃ y′) *̃) ((suc (repl y) *̃) ((swap *̃) P′)) ≅
+                                  (swap *̃) ((repl (weaken ̃ y) *̃) ((suc (repl y′) *̃) P′))
       -- Corresponds to id ∘ suc push ≡ suc push ∘ id.
       id-suc-push-id̃ : ∀ {Γ} (y : ↓ ᴺ.zero) {P : Proc (Γ + 1)} (P′ : ↓ P) →
                         (repl (weaken ̃ y) *̃) ((suc push *̃) P′) ≅ (suc push *̃) ((repl y *̃) P′)
