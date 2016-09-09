@@ -83,17 +83,14 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
          begin
             braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ (repl y† *̃) P′ │ Q′ ] ] ]
          ≅⟨ coerce-braid ((repl y† *̃) P′) Q′ ⟩
-            braid̂ (νν-swapᵣ ((idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸))) │ tgt₁ (⊖₁ 𝐹))) [ ν [ ν [ (repl y† *̃) P′ │ Q′ ] ] ]
-         ≡⟨ refl ⟩
             [ ν [ ν ((swap *̃) [ (repl y† *̃) P′ │ Q′ ]) ] ]
          ≅⟨ [ν-]-cong (cong ν_ (cong₂ _│_ α (γ₁ 𝐹)))
                       ([ν-]-cong (cong₂ _│_ α (γ₁ 𝐹)) ([-│-]-cong α β (γ₁ 𝐹) γ)) ⟩
             [ ν [ ν [ (repl y‡ *̃) P″ │ Q″ ] ] ]
          ∎) where
              coerce-braid : (P′ : ↓ (idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸)))) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) →
-                            braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ P′ │ Q′ ] ] ] ≅
-                            braid̂ (νν-swapᵣ ((idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸))) │ tgt₁ (⊖₁ 𝐹))) [ ν [ ν [ P′ │ Q′ ] ] ]
-             coerce-braid _ _ rewrite (sym (γ₁ 𝐸)) | (sym (γ₁ 𝐹)) = {!!} --≅-refl
+                            braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ P′ │ Q′ ] ] ] ≅ [ ν [ ν ((swap *̃) [ P′ │ Q′ ]) ] ]
+             coerce-braid _ _ rewrite sym (γ₁ 𝐸) | sym (γ₁ 𝐹) = {!!} --≅-refl
 
       subcase :
          braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹))
