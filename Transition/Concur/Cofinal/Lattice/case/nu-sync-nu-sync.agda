@@ -18,13 +18,15 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
       coerce-braid : (P′ : ↓ (ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸))) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) (y† : ↓ ᴺ.zero) →
                      braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ (repl y† *̃) P′ │ Q′ ] ] ] ≅
                      braid̂ (νν-swapᵣ (tgt₁ (⊖₁ 𝐸) │ tgt₁ (⊖₁ 𝐹))) [ ν [ ν [ (repl y† *̃) P′ │ Q′ ] ] ]
-      coerce-braid _ _ rewrite (sym (γ₁ 𝐸)) | (sym (γ₁ 𝐹)) = ? --≅-refl
+      coerce-braid = ? --_ _ rewrite (sym (γ₁ 𝐸)) | (sym (γ₁ 𝐹)) = ? --≅-refl
 -}
       base : (P′ : ↓ (ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸))) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) (P″ : ↓ (ᴿ.suc idᶠ *) (tgt₂ (⊖₁ 𝐸)))
              (Q″ : ↓ tgt₂ (⊖₁ 𝐹)) (y† y‡ : ↓ ᴺ.zero) → tgt ((idᶠ *ᵇ) (E′/E (⊖₁ 𝐸))) ((repl y′ *̃)  R) ≡ P′ →
              tgt (E′/E (⊖₁ 𝐹)) S ≡ Q′ → tgt ((idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸))) ((repl y *̃) R′) ≡ P″ → tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″ →
              braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ (repl y† *̃) P′ │ Q′ ] ] ] ≡ [ ν [ ν [ (repl y‡ *̃) P″ │ Q″ ] ] ]
       base P′ Q′ P″ Q″ y† y‡ ≡P′ ≡Q′ ≡P″ ≡Q″ =
+         let β : (swap *̃) ((repl y† *̃) P′) ≅ (repl y‡ *̃) P″
+             β = {!!}
 {-
          let β : (swap *̃) P′ ≅ P″
              β = let open ≅-Reasoning in
@@ -39,6 +41,7 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
                 ≡⟨ trans (cong (tgt (E/E′ (⊖₁ 𝐸))) ≡R′) ≡P″ ⟩
                    P″
                 ∎
+-}
              γ : (swap *̃) Q′ ≅ Q″
              γ = let open ≅-Reasoning in
                 begin
@@ -52,8 +55,7 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
                 ≡⟨ trans (cong (tgt (E/E′ (⊖₁ 𝐹))) ≡S′) ≡Q″ ⟩
                    Q″
                 ∎
--}
-         let open ≅-Reasoning in ≅-to-≡ (
+             open ≅-Reasoning in ≅-to-≡ (
          begin
             braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ (repl y† *̃) P′ │ Q′ ] ] ]
          ≅⟨ {!!} ⟩
@@ -61,7 +63,10 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
          ≅⟨ coerce-braid P′ Q′ ⟩
             braid̂ (νν-swapᵣ (tgt₁ (⊖₁ 𝐸) │ tgt₁ (⊖₁ 𝐹))) [ ν [ ν [ P′ │ Q′ ] ] ]
          ≡⟨ refl ⟩
-            [ ν [ ν [ (swap *̃) P′ │ (swap *̃) Q′ ] ] ]
+-}
+            [ ν [ ν [ (swap *̃) ((repl y† *̃) P′) │ (swap *̃) Q′ ] ] ]
+         ≅⟨ {!!} ⟩
+{-
          ≅⟨ [ν-]-cong (cong ν_ (cong₂ _│_ (γ₁ 𝐸) (γ₁ 𝐹)))
                       ([ν-]-cong (cong₂ _│_ (γ₁ 𝐸) (γ₁ 𝐹)) ([-│-]-cong (γ₁ 𝐸) β (γ₁ 𝐹) γ)) ⟩
 -}
