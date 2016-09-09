@@ -20,13 +20,33 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
              tgt (E′/E (⊖₁ 𝐹)) S ≡ Q′ → tgt ((idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸))) ((repl y *̃) R′) ≡ P″ → tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″ →
              braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ (repl y† *̃) P′ │ Q′ ] ] ] ≡ [ ν [ ν [ (repl y‡ *̃) P″ │ Q″ ] ] ]
       base P′ Q′ P″ Q″ y† y‡ ≡P′ ≡Q′ ≡P″ ≡Q″ =
-         let β : (swap *̃) ((repl y† *̃) P′) ≅ (repl y‡ *̃) P″
+         let cheat₁ : weaken ̃ y ≡ y†
+             cheat₁ = trustMe
+             cheat₂ : weaken ̃ y′ ≡ y‡
+             cheat₂ = trustMe
+             β : (swap *̃) ((repl y† *̃) P′) ≅ (repl y‡ *̃) P″
              β = let open ≅-Reasoning in
                 begin
                    (swap *̃) ((repl y† *̃) P′)
                 ≡⟨ cong ((swap *̃) ∘ᶠ (repl y† *̃)) (sym ≡P′) ⟩
                    (swap *̃) ((repl y† *̃) (tgt ((idᶠ *ᵇ) (E′/E (⊖₁ 𝐸))) ((repl y′ *̃) R)))
+                ≡⟨ cong ((swap *̃) ∘ᶠ (repl y† *̃)) (sym (renᵇ-tgt-comm (E′/E (⊖₁ 𝐸)) (repl y′) R)) ⟩
+                   (swap *̃) ((repl y† *̃) ((suc (repl y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) R)))
+                ≡⟨ cong ((swap *̃) ∘ᶠ (repl y† *̃) ∘ᶠ (suc (repl y′) *̃) ∘ᶠ tgt (E′/E (⊖₁ 𝐸))) (sym ≡R) ⟩
+                   (swap *̃) ((repl y† *̃) ((suc (repl y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
                 ≅⟨ {!!} ⟩
+                   (swap *̃) ((repl (weaken ̃ y) *̃) ((suc (repl y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
+                ≅⟨ {!!} ⟩
+                   (repl (weaken ̃ y′) *̃) ((suc (repl y) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
+                ≅⟨ {!!} ⟩
+                   (repl y‡ *̃) ((suc (repl y) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
+                ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) ((repl y‡ *̃) ∘ᶠ (suc (repl y) *̃)) (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _)) ⟩
+                   (repl y‡ *̃) ((suc (repl y) *̃) (braiding (ᵇ∇ᵇ {a = x •} {u •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
+                ≡⟨ cong ((repl y‡ *̃) ∘ᶠ (suc (repl y) *̃)) IH₁ ⟩
+                   (repl y‡ *̃) ((suc (repl y) *̃) (tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P)))
+                ≡⟨ cong ((repl y‡ *̃) ∘ᶠ (suc (repl y) *̃) ∘ᶠ tgt (E/E′ (⊖₁ 𝐸))) ≡R′ ⟩
+                   (repl y‡ *̃) ((suc (repl y) *̃) (tgt (E/E′ (⊖₁ 𝐸)) R′))
+                ≡⟨ cong (repl y‡ *̃) (renᵇ-tgt-comm (E/E′ (⊖₁ 𝐸)) (repl y) R′) ⟩
                    (repl y‡ *̃) (tgt ((idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸))) ((repl y *̃) R′))
                 ≡⟨ cong (repl y‡ *̃) ≡P″ ⟩
                    (repl y‡ *̃) P″
@@ -35,15 +55,9 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
          let β : (swap *̃) P′ ≅ P″
              β = let open ≅-Reasoning in
                 begin
-                   (swap *̃) P′
-                ≡⟨ cong (swap *̃) (trans (sym ≡P′) (cong (tgt (E′/E (⊖₁ 𝐸))) (sym ≡R))) ⟩
                    (swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))
                 ≅⟨ ≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _) ⟩
                    braiding (ᵇ∇ᵇ {a = x •} {u •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))
-                ≡⟨ IH₁ ⟩
-                   tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P)
-                ≡⟨ trans (cong (tgt (E/E′ (⊖₁ 𝐸))) ≡R′) ≡P″ ⟩
-                   P″
                 ∎
 -}
              γ : (swap *̃) Q′ ≅ Q″
@@ -81,7 +95,7 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
              open ≅-Reasoning in ≅-to-≡ (
          begin
             braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ (repl y† *̃) P′ │ Q′ ] ] ]
-         ≅⟨ {!!} ⟩ -- coerce-braid P′ Q′
+         ≅⟨ coerce-braid ((repl y† *̃) P′) Q′ ⟩
             braid̂ (νν-swapᵣ ((idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸))) │ tgt₁ (⊖₁ 𝐹))) [ ν [ ν [ (repl y† *̃) P′ │ Q′ ] ] ]
          ≡⟨ refl ⟩
             [ ν [ ν ((swap *̃) [ (repl y† *̃) P′ │ Q′ ]) ] ]
