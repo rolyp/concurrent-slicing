@@ -16,12 +16,21 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
       (≡S : tgt F Q ≡ S) (≡S′ : tgt F′ Q ≡ S′) where
 
       base : (P′ : ↓ (ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸))) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) (P″ : ↓ (ᴿ.suc idᶠ *) (tgt₂ (⊖₁ 𝐸)))
-             (Q″ : ↓ tgt₂ (⊖₁ 𝐹)) (y† y‡ : ↓ ᴺ.zero) → tgt ((idᶠ *ᵇ) (E′/E (⊖₁ 𝐸))) ((repl y′ *̃)  R) ≡ P′ →
+             (Q″ : ↓ tgt₂ (⊖₁ 𝐹)) (y† y‡ : ↓ ᴺ.zero) → tgt ((idᶠ *ᵇ) (E′/E (⊖₁ 𝐸))) ((repl y′ *̃) R) ≡ P′ →
              tgt (E′/E (⊖₁ 𝐹)) S ≡ Q′ → tgt ((idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸))) ((repl y *̃) R′) ≡ P″ → tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″ →
              braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ (repl y† *̃) P′ │ Q′ ] ] ] ≡ [ ν [ ν [ (repl y‡ *̃) P″ │ Q″ ] ] ]
       base P′ Q′ P″ Q″ y† y‡ ≡P′ ≡Q′ ≡P″ ≡Q″ =
          let β : (swap *̃) ((repl y† *̃) P′) ≅ (repl y‡ *̃) P″
-             β = {!!}
+             β = let open ≅-Reasoning in
+                begin
+                   (swap *̃) ((repl y† *̃) P′)
+                ≡⟨ cong ((swap *̃) ∘ᶠ (repl y† *̃)) (sym ≡P′) ⟩
+                   (swap *̃) ((repl y† *̃) (tgt ((idᶠ *ᵇ) (E′/E (⊖₁ 𝐸))) ((repl y′ *̃) R)))
+                ≅⟨ {!!} ⟩
+                   (repl y‡ *̃) (tgt ((idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸))) ((repl y *̃) R′))
+                ≡⟨ cong (repl y‡ *̃) ≡P″ ⟩
+                   (repl y‡ *̃) P″
+                ∎
 {-
          let β : (swap *̃) P′ ≅ P″
              β = let open ≅-Reasoning in
@@ -68,7 +77,7 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
              coerce-braid : (P′ : ↓ (idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸)))) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) →
                             braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ P′ │ Q′ ] ] ] ≅
                             braid̂ (νν-swapᵣ ((idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸))) │ tgt₁ (⊖₁ 𝐹))) [ ν [ ν [ P′ │ Q′ ] ] ]
-             coerce-braid = ? --_ _ rewrite (sym (γ₁ 𝐸)) | (sym (γ₁ 𝐹)) = ? --≅-refl
+             coerce-braid _ _ = {!!} --rewrite (sym (γ₁ 𝐸)) | (sym (γ₁ 𝐹)) = ? --≅-refl
              open ≅-Reasoning in ≅-to-≡ (
          begin
             braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ (repl y† *̃) P′ │ Q′ ] ] ]
