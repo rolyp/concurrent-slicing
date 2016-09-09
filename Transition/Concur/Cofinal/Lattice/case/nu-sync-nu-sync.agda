@@ -80,7 +80,7 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
             braid̂ (νν-swapᵣ (tgt₁ (⊖₁ 𝐸) │ tgt₁ (⊖₁ 𝐹))) [ ν [ ν [ P′ │ Q′ ] ] ]
          ≡⟨ refl ⟩
 -}
-            [ ν [ ν [ (swap *̃) ((repl y† *̃) P′) │ (swap *̃) Q′ ] ] ]
+            [ ν [ ν ((swap *̃) [ ((repl y† *̃) P′) │ Q′ ]) ] ]
          ≅⟨ [ν-]-cong (cong ν_ (cong₂ _│_ α (γ₁ 𝐹)))
                       ([ν-]-cong (cong₂ _│_ α (γ₁ 𝐹)) ([-│-]-cong α β (γ₁ 𝐹) γ)) ⟩
             [ ν [ ν [ (repl y‡ *̃) P″ │ Q″ ] ] ]
