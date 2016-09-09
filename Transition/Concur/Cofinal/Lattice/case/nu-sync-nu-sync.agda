@@ -1,4 +1,5 @@
 open import ConcurrentSlicingCommon
+import Relation.Binary.EqReasoning as EqReasoning
 open import Transition.Concur.Cofinal.Lattice.Common
 import Name as ᴺ
 import Ren as ᴿ
@@ -55,6 +56,21 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
                 ≡⟨ trans (cong (tgt (E/E′ (⊖₁ 𝐹))) ≡S′) ≡Q″ ⟩
                    Q″
                 ∎
+             α : (ᴿ.swap *) ((idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸)))) ≡ (idᶠ *) ((ᴿ.suc idᶠ *) (tgt₂ (⊖₁ 𝐸)))
+             α = let open EqReasoning (setoid _) in
+                begin
+                   (ᴿ.swap *) ((idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸))))
+                ≡⟨ cong (ᴿ.swap *) (*-preserves-id _) ⟩
+                   (ᴿ.swap *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸)))
+                ≡⟨ cong (ᴿ.swap *) (+-id-elim 1 _) ⟩
+                   (ᴿ.swap *) (tgt₁ (⊖₁ 𝐸))
+                ≡⟨ γ₁ 𝐸 ⟩
+                   tgt₂ (⊖₁ 𝐸)
+                ≡⟨ sym (+-id-elim 1 _) ⟩
+                   (ᴿ.suc idᶠ *) (tgt₂ (⊖₁ 𝐸))
+                ≡⟨ sym (*-preserves-id _) ⟩
+                   (idᶠ *) ((ᴿ.suc idᶠ *) (tgt₂ (⊖₁ 𝐸)))
+                ∎
              open ≅-Reasoning in ≅-to-≡ (
          begin
             braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ (repl y† *̃) P′ │ Q′ ] ] ]
@@ -65,13 +81,8 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
          ≡⟨ refl ⟩
 -}
             [ ν [ ν [ (swap *̃) ((repl y† *̃) P′) │ (swap *̃) Q′ ] ] ]
-         ≅⟨ [ν-]-cong (cong ν_ (cong₂ _│_ {!!} {!!}))
-                      ([ν-]-cong (cong₂ _│_ {!!} {!!})
-                                 ([-│-]-cong {!!} β {!!} γ)) ⟩
-{-
-         ≅⟨ [ν-]-cong (cong ν_ (cong₂ _│_ (γ₁ 𝐸) (γ₁ 𝐹)))
-                      ([ν-]-cong (cong₂ _│_ (γ₁ 𝐸) (γ₁ 𝐹)) ([-│-]-cong (γ₁ 𝐸) β (γ₁ 𝐹) γ)) ⟩
--}
+         ≅⟨ [ν-]-cong (cong ν_ (cong₂ _│_ α (γ₁ 𝐹)))
+                      ([ν-]-cong (cong₂ _│_ α (γ₁ 𝐹)) ([-│-]-cong α β (γ₁ 𝐹) γ)) ⟩
             [ ν [ ν [ (repl y‡ *̃) P″ │ Q″ ] ] ]
          ∎)
 
