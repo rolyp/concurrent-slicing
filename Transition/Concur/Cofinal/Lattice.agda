@@ -24,8 +24,8 @@ module Transition.Concur.Cofinal.Lattice where
    import Transition.Concur.Cofinal.Lattice.case.sync-nu-sync as │•ᵥ
    import Transition.Concur.Cofinal.Lattice.case.nu-sync-x-x-nu-sync as │ᵥ
    import Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync as │ᵥ′
-{-
    import Transition.Concur.Cofinal.Lattice.case.nu-extrude-nu-extrude as ν•
+{-
    import Transition.Concur.Cofinal.Lattice.case.nu-extrude-propagate-b as ν•ᵇ
    import Transition.Concur.Cofinal.Lattice.case.nu-extrude-propagate-c as ν•ᶜ
    import Transition.Concur.Cofinal.Lattice.case.nu-propagate-b-b as νᵇᵇ

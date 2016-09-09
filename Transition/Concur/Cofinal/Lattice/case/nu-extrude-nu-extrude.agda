@@ -10,8 +10,7 @@ module Transition.Concur.Cofinal.Lattice.case.nu-extrude-nu-extrude
          (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)) ≡ tgt (E/E′ (⊖₁ 𝐸)) (tgt E′ P)) where
 
    private
-      base : (R : ↓ R₀) (R′ : ↓ R′₀) →
-             tgt E P ≡ R → tgt E′ P ≡ R′ →
+      base : (R : ↓ R₀) (R′ : ↓ R′₀) → tgt E P ≡ R → tgt E′ P ≡ R′ →
              braiding (ˣ∇ˣ {x = x} {u}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) R) ≡ tgt (E/E′ (⊖₁ 𝐸)) R′
       base R R′ ≡R ≡R′ =
          let open ≅-Reasoning in ≅-to-≡ (
