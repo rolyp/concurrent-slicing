@@ -23,8 +23,8 @@ module Transition.Concur.Cofinal.Lattice where
    import Transition.Concur.Cofinal.Lattice.case.sync-sync as │•
    import Transition.Concur.Cofinal.Lattice.case.sync-nu-sync as │•ᵥ
    import Transition.Concur.Cofinal.Lattice.case.nu-sync-x-x-nu-sync as │ᵥ
-{-
    import Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync as │ᵥ′
+{-
    import Transition.Concur.Cofinal.Lattice.case.nu-extrude-nu-extrude as ν•
    import Transition.Concur.Cofinal.Lattice.case.nu-extrude-propagate-b as ν•ᵇ
    import Transition.Concur.Cofinal.Lattice.case.nu-extrude-propagate-c as ν•ᶜ
@@ -121,7 +121,7 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ {E = E │ᵥ F} {E′ │ᵥ F′} (𝐸 │ᵥ 𝐹) [ P │ Q ] =
       let open │ᵥ in case 𝐸 𝐹 P Q (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q)
    gamma₁ {E = E │ᵥ F} {E′ │ᵥ F′} (𝐸 │ᵥ′ 𝐹) [ P │ Q ] =
-      {!!} -- let open │ᵥ′ in case 𝐸 𝐹 P Q (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q)
+      let open │ᵥ′ in case 𝐸 𝐹 P Q (gamma₁ 𝐸 P) (gamma₁ 𝐹 Q)
    gamma₁ {E = ν• E} {ν• E′} (ν• 𝐸) [ ν P ] =
       {!!} -- let open ν• in case 𝐸 P (gamma₁ 𝐸 P)
    gamma₁ {a′ = • x 〈 y 〉 ᶜ} {E = ν• E} {νᶜ E′} (ν•ᶜ 𝐸) [ ν P ] =
