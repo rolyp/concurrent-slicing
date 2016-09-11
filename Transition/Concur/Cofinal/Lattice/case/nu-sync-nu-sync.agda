@@ -88,6 +88,17 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
                       ([ν-]-cong (cong₂ _│_ α (γ₁ 𝐹)) ([-│-]-cong α β (γ₁ 𝐹) γ)) ⟩
             [ ν [ ν [ (repl y‡ *̃) P″ │ Q″ ] ] ]
          ∎) where
+             jibble : γ₁ (𝐸 │ᵥ′ 𝐹) ≅ νν-swapᵣ (tgt₁ (⊖₁ 𝐸) │ tgt₁ (⊖₁ 𝐹))
+             jibble rewrite
+                sym (trans (sym (*-preserves-id _)) (cong (idᶠ *) (sym (+-id-elim 1 (tgt₁ (⊖₁ 𝐸)))))) |
+                sym (trans (sym (*-preserves-id _)) (cong (idᶠ *) (sym (+-id-elim 1 (tgt₂ (⊖₁ 𝐸)))))) |
+                sym (γ₁ 𝐸) | sym (γ₁ 𝐹) = ≅-refl
+
+             nibble : (P′ : ↓ tgt₁ (⊖₁ 𝐸)) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) →
+                      braid̂ (νν-swapᵣ (tgt₁ (⊖₁ 𝐸) │ tgt₁ (⊖₁ 𝐹)))
+                      [ ν [ ν [ P′ │ Q′ ] ] ] ≡ [ ν [ ν ((swap *̃) [ P′ │ Q′ ]) ] ]
+             nibble _ _ = refl
+
              coerce-braid : (P′ : ↓ (idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸)))) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) →
                             braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ P′ │ Q′ ] ] ] ≅ [ ν [ ν ((swap *̃) [ P′ │ Q′ ]) ] ]
              coerce-braid _ _ = {!!} --≅-refl
