@@ -2,6 +2,7 @@ module Transition.Concur.Cofinal.Lattice.case.nu-propagate-b-b where
 
    open import ConcurrentSlicingCommon
    import Relation.Binary.EqReasoning as EqReasoning
+   import Name as ᴺ
    import Ren as ᴿ
    open import Transition.Concur.Cofinal.Lattice.Common
 
@@ -127,9 +128,13 @@ module Transition.Concur.Cofinal.Lattice.case.nu-propagate-b-b where
                base 𝐸 P R R′ S S′ ≡R ≡R′ (,-inj₂ ≡S) (,-inj₂ ≡S′) IH
             ... | ◻ , S | [ ._ • ᵇ ] , S′ | [ ≡S ] | [ ≡S′ ] =
                base 𝐸 P R R′ S S′ ≡R ≡R′ (,-inj₂ ≡S) (,-inj₂ ≡S′) IH
-            ... | [ (• ._) ᵇ ] , S | ◻ , S′ | [ ≡S ] | [ ≡S′ ] =
+            ... | [ • ._ ﹙ ◻ ﹚ ᵇ ] , S | ◻ , S′ | [ ≡S ] | [ ≡S′ ] =
                base 𝐸 P R R′ S S′ ≡R ≡R′ (,-inj₂ ≡S) (,-inj₂ ≡S′) IH
-            ... | [ (• ._) ᵇ ] , S | [ ._ • ᵇ ] , S′ | [ ≡S ] | [ ≡S′ ] =
+            ... | [ • ._ ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , S | ◻ , S′ | [ ≡S ] | [ ≡S′ ] =
+               base 𝐸 P R R′ S S′ ≡R ≡R′ (,-inj₂ ≡S) (,-inj₂ ≡S′) IH
+            ... | [ • ._ ﹙ ◻ ﹚ ᵇ ] , S | [ ._ • ᵇ ] , S′ | [ ≡S ] | [ ≡S′ ] =
+               base 𝐸 P R R′ S S′ ≡R ≡R′ (,-inj₂ ≡S) (,-inj₂ ≡S′) IH
+            ... | [ • ._ ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , S | [ ._ • ᵇ ] , S′ | [ ≡S ] | [ ≡S′ ] =
                base 𝐸 P R R′ S S′ ≡R ≡R′ (,-inj₂ ≡S) (,-inj₂ ≡S′) IH
 
       case :
