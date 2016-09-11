@@ -25,9 +25,9 @@ module Transition.Concur.Cofinal.Lattice where
    import Transition.Concur.Cofinal.Lattice.case.nu-sync-x-x-nu-sync as │ᵥ
    import Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync as │ᵥ′
    import Transition.Concur.Cofinal.Lattice.case.nu-extrude-nu-extrude as ν•
-{-
-   import Transition.Concur.Cofinal.Lattice.case.nu-extrude-propagate-b as ν•ᵇ
+-- import Transition.Concur.Cofinal.Lattice.case.nu-extrude-propagate-b as ν•ᵇ
    import Transition.Concur.Cofinal.Lattice.case.nu-extrude-propagate-c as ν•ᶜ
+{-
    import Transition.Concur.Cofinal.Lattice.case.nu-propagate-b-b as νᵇᵇ
    import Transition.Concur.Cofinal.Lattice.case.nu-propagate-x-x as νˣˣ
    import Transition.Concur.Cofinal.Lattice.case.nu-propagate-b-c as νᵇᶜ
@@ -125,9 +125,9 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ {E = ν• E} {ν• E′} (ν• 𝐸) [ ν P ] =
       let open ν• in case 𝐸 P (gamma₁ 𝐸 P)
    gamma₁ {a′ = • x 〈 y 〉 ᶜ} {E = ν• E} {νᶜ E′} (ν•ᶜ 𝐸) [ ν P ] =
-      {!!} -- let open ν•ᶜ.•x〈y〉 in case 𝐸 P (gamma₁ 𝐸 P)
+      let open ν•ᶜ.•x〈y〉 in case 𝐸 P (gamma₁ 𝐸 P)
    gamma₁ {a′ = τ ᶜ} {E = ν• E} {νᶜ E′} (ν•ᶜ 𝐸) [ ν P ] =
-      {!!} -- let open ν•ᶜ.τ in case 𝐸 P (gamma₁ 𝐸 P)
+      let open ν•ᶜ.τ in case 𝐸 P (gamma₁ 𝐸 P)
    gamma₁ {a′ = x • ᵇ} {E = ν• E} {νᵇ E′} (ν•ᵇ 𝐸) [ ν P ] =
       {!!} -- let open ν•ᵇ.x• in case 𝐸 P (gamma₁ 𝐸 P)
    gamma₁ {a′ = (• x) ᵇ} {E = ν• E} {νᵇ E′} (ν•ᵇ 𝐸) [ ν P ] =
