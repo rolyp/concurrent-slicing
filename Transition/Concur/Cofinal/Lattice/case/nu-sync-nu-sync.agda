@@ -102,7 +102,7 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
              dribble : (P′ : ↓ (idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸)))) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) →
                        braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ P′ │ Q′ ] ] ] ≅
                        braid̂ (νν-swapᵣ ((idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸))) │ tgt₁ (⊖₁ 𝐹))) [ ν [ ν [ P′ │ Q′ ] ] ]
-             dribble = {!!}
+             dribble _ _ = {!!}
 
              coerce-braid : (P′ : ↓ (idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸)))) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) →
                             braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ P′ │ Q′ ] ] ] ≅ [ ν [ ν ((swap *̃) [ P′ │ Q′ ]) ] ]
