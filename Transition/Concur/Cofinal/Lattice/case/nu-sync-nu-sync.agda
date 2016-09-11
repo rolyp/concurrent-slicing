@@ -100,9 +100,6 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
              hubble : νν-swapᵣ (tgt₁ (⊖₁ 𝐸) │ tgt₁ (⊖₁ 𝐹)) ≅ νν-swapᵣ ((idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸))) │ tgt₁ (⊖₁ 𝐹))
              hubble = ≅-cong (λ P → νν-swapᵣ (P │ tgt₁ (⊖₁ 𝐹))) (≡-to-≅ α₁)
 
-             quibble : γ₁ (𝐸 │ᵥ′ 𝐹) ≅ νν-swapᵣ ((idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸))) │ tgt₁ (⊖₁ 𝐹))
-             quibble = ≅-trans jibble hubble
-
              open import Braiding.Proc using (_⋉̂_)
 
              glah : {P₁ P₂ P₃ Q₁ Q₂ Q₃ : Proc (Γ + 2)} (P′ : ↓ P₁) (Q′ : ↓ Q₁) (γ : ν (ν (P₁ │ Q₁)) ⋉̂ ν (ν (P₂ │ Q₂)))
@@ -127,7 +124,7 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
                 ≡⟨ cong (ᴿ.swap *) (sym (*-preserves-id _)) ⟩
                    (ᴿ.swap *) ((idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸))))
                 ∎)
-                (sym (γ₁ 𝐹)) quibble
+                (sym (γ₁ 𝐹)) (≅-trans jibble hubble)
 
       subcase :
          braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹))
