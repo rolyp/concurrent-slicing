@@ -213,6 +213,8 @@ module Transition.Concur.Cofinal.Lattice.case.nu-propagate-b-c where
       case
          with step E′ P | step E P | inspect (step E′) P | inspect (step E) P
       ... | ◻ , R′ | ◻ , R | [ ≡R′ ] | [ ≡R ] = case′ R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′)
-      ... | ◻ , R′ | [ (• ._) ᵇ ] , R | [ ≡R′ ] | [ ≡R ] = case′ R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′)
+      ... | ◻ , R′ | [ • ._ ﹙ ◻ ﹚ ᵇ ] , R | [ ≡R′ ] | [ ≡R ] = case′ R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′)
+      ... | ◻ , R′ | [ • ._ ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , R | [ ≡R′ ] | [ ≡R ] = case′ R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′)
       ... | [ τ ᶜ ] , R′ | ◻ , R | [ ≡R′ ] | [ ≡R ] = case′ R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′)
-      ... | [ τ ᶜ ] , R′ | [ (• ._) ᵇ ] , R | [ ≡R′ ] | [ ≡R ] = case′ R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′)
+      ... | [ τ ᶜ ] , R′ | [ • ._ ﹙ ◻ ﹚ ᵇ ] , R | [ ≡R′ ] | [ ≡R ] = case′ R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′)
+      ... | [ τ ᶜ ] , R′ | [ • ._ ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , R | [ ≡R′ ] | [ ≡R ] = case′ R R′ (,-inj₂ ≡R) (,-inj₂ ≡R′)
