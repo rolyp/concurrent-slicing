@@ -88,7 +88,10 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
                       ([ν-]-cong (cong₂ _│_ α (γ₁ 𝐹)) ([-│-]-cong α β (γ₁ 𝐹) γ)) ⟩
             [ ν [ ν [ (repl y‡ *̃) P″ │ Q″ ] ] ]
          ∎) where
+             α₁ : idᶠ (tgt₁ (⊖₁ 𝐸)) ≡ (idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸)))
              α₁ = trans (sym (*-preserves-id _)) (cong (idᶠ *) (sym (+-id-elim 1 (tgt₁ (⊖₁ 𝐸)))))
+
+             α₂ : idᶠ (tgt₂ (⊖₁ 𝐸)) ≡ (idᶠ *) ((ᴿ.suc idᶠ *) (tgt₂ (⊖₁ 𝐸)))
              α₂ = trans (sym (*-preserves-id _)) (cong (idᶠ *) (sym (+-id-elim 1 (tgt₂ (⊖₁ 𝐸)))))
 
              jibble : γ₁ (𝐸 │ᵥ′ 𝐹) ≅ νν-swapᵣ (tgt₁ (⊖₁ 𝐸) │ tgt₁ (⊖₁ 𝐹))
@@ -116,7 +119,21 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
                        braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ P′ │ Q′ ] ] ] ≅
                        braid̂ (νν-swapᵣ ((idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸))) │ tgt₁ (⊖₁ 𝐹))) [ ν [ ν [ P′ │ Q′ ] ] ]
              dribble P′ Q′ = glah P′ Q′ (γ₁ (𝐸 │ᵥ′ 𝐹)) (νν-swapᵣ ((idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸))) │ tgt₁ (⊖₁ 𝐹)))
-                ? ? quibble
+                (let open EqReasoning (setoid _) in
+                begin
+                   (idᶠ *) ((ᴿ.suc idᶠ *) (tgt₂ (⊖₁ 𝐸)))
+                ≡⟨ *-preserves-id _ ⟩
+                   (ᴿ.suc idᶠ *) (tgt₂ (⊖₁ 𝐸))
+                ≡⟨ +-id-elim 1 _ ⟩
+                   (tgt₂ (⊖₁ 𝐸))
+                ≡⟨ sym (γ₁ 𝐸) ⟩
+                   (ᴿ.swap *) (tgt₁ (⊖₁ 𝐸))
+                ≡⟨ cong (ᴿ.swap *) (sym (+-id-elim 1 _)) ⟩
+                   (ᴿ.swap *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸)))
+                ≡⟨ cong (ᴿ.swap *) (sym (*-preserves-id _)) ⟩
+                   (ᴿ.swap *) ((idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸))))
+                ∎)
+                (sym (γ₁ 𝐹)) quibble
 
              coerce-braid : (P′ : ↓ (idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸)))) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) →
                             braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ P′ │ Q′ ] ] ] ≅ [ ν [ ν ((swap *̃) [ P′ │ Q′ ]) ] ]
