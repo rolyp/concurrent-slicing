@@ -103,11 +103,6 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
              quibble : γ₁ (𝐸 │ᵥ′ 𝐹) ≅ νν-swapᵣ ((idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸))) │ tgt₁ (⊖₁ 𝐹))
              quibble = ≅-trans jibble hubble
 
-             nibble : (P′ : ↓ (idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸)))) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) →
-                      braid̂ (νν-swapᵣ ((idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸))) │ tgt₁ (⊖₁ 𝐹))) [ ν [ ν [ P′ │ Q′ ] ] ] ≡
-                      [ ν [ ν ((swap *̃) [ P′ │ Q′ ]) ] ]
-             nibble _ _ = refl
-
              open import Braiding.Proc using (_⋉̂_)
 
              glah : {P₁ P₂ P₃ Q₁ Q₂ Q₃ : Proc (Γ + 2)} (P′ : ↓ P₁) (Q′ : ↓ Q₁) (γ : ν (ν (P₁ │ Q₁)) ⋉̂ ν (ν (P₂ │ Q₂)))
@@ -137,7 +132,7 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
 
              coerce-braid : (P′ : ↓ (idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸)))) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) →
                             braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ P′ │ Q′ ] ] ] ≅ [ ν [ ν ((swap *̃) [ P′ │ Q′ ]) ] ]
-             coerce-braid P′ Q′ = ≅-trans (dribble P′ Q′) (≡-to-≅ (nibble P′ Q′))
+             coerce-braid P′ Q′ = ≅-trans (dribble P′ Q′) ≅-refl
 
       subcase :
          braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹))
