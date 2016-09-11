@@ -110,20 +110,7 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
              coerce-braid : (P′ : ↓ (idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸)))) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) →
                             braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ P′ │ Q′ ] ] ] ≅ [ ν [ ν ((swap *̃) [ P′ │ Q′ ]) ] ]
              coerce-braid P′ Q′ = glah P′ Q′ (γ₁ (𝐸 │ᵥ′ 𝐹)) (νν-swapᵣ ((idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸))) │ tgt₁ (⊖₁ 𝐹)))
-                (let open EqReasoning (setoid _) in
-                begin
-                   (idᶠ *) ((ᴿ.suc idᶠ *) (tgt₂ (⊖₁ 𝐸)))
-                ≡⟨ *-preserves-id _ ⟩
-                   (ᴿ.suc idᶠ *) (tgt₂ (⊖₁ 𝐸))
-                ≡⟨ +-id-elim 1 _ ⟩
-                   (tgt₂ (⊖₁ 𝐸))
-                ≡⟨ sym (γ₁ 𝐸) ⟩
-                   (ᴿ.swap *) (tgt₁ (⊖₁ 𝐸))
-                ≡⟨ cong (ᴿ.swap *) (sym (+-id-elim 1 _)) ⟩
-                   (ᴿ.swap *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸)))
-                ≡⟨ cong (ᴿ.swap *) (sym (*-preserves-id _)) ⟩
-                   (ᴿ.swap *) ((idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸))))
-                ∎)
+                (sym α)
                 (sym (γ₁ 𝐹)) (≅-trans jibble hubble)
 
       subcase :
