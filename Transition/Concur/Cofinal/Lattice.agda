@@ -31,9 +31,7 @@ module Transition.Concur.Cofinal.Lattice where
    import Transition.Concur.Cofinal.Lattice.case.nu-propagate-x-x as νˣˣ
    import Transition.Concur.Cofinal.Lattice.case.nu-propagate-b-c as νᵇᶜ
    import Transition.Concur.Cofinal.Lattice.case.nu-propagate-c-c as νᶜᶜ
-{-
    import Transition.Concur.Cofinal.Lattice.case.nu-propagate-nu-nu as νᵛᵛ
--}
 
    import Ren as ᴿ
    import Transition as ᵀ
@@ -159,5 +157,5 @@ module Transition.Concur.Cofinal.Lattice where
    gamma₁ {a = τ ᶜ} {τ ᶜ} {E = νᶜ E} {νᶜ E′} (νᶜᶜ 𝐸) [ ν P ] =
       let open νᶜᶜ.τ-τ in case 𝐸 P (gamma₁ 𝐸 P)
    gamma₁ {E = νᶜ E} {νᶜ E′} (νᵛᵛ 𝐸) [ ν P ] =
-      {!!} -- let open νᵛᵛ in case 𝐸 P (gamma₁ 𝐸 P)
+      let open νᵛᵛ in case 𝐸 P (gamma₁ 𝐸 P)
    gamma₁ (! 𝐸) [ ! P ] = gamma₁ 𝐸 [ P │ [ ! P ] ]
