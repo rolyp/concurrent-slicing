@@ -110,10 +110,9 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
                     braid̂ γ [ ν [ ν [ P′ │ Q′ ] ] ] ≅ braid̂ γ′ [ ν [ ν [ P′ │ Q′ ] ] ]
              glah P′ Q′ γ ._ refl refl ≅-refl = ≅-refl
 
-             dribble : (P′ : ↓ (idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸)))) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) →
-                       braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ P′ │ Q′ ] ] ] ≅
-                       braid̂ (νν-swapᵣ ((idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸))) │ tgt₁ (⊖₁ 𝐹))) [ ν [ ν [ P′ │ Q′ ] ] ]
-             dribble P′ Q′ = glah P′ Q′ (γ₁ (𝐸 │ᵥ′ 𝐹)) (νν-swapᵣ ((idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸))) │ tgt₁ (⊖₁ 𝐹)))
+             coerce-braid : (P′ : ↓ (idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸)))) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) →
+                            braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ P′ │ Q′ ] ] ] ≅ [ ν [ ν ((swap *̃) [ P′ │ Q′ ]) ] ]
+             coerce-braid P′ Q′ = glah P′ Q′ (γ₁ (𝐸 │ᵥ′ 𝐹)) (νν-swapᵣ ((idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸))) │ tgt₁ (⊖₁ 𝐹)))
                 (let open EqReasoning (setoid _) in
                 begin
                    (idᶠ *) ((ᴿ.suc idᶠ *) (tgt₂ (⊖₁ 𝐸)))
@@ -129,10 +128,6 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
                    (ᴿ.swap *) ((idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸))))
                 ∎)
                 (sym (γ₁ 𝐹)) quibble
-
-             coerce-braid : (P′ : ↓ (idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸)))) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) →
-                            braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ P′ │ Q′ ] ] ] ≅ [ ν [ ν ((swap *̃) [ P′ │ Q′ ]) ] ]
-             coerce-braid P′ Q′ = ≅-trans (dribble P′ Q′) ≅-refl
 
       subcase :
          braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹))
