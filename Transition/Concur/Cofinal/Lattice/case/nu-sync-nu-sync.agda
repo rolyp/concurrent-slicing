@@ -68,17 +68,18 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
              α = let open EqReasoning (setoid _) in
                 begin
                    (ᴿ.swap *) ((idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸))))
-                ≡⟨ cong (ᴿ.swap *) (*-preserves-id _) ⟩
-                   (ᴿ.swap *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸)))
-                ≡⟨ cong (ᴿ.swap *) (+-id-elim 1 _) ⟩
+                ≡⟨ cong (ᴿ.swap *) (sym α₁) ⟩
                    (ᴿ.swap *) (tgt₁ (⊖₁ 𝐸))
                 ≡⟨ γ₁ 𝐸 ⟩
                    tgt₂ (⊖₁ 𝐸)
-                ≡⟨ sym (+-id-elim 1 _) ⟩
-                   (ᴿ.suc idᶠ *) (tgt₂ (⊖₁ 𝐸))
-                ≡⟨ sym (*-preserves-id _) ⟩
+                ≡⟨ sym α₂ ⟩
                    (idᶠ *) ((ᴿ.suc idᶠ *) (tgt₂ (⊖₁ 𝐸)))
                 ∎
+             coerce-braid : (P′ : ↓ (idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸)))) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) →
+                            braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ P′ │ Q′ ] ] ] ≅ [ ν [ ν ((swap *̃) [ P′ │ Q′ ]) ] ]
+             coerce-braid P′ Q′ = glah P′ Q′ (γ₁ (𝐸 │ᵥ′ 𝐹)) (νν-swapᵣ ((idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸))) │ tgt₁ (⊖₁ 𝐹)))
+                (sym α)
+                (sym (γ₁ 𝐹)) (≅-trans jibble (≅-cong (λ P → νν-swapᵣ (P │ tgt₁ (⊖₁ 𝐹))) (≡-to-≅ α₁)))
              open ≅-Reasoning in ≅-to-≡ (
          begin
             braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ (repl y† *̃) P′ │ Q′ ] ] ]
@@ -88,17 +89,14 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
                       ([ν-]-cong (cong₂ _│_ α (γ₁ 𝐹)) ([-│-]-cong α β (γ₁ 𝐹) γ)) ⟩
             [ ν [ ν [ (repl y‡ *̃) P″ │ Q″ ] ] ]
          ∎) where
-             α₁ : idᶠ (tgt₁ (⊖₁ 𝐸)) ≡ (idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸)))
+             α₁ : tgt₁ (⊖₁ 𝐸) ≡ (idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸)))
              α₁ = trans (sym (*-preserves-id _)) (cong (idᶠ *) (sym (+-id-elim 1 (tgt₁ (⊖₁ 𝐸)))))
 
-             α₂ : idᶠ (tgt₂ (⊖₁ 𝐸)) ≡ (idᶠ *) ((ᴿ.suc idᶠ *) (tgt₂ (⊖₁ 𝐸)))
+             α₂ : tgt₂ (⊖₁ 𝐸) ≡ (idᶠ *) ((ᴿ.suc idᶠ *) (tgt₂ (⊖₁ 𝐸)))
              α₂ = trans (sym (*-preserves-id _)) (cong (idᶠ *) (sym (+-id-elim 1 (tgt₂ (⊖₁ 𝐸)))))
 
              jibble : γ₁ (𝐸 │ᵥ′ 𝐹) ≅ νν-swapᵣ (tgt₁ (⊖₁ 𝐸) │ tgt₁ (⊖₁ 𝐹))
              jibble rewrite sym α₁ | sym α₂ | sym (γ₁ 𝐸) | sym (γ₁ 𝐹) = ≅-refl
-
-             hubble : νν-swapᵣ (tgt₁ (⊖₁ 𝐸) │ tgt₁ (⊖₁ 𝐹)) ≅ νν-swapᵣ ((idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸))) │ tgt₁ (⊖₁ 𝐹))
-             hubble = ≅-cong (λ P → νν-swapᵣ (P │ tgt₁ (⊖₁ 𝐹))) (≡-to-≅ α₁)
 
              open import Braiding.Proc using (_⋉̂_)
 
@@ -106,12 +104,6 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
                     (γ′ : ν (ν (P₁ │ Q₁)) ⋉̂ ν (ν (P₃ │ Q₃))) → P₂ ≡ P₃ → Q₂ ≡ Q₃ → γ ≅ γ′ →
                     braid̂ γ [ ν [ ν [ P′ │ Q′ ] ] ] ≅ braid̂ γ′ [ ν [ ν [ P′ │ Q′ ] ] ]
              glah P′ Q′ γ ._ refl refl ≅-refl = ≅-refl
-
-             coerce-braid : (P′ : ↓ (idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸)))) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) →
-                            braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ P′ │ Q′ ] ] ] ≅ [ ν [ ν ((swap *̃) [ P′ │ Q′ ]) ] ]
-             coerce-braid P′ Q′ = glah P′ Q′ (γ₁ (𝐸 │ᵥ′ 𝐹)) (νν-swapᵣ ((idᶠ *) ((ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸))) │ tgt₁ (⊖₁ 𝐹)))
-                (sym α)
-                (sym (γ₁ 𝐹)) (≅-trans jibble hubble)
 
       subcase :
          braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹))
