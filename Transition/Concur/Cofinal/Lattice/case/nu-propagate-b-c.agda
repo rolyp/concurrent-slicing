@@ -1,6 +1,7 @@
 module Transition.Concur.Cofinal.Lattice.case.nu-propagate-b-c where
 
    open import ConcurrentSlicingCommon
+   import Name as ᴺ
    import Ren as ᴿ
    open import Transition.Concur.Cofinal.Lattice.Common
 
@@ -142,15 +143,21 @@ module Transition.Concur.Cofinal.Lattice.case.nu-propagate-b-c where
                     inspect (step ((ᴿ.swap *ᶜ) (E′/E (⊖₁ 𝐸)))) ((swap *̃) R) | inspect (step (E/E′ (⊖₁ 𝐸))) R′
             case′ | ◻ , S | ◻ , S′ | [ ≡S ] | [ ≡S′ ] =
                base 𝐸 P R R′ S S′ ≡R ≡R′ (,-inj₂ ≡S) (,-inj₂ ≡S′) IH
-            case′ | ◻ , S | [ (• ._) ᵇ ] , S′ | [ ≡S ] | [ ≡S′ ] =
+            case′ | ◻ , S | [ • ._ ﹙ ◻ ﹚ ᵇ ] , S′ | [ ≡S ] | [ ≡S′ ] =
+               base 𝐸 P R R′ S S′ ≡R ≡R′ (,-inj₂ ≡S) (,-inj₂ ≡S′) IH
+            case′ | ◻ , S | [ • ._ ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , S′ | [ ≡S ] | [ ≡S′ ] =
                base 𝐸 P R R′ S S′ ≡R ≡R′ (,-inj₂ ≡S) (,-inj₂ ≡S′) IH
             case′ | [ • ._ 〈 ◻ 〉 ᶜ ] , S | ◻ , S′ | [ ≡S ] | [ ≡S′ ] =
                base 𝐸 P R R′ S S′ ≡R ≡R′ (,-inj₂ ≡S) (,-inj₂ ≡S′) IH
             case′ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , S | ◻ , S′ | [ ≡S ] | [ ≡S′ ] =
                base 𝐸 P R R′ S S′ ≡R ≡R′ (,-inj₂ ≡S) (,-inj₂ ≡S′) IH
-            case′ | [ • ._ 〈 ◻ 〉 ᶜ ] , S | [ (• ._) ᵇ ] , S′ | [ ≡S ] | [ ≡S′ ] =
+            case′ | [ • ._ 〈 ◻ 〉 ᶜ ] , S | [ • ._ ﹙ ◻ ﹚ ᵇ ] , S′ | [ ≡S ] | [ ≡S′ ] =
                base 𝐸 P R R′ S S′ ≡R ≡R′ (,-inj₂ ≡S) (,-inj₂ ≡S′) IH
-            case′ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , S | [ (• ._) ᵇ ] , S′ | [ ≡S ] | [ ≡S′ ] =
+            case′ | [ • ._ 〈 ◻ 〉 ᶜ ] , S | [ • ._ ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , S′ | [ ≡S ] | [ ≡S′ ] =
+               base 𝐸 P R R′ S S′ ≡R ≡R′ (,-inj₂ ≡S) (,-inj₂ ≡S′) IH
+            case′ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , S | [ • ._ ﹙ ◻ ﹚ ᵇ ] , S′ | [ ≡S ] | [ ≡S′ ] =
+               base 𝐸 P R R′ S S′ ≡R ≡R′ (,-inj₂ ≡S) (,-inj₂ ≡S′) IH
+            case′ | [ • ._ 〈 [ ._ ] 〉 ᶜ ] , S | [ • ._ ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] , S′ | [ ≡S ] | [ ≡S′ ] =
                base 𝐸 P R R′ S S′ ≡R ≡R′ (,-inj₂ ≡S) (,-inj₂ ≡S′) IH
 
       case :
