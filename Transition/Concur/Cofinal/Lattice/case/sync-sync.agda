@@ -61,7 +61,7 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
                 r : action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 ◻ 〉 ᶜ ]
                 r = wibble₂ ◻ q
                 s : action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 [ z ] 〉 ᶜ ]
-                s = {!!}
+                s = σ (λ { (() , _) })
             in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym r) s))
          cheat₅ [ .z ] ◻ ρ σ = {!!}
 
