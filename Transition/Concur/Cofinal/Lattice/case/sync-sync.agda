@@ -44,6 +44,9 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
          wibble₂ : (z₁ : ↓ z) → action F′ Q ≡ [ • u 〈 z₁ 〉 ᶜ ] → action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 z₁ 〉 ᶜ ]
          wibble₂ _ _ = trustMe
 
+         bibble : (z₁ : ↓ z) → action (E′/E (⊖₁ 𝐹)) S ≡ ◻ → action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 z₁ 〉 ᶜ ] → ⊥
+         bibble _ eq eq′ = ◻≢[-] (trans (sym eq) eq′)
+
          cheat₅ : (z₁ z₂ : ↓ z)
                   (ρ : (z₁ ≡ ◻ × action F′ Q ≡ ◻ → ⊥) → action F′ Q ≡ [ • u 〈 z₁ 〉 ᶜ ])
                   (σ : (z₂ ≡ ◻ × action (E′/E (⊖₁ 𝐹)) S ≡ ◻ → ⊥) → action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 z₂ 〉 ᶜ ]) →
@@ -52,7 +55,14 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
          cheat₅ [ .z ] [ .z ] _ _ = refl
          cheat₅ ◻ [ .z ] ρ σ with action F′ Q
          ... | ◻ = {!!}
-         ... | [ • .u 〈 z₁′ 〉 ᶜ ] = {!!}
+         ... | [ • .u 〈 z₁′ 〉 ᶜ ] =
+            let q : action F′ Q ≡ [ • u 〈 ◻ 〉 ᶜ ]
+                q = {!!}
+                r : action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 ◻ 〉 ᶜ ]
+                r = wibble₂ ◻ q
+                s : action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 [ z ] 〉 ᶜ ]
+                s = {!!}
+            in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym r) s))
          cheat₅ [ .z ] ◻ ρ σ = {!!}
 
          cheat₁ : z† ≡ z′
