@@ -51,21 +51,30 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
                a
             ∎
 
+         wibble′ : ∀ {a} → action (E′/E (⊖₁ 𝐹)) S ≡ a → action F′ Q ≡ a
+         wibble′ = {!!}
+
          cheat₅ : (z₁ z₂ : ↓ z)
                   (ρ : (z₁ ≡ ◻ × action F′ Q ≡ ◻ → ⊥) → action F′ Q ≡ [ • u 〈 z₁ 〉 ᶜ ])
                   (σ : (z₂ ≡ ◻ × action (E′/E (⊖₁ 𝐹)) S ≡ ◻ → ⊥) → action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 z₂ 〉 ᶜ ]) →
                   z₁ ≡ z₂
          cheat₅ ◻ ◻ _ _ = refl
          cheat₅ [ .z ] [ .z ] _ _ = refl
+         cheat₅ ◻ [ .z ] ρ σ =
+            let δ : action F′ Q ≡ [ • u 〈 [ z ] 〉 ᶜ ]
+                δ = wibble′ (σ (λ { (() , _) }))
+            in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (ρ (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
+{-
          cheat₅ ◻ [ .z ] ρ σ with action F′ Q | inspect (action F′) Q
          ... | ◻ | [ eq ] =
             ⊥-elim (◻≢[-] (trans (sym (wibble eq)) (σ (λ { (() , _) }))))
          ... | [ _ ] | [ eq ] =
             ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (wibble (trans eq (ρ (λ { (_ , ()) }))))) (σ (λ { (() , _) }))))
+-}
          cheat₅ [ .z ] ◻ ρ σ =
-            let r : action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 [ z ] 〉 ᶜ ]
-                r = wibble (ρ (λ { (() , _) }))
-            in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (σ (λ { (_ , eq) → ⊥-elim (◻≢[-] (trans (sym eq) r)) }))) r))
+            let δ : action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 [ z ] 〉 ᶜ ]
+                δ = wibble (ρ (λ { (() , _) }))
+            in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (σ (λ { (_ , eq) → ⊥-elim (◻≢[-] (trans (sym eq) δ)) }))) δ))
 
          cheat₁ : z† ≡ z′
          cheat₁ = trustMe
