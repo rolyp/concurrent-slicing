@@ -56,7 +56,9 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
          cheat₅ ◻ [ .z ] ρ σ with action F′ Q
          ... | ◻ = {!!}
          ... | [ • .u 〈 z₁′ 〉 ᶜ ] =
-            let q : action F′ Q ≡ [ • u 〈 ◻ 〉 ᶜ ]
+            let p : [ • u 〈 z₁′ 〉 ᶜ ] ≡ [ • u 〈 ◻ 〉 ᶜ ]
+                p = ρ (λ { (_ , ()) })
+                q : action F′ Q ≡ [ • u 〈 ◻ 〉 ᶜ ]
                 q = {!!}
                 r : action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 ◻ 〉 ᶜ ]
                 r = wibble₂ ◻ q
