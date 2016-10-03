@@ -38,8 +38,8 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
          (≡P″ : tgt pop-z*E/E′ ((pop z′ *̃) R′) ≡ P″) (≡Q″ : tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″)
          where
 
-         wibble₁ : action F′ Q ≡ ◻ → action (E′/E (⊖₁ 𝐹)) S ≡ ◻
-         wibble₁ ρ =
+         wibble : ∀ {a} → action F′ Q ≡ a → action (E′/E (⊖₁ 𝐹)) S ≡ a
+         wibble {a} ρ =
             let open EqReasoning (setoid _) in
             begin
                action (E′/E (⊖₁ 𝐹)) S
@@ -48,14 +48,8 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
             ≡⟨ π₁ (ᴬgamma₁ 𝐹 Q) ⟩
                action F′ Q
             ≡⟨ ρ ⟩
-               ◻
+               a
             ∎
-
-         wibble₂ : (z₁ : ↓ z) → action F′ Q ≡ [ • u 〈 z₁ 〉 ᶜ ] → action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 z₁ 〉 ᶜ ]
-         wibble₂ _ _ = trustMe
-
-         bibble : (z₁ : ↓ z) → action (E′/E (⊖₁ 𝐹)) S ≡ ◻ → action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 z₁ 〉 ᶜ ] → ⊥
-         bibble _ eq eq′ = ◻≢[-] (trans (sym eq) eq′)
 
          cheat₅ : (z₁ z₂ : ↓ z)
                   (ρ : (z₁ ≡ ◻ × action F′ Q ≡ ◻ → ⊥) → action F′ Q ≡ [ • u 〈 z₁ 〉 ᶜ ])
@@ -65,12 +59,12 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
          cheat₅ [ .z ] [ .z ] _ _ = refl
          cheat₅ ◻ [ .z ] ρ σ with action F′ Q | inspect (action F′) Q
          ... | ◻ | [ eq ] =
-            ⊥-elim (bibble [ z ] (wibble₁ eq) (σ (λ { (() , _) })))
+            ⊥-elim (◻≢[-] (trans (sym (wibble eq)) (σ (λ { (() , _) }))))
          ... | [ _ ] | [ eq ] =
-            ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (wibble₂ ◻ (trans eq (ρ (λ { (_ , ()) }))))) (σ (λ { (() , _) }))))
+            ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (wibble (trans eq (ρ (λ { (_ , ()) }))))) (σ (λ { (() , _) }))))
          cheat₅ [ .z ] ◻ ρ σ =
             let r : action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 [ z ] 〉 ᶜ ]
-                r = wibble₂ [ z ] (ρ (λ { (() , _) }))
+                r = wibble (ρ (λ { (() , _) }))
             in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (σ (λ { (_ , eq) → ⊥-elim (◻≢[-] (trans (sym eq) r)) }))) r))
 
          cheat₁ : z† ≡ z′
