@@ -45,7 +45,10 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
          cheat₄ z‡ _ = trustMe
 
          cheat₅ : (z₁ z₂ : ↓ z) (ρ : z₁ ≡ ◻ × action F′ Q ≡ ◻ → ⊥) (σ : (z₂ ≡ ◻ × action (E′/E (⊖₁ 𝐹)) S ≡ ◻ → ⊥)) → z₁ ≡ z₂
-         cheat₅ z₁ z₂ a b = {!!}
+         cheat₅ ◻ ◻ a b = refl
+         cheat₅ ◻ [ .z ] a b = {!!}
+         cheat₅ [ .z ] ◻ a b = {!!}
+         cheat₅ [ .z ] [ .z ] _ _ = refl
 
          cheat₁ : z† ≡ z′
          cheat₁ = trustMe
