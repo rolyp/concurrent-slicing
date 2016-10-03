@@ -58,7 +58,14 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
             ⊥-elim (bibble [ z ] (wibble₁ eq) (σ (λ { (() , _) })))
          ... | [ _ ] | [ eq ] =
             ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (wibble₂ ◻ (trans eq (ρ (λ { (_ , ()) }))))) (σ (λ { (() , _) }))))
-         cheat₅ [ .z ] ◻ ρ σ = {!!}
+         cheat₅ [ .z ] ◻ ρ σ =
+            let p : action F′ Q ≡ [ • u 〈 [ z ] 〉 ᶜ ]
+                p = ρ (λ { (() , _) })
+                r : action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 [ z ] 〉 ᶜ ]
+                r = wibble₂ [ z ] p
+                s : action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 ◻ 〉 ᶜ ]
+                s = {!!}
+            in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym s) r))
 
          cheat₁ : z† ≡ z′
          cheat₁ = trustMe
