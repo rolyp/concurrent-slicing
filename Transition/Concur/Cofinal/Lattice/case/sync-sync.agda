@@ -38,24 +38,29 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
          (≡P″ : tgt pop-z*E/E′ ((pop z′ *̃) R′) ≡ P″) (≡Q″ : tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″)
          where
 
-         cheat₃ : (z‡ : ↓ z) → (z‡ ≡ ◻ × action F′ Q ≡ ◻ → ⊥) → action F′ Q ≡ [ • u 〈 z‡ 〉 ᶜ ]
-         cheat₃ z‡ _ = trustMe
+         wibble₁ : action F′ Q ≡ ◻ → action (E′/E (⊖₁ 𝐹)) S ≡ ◻
+         wibble₁ _ = trustMe
 
-         cheat₄ : (z‡ : ↓ z) → (z‡ ≡ ◻ × action (E′/E (⊖₁ 𝐹)) S ≡ ◻ → ⊥) → action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 z‡ 〉 ᶜ ]
-         cheat₄ z‡ _ = trustMe
+         wibble₂ : (z₁ : ↓ z) → action F′ Q ≡ [ • u 〈 z₁ 〉 ᶜ ] → action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 z₁ 〉 ᶜ ]
+         wibble₂ _ _ = trustMe
 
-         cheat₅ : (z₁ z₂ : ↓ z) (ρ : z₁ ≡ ◻ × action F′ Q ≡ ◻ → ⊥) (σ : (z₂ ≡ ◻ × action (E′/E (⊖₁ 𝐹)) S ≡ ◻ → ⊥)) → z₁ ≡ z₂
-         cheat₅ ◻ ◻ a b = refl
-         cheat₅ ◻ [ .z ] a b = {!!}
-         cheat₅ [ .z ] ◻ a b = {!!}
+         cheat₅ : (z₁ z₂ : ↓ z)
+                  (ρ : (z₁ ≡ ◻ × action F′ Q ≡ ◻ → ⊥) → action F′ Q ≡ [ • u 〈 z₁ 〉 ᶜ ])
+                  (σ : (z₂ ≡ ◻ × action (E′/E (⊖₁ 𝐹)) S ≡ ◻ → ⊥) → action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 z₂ 〉 ᶜ ]) →
+                  z₁ ≡ z₂
+         cheat₅ ◻ ◻ _ _ = refl
          cheat₅ [ .z ] [ .z ] _ _ = refl
+         cheat₅ ◻ [ .z ] ρ σ with action F′ Q
+         ... | ◻ = {!!}
+         ... | [ • .u 〈 z₁′ 〉 ᶜ ] = {!!}
+         cheat₅ [ .z ] ◻ ρ σ = {!!}
 
          cheat₁ : z† ≡ z′
          cheat₁ = trustMe
 
          cheat₂ : y† ≡ y′
          cheat₂ = trustMe
-
+{-
          β : (pop z† *̃) P′ ≅ (pop y† *̃) P″
          β = let open ≅-Reasoning in
             begin
@@ -221,3 +226,4 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
    ... | [ .x • ᵇ ] , R | [ • .x 〈 y′ 〉 ᶜ ] , S | [ .u • ᵇ ] , R′ | [ • .u 〈 z′ 〉 ᶜ ] , S′ |
       [ ≡R ] | [ ≡S ] | [ ≡R′ ] | [ ≡S′ ] =
       subcase pop-y*E′/E pop-z*E/E′ R R′ S S′ y′ z′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) ≡pop-y*E′/E ≡pop-z*E/E′
+-}
