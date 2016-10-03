@@ -39,7 +39,17 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
          where
 
          wibble₁ : action F′ Q ≡ ◻ → action (E′/E (⊖₁ 𝐹)) S ≡ ◻
-         wibble₁ _ = trustMe
+         wibble₁ ρ =
+            let open EqReasoning (setoid _) in
+            begin
+               action (E′/E (⊖₁ 𝐹)) S
+            ≡⟨ cong (action (E′/E (⊖₁ 𝐹))) (sym ≡S) ⟩
+               action (E′/E (⊖₁ 𝐹)) (tgt F Q)
+            ≡⟨ π₁ (ᴬgamma₁ 𝐹 Q) ⟩
+               action F′ Q
+            ≡⟨ ρ ⟩
+               ◻
+            ∎
 
          wibble₂ : (z₁ : ↓ z) → action F′ Q ≡ [ • u 〈 z₁ 〉 ᶜ ] → action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 z₁ 〉 ᶜ ]
          wibble₂ _ _ = trustMe
@@ -59,13 +69,9 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
          ... | [ _ ] | [ eq ] =
             ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (wibble₂ ◻ (trans eq (ρ (λ { (_ , ()) }))))) (σ (λ { (() , _) }))))
          cheat₅ [ .z ] ◻ ρ σ =
-            let p : action F′ Q ≡ [ • u 〈 [ z ] 〉 ᶜ ]
-                p = ρ (λ { (() , _) })
-                r : action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 [ z ] 〉 ᶜ ]
-                r = wibble₂ [ z ] p
-                s : action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 ◻ 〉 ᶜ ]
-                s = σ (λ { (_ , eq) → ⊥-elim (◻≢[-] (trans (sym eq) r)) })
-            in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym s) r))
+            let r : action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 [ z ] 〉 ᶜ ]
+                r = wibble₂ [ z ] (ρ (λ { (() , _) }))
+            in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (σ (λ { (_ , eq) → ⊥-elim (◻≢[-] (trans (sym eq) r)) }))) r))
 
          cheat₁ : z† ≡ z′
          cheat₁ = trustMe
