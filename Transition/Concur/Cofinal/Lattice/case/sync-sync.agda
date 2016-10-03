@@ -38,21 +38,14 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
          (≡P″ : tgt pop-z*E/E′ ((pop z′ *̃) R′) ≡ P″) (≡Q″ : tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″)
          where
 
+         wibble₀ : action (E′/E (⊖₁ 𝐹)) S ≡ action F′ Q
+         wibble₀ = trans (cong (action (E′/E (⊖₁ 𝐹))) (sym ≡S)) (π₁ (ᴬgamma₁ 𝐹 Q))
+
          wibble : ∀ {a} → action F′ Q ≡ a → action (E′/E (⊖₁ 𝐹)) S ≡ a
-         wibble {a} ρ =
-            let open EqReasoning (setoid _) in
-            begin
-               action (E′/E (⊖₁ 𝐹)) S
-            ≡⟨ cong (action (E′/E (⊖₁ 𝐹))) (sym ≡S) ⟩
-               action (E′/E (⊖₁ 𝐹)) (tgt F Q)
-            ≡⟨ π₁ (ᴬgamma₁ 𝐹 Q) ⟩
-               action F′ Q
-            ≡⟨ ρ ⟩
-               a
-            ∎
+         wibble {a} ρ rewrite sym (wibble₀) = ρ
 
          wibble′ : ∀ {a} → action (E′/E (⊖₁ 𝐹)) S ≡ a → action F′ Q ≡ a
-         wibble′ = {!!}
+         wibble′ {a} ρ rewrite wibble₀ = ρ
 
          cheat₅ : (z₁ z₂ : ↓ z)
                   (ρ : (z₁ ≡ ◻ × action F′ Q ≡ ◻ → ⊥) → action F′ Q ≡ [ • u 〈 z₁ 〉 ᶜ ])
