@@ -38,6 +38,12 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
          (≡P″ : tgt pop-z*E/E′ ((pop z′ *̃) R′) ≡ P″) (≡Q″ : tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″)
          where
 
+         cheat₃ : (z† ≡ ◻ × action (E′/E (⊖₁ 𝐹)) S ≡ ◻ → ⊥) → action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 z† 〉 ᶜ ]
+         cheat₃ _ = trustMe
+
+         cheat₄ : (z′ ≡ ◻ × action F′ Q ≡ ◻ → ⊥) → action F′ Q ≡ [ • u 〈 z′ 〉 ᶜ ]
+         cheat₄ _ = trustMe
+
          cheat₁ : z† ≡ z′
          cheat₁ = trustMe
 
