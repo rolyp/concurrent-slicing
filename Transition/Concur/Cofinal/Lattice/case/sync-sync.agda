@@ -54,7 +54,8 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
          cheat₅ ◻ ◻ _ _ = refl
          cheat₅ [ .z ] [ .z ] _ _ = refl
          cheat₅ ◻ [ .z ] ρ σ with action F′ Q | inspect (action F′) Q
-         ... | ◻ | _ = {!!}
+         ... | ◻ | [ eq ] =
+            ⊥-elim (bibble [ z ] (wibble₁ eq) (σ (λ { (() , _) })))
          ... | [ _ ] | [ eq ] =
             ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (wibble₂ ◻ (trans eq (ρ (λ { (_ , ()) }))))) (σ (λ { (() , _) }))))
          cheat₅ [ .z ] ◻ ρ σ = {!!}
