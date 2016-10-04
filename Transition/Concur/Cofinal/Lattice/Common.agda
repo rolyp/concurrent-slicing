@@ -119,7 +119,7 @@ module Transition.Concur.Cofinal.Lattice.Common where
          ×
          action (E/E′ (⊖₁ 𝐸)) (tgt E′ P′) ≡ residual 𝑎 (action E P′)
 
-   module quibble
+   module ≡action
       {Γ} {x y u z : Name Γ} {P₀ R₀ R′₀} {E : P₀ —[ • x 〈 y 〉 ᶜ - _ ]→ R₀} {E′ : P₀ —[ • u 〈 z 〉 ᶜ - _ ]→ R′₀}
       (𝐸 : E ⌣₁[ ᶜ∇ᶜ ] E′) (P : ↓ P₀)  where
 
@@ -159,8 +159,8 @@ module Transition.Concur.Cofinal.Lattice.Common where
          y₁≡y₂ ◻ [ .y ] α β rewrite ≡a/a′ =
             let δ : action E P ≡ [ • x 〈 [ y ] 〉 ᶜ ]
                 δ = β (λ { (() , _) })
-            in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans {!!} δ))
+            in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (α (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
          y₁≡y₂ [ .y ] ◻ α β rewrite sym ≡a/a′ =
             let δ : action (E/E′ (⊖₁ 𝐸)) R′ ≡ [ • x 〈 [ y ] 〉 ᶜ ]
                 δ = α (λ { (() , _) })
-            in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] {!trans ? δ!})
+            in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (β (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))

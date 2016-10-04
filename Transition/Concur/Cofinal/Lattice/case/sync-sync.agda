@@ -42,7 +42,7 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
          (≡y† : (y† ≡ ◻ × action (E/E′ (⊖₁ 𝐹)) S′ ≡ ◻ → ⊥) → action (E/E′ (⊖₁ 𝐹)) S′ ≡ [ • x 〈 y† 〉 ᶜ ])
          where
 
-         open quibble
+         open ≡action
 
          β : (pop z† *̃) P′ ≅ (pop y† *̃) P″
          β = let open ≅-Reasoning in
