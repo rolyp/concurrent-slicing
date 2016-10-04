@@ -121,7 +121,16 @@ module Transition.Concur.Cofinal.Lattice.Common where
 
    module quibble
       {Γ} {x y u z : Name Γ} {Q₀ S₀ S′₀} {F : Q₀ —[ • x 〈 y 〉 ᶜ - _ ]→ S₀} {F′ : Q₀ —[ • u 〈 z 〉 ᶜ - _ ]→ S′₀}
-      (𝐹 : F ⌣₁[ ᶜ∇ᶜ ] F′) (Q : ↓ Q₀) (S : ↓ S₀) where
+      (𝐹 : F ⌣₁[ ᶜ∇ᶜ ] F′) (Q : ↓ Q₀) (S : ↓ S₀) (≡S : tgt F Q ≡ S) where
+
+      wibble₀ : action (E′/E (⊖₁ 𝐹)) S ≡ action F′ Q
+      wibble₀ = trans (cong (action (E′/E (⊖₁ 𝐹))) (sym ≡S)) (π₁ (ᴬgamma₁ 𝐹 Q))
+
+      wibble : ∀ {a} → action F′ Q ≡ a → action (E′/E (⊖₁ 𝐹)) S ≡ a
+      wibble {a} ρ rewrite sym (wibble₀) = ρ
+
+      wibble′ : ∀ {a} → action (E′/E (⊖₁ 𝐹)) S ≡ a → action F′ Q ≡ a
+      wibble′ {a} ρ rewrite wibble₀ = ρ
 
       cheat : (z₁ z₂ : ↓ z)
               (ρ : (z₁ ≡ ◻ × action F′ Q ≡ ◻ → ⊥) → action F′ Q ≡ [ • u 〈 z₁ 〉 ᶜ ])
@@ -131,9 +140,9 @@ module Transition.Concur.Cofinal.Lattice.Common where
       cheat [ .z ] [ .z ] _ _ = refl
       cheat ◻ [ .z ] ρ σ =
          let δ : action F′ Q ≡ [ • u 〈 [ z ] 〉 ᶜ ]
-             δ = {!!} -- wibble′ (σ (λ { (() , _) }))
+             δ = wibble′ (σ (λ { (() , _) }))
          in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (ρ (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
       cheat [ .z ] ◻ ρ σ =
          let δ : action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 [ z ] 〉 ᶜ ]
-             δ = {!!} -- wibble (ρ (λ { (() , _) }))
+             δ = wibble (ρ (λ { (() , _) }))
          in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (σ (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
