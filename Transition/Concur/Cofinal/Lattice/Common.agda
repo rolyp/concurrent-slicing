@@ -126,8 +126,8 @@ module Transition.Concur.Cofinal.Lattice.Common where
       module _
          (R : ↓ R₀) (≡R : tgt E P ≡ R) where
 
-         wibble₀ : action (E′/E (⊖₁ 𝐸)) R ≡ action E′ P
-         wibble₀ = trans (cong (action (E′/E (⊖₁ 𝐸))) (sym ≡R)) (π₁ (ᴬgamma₁ 𝐸 P))
+         ≡a′/a : action (E′/E (⊖₁ 𝐸)) R ≡ action E′ P
+         ≡a′/a = trans (cong (action (E′/E (⊖₁ 𝐸))) (sym ≡R)) (π₁ (ᴬgamma₁ 𝐸 P))
 
          z₁≡z₂ : (z₁ z₂ : ↓ z)
                  (α : (z₁ ≡ ◻ × action E′ P ≡ ◻ → ⊥) → action E′ P ≡ [ • u 〈 z₁ 〉 ᶜ ])
@@ -135,17 +135,20 @@ module Transition.Concur.Cofinal.Lattice.Common where
                  z₁ ≡ z₂
          z₁≡z₂ ◻ ◻ _ _ = refl
          z₁≡z₂ [ .z ] [ .z ] _ _ = refl
-         z₁≡z₂ ◻ [ .z ] α β rewrite wibble₀ =
+         z₁≡z₂ ◻ [ .z ] α β rewrite ≡a′/a =
             let δ : action E′ P ≡ [ • u 〈 [ z ] 〉 ᶜ ]
                 δ = β (λ { (() , _) })
             in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (α (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
-         z₁≡z₂ [ .z ] ◻ α β rewrite sym (wibble₀) =
+         z₁≡z₂ [ .z ] ◻ α β rewrite sym ≡a′/a =
             let δ : action (E′/E (⊖₁ 𝐸)) R ≡ [ • u 〈 [ z ] 〉 ᶜ ]
                 δ = α (λ { (() , _) })
             in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (β (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
 
       module _
          (R′ : ↓ R′₀) (≡R′ : tgt E′ P ≡ R′) where
+
+         ≡a/a′ : action (E/E′ (⊖₁ 𝐸)) R′ ≡ action E P
+         ≡a/a′ = trans (cong (action (E/E′ (⊖₁ 𝐸))) (sym ≡R′)) (π₂ (ᴬgamma₁ 𝐸 P))
 
          y₁≡y₂ : (y₁ y₂ : ↓ y)
                  (α : (y₁ ≡ ◻ × action E P ≡ ◻ → ⊥) → action E P ≡ [ • x 〈 y₁ 〉 ᶜ ])
