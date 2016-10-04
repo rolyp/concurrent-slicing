@@ -42,8 +42,8 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
 
          open quibble
 
-         cheat₂ : y† ≡ y′
-         cheat₂ = trustMe
+         cheat₂ : y′ ≡ y†
+         cheat₂ = cheat {!!} {!!} {!!} {!!} y′ y† {!!} {!!}
 
          β : (pop z† *̃) P′ ≅ (pop y† *̃) P″
          β = let open ≅-Reasoning in
@@ -58,7 +58,7 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
             ≡⟨ cong (pop z† *̃) (sym (renᵇ-tgt-comm (E′/E (⊖₁ 𝐸)) (pop y′) (tgt E P))) ⟩
                (pop z† *̃) ((suc (pop y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
             ≡⟨ cong₂ (λ z‡ y‡ → (pop z‡ *̃) ((suc (pop y‡) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
-                     (sym (cheat 𝐹 Q S ≡S z′ z† ≡z′ ≡z†)) (sym cheat₂) ⟩
+                     (sym (cheat 𝐹 Q S ≡S z′ z† ≡z′ ≡z†)) cheat₂ ⟩
                (pop z′ *̃) ((suc (pop y†) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
             ≅⟨ ≅-cong✴ ↓_ (sym (swap-involutive P′₀))
                ((pop z′ *̃) ∘ᶠ (suc (pop y†) *̃)) (≅-sym (swap-involutivẽ (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))) ⟩
