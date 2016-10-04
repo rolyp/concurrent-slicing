@@ -40,29 +40,7 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
          (≡z† : (z† ≡ ◻ × action (E′/E (⊖₁ 𝐹)) S ≡ ◻ → ⊥) → action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 z† 〉 ᶜ ])
          where
 
-         wibble₀ : action (E′/E (⊖₁ 𝐹)) S ≡ action F′ Q
-         wibble₀ = trans (cong (action (E′/E (⊖₁ 𝐹))) (sym ≡S)) (π₁ (ᴬgamma₁ 𝐹 Q))
-
-         wibble : ∀ {a} → action F′ Q ≡ a → action (E′/E (⊖₁ 𝐹)) S ≡ a
-         wibble {a} ρ rewrite sym (wibble₀) = ρ
-
-         wibble′ : ∀ {a} → action (E′/E (⊖₁ 𝐹)) S ≡ a → action F′ Q ≡ a
-         wibble′ {a} ρ rewrite wibble₀ = ρ
-
-         cheat : (z₁ z₂ : ↓ z)
-                 (ρ : (z₁ ≡ ◻ × action F′ Q ≡ ◻ → ⊥) → action F′ Q ≡ [ • u 〈 z₁ 〉 ᶜ ])
-                 (σ : (z₂ ≡ ◻ × action (E′/E (⊖₁ 𝐹)) S ≡ ◻ → ⊥) → action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 z₂ 〉 ᶜ ]) →
-                 z₁ ≡ z₂
-         cheat ◻ ◻ _ _ = refl
-         cheat [ .z ] [ .z ] _ _ = refl
-         cheat ◻ [ .z ] ρ σ =
-            let δ : action F′ Q ≡ [ • u 〈 [ z ] 〉 ᶜ ]
-                δ = wibble′ (σ (λ { (() , _) }))
-            in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (ρ (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
-         cheat [ .z ] ◻ ρ σ =
-            let δ : action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 [ z ] 〉 ᶜ ]
-                δ = wibble (ρ (λ { (() , _) }))
-            in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (σ (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
+         open quibble
 
          cheat₂ : y† ≡ y′
          cheat₂ = trustMe
@@ -80,7 +58,7 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
             ≡⟨ cong (pop z† *̃) (sym (renᵇ-tgt-comm (E′/E (⊖₁ 𝐸)) (pop y′) (tgt E P))) ⟩
                (pop z† *̃) ((suc (pop y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
             ≡⟨ cong₂ (λ z‡ y‡ → (pop z‡ *̃) ((suc (pop y‡) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
-                     (sym (cheat z′ z† ≡z′ ≡z†)) (sym cheat₂) ⟩
+                     (sym (cheat 𝐹 Q S ≡S z′ z† ≡z′ ≡z†)) (sym cheat₂) ⟩
                (pop z′ *̃) ((suc (pop y†) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
             ≅⟨ ≅-cong✴ ↓_ (sym (swap-involutive P′₀))
                ((pop z′ *̃) ∘ᶠ (suc (pop y†) *̃)) (≅-sym (swap-involutivẽ (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))) ⟩
