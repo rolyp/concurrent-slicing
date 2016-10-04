@@ -29,6 +29,7 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
       (≡R : tgt E P ≡ R) (≡R′ : tgt E′ P ≡ R′) (≡S : tgt F Q ≡ S) (≡S′ : tgt F′ Q ≡ S′)
       (≡pop-y*E′/E : (ᴿ.pop y *ᵇ) (E′/E (⊖₁ 𝐸)) ≡ pop-y*E′/E)
       (≡pop-z*E/E′ : (ᴿ.pop z *ᵇ) (E/E′ (⊖₁ 𝐸)) ≡ pop-z*E/E′)
+      (≡z′ : (z′ ≡ ◻ × action F′ Q ≡ ◻ → ⊥) → action F′ Q ≡ [ • u 〈 z′ 〉 ᶜ ])
       where
 
       module _
@@ -47,17 +48,17 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
          wibble′ : ∀ {a} → action (E′/E (⊖₁ 𝐹)) S ≡ a → action F′ Q ≡ a
          wibble′ {a} ρ rewrite wibble₀ = ρ
 
-         cheat₅ : (z₁ z₂ : ↓ z)
+         cheat : (z₁ z₂ : ↓ z)
                   (ρ : (z₁ ≡ ◻ × action F′ Q ≡ ◻ → ⊥) → action F′ Q ≡ [ • u 〈 z₁ 〉 ᶜ ])
                   (σ : (z₂ ≡ ◻ × action (E′/E (⊖₁ 𝐹)) S ≡ ◻ → ⊥) → action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 z₂ 〉 ᶜ ]) →
                   z₁ ≡ z₂
-         cheat₅ ◻ ◻ _ _ = refl
-         cheat₅ [ .z ] [ .z ] _ _ = refl
-         cheat₅ ◻ [ .z ] ρ σ =
+         cheat ◻ ◻ _ _ = refl
+         cheat [ .z ] [ .z ] _ _ = refl
+         cheat ◻ [ .z ] ρ σ =
             let δ : action F′ Q ≡ [ • u 〈 [ z ] 〉 ᶜ ]
                 δ = wibble′ (σ (λ { (() , _) }))
             in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (ρ (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
-         cheat₅ [ .z ] ◻ ρ σ =
+         cheat [ .z ] ◻ ρ σ =
             let δ : action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 [ z ] 〉 ᶜ ]
                 δ = wibble (ρ (λ { (() , _) }))
             in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (σ (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
@@ -135,12 +136,15 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
             ≅⟨ [-│-]-cong α β (γ₁ 𝐹) δ ⟩
                [ (pop y† *̃) P″ │ Q″ ]
             ∎)
+-}
 
-      subcase :
+      postulate
+       subcase :
          braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} (cong₂ _│_ α (γ₁ 𝐹))
          (tgt (pop-y*E′/E │• E′/E (⊖₁ 𝐹)) [ (pop y′ *̃) R │ S ])
          ≡
          tgt (pop-z*E/E′ │• E/E′ (⊖₁ 𝐹)) [ (pop z′ *̃) R′ │ S′ ]
+{-
       subcase
          with step pop-y*E′/E ((pop y′ *̃) R) | step (E′/E (⊖₁ 𝐹)) S |
               step pop-z*E/E′ ((pop z′ *̃) R′) | step (E/E′ (⊖₁ 𝐹)) S′ |
@@ -184,6 +188,7 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
       ... | [ .u • ᵇ ] , P′ | [ • .u 〈 z† 〉 ᶜ ] , Q′ | [ .x • ᵇ ] , P″ | [ • .x 〈 y† 〉 ᶜ ] , Q″ |
          [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ] =
          base P′ Q′ P″ Q″ z† y† (,-inj₂ ≡P′) (,-inj₂ ≡Q′) (,-inj₂ ≡P″) (,-inj₂ ≡Q″)
+-}
 
    case :
       braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} (cong₂ _│_ α (γ₁ 𝐹))
@@ -198,6 +203,10 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
            inspect (step E) P | inspect (step F) Q | inspect (step E′) P | inspect (step F′) Q
    ... | ◻ , R | ◻ , S | ◻ , R′ | ◻ , S′ | [ ≡R ] | [ ≡S ] | [ ≡R′ ] | [ ≡S′ ] =
       subcase pop-y*E′/E pop-z*E/E′ R R′ S S′ ◻ ◻ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) ≡pop-y*E′/E ≡pop-z*E/E′
+              {!!}
+   ... | _ , R | _ , S | _ , R′ | _ , S′ | [ ≡R ] | [ ≡S ] | [ ≡R′ ] | [ ≡S′ ] =
+      {!!}
+{-
    ... | ◻ , R | ◻ , S | ◻ , R′ | [ • .u 〈 z′ 〉 ᶜ ] , S′ | [ ≡R ] | [ ≡S ] | [ ≡R′ ] | [ ≡S′ ] =
       subcase pop-y*E′/E pop-z*E/E′ R R′ S S′ ◻ z′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) ≡pop-y*E′/E ≡pop-z*E/E′
    ... | ◻ , R | ◻ , S | [ .u • ᵇ ] , R′ | ◻ , S′ | [ ≡R ] | [ ≡S ] | [ ≡R′ ] | [ ≡S′ ] =
