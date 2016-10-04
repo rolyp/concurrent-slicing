@@ -176,17 +176,17 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
               (λ _ → ,-inj₁ ≡Q′)
       ... | [ .u • ᵇ ] , P′ | ◻ , Q′ | ◻ , P″ | ◻ , Q″ | [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ] =
          base P′ Q′ P″ Q″ ◻ ◻ (,-inj₂ ≡P′) (,-inj₂ ≡Q′) (,-inj₂ ≡P″) (,-inj₂ ≡Q″)
-              {!!}
+              (λ ≢z† → ⊥-elim (≢z† (refl , (,-inj₁ ≡Q′))))
       ... | [ .u • ᵇ ] , P′ | ◻ , Q′ | ◻ , P″ | [ • .x 〈 y† 〉 ᶜ ] , Q″ | [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ] =
          base P′ Q′ P″ Q″ ◻ y† (,-inj₂ ≡P′) (,-inj₂ ≡Q′) (,-inj₂ ≡P″) (,-inj₂ ≡Q″)
-              {!!}
+              (λ ≢z† → ⊥-elim (≢z† (refl , (,-inj₁ ≡Q′))))
       ... | [ .u • ᵇ ] , P′ | ◻ , Q′ | [ .x • ᵇ ] , P″ | ◻ , Q″ | [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ] =
          base P′ Q′ P″ Q″ ◻ ◻ (,-inj₂ ≡P′) (,-inj₂ ≡Q′) (,-inj₂ ≡P″) (,-inj₂ ≡Q″)
-              {!!}
+              (λ ≢z† → ⊥-elim (≢z† (refl , (,-inj₁ ≡Q′))))
       ... | [ .u • ᵇ ] , P′ | ◻ , Q′ | [ .x • ᵇ ] , P″ | [ • .x 〈 y† 〉 ᶜ ] , Q″ |
          [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ] =
          base P′ Q′ P″ Q″ ◻ y† (,-inj₂ ≡P′) (,-inj₂ ≡Q′) (,-inj₂ ≡P″) (,-inj₂ ≡Q″)
-              {!!}
+              {!λ ≢z† → ⊥-elim (≢z† (refl , (,-inj₁ ≡Q′)))!}
       ... | [ .u • ᵇ ] , P′ | [ • .u 〈 z† 〉 ᶜ ] , Q′ | ◻ , P″ | ◻ , Q″ | [ ≡P′ ] | [ ≡Q′ ] | [ ≡P″ ] | [ ≡Q″ ] =
          base P′ Q′ P″ Q″ z† ◻ (,-inj₂ ≡P′) (,-inj₂ ≡Q′) (,-inj₂ ≡P″) (,-inj₂ ≡Q″)
               (λ _ → ,-inj₁ ≡Q′)
