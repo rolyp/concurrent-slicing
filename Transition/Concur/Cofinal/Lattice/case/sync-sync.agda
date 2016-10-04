@@ -64,9 +64,6 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
                 δ = wibble (ρ (λ { (() , _) }))
             in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (σ (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
 
-         cheat₁ : z† ≡ z′
-         cheat₁ = sym (cheat z′ z† ≡z′ ≡z†)
-
          cheat₂ : y† ≡ y′
          cheat₂ = trustMe
 
@@ -82,7 +79,8 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
                (pop z† *̃) (tgt ((ᴿ.pop y *ᵇ) (E′/E (⊖₁ 𝐸))) ((pop y′ *̃) (tgt E P)))
             ≡⟨ cong (pop z† *̃) (sym (renᵇ-tgt-comm (E′/E (⊖₁ 𝐸)) (pop y′) (tgt E P))) ⟩
                (pop z† *̃) ((suc (pop y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
-            ≡⟨ cong₂ (λ z‡ y‡ → (pop z‡ *̃) ((suc (pop y‡) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))) cheat₁ (sym cheat₂) ⟩
+            ≡⟨ cong₂ (λ z‡ y‡ → (pop z‡ *̃) ((suc (pop y‡) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
+                     (sym (cheat z′ z† ≡z′ ≡z†)) (sym cheat₂) ⟩
                (pop z′ *̃) ((suc (pop y†) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
             ≅⟨ ≅-cong✴ ↓_ (sym (swap-involutive P′₀))
                ((pop z′ *̃) ∘ᶠ (suc (pop y†) *̃)) (≅-sym (swap-involutivẽ (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))) ⟩
