@@ -156,5 +156,11 @@ module Transition.Concur.Cofinal.Lattice.Common where
                  y₁ ≡ y₂
          y₁≡y₂ ◻ ◻ _ _ = refl
          y₁≡y₂ [ .y ] [ .y ] _ _ = refl
-         y₁≡y₂ ◻ [ .y ] α β = {!!}
-         y₁≡y₂ [ .y ] ◻ α β = {!!}
+         y₁≡y₂ ◻ [ .y ] α β rewrite ≡a/a′ =
+            let δ : action E P ≡ [ • x 〈 [ y ] 〉 ᶜ ]
+                δ = β (λ { (() , _) })
+            in {!!}
+         y₁≡y₂ [ .y ] ◻ α β rewrite sym ≡a/a′ =
+            let δ : action (E/E′ (⊖₁ 𝐸)) R′ ≡ [ • x 〈 [ y ] 〉 ᶜ ]
+                δ = α (λ { (() , _) })
+            in ?
