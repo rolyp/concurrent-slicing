@@ -64,7 +64,7 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
             in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (σ (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
 
          cheat₁ : z† ≡ z′
-         cheat₁ = trustMe
+         cheat₁ = sym (cheat z′ z† ≡z′ {!!})
 
          cheat₂ : y† ≡ y′
          cheat₂ = trustMe
