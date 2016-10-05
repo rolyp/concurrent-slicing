@@ -339,7 +339,7 @@ module Transition.Concur.Cofinal.Lattice.Common where
                       [ • ᴺ.suc x 〈 [ ᴺ.zero ] 〉 ᶜ ]
                    ∎
                 δ : action E P ≡ [ • x ﹙ [ ᴺ.zero ] ﹚ ᵇ ]
-                δ = {!!}
+                δ = inj-residual ˣ∇ˣ (action E P) [ • x ﹙ [ ᴺ.zero ] ﹚ ᵇ ] δ′
             in ⊥-elim ([•x﹙◻﹚ᵇ]≢[•x﹙[zero]﹚ᵇ] (trans (sym (α (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
          y₁≡y₂ [ .ᴺ.zero ] ◻ α β =
             let δ : action (E/E′ (⊖₁ 𝐸)) R′ ≡ [ • ᴺ.suc x 〈 [ ᴺ.zero ] 〉 ᶜ ]
