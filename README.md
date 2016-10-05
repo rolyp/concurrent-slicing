@@ -8,7 +8,7 @@ A of the paper.
 
 ## Required compiler and libraries
 
-* Agda, version 2.4.2.3; there seems to be a problem with typeclass resolution under 2.5.1.
+* Agda, version 2.4.2.3; seems to be a problem with typeclass resolution under 2.5.1.
 * Agda standard library version 0.9.
 * `agda-stdlib-ext`, version [0.0.3](https://github.com/rolyp/agda-stdlib-ext/releases/tag/0.0.3).
 * `proof-relevant-pi`, version [0.3](https://github.com/rolyp/proof-relevant-pi/releases/tag/0.3).
