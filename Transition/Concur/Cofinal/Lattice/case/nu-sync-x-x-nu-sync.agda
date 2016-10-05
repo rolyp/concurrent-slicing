@@ -38,10 +38,10 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-x-x-nu-sync
              braiding (ᶜ∇ᶜ {a = τ} {τ}) {0} α
              [ ν [ (pop y† *̃) P′ │ Q′ ] ] ≡ [ ν [ (pop y‡ *̃) P″ │ Q″ ] ]
       base P′ Q′ P″ Q″ y† y‡ ≡P′ ≡Q′ ≡P″ ≡Q″ =
-         let
+         let open ≡action‴
 
              cheat₁ : y ≡ y‡
-             cheat₁ = trustMe
+             cheat₁ = z₁≡z₂ 𝐹 Q S {!!} y y‡ {!!} {!!}
 
              cheat₂ : y′ ≡ y†
              cheat₂ = trustMe
