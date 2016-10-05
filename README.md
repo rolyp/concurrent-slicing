@@ -1,21 +1,21 @@
-# concurrent-slicing
+# concurrent-slicing, release 0.1
 
 Agda development accompanying the paper
 [Causally consistent dynamic slicing](http://dynamicaspects.org/papers/concur16.pdf),
-accepted to CONCUR 2016. To typecheck the entire development, compile
+presented at CONCUR 2016. To typecheck the entire development, compile
 `ConcurrentSlicing.agda`. The module structure is summarised in Appendix
 A of the paper.
 
 ## Required compiler and libraries:
 
-* Agda, version 2.4.2.3 (doesn't compile under 2.5.1)
-* Agda standard library version 0.9
-* `agda-stdlib-ext`, version [0.0.2] (https://github.com/rolyp/agda-stdlib-ext/releases/tag/0.0.2)
-* `proof-relevant-pi`, version [0.2] (https://github.com/rolyp/proof-relevant-pi/releases/tag/0.2)
+* Agda, version 2.4.2.3; there seems to be a problem with typeclass resolution under 2.5.1.
+* Agda standard library version 0.9.
+* `agda-stdlib-ext`, version [0.0.3](https://github.com/rolyp/agda-stdlib-ext/releases/tag/0.0.3).
+* `proof-relevant-pi`, version [0.3](https://github.com/rolyp/proof-relevant-pi/releases/tag/0.3).
 
-### Minor todos:
+### Future to-do items:
 
-* Sync Agda names with paper:
+* Improvements to names (more conventional or more aligned with paper):
   * `∘ᶠ` → `∘ᶠ`, `idᶠ` → `id`
   * `tgt` → `fwd` ?
   * `get`/`put` → `app`/`unapp`
@@ -23,7 +23,10 @@ A of the paper.
 
 ### Postulates which will remain postulates:
 
+I made a strategic decision to leave certain aspects of the development
+unformalised. The main parts are listed here:
+
 * `Proc.Ren.Lattice.*-preserves-≃ₑ` and `*-preserves-∘`
-* `Ren.Lattice.Properties` postulate counterpart to `Ren.Properties`
+* `Ren.Lattice.Properties` counterpart to `Ren.Properties`
 * `Transition.Ren.Lattice` postulates
 * `Transition.Concur.Cofinal.Lattice.Common.ᴬgamma₁`
