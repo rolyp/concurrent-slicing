@@ -289,7 +289,7 @@ module Transition.Concur.Cofinal.Lattice.Common where
          z₁≡z₂ ◻ ◻ _ _ = refl
          z₁≡z₂ [ .ᴺ.zero ] [ .ᴺ.zero ] _ _ = refl
          z₁≡z₂ ◻ [ .ᴺ.zero ] α β =
-            let δ′ : residual ˣ∇ˣ (action E′ P) ≡ residual ˣ∇ˣ [ • u ﹙ [ ᴺ.zero ] ﹚ ᵇ ]
+            let δ′ : residual ˣ∇ˣ (action E′ P) ≡ [ • ᴺ.suc u 〈 [ ᴺ.zero ] 〉 ᶜ ]
                 δ′ = let open EqReasoning (setoid _) in
                    begin
                       residual ˣ∇ˣ (action E′ P)
@@ -299,8 +299,6 @@ module Transition.Concur.Cofinal.Lattice.Common where
                       action (E′/E (⊖₁ 𝐸)) R
                    ≡⟨ β (λ { (() , _) }) ⟩
                       [ • ᴺ.suc u 〈 [ ᴺ.zero ] 〉 ᶜ ]
-                   ≡⟨ refl ⟩
-                      residual ˣ∇ˣ [ • u ﹙ [ ᴺ.zero ] ﹚ ᵇ ]
                    ∎
                 δ : action E′ P ≡ [ • u ﹙ [ ᴺ.zero ] ﹚ ᵇ ]
                 δ = inj-residual ˣ∇ˣ (action E′ P) [ • u ﹙ [ ᴺ.zero ] ﹚ ᵇ ] δ′
