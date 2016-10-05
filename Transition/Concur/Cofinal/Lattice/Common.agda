@@ -277,7 +277,16 @@ module Transition.Concur.Cofinal.Lattice.Common where
             in ⊥-elim ([•x﹙◻﹚ᵇ]≢[•x﹙[zero]﹚ᵇ] (trans (sym (α (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
          z₁≡z₂ [ .ᴺ.zero ] ◻ α β =
             let δ : action (E′/E (⊖₁ 𝐸)) R ≡ [ • ᴺ.suc u 〈 [ ᴺ.zero ] 〉 ᶜ ]
-                δ = {!!}
+                δ = let open EqReasoning (setoid _) in
+                   begin
+                      action (E′/E (⊖₁ 𝐸)) R
+                   ≡⟨ cong (action (E′/E (⊖₁ 𝐸))) (sym ≡R) ⟩
+                      action (E′/E (⊖₁ 𝐸)) (tgt E P)
+                   ≡⟨ π₁ (ᴬgamma₁ 𝐸 P) ⟩
+                      residual ˣ∇ˣ (action E′ P)
+                   ≡⟨ cong (residual ˣ∇ˣ) (α (λ { (() , _) })) ⟩
+                      [ • ᴺ.suc u 〈 [ ᴺ.zero ] 〉 ᶜ ]
+                   ∎
             in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (β (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
 
       module _
@@ -295,5 +304,5 @@ module Transition.Concur.Cofinal.Lattice.Common where
             in ⊥-elim ([•x﹙◻﹚ᵇ]≢[•x﹙[zero]﹚ᵇ] (trans (sym (α (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
          y₁≡y₂ [ .ᴺ.zero ] ◻ α β =
             let δ : action (E/E′ (⊖₁ 𝐸)) R′ ≡ [ • ᴺ.suc x 〈 [ ᴺ.zero ] 〉 ᶜ ]
-                δ = ? -- trans ≡a/a′ (cong (push ᴬ*̃) (α (λ { (() , _) })))
+                δ = {!!} -- trans ≡a/a′ (cong (push ᴬ*̃) (α (λ { (() , _) })))
             in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (β (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
