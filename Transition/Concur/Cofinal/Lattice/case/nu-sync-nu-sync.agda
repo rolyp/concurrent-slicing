@@ -17,6 +17,42 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
       (≡y′ : (y′ ≡ ◻ × action F Q ≡ ◻ → ⊥) → action F Q ≡ [ • x ﹙ y′ ﹚ ᵇ ])
       where
 
+      ≡a′/a : action (E′/E (⊖₁ 𝐹)) S ≡ (push ᴬ*̃) (action F′ Q)
+      ≡a′/a = trans (cong (action (E′/E (⊖₁ 𝐹))) (sym ≡S)) (π₁ (ᴬgamma₁ 𝐹 Q))
+
+      z₁≡z₂ : (z₁ : ↓ ᴺ.zero) (z₂ : ↓ ᴺ.zero)
+              (α : (z₁ ≡ ◻ × action F′ Q ≡ ◻ → ⊥) → action F′ Q ≡ [ • u ﹙ z₁ ﹚ ᵇ ])
+              (β : (z₂ ≡ ◻ × action (E′/E (⊖₁ 𝐹)) S ≡ ◻ → ⊥) → action (E′/E (⊖₁ 𝐹)) S ≡ [ • ᴺ.suc u ﹙ z₂ ﹚ ᵇ ]) →
+              weaken ̃ z₁ ≡ z₂
+      z₁≡z₂ ◻ ◻ _ _ = refl
+      z₁≡z₂ [ .ᴺ.zero ] [ .ᴺ.zero ] _ _ = refl
+      z₁≡z₂ ◻ [ .ᴺ.zero ] α β =
+         let δ : action F′ Q ≡ [ • u ﹙ [ ᴺ.zero ] ﹚ ᵇ ]
+             δ = inj-residual (ᵇ∇ᵇ {a′ = • u}) (action F′ Q) _ (trans (sym ≡a′/a) (β (λ { (() , _) })))
+         in ⊥-elim ([•x﹙◻﹚ᵇ]≢[•x﹙[zero]﹚ᵇ] (trans (sym (α (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
+      z₁≡z₂ [ .ᴺ.zero ] ◻ α β =
+         let δ : action (E′/E (⊖₁ 𝐹)) S ≡ [ • ᴺ.suc u ﹙ [ ᴺ.zero ] ﹚ ᵇ ]
+             δ = trans ≡a′/a (cong (push ᴬ*̃) (α (λ { (() , _) })))
+         in ⊥-elim ([•x﹙◻﹚ᵇ]≢[•x﹙[zero]﹚ᵇ] (trans (sym (β (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
+
+      ≡a/a′ : action (E/E′ (⊖₁ 𝐹)) S′ ≡ (push ᴬ*̃) (action F Q)
+      ≡a/a′ = trans (cong (action (E/E′ (⊖₁ 𝐹))) (sym ≡S′)) (π₂ (ᴬgamma₁ 𝐹 Q))
+
+      y₁≡y₂ : (y₁ : ↓ ᴺ.zero) (y₂ : ↓ ᴺ.zero)
+              (α : (y₁ ≡ ◻ × action F Q ≡ ◻ → ⊥) → action F Q ≡ [ • x ﹙ y₁ ﹚ ᵇ ])
+              (β : (y₂ ≡ ◻ × action (E/E′ (⊖₁ 𝐹)) S′ ≡ ◻ → ⊥) → action (E/E′ (⊖₁ 𝐹)) S′ ≡ [ • ᴺ.suc x ﹙ y₂ ﹚ ᵇ ]) →
+              weaken ̃ y₁ ≡ y₂
+      y₁≡y₂ ◻ ◻ _ _ = refl
+      y₁≡y₂ [ .ᴺ.zero ] [ .ᴺ.zero ] _ _ = refl
+      y₁≡y₂ ◻ [ .ᴺ.zero ] α β =
+         let δ : action F Q ≡ [ • x ﹙ [ ᴺ.zero ] ﹚ ᵇ ]
+             δ = inj-residual (ᵇ∇ᵇ {a′ = • u}) (action F Q) _ (trans (sym ≡a/a′) (β (λ { (() , _) })))
+         in ⊥-elim ([•x﹙◻﹚ᵇ]≢[•x﹙[zero]﹚ᵇ] (trans (sym (α (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
+      y₁≡y₂ [ .ᴺ.zero ] ◻ α β =
+         let δ : action (E/E′ (⊖₁ 𝐹)) S′ ≡ [ • ᴺ.suc x ﹙ [ ᴺ.zero ] ﹚ ᵇ ]
+             δ = trans ≡a/a′ (cong (push ᴬ*̃) (α (λ { (() , _) })))
+         in ⊥-elim ([•x﹙◻﹚ᵇ]≢[•x﹙[zero]﹚ᵇ] (trans (sym (β (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
+
       base : (P′ : ↓ (ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸))) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) (P″ : ↓ (ᴿ.suc idᶠ *) (tgt₂ (⊖₁ 𝐸)))
              (Q″ : ↓ tgt₂ (⊖₁ 𝐹)) (y† y‡ : ↓ ᴺ.zero) → tgt ((idᶠ *ᵇ) (E′/E (⊖₁ 𝐸))) ((repl y′ *̃) R) ≡ P′ →
              tgt (E′/E (⊖₁ 𝐹)) S ≡ Q′ → tgt ((idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸))) ((repl y *̃) R′) ≡ P″ → tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″ →
@@ -24,9 +60,7 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
              ((y‡ ≡ ◻ × action (E/E′ (⊖₁ 𝐹)) S′ ≡ ◻ → ⊥) → action (E/E′ (⊖₁ 𝐹)) S′ ≡ [ • ᴺ.suc x ﹙ y‡ ﹚ ᵇ ]) →
              braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ (repl y† *̃) P′ │ Q′ ] ] ] ≡ [ ν [ ν [ (repl y‡ *̃) P″ │ Q″ ] ] ]
       base P′ Q′ P″ Q″ y† y‡ ≡P′ ≡Q′ ≡P″ ≡Q″ ≡y† ≡y‡ =
-         let open ≡action″
-
-             β : (swap *̃) ((repl y† *̃) P′) ≅ (repl y‡ *̃) P″
+         let β : (swap *̃) ((repl y† *̃) P′) ≅ (repl y‡ *̃) P″
              β = let open ≅-Reasoning in
                 begin
                    (swap *̃) ((repl y† *̃) P′)
@@ -37,12 +71,12 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
                 ≡⟨ cong ((swap *̃) ∘ᶠ (repl y† *̃) ∘ᶠ (suc (repl y′) *̃) ∘ᶠ tgt (E′/E (⊖₁ 𝐸))) (sym ≡R) ⟩
                    (swap *̃) ((repl y† *̃) ((suc (repl y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
                 ≡⟨ cong (λ z → (swap *̃) ((repl z *̃) ((suc (repl y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))))
-                        (sym (z₁≡z₂ 𝐹 Q S ≡S y y† ≡y ≡y†)) ⟩
+                        (sym (z₁≡z₂ y y† ≡y ≡y†)) ⟩
                    (swap *̃) ((repl (weaken ̃ y) *̃) ((suc (repl y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
                 ≅⟨ ≅-sym (id-suc-id-swap-id-suc-id̃ y y′ (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))) ⟩
                    (repl (weaken ̃ y′) *̃) ((suc (repl y) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
                 ≡⟨ cong (λ z → ((repl z *̃) ((suc (repl y) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))))
-                        (y₁≡y₂ 𝐹 Q S′ ≡S′ y′ y‡ ≡y′ ≡y‡) ⟩
+                        (y₁≡y₂ y′ y‡ ≡y′ ≡y‡) ⟩
                    (repl y‡ *̃) ((suc (repl y) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
                 ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) ((repl y‡ *̃) ∘ᶠ (suc (repl y) *̃)) (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _)) ⟩
                    (repl y‡ *̃) ((suc (repl y) *̃) (braiding (ᵇ∇ᵇ {a = x •} {u •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
