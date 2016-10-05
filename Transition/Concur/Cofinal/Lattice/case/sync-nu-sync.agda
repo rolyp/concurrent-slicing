@@ -178,54 +178,54 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
            inspect (step E) P | inspect (step F) Q | inspect (step E′) P | inspect (step F′) Q
    ... | ◻ , R | ◻ , S | ◻ , R′ | ◻ , S′ | [ ≡R ] | [ ≡S ] | [ ≡R′ ] | [ ≡S′ ] =
       subcase pop-y*E′/E R R′ S S′ ◻ ◻ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) ≡pop-y*E′/E
-              ?
+              (λ ≢z′ → ⊥-elim (≢z′ (refl , ,-inj₁ ≡S′)))
    ... | ◻ , R | ◻ , S | ◻ , R′ | [ • .u ﹙ z′ ﹚ ᵇ ] , S′ | [ ≡R ] | [ ≡S ] | [ ≡R′ ] | [ ≡S′ ] =
       subcase pop-y*E′/E R R′ S S′ ◻ z′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) ≡pop-y*E′/E
-              ?
+              (λ _ → ,-inj₁ ≡S′)
    ... | ◻ , R | ◻ , S | [ .u • ᵇ ] , R′ | ◻ , S′ | [ ≡R ] | [ ≡S ] | [ ≡R′ ] | [ ≡S′ ] =
       subcase pop-y*E′/E R R′ S S′ ◻ ◻ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) ≡pop-y*E′/E
-              ?
+              (λ ≢z′ → ⊥-elim (≢z′ (refl , ,-inj₁ ≡S′)))
    ... | ◻ , R | ◻ , S | [ .u • ᵇ ] , R′ | [ • .u ﹙ z′ ﹚ ᵇ ] , S′ | [ ≡R ] | [ ≡S ] | [ ≡R′ ] | [ ≡S′ ] =
       subcase pop-y*E′/E R R′ S S′ ◻ z′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) ≡pop-y*E′/E
-              ?
+              (λ _ → ,-inj₁ ≡S′)
    ... | ◻ , R | [ • .x 〈 y′ 〉 ᶜ ] , S | ◻ , R′ | ◻ , S′ | [ ≡R ] | [ ≡S ] | [ ≡R′ ] | [ ≡S′ ] =
       subcase pop-y*E′/E R R′ S S′ y′ ◻ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) ≡pop-y*E′/E
-              ?
+              (λ ≢z′ → ⊥-elim (≢z′ (refl , ,-inj₁ ≡S′)))
    ... | ◻ , R | [ • .x 〈 y′ 〉 ᶜ ] , S | ◻ , R′ | [ • .u ﹙ z′ ﹚ ᵇ ] , S′ | [ ≡R ] | [ ≡S ] | [ ≡R′ ] | [ ≡S′ ] =
       subcase pop-y*E′/E R R′ S S′ y′ z′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) ≡pop-y*E′/E
-              ?
+              (λ _ → ,-inj₁ ≡S′)
    ... | ◻ , R | [ • .x 〈 y′ 〉 ᶜ ] , S | [ .u • ᵇ ] , R′ | ◻ , S′ | [ ≡R ] | [ ≡S ] | [ ≡R′ ] | [ ≡S′ ] =
       subcase pop-y*E′/E R R′ S S′ y′ ◻ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) ≡pop-y*E′/E
-              ?
+              (λ ≢z′ → ⊥-elim (≢z′ (refl , ,-inj₁ ≡S′)))
    ... | ◻ , R | [ • .x 〈 y′ 〉 ᶜ ] , S | [ .u • ᵇ ] , R′ | [ • .u ﹙ z′ ﹚ ᵇ ] , S′ |
        [ ≡R ] | [ ≡S ] | [ ≡R′ ] | [ ≡S′ ] =
       subcase pop-y*E′/E R R′ S S′ y′ z′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) ≡pop-y*E′/E
-              ?
+              (λ _ → ,-inj₁ ≡S′)
    ... | [ .x • ᵇ ] , R | ◻ , S | ◻ , R′ | ◻ , S′ | [ ≡R ] | [ ≡S ] | [ ≡R′ ] | [ ≡S′ ] =
       subcase pop-y*E′/E R R′ S S′ ◻ ◻ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) ≡pop-y*E′/E
-              ?
+              (λ ≢z′ → ⊥-elim (≢z′ (refl , ,-inj₁ ≡S′)))
    ... | [ .x • ᵇ ] , R | ◻ , S | ◻ , R′ | [ • .u ﹙ z′ ﹚ ᵇ ] , S′ | [ ≡R ] | [ ≡S ] | [ ≡R′ ] | [ ≡S′ ] =
       subcase pop-y*E′/E R R′ S S′ ◻ z′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) ≡pop-y*E′/E
-              ?
+              (λ _ → ,-inj₁ ≡S′)
    ... | [ .x • ᵇ ] , R | ◻ , S | [ .u • ᵇ ] , R′ | ◻ , S′ | [ ≡R ] | [ ≡S ] | [ ≡R′ ] | [ ≡S′ ] =
       subcase pop-y*E′/E R R′ S S′ ◻ ◻ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) ≡pop-y*E′/E
-              ?
+              (λ ≢z′ → ⊥-elim (≢z′ (refl , ,-inj₁ ≡S′)))
    ... | [ .x • ᵇ ] , R | ◻ , S | [ .u • ᵇ ] , R′ | [ • .u ﹙ z′ ﹚ ᵇ ] , S′ |
        [ ≡R ] | [ ≡S ] | [ ≡R′ ] | [ ≡S′ ] =
       subcase pop-y*E′/E R R′ S S′ ◻ z′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) ≡pop-y*E′/E
-              ?
+              (λ _ → ,-inj₁ ≡S′)
    ... | [ .x • ᵇ ] , R | [ • .x 〈 y′ 〉 ᶜ ] , S | ◻ , R′ | ◻ , S′ | [ ≡R ] | [ ≡S ] | [ ≡R′ ] | [ ≡S′ ] =
       subcase pop-y*E′/E R R′ S S′ y′ ◻ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) ≡pop-y*E′/E
-              ?
+              (λ ≢z′ → ⊥-elim (≢z′ (refl , ,-inj₁ ≡S′)))
    ... | [ .x • ᵇ ] , R | [ • .x 〈 y′ 〉 ᶜ ] , S | ◻ , R′ | [ • .u ﹙ z′ ﹚ ᵇ ] , S′ |
       [ ≡R ] | [ ≡S ] | [ ≡R′ ] | [ ≡S′ ] =
       subcase pop-y*E′/E R R′ S S′ y′ z′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) ≡pop-y*E′/E
-              ?
+              (λ _ → ,-inj₁ ≡S′)
    ... | [ .x • ᵇ ] , R | [ • .x 〈 y′ 〉 ᶜ ] , S | [ .u • ᵇ ] , R′ | ◻ , S′ |
       [ ≡R ] | [ ≡S ] | [ ≡R′ ] | [ ≡S′ ] =
       subcase pop-y*E′/E R R′ S S′ y′ ◻ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) ≡pop-y*E′/E
-              ?
+              (λ ≢z′ → ⊥-elim (≢z′ (refl , ,-inj₁ ≡S′)))
    ... | [ .x • ᵇ ] , R | [ • .x 〈 y′ 〉 ᶜ ] , S | [ .u • ᵇ ] , R′ | [ • .u ﹙ z′ ﹚ ᵇ ] , S′ |
       [ ≡R ] | [ ≡S ] | [ ≡R′ ] | [ ≡S′ ] =
       subcase pop-y*E′/E R R′ S S′ y′ z′ (,-inj₂ ≡R) (,-inj₂ ≡R′) (,-inj₂ ≡S) (,-inj₂ ≡S′) ≡pop-y*E′/E
-              ?
+              (λ _ → ,-inj₁ ≡S′)
