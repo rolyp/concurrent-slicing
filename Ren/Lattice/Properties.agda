@@ -3,12 +3,12 @@ module Ren.Lattice.Properties where
 
    open import ConcurrentSlicingCommon
 
-   open import Action using (Action)
-   import Action.Lattice
+   open import Action as ᴬ using (Action); open ᴬ.Action; open ᴬ.Actionᶜ
+   import Action.Lattice as ᴬ̃; open ᴬ̃.↓_; open ᴬ̃.↓⁻_; open ᴬ̃.↓ᶜ_
    open import Action.Ren.Lattice renaming (_* to _ᴬ*̃)
    import Lattice; open Lattice.Prefixes ⦃...⦄
    open import Name as ᴺ using (Name; _+_)
-   open import Name.Lattice as ᴺ̃ using (zero)
+   open import Name.Lattice as ᴺ̃ using (zero); open ᴺ̃.↓_
    open import Proc using (Proc)
    import Proc.Lattice
    open import Proc.Ren.Lattice renaming (
@@ -18,6 +18,15 @@ module Ren.Lattice.Properties where
    open import Ren.Lattice as ᴿ̃
       using (_̃_; _ᴿ+_; to-↓; to-↓-preserves-≃ₑ; to-↓-preserves-+; suc; swap; push; id; repl; pop; weaken)
    open import Ren.Properties
+
+   inj-push : ∀ {Γ} {x y : Name Γ} (a a′ : ↓ • x 〈 y 〉 ᶜ) → (push ᴬ*̃) a ≡ (push ᴬ*̃) a′ → a ≡ a′
+   inj-push ◻ ◻ _ = refl
+   inj-push ◻ [ _ ᶜ ] ()
+   inj-push [ _ ᶜ ] ◻ ()
+   inj-push [ • x 〈 ◻ 〉 ᶜ ] [ • .x 〈 ◻ 〉 ᶜ ] _ = refl
+   inj-push [ • x 〈 ◻ 〉 ᶜ ] [ • .x 〈 [ _ ] 〉 ᶜ ] ()
+   inj-push [ • x 〈 [ _ ] 〉 ᶜ ] [ • .x 〈 ◻ 〉 ᶜ ] ()
+   inj-push [ • x 〈 [ y ] 〉 ᶜ ] [ • .x 〈 [ .y ] 〉 ᶜ ] _ = refl
 
    -- Should be able to generalise along the lines of Ren.Properties, but tricky.
    swap-involutivẽ : ∀ {Γ} {P : Proc (Γ + 2)} (P′ : ↓ P) → (swap *̃) ((swap *̃) P′) ≅ P′
