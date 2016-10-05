@@ -120,23 +120,6 @@ module Transition.Concur.Cofinal.Lattice.Common where
          ×
          action (E/E′ (⊖₁ 𝐸)) (tgt E′ P′) ≡ residual 𝑎 (action E P′)
 
-   inj-push : ∀ {Γ} {a₀ : Action Γ} (a a′ : ↓ a₀) → (push ᴬ*̃) a ≡ (push ᴬ*̃) a′ → a ≡ a′
-   inj-push ◻ ◻ _ = refl
-   inj-push ◻ [ _ ᵇ ] ()
-   inj-push ◻ [ _ ᶜ ] ()
-   inj-push [ _ ᵇ ] ◻ ()
-   inj-push [ _ ᶜ ] ◻ ()
-   inj-push [ x • ᵇ ] [ .x • ᵇ ] _ = refl
-   inj-push [ • x ﹙ ◻ ﹚ ᵇ ] [ • .x ﹙ ◻ ﹚ ᵇ ] _ = refl
-   inj-push [ • x ﹙ ◻ ﹚ ᵇ ] [ • .x ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] ()
-   inj-push [ • x ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] [ • .x ﹙ ◻ ﹚ ᵇ ] ()
-   inj-push [ • x ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] [ • .x ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] _ = refl
-   inj-push [ • x 〈 ◻ 〉 ᶜ ] [ • .x 〈 ◻ 〉 ᶜ ] _ = refl
-   inj-push [ • x 〈 ◻ 〉 ᶜ ] [ • .x 〈 [ _ ] 〉 ᶜ ] ()
-   inj-push [ • x 〈 [ _ ] 〉 ᶜ ] [ • .x 〈 ◻ 〉 ᶜ ] ()
-   inj-push [ • x 〈 [ y ] 〉 ᶜ ] [ • .x 〈 [ .y ] 〉 ᶜ ] _ = refl
-   inj-push [ τ ᶜ ] [ τ ᶜ ] _ = refl
-
    module ≡action
       {Γ} {x y u z : Name Γ} {P₀ R₀ R′₀} {E : P₀ —[ • x 〈 y 〉 ᶜ - _ ]→ R₀} {E′ : P₀ —[ • u 〈 z 〉 ᶜ - _ ]→ R′₀}
       (𝐸 : E ⌣₁[ ᶜ∇ᶜ ] E′) (P : ↓ P₀)  where
@@ -222,7 +205,7 @@ module Transition.Concur.Cofinal.Lattice.Common where
          y₁≡y₂ [ .y ] [ .(ᴺ.suc y) ] _ _ = refl
          y₁≡y₂ ◻ [ .(ᴺ.suc y) ] α β =
             let δ : action E P ≡ [ • x 〈 [ y ] 〉 ᶜ ]
-                δ = inj-residual (ᶜ∇ᵇ {a′ = • u}) (action E P) [ • x 〈 [ y ] 〉 ᶜ ] (trans (sym ≡a/a′) (β (λ { (() , _) })))
+                δ = inj-residual (ᶜ∇ᵇ {a′ = • u}) (action E P) _ (trans (sym ≡a/a′) (β (λ { (() , _) })))
             in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (α (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
          y₁≡y₂ [ .y ] ◻ α β =
             let δ : action (E/E′ (⊖₁ 𝐸)) R′ ≡ [ • ᴺ.suc x 〈 [ ᴺ.suc y ] 〉 ᶜ ]
@@ -247,7 +230,7 @@ module Transition.Concur.Cofinal.Lattice.Common where
          z₁≡z₂ [ .ᴺ.zero ] [ .ᴺ.zero ] _ _ = refl
          z₁≡z₂ ◻ [ .ᴺ.zero ] α β =
             let δ : action E′ P ≡ [ • u ﹙ [ ᴺ.zero ] ﹚ ᵇ ]
-                δ = inj-push (action E′ P) [ • u ﹙ [ ᴺ.zero ] ﹚ ᵇ ] (trans (sym ≡a′/a) (β (λ { (() , _) })))
+                δ = inj-residual (ᵇ∇ᵇ {a′ = • u}) (action E′ P) _ (trans (sym ≡a′/a) (β (λ { (() , _) })))
             in ⊥-elim ([•x﹙◻﹚ᵇ]≢[•x﹙[zero]﹚ᵇ] (trans (sym (α (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
          z₁≡z₂ [ .ᴺ.zero ] ◻ α β =
             let δ : action (E′/E (⊖₁ 𝐸)) R ≡ [ • ᴺ.suc u ﹙ [ ᴺ.zero ] ﹚ ᵇ ]
@@ -268,7 +251,7 @@ module Transition.Concur.Cofinal.Lattice.Common where
          y₁≡y₂ [ .ᴺ.zero ] [ .ᴺ.zero ] _ _ = refl
          y₁≡y₂ ◻ [ .ᴺ.zero ] α β =
             let δ : action E P ≡ [ • x ﹙ [ ᴺ.zero ] ﹚ ᵇ ]
-                δ = inj-push (action E P) [ • x ﹙ [ ᴺ.zero ] ﹚ ᵇ ] (trans (sym ≡a/a′) (β (λ { (() , _) })))
+                δ = inj-residual (ᵇ∇ᵇ {a′ = • u}) (action E P) _ (trans (sym ≡a/a′) (β (λ { (() , _) })))
             in ⊥-elim ([•x﹙◻﹚ᵇ]≢[•x﹙[zero]﹚ᵇ] (trans (sym (α (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
          y₁≡y₂ [ .ᴺ.zero ] ◻ α β =
             let δ : action (E/E′ (⊖₁ 𝐸)) R′ ≡ [ • ᴺ.suc x ﹙ [ ᴺ.zero ] ﹚ ᵇ ]
@@ -301,7 +284,7 @@ module Transition.Concur.Cofinal.Lattice.Common where
                       [ • ᴺ.suc u 〈 [ ᴺ.zero ] 〉 ᶜ ]
                    ∎
                 δ : action E′ P ≡ [ • u ﹙ [ ᴺ.zero ] ﹚ ᵇ ]
-                δ = inj-residual ˣ∇ˣ (action E′ P) [ • u ﹙ [ ᴺ.zero ] ﹚ ᵇ ] δ′
+                δ = inj-residual ˣ∇ˣ (action E′ P) _ δ′
             in ⊥-elim ([•x﹙◻﹚ᵇ]≢[•x﹙[zero]﹚ᵇ] (trans (sym (α (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
          z₁≡z₂ [ .ᴺ.zero ] ◻ α β =
             let δ : action (E′/E (⊖₁ 𝐸)) R ≡ [ • ᴺ.suc u 〈 [ ᴺ.zero ] 〉 ᶜ ]
@@ -339,7 +322,7 @@ module Transition.Concur.Cofinal.Lattice.Common where
                       [ • ᴺ.suc x 〈 [ ᴺ.zero ] 〉 ᶜ ]
                    ∎
                 δ : action E P ≡ [ • x ﹙ [ ᴺ.zero ] ﹚ ᵇ ]
-                δ = inj-residual ˣ∇ˣ (action E P) [ • x ﹙ [ ᴺ.zero ] ﹚ ᵇ ] δ′
+                δ = inj-residual ˣ∇ˣ (action E P) _ δ′
             in ⊥-elim ([•x﹙◻﹚ᵇ]≢[•x﹙[zero]﹚ᵇ] (trans (sym (α (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
          y₁≡y₂ [ .ᴺ.zero ] ◻ α β =
             let δ : action (E/E′ (⊖₁ 𝐸)) R′ ≡ [ • ᴺ.suc x 〈 [ ᴺ.zero ] 〉 ᶜ ]
