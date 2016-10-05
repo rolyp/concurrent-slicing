@@ -20,7 +20,9 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
              tgt (E′/E (⊖₁ 𝐹)) S ≡ Q′ → tgt ((idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸))) ((repl y *̃) R′) ≡ P″ → tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″ →
              braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ (repl y† *̃) P′ │ Q′ ] ] ] ≡ [ ν [ ν [ (repl y‡ *̃) P″ │ Q″ ] ] ]
       base P′ Q′ P″ Q″ y† y‡ ≡P′ ≡Q′ ≡P″ ≡Q″ =
-         let cheat₁ : weaken ̃ y ≡ y†
+         let open ≡action″
+
+             cheat₁ : weaken ̃ y ≡ y†
              cheat₁ = trustMe
 
              cheat₂ : weaken ̃ y′ ≡ y‡
