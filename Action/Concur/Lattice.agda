@@ -25,7 +25,10 @@ module Action.Concur.Lattice where
    inj-residual ˣ∇ˣ ◻ ◻ _ = refl
    inj-residual ˣ∇ˣ ◻ [ • x ﹙ y ﹚ ᵇ ] ()
    inj-residual ˣ∇ˣ [ • x ﹙ y ﹚ ᵇ ] ◻ ()
-   inj-residual ˣ∇ˣ [ • x ﹙ y ﹚ ᵇ ] [ • .x ﹙ y′ ﹚ ᵇ ] q = {!!}
+   inj-residual ˣ∇ˣ [ • x ﹙ ᴺ̃.◻ ﹚ ᵇ ] [ • .x ﹙ ᴺ̃.◻ ﹚ ᵇ ] _ = refl
+   inj-residual ˣ∇ˣ [ • x ﹙ ᴺ̃.◻ ﹚ ᵇ ] [ • .x ﹙ ᴺ̃.[ .ᴺ.zero ] ﹚ ᵇ ] ()
+   inj-residual ˣ∇ˣ [ • x ﹙ ᴺ̃.[ .ᴺ.zero ] ﹚ ᵇ ] [ • .x ﹙ ᴺ̃.◻ ﹚ ᵇ ] ()
+   inj-residual ˣ∇ˣ [ • x ﹙ ᴺ̃.[ .ᴺ.zero ] ﹚ ᵇ ] [ • .x ﹙ ᴺ̃.[ .ᴺ.zero ] ﹚ ᵇ ] refl = refl
    inj-residual ᵇ∇ᵇ a a′ q = {!!}
    inj-residual ᵇ∇ᶜ a .a refl = {!!}
    inj-residual ᶜ∇ᵇ a a′ q = {!!}
