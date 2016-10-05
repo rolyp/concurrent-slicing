@@ -166,6 +166,12 @@ module Transition.Concur.Cofinal.Lattice.Common where
                 δ = α (λ { (() , _) })
             in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (β (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
 
+   inj-push : ∀ {Γ} {x y : Name Γ} (a : ↓ • x 〈 y 〉 ᶜ) →
+              (push ᴬ*̃) a ≡ [ • ᴺ.suc x 〈 [ ᴺ.suc y ] 〉 ᶜ ] → a ≡ [ • x 〈 [ y ] 〉 ᶜ ]
+   inj-push ◻ ()
+   inj-push [ • x 〈 ◻ 〉 ᶜ ] ()
+   inj-push [ • x 〈 [ y ] 〉 ᶜ ] _ = refl
+
    module ≡action′
       {Γ} {x y u : Name Γ} {P₀ R₀ R′₀} {E : P₀ —[ • x 〈 y 〉 ᶜ - _ ]→ R₀} {E′ : P₀ —[ (• u ) ᵇ - _ ]→ R′₀}
       (𝐸 : E ⌣₁[ ᶜ∇ᵇ ] E′) (P : ↓ P₀)  where
@@ -204,10 +210,8 @@ module Transition.Concur.Cofinal.Lattice.Common where
          y₁≡y₂ ◻ ◻ _ _ = refl
          y₁≡y₂ [ .y ] [ .(ᴺ.suc y) ] _ _ = refl
          y₁≡y₂ ◻ [ .(ᴺ.suc y) ] α β =
-            let ζ : (push ᴬ*̃) (action E P) ≡ [ • ᴺ.suc x 〈 [ ᴺ.suc y ] 〉 ᶜ ]
-                ζ = trans (sym ≡a/a′) (β (λ { (() , _) }))
-                δ : action E P ≡ [ • x 〈 [ y ] 〉 ᶜ ]
-                δ = {!!}
+            let δ : action E P ≡ [ • x 〈 [ y ] 〉 ᶜ ]
+                δ = inj-push (action E P) (trans (sym ≡a/a′) (β (λ { (() , _) })))
             in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (α (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
          y₁≡y₂ [ .y ] ◻ α β =
             let δ : action (E/E′ (⊖₁ 𝐸)) R′ ≡ [ • ᴺ.suc x 〈 [ ᴺ.suc y ] 〉 ᶜ ]
