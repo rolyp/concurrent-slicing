@@ -16,10 +16,9 @@ A of the paper.
 ### Future to-do items:
 
 * Improvements to names (more conventional or more aligned with paper):
-  * `∘ᶠ` → `∘ᶠ`, `idᶠ` → `id`
+  * `∘ᶠ` → `∘`, `idᶠ` → `id`
   * `tgt` → `fwd` ?
   * `get`/`put` → `app`/`unapp`
-* Bump revision numbers for `agda-stdlib-ext`, `proof-relevant-pi` and `concurrent-slicing`
 
 ### Postulates which will remain postulates:
 
