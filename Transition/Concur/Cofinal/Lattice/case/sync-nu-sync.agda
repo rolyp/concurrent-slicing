@@ -49,7 +49,7 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
          open ≡action′
 
          cheat : push ̃ y′ ≡ y†
-         cheat = sym (y₁≡y₂ {!!} {!!} {!!} {!!} y† {!y′!} {!!} {!!})
+         cheat = y₁≡y₂ 𝐹 Q S′ ≡S′ y′ y† {!!} {!!}
 
          β : (repl z† *̃) P′ ≅ (pop y† *̃) P″
          β = let open ≅-Reasoning in
