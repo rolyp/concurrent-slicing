@@ -22,8 +22,10 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
       base P′ Q′ P″ Q″ y† y‡ ≡P′ ≡Q′ ≡P″ ≡Q″ =
          let cheat₁ : weaken ̃ y ≡ y†
              cheat₁ = trustMe
+
              cheat₂ : weaken ̃ y′ ≡ y‡
              cheat₂ = trustMe
+
              β : (swap *̃) ((repl y† *̃) P′) ≅ (repl y‡ *̃) P″
              β = let open ≅-Reasoning in
                 begin
