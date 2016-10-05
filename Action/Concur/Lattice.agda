@@ -20,3 +20,14 @@ module Action.Concur.Lattice where
    residual ᶜ∇ᵇ = push *
    residual ᶜ∇ᶜ = idᶠ
    residual ᵛ∇ᵛ = idᶠ
+
+   inj-residual : ∀ {Γ} {a₀ a′₀ : Action Γ} (a⌣a′ : a₀ ᴬ⌣ a′₀) (a a′ : ↓ a₀) → residual a⌣a′ a ≡ residual a⌣a′ a′ → a ≡ a′
+   inj-residual ˣ∇ˣ ◻ ◻ _ = refl
+   inj-residual ˣ∇ˣ ◻ [ • x ﹙ y ﹚ ᵇ ] ()
+   inj-residual ˣ∇ˣ [ • x ﹙ y ﹚ ᵇ ] ◻ ()
+   inj-residual ˣ∇ˣ [ • x ﹙ y ﹚ ᵇ ] [ • .x ﹙ y′ ﹚ ᵇ ] q = {!!}
+   inj-residual ᵇ∇ᵇ a a′ q = {!!}
+   inj-residual ᵇ∇ᶜ a .a refl = {!!}
+   inj-residual ᶜ∇ᵇ a a′ q = {!!}
+   inj-residual ᶜ∇ᶜ a .a refl = refl
+   inj-residual ᵛ∇ᵛ a .a refl = refl
