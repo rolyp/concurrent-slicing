@@ -277,7 +277,7 @@ module Transition.Concur.Cofinal.Lattice.Common where
             in ⊥-elim ([•x﹙◻﹚ᵇ]≢[•x﹙[zero]﹚ᵇ] (trans (sym (α (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
          z₁≡z₂ [ .ᴺ.zero ] ◻ α β =
             let δ : action (E′/E (⊖₁ 𝐸)) R ≡ [ • ᴺ.suc u 〈 [ ᴺ.zero ] 〉 ᶜ ]
-                δ = ?
+                δ = {!!}
             in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (β (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
 
       module _
@@ -289,5 +289,11 @@ module Transition.Concur.Cofinal.Lattice.Common where
                  y₁ ≡ y₂
          y₁≡y₂ ◻ ◻ _ _ = refl
          y₁≡y₂ [ .ᴺ.zero ] [ .ᴺ.zero ] _ _ = refl
-         y₁≡y₂ ◻ [ .ᴺ.zero ] α β = trustMe
-         y₁≡y₂ [ .ᴺ.zero ] ◻ α β = trustMe
+         y₁≡y₂ ◻ [ .ᴺ.zero ] α β =
+            let δ : action E P ≡ [ • x ﹙ [ ᴺ.zero ] ﹚ ᵇ ]
+                δ = {!!}
+            in ⊥-elim ([•x﹙◻﹚ᵇ]≢[•x﹙[zero]﹚ᵇ] (trans (sym (α (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
+         y₁≡y₂ [ .ᴺ.zero ] ◻ α β =
+            let δ : action (E/E′ (⊖₁ 𝐸)) R′ ≡ [ • ᴺ.suc x 〈 [ ᴺ.zero ] 〉 ᶜ ]
+                δ = ? -- trans ≡a/a′ (cong (push ᴬ*̃) (α (λ { (() , _) })))
+            in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (β (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
