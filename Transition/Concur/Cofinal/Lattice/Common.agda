@@ -271,7 +271,10 @@ module Transition.Concur.Cofinal.Lattice.Common where
                  z₁ ≡ z₂
          z₁≡z₂ ◻ ◻ _ _ = refl
          z₁≡z₂ [ .ᴺ.zero ] [ .ᴺ.zero ] _ _ = refl
-         z₁≡z₂ ◻ [ .ᴺ.zero ] α β = trustMe
+         z₁≡z₂ ◻ [ .ᴺ.zero ] α β =
+            let δ : action E P ≡ [ • x ﹙ [ ᴺ.zero ] ﹚ ᵇ ]
+                δ = ?
+            in ?
          z₁≡z₂ [ .ᴺ.zero ] ◻ α β = trustMe
 
       module _
