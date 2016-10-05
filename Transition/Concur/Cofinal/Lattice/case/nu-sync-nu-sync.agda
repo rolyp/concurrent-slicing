@@ -22,12 +22,6 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
       base P′ Q′ P″ Q″ y† y‡ ≡P′ ≡Q′ ≡P″ ≡Q″ =
          let open ≡action″
 
-             cheat₁ : weaken ̃ y ≡ y†
-             cheat₁ = trustMe
-
-             cheat₂ : weaken ̃ y′ ≡ y‡
-             cheat₂ = trustMe
-
              β : (swap *̃) ((repl y† *̃) P′) ≅ (repl y‡ *̃) P″
              β = let open ≅-Reasoning in
                 begin
@@ -38,11 +32,13 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
                    (swap *̃) ((repl y† *̃) ((suc (repl y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) R)))
                 ≡⟨ cong ((swap *̃) ∘ᶠ (repl y† *̃) ∘ᶠ (suc (repl y′) *̃) ∘ᶠ tgt (E′/E (⊖₁ 𝐸))) (sym ≡R) ⟩
                    (swap *̃) ((repl y† *̃) ((suc (repl y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
-                ≡⟨ cong (λ z → (swap *̃) ((repl z *̃) ((suc (repl y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))) (sym cheat₁) ⟩
+                ≡⟨ cong (λ z → (swap *̃) ((repl z *̃) ((suc (repl y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))))
+                        (sym (z₁≡z₂ 𝐹 Q S ≡S y y† {!!} {!!})) ⟩
                    (swap *̃) ((repl (weaken ̃ y) *̃) ((suc (repl y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
                 ≅⟨ ≅-sym (id-suc-id-swap-id-suc-id̃ y y′ (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))) ⟩
                    (repl (weaken ̃ y′) *̃) ((suc (repl y) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
-                ≡⟨ cong (λ z → ((repl z *̃) ((suc (repl y) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))))) cheat₂ ⟩
+                ≡⟨ cong (λ z → ((repl z *̃) ((suc (repl y) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))))
+                        (y₁≡y₂ 𝐹 Q S′ ≡S′ y′ y‡ {!!} {!!}) ⟩
                    (repl y‡ *̃) ((suc (repl y) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
                 ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) ((repl y‡ *̃) ∘ᶠ (suc (repl y) *̃)) (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _)) ⟩
                    (repl y‡ *̃) ((suc (repl y) *̃) (braiding (ᵇ∇ᵇ {a = x •} {u •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))

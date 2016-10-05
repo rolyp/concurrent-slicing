@@ -224,3 +224,12 @@ module Transition.Concur.Cofinal.Lattice.Common where
                  (β : (z₂ ≡ ◻ × action (E′/E (⊖₁ 𝐸)) R ≡ ◻ → ⊥) → action (E′/E (⊖₁ 𝐸)) R ≡ [ • ᴺ.suc u ﹙ z₂ ﹚ ᵇ ]) →
                  weaken ̃ z₁ ≡ z₂
          z₁≡z₂ _ _ _ _ = trustMe
+
+      module _
+         (R′ : ↓ R′₀) (≡R′ : tgt E′ P ≡ R′) where
+
+         y₁≡y₂ : (y₁ : ↓ ᴺ.zero) (y₂ : ↓ ᴺ.zero)
+                 (α : (y₁ ≡ ◻ × action E P ≡ ◻ → ⊥) → action E P ≡ [ • x ﹙ y₁ ﹚ ᵇ ])
+                 (β : (y₂ ≡ ◻ × action (E/E′ (⊖₁ 𝐸)) R′ ≡ ◻ → ⊥) → action (E/E′ (⊖₁ 𝐸)) R′ ≡ [ • ᴺ.suc x ﹙ y₂ ﹚ ᵇ ]) →
+                 weaken ̃ y₁ ≡ y₂
+         y₁≡y₂ _ _ _ _ = trustMe
