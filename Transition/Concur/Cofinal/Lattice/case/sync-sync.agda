@@ -57,7 +57,7 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
             ≡⟨ cong (pop z† *̃) (sym (renᵇ-tgt-comm (E′/E (⊖₁ 𝐸)) (pop y′) (tgt E P))) ⟩
                (pop z† *̃) ((suc (pop y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
             ≡⟨ cong₂ (λ z‡ y‡ → (pop z‡ *̃) ((suc (pop y‡) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
-                     (sym (z₁≡z₂ 𝐹 Q S ≡S z′ z† ≡z′ ≡z†)) (y₁≡y₂ 𝐹 Q S′ ≡S′ y′ y† {!≡y′!} ≡y†) ⟩
+                     (sym (z₁≡z₂ 𝐹 Q S ≡S z′ z† ≡z′ ≡z†)) (y₁≡y₂ 𝐹 Q S′ ≡S′ y′ y† ≡y′ ≡y†) ⟩
                (pop z′ *̃) ((suc (pop y†) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
             ≅⟨ ≅-cong✴ ↓_ (sym (swap-involutive P′₀))
                ((pop z′ *̃) ∘ᶠ (suc (pop y†) *̃)) (≅-sym (swap-involutivẽ (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))) ⟩
