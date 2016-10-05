@@ -19,9 +19,9 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
       base : (P′ : ↓ (ᴿ.suc idᶠ *) (tgt₁ (⊖₁ 𝐸))) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) (P″ : ↓ (ᴿ.suc idᶠ *) (tgt₂ (⊖₁ 𝐸)))
              (Q″ : ↓ tgt₂ (⊖₁ 𝐹)) (y† y‡ : ↓ ᴺ.zero) → tgt ((idᶠ *ᵇ) (E′/E (⊖₁ 𝐸))) ((repl y′ *̃) R) ≡ P′ →
              tgt (E′/E (⊖₁ 𝐹)) S ≡ Q′ → tgt ((idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸))) ((repl y *̃) R′) ≡ P″ → tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″ →
---             (y† ≡ ◻ × action (E′/E (⊖₁ 𝐹)) S ≡ ◻ → ⊥) → action (E′/E (⊖₁ 𝐹)) S ≡ [ • ᴺ.suc u ﹙ y† ﹚ ᵇ ] →
+             ((y† ≡ ◻ × action (E′/E (⊖₁ 𝐹)) S ≡ ◻ → ⊥) → action (E′/E (⊖₁ 𝐹)) S ≡ [ • ᴺ.suc u ﹙ y† ﹚ ᵇ ]) →
              braid̂ (γ₁ (𝐸 │ᵥ′ 𝐹)) [ ν [ ν [ (repl y† *̃) P′ │ Q′ ] ] ] ≡ [ ν [ ν [ (repl y‡ *̃) P″ │ Q″ ] ] ]
-      base P′ Q′ P″ Q″ y† y‡ ≡P′ ≡Q′ ≡P″ ≡Q″ =
+      base P′ Q′ P″ Q″ y† y‡ ≡P′ ≡Q′ ≡P″ ≡Q″ ≡y† =
          let open ≡action″
 
              β : (swap *̃) ((repl y† *̃) P′) ≅ (repl y‡ *̃) P″
@@ -35,7 +35,7 @@ module Transition.Concur.Cofinal.Lattice.case.nu-sync-nu-sync
                 ≡⟨ cong ((swap *̃) ∘ᶠ (repl y† *̃) ∘ᶠ (suc (repl y′) *̃) ∘ᶠ tgt (E′/E (⊖₁ 𝐸))) (sym ≡R) ⟩
                    (swap *̃) ((repl y† *̃) ((suc (repl y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
                 ≡⟨ cong (λ z → (swap *̃) ((repl z *̃) ((suc (repl y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))))
-                        (sym (z₁≡z₂ 𝐹 Q S ≡S y y† {!≡y!} {!!})) ⟩
+                        (sym (z₁≡z₂ 𝐹 Q S ≡S y y† ≡y {!!})) ⟩
                    (swap *̃) ((repl (weaken ̃ y) *̃) ((suc (repl y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
                 ≅⟨ ≅-sym (id-suc-id-swap-id-suc-id̃ y y′ (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))) ⟩
                    (repl (weaken ̃ y′) *̃) ((suc (repl y) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
