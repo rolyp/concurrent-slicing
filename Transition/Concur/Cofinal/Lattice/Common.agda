@@ -7,7 +7,7 @@ module Transition.Concur.Cofinal.Lattice.Common where
       open ᴬ.Action public; open ᴬ.Actionᵇ public; open ᴬ.Actionᶜ public
    open import Action.Concur using (_ᴬ⌣_; module _ᴬ⌣_; ᴬ⊖; ᴬ⌣-sym; ᴬ⌣-sym-involutive; ᴬγ) public;
       open _ᴬ⌣_ public
-   open import Action.Concur.Lattice using (residual) public
+   open import Action.Concur.Lattice using (residual; inj-residual) public
    open import Action.Lattice as ᴬ̃ using () public;
       open ᴬ̃.↓_ public; open ᴬ̃.↓⁻_ public; open ᴬ̃.↓ᵇ_ public; open ᴬ̃.↓ᶜ_ public
    open import Action.Ren.Lattice using () renaming (_* to _ᴬ*̃) public
@@ -31,7 +31,7 @@ module Transition.Concur.Cofinal.Lattice.Common where
    open import Ren.Properties public
    open import Transition as ᵀ using (_—[_-_]→_) public;
       open ᵀ._—[_-_]→_ public
-   open import Transition.Concur using (Concur₁; module Concur₁; module Delta′; ⊖₁) public;
+   open import Transition.Concur using (Concur₁; module Concur₁; actions; module Delta′; ⊖₁) public;
       open Concur₁ public
    open import Transition.Concur.Cofinal using (⋈̂[_,_,_]; γ₁) public
    open import Transition.Lattice using (tgt; action; step⁻; step) public
@@ -222,7 +222,7 @@ module Transition.Concur.Cofinal.Lattice.Common where
          y₁≡y₂ [ .y ] [ .(ᴺ.suc y) ] _ _ = refl
          y₁≡y₂ ◻ [ .(ᴺ.suc y) ] α β =
             let δ : action E P ≡ [ • x 〈 [ y ] 〉 ᶜ ]
-                δ = inj-push (action E P) [ • x 〈 [ y ] 〉 ᶜ ] (trans (sym ≡a/a′) (β (λ { (() , _) })))
+                δ = inj-residual (actions 𝐸) (action E P) [ • x 〈 [ y ] 〉 ᶜ ] (trans (sym ≡a/a′) (β (λ { (() , _) })))
             in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (α (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
          y₁≡y₂ [ .y ] ◻ α β =
             let δ : action (E/E′ (⊖₁ 𝐸)) R′ ≡ [ • ᴺ.suc x 〈 [ ᴺ.suc y ] 〉 ᶜ ]
