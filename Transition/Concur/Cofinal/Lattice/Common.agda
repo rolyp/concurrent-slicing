@@ -327,7 +327,18 @@ module Transition.Concur.Cofinal.Lattice.Common where
          y₁≡y₂ ◻ ◻ _ _ = refl
          y₁≡y₂ [ .ᴺ.zero ] [ .ᴺ.zero ] _ _ = refl
          y₁≡y₂ ◻ [ .ᴺ.zero ] α β =
-            let δ : action E P ≡ [ • x ﹙ [ ᴺ.zero ] ﹚ ᵇ ]
+            let δ′ : residual ˣ∇ˣ (action E P) ≡ [ • ᴺ.suc x 〈 [ ᴺ.zero ] 〉 ᶜ ]
+                δ′ = let open EqReasoning (setoid _) in
+                   begin
+                      residual ˣ∇ˣ (action E P)
+                   ≡⟨ sym (π₂ (ᴬgamma₁ 𝐸 P)) ⟩
+                      action (E/E′ (⊖₁ 𝐸)) (tgt E′ P)
+                   ≡⟨ cong (action (E/E′ (⊖₁ 𝐸))) ≡R′ ⟩
+                      action (E/E′ (⊖₁ 𝐸)) R′
+                   ≡⟨ β (λ { (() , _) }) ⟩
+                      [ • ᴺ.suc x 〈 [ ᴺ.zero ] 〉 ᶜ ]
+                   ∎
+                δ : action E P ≡ [ • x ﹙ [ ᴺ.zero ] ﹚ ᵇ ]
                 δ = {!!}
             in ⊥-elim ([•x﹙◻﹚ᵇ]≢[•x﹙[zero]﹚ᵇ] (trans (sym (α (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
          y₁≡y₂ [ .ᴺ.zero ] ◻ α β =
