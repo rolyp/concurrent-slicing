@@ -195,7 +195,9 @@ module Transition.Concur.Cofinal.Lattice.Common where
          (R′ : ↓ R′₀) (≡R′ : tgt E′ P ≡ R′) where
 
          ≡a/a′ : action (E/E′ (⊖₁ 𝐸)) R′ ≡ (push ᴬ*̃) (action E P)
-         ≡a/a′ = {!!} -- trans (cong (action (E/E′ (⊖₁ 𝐸))) (sym ≡R′)) (π₂ (ᴬgamma₁ 𝐸 P))
+         ≡a/a′ = trans (cong (action (E/E′ (⊖₁ 𝐸))) (sym ≡R′)) (π₂ (ᴬgamma₁ 𝐸 P))
+
+-- trans (cong (action (E/E′ (⊖₁ 𝐸))) (sym ≡R′)) (π₂ (ᴬgamma₁ 𝐸 P))
 
          y₁≡y₂ : (y₁ : ↓ y) (y₂ : ↓ ᴺ.suc y)
                  (α : (y₁ ≡ ◻ × action E P ≡ ◻ → ⊥) → action E P ≡ [ • x 〈 y₁ 〉 ᶜ ])
