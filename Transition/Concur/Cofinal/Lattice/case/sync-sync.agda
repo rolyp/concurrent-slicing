@@ -33,6 +33,42 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
       (≡y′ : (y′ ≡ ◻ × action F Q ≡ ◻ → ⊥) → action F Q ≡ [ • x 〈 y′ 〉 ᶜ ])
       where
 
+      ≡a′/a : action (E′/E (⊖₁ 𝐹)) S ≡ action F′ Q
+      ≡a′/a = trans (cong (action (E′/E (⊖₁ 𝐹))) (sym ≡S)) (π₁ (ᴬgamma₁ 𝐹 Q))
+
+      z₁≡z₂ : (z₁ z₂ : ↓ z)
+              (α : (z₁ ≡ ◻ × action F′ Q ≡ ◻ → ⊥) → action F′ Q ≡ [ • u 〈 z₁ 〉 ᶜ ])
+              (β : (z₂ ≡ ◻ × action (E′/E (⊖₁ 𝐹)) S ≡ ◻ → ⊥) → action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 z₂ 〉 ᶜ ]) →
+              z₁ ≡ z₂
+      z₁≡z₂ ◻ ◻ _ _ = refl
+      z₁≡z₂ [ .z ] [ .z ] _ _ = refl
+      z₁≡z₂ ◻ [ .z ] α β rewrite ≡a′/a =
+         let δ : action F′ Q ≡ [ • u 〈 [ z ] 〉 ᶜ ]
+             δ = β (λ { (() , _) })
+         in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (α (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
+      z₁≡z₂ [ .z ] ◻ α β rewrite sym ≡a′/a =
+         let δ : action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 [ z ] 〉 ᶜ ]
+             δ = α (λ { (() , _) })
+         in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (β (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
+
+      ≡a/a′ : action (E/E′ (⊖₁ 𝐹)) S′ ≡ action F Q
+      ≡a/a′ = trans (cong (action (E/E′ (⊖₁ 𝐹))) (sym ≡S′)) (π₂ (ᴬgamma₁ 𝐹 Q))
+
+      y₁≡y₂ : (y₁ y₂ : ↓ y)
+              (α : (y₁ ≡ ◻ × action F Q ≡ ◻ → ⊥) → action F Q ≡ [ • x 〈 y₁ 〉 ᶜ ])
+              (β : (y₂ ≡ ◻ × action (E/E′ (⊖₁ 𝐹)) S′ ≡ ◻ → ⊥) → action (E/E′ (⊖₁ 𝐹)) S′ ≡ [ • x 〈 y₂ 〉 ᶜ ]) →
+              y₁ ≡ y₂
+      y₁≡y₂ ◻ ◻ _ _ = refl
+      y₁≡y₂ [ .y ] [ .y ] _ _ = refl
+      y₁≡y₂ ◻ [ .y ] α β rewrite ≡a/a′ =
+         let δ : action F Q ≡ [ • x 〈 [ y ] 〉 ᶜ ]
+             δ = β (λ { (() , _) })
+         in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (α (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
+      y₁≡y₂ [ .y ] ◻ α β rewrite sym ≡a/a′ =
+         let δ : action (E/E′ (⊖₁ 𝐹)) S′ ≡ [ • x 〈 [ y ] 〉 ᶜ ]
+             δ = α (λ { (() , _) })
+         in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (β (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
+
       module _
          (P′ : ↓ (ᴿ.suc (ᴿ.pop y) *) P′₀) (Q′ : ↓ tgt₁ (⊖₁ 𝐹)) (P″ : ↓ (ᴿ.suc (ᴿ.pop z) *) P″₀)
          (Q″ : ↓ tgt₂ (⊖₁ 𝐹)) (z† : ↓ z) (y† : ↓ y)
@@ -41,8 +77,6 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
          (≡z† : (z† ≡ ◻ × action (E′/E (⊖₁ 𝐹)) S ≡ ◻ → ⊥) → action (E′/E (⊖₁ 𝐹)) S ≡ [ • u 〈 z† 〉 ᶜ ])
          (≡y† : (y† ≡ ◻ × action (E/E′ (⊖₁ 𝐹)) S′ ≡ ◻ → ⊥) → action (E/E′ (⊖₁ 𝐹)) S′ ≡ [ • x 〈 y† 〉 ᶜ ])
          where
-
-         open ≡action
 
          β : (pop z† *̃) P′ ≅ (pop y† *̃) P″
          β = let open ≅-Reasoning in
@@ -57,7 +91,7 @@ module Transition.Concur.Cofinal.Lattice.case.sync-sync
             ≡⟨ cong (pop z† *̃) (sym (renᵇ-tgt-comm (E′/E (⊖₁ 𝐸)) (pop y′) (tgt E P))) ⟩
                (pop z† *̃) ((suc (pop y′) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
             ≡⟨ cong₂ (λ z‡ y‡ → (pop z‡ *̃) ((suc (pop y‡) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
-                     (sym (z₁≡z₂ 𝐹 Q S ≡S z′ z† ≡z′ ≡z†)) (y₁≡y₂ 𝐹 Q S′ ≡S′ y′ y† ≡y′ ≡y†) ⟩
+                     (sym (z₁≡z₂ z′ z† ≡z′ ≡z†)) (y₁≡y₂ y′ y† ≡y′ ≡y†) ⟩
                (pop z′ *̃) ((suc (pop y†) *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))
             ≅⟨ ≅-cong✴ ↓_ (sym (swap-involutive P′₀))
                ((pop z′ *̃) ∘ᶠ (suc (pop y†) *̃)) (≅-sym (swap-involutivẽ (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))) ⟩
