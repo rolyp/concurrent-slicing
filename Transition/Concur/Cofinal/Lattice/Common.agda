@@ -1,6 +1,7 @@
 module Transition.Concur.Cofinal.Lattice.Common where
 
    open import ConcurrentSlicingCommon
+   import Relation.Binary.EqReasoning as EqReasoning
 
    open import Action as ᴬ using (Action; Actionᵇ; Actionᶜ; inc) public;
       open ᴬ.Action public; open ᴬ.Actionᵇ public; open ᴬ.Actionᶜ public
@@ -193,6 +194,9 @@ module Transition.Concur.Cofinal.Lattice.Common where
       module _
          (R′ : ↓ R′₀) (≡R′ : tgt E′ P ≡ R′) where
 
+         ≡a/a′ : action (E/E′ (⊖₁ 𝐸)) R′ ≡ (push ᴬ*̃) (action E P)
+         ≡a/a′ = {!!} -- trans (cong (action (E/E′ (⊖₁ 𝐸))) (sym ≡R′)) (π₂ (ᴬgamma₁ 𝐸 P))
+
          y₁≡y₂ : (y₁ : ↓ y) (y₂ : ↓ ᴺ.suc y)
                  (α : (y₁ ≡ ◻ × action E P ≡ ◻ → ⊥) → action E P ≡ [ • x 〈 y₁ 〉 ᶜ ])
                  (β : (y₂ ≡ ◻ × action (E/E′ (⊖₁ 𝐸)) R′ ≡ ◻ → ⊥) → action (E/E′ (⊖₁ 𝐸)) R′ ≡ [ • ᴺ.suc x 〈 y₂ 〉 ᶜ ]) →
@@ -201,9 +205,14 @@ module Transition.Concur.Cofinal.Lattice.Common where
          y₁≡y₂ [ .y ] [ .(ᴺ.suc y) ] _ _ = refl
          y₁≡y₂ ◻ [ .(ᴺ.suc y) ] α β =
             let δ : action E P ≡ [ • x 〈 [ y ] 〉 ᶜ ]
-                δ = {!!} -- β (λ { (() , _) })
+                δ = let open EqReasoning (setoid _) in
+                   begin
+                      action E P
+                   ≡⟨ {!!} ⟩
+                      [ • x 〈 [ y ] 〉 ᶜ ]
+                   ∎
             in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (α (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
          y₁≡y₂ [ .y ] ◻ α β =
             let δ : action (E/E′ (⊖₁ 𝐸)) R′ ≡ [ • ᴺ.suc x 〈 [ ᴺ.suc y ] 〉 ᶜ ]
-                δ = {!!} -- α (λ { (() , _) })
+                δ = trans ≡a/a′ (cong (push ᴬ*̃) (α (λ { (() , _) })))
             in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (β (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
