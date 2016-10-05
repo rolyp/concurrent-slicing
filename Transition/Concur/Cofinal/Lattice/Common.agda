@@ -120,6 +120,23 @@ module Transition.Concur.Cofinal.Lattice.Common where
          ×
          action (E/E′ (⊖₁ 𝐸)) (tgt E′ P′) ≡ residual 𝑎 (action E P′)
 
+   inj-push : ∀ {Γ} {a₀ : Action Γ} (a a′ : ↓ a₀) → (push ᴬ*̃) a ≡ (push ᴬ*̃) a′ → a ≡ a′
+   inj-push ◻ ◻ _ = refl
+   inj-push ◻ [ _ ᵇ ] ()
+   inj-push ◻ [ _ ᶜ ] ()
+   inj-push [ _ ᵇ ] ◻ ()
+   inj-push [ _ ᶜ ] ◻ ()
+   inj-push [ x • ᵇ ] [ .x • ᵇ ] _ = refl
+   inj-push [ • x ﹙ ◻ ﹚ ᵇ ] [ • .x ﹙ ◻ ﹚ ᵇ ] _ = refl
+   inj-push [ • x ﹙ ◻ ﹚ ᵇ ] [ • .x ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] ()
+   inj-push [ • x ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] [ • .x ﹙ ◻ ﹚ ᵇ ] ()
+   inj-push [ • x ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] [ • .x ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] _ = refl
+   inj-push [ • x 〈 ◻ 〉 ᶜ ] [ • .x 〈 ◻ 〉 ᶜ ] _ = refl
+   inj-push [ • x 〈 ◻ 〉 ᶜ ] [ • .x 〈 [ _ ] 〉 ᶜ ] ()
+   inj-push [ • x 〈 [ _ ] 〉 ᶜ ] [ • .x 〈 ◻ 〉 ᶜ ] ()
+   inj-push [ • x 〈 [ y ] 〉 ᶜ ] [ • .x 〈 [ .y ] 〉 ᶜ ] _ = refl
+   inj-push [ τ ᶜ ] [ τ ᶜ ] _ = refl
+
    module ≡action
       {Γ} {x y u z : Name Γ} {P₀ R₀ R′₀} {E : P₀ —[ • x 〈 y 〉 ᶜ - _ ]→ R₀} {E′ : P₀ —[ • u 〈 z 〉 ᶜ - _ ]→ R′₀}
       (𝐸 : E ⌣₁[ ᶜ∇ᶜ ] E′) (P : ↓ P₀)  where
