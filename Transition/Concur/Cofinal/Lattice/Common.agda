@@ -204,13 +204,10 @@ module Transition.Concur.Cofinal.Lattice.Common where
          y₁≡y₂ ◻ ◻ _ _ = refl
          y₁≡y₂ [ .y ] [ .(ᴺ.suc y) ] _ _ = refl
          y₁≡y₂ ◻ [ .(ᴺ.suc y) ] α β =
-            let δ : action E P ≡ [ • x 〈 [ y ] 〉 ᶜ ]
-                δ = let open EqReasoning (setoid _) in
-                   begin
-                      action E P
-                   ≡⟨ {!!} ⟩
-                      [ • x 〈 [ y ] 〉 ᶜ ]
-                   ∎
+            let ζ : (push ᴬ*̃) (action E P) ≡ [ • ᴺ.suc x 〈 [ ᴺ.suc y ] 〉 ᶜ ]
+                ζ = trans (sym ≡a/a′) (β (λ { (() , _) }))
+                δ : action E P ≡ [ • x 〈 [ y ] 〉 ᶜ ]
+                δ = {!!}
             in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (α (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
          y₁≡y₂ [ .y ] ◻ α β =
             let δ : action (E/E′ (⊖₁ 𝐸)) R′ ≡ [ • ᴺ.suc x 〈 [ ᴺ.suc y ] 〉 ᶜ ]
