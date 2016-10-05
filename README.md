@@ -1,7 +1,7 @@
 # concurrent-slicing, release 0.1
 
 Agda development accompanying the paper
-[Causally consistent dynamic slicing](http://dynamicaspects.org/papers/concur16.pdf),
+[Causally consistent dynamic slicing](http://drops.dagstuhl.de/opus/volltexte/2016/6158/pdf/LIPIcs-CONCUR-2016-18.pdf),
 presented at CONCUR 2016. To typecheck the entire development, compile
 `ConcurrentSlicing.agda`. The module structure is summarised in Appendix
 A of the paper.
