@@ -240,8 +240,20 @@ module Transition.Concur.Cofinal.Lattice.Common where
       module _
          (R′ : ↓ R′₀) (≡R′ : tgt E′ P ≡ R′) where
 
+         ≡a/a′ : action (E/E′ (⊖₁ 𝐸)) R′ ≡ (push ᴬ*̃) (action E P)
+         ≡a/a′ = trans (cong (action (E/E′ (⊖₁ 𝐸))) (sym ≡R′)) (π₂ (ᴬgamma₁ 𝐸 P))
+
          y₁≡y₂ : (y₁ : ↓ ᴺ.zero) (y₂ : ↓ ᴺ.zero)
                  (α : (y₁ ≡ ◻ × action E P ≡ ◻ → ⊥) → action E P ≡ [ • x ﹙ y₁ ﹚ ᵇ ])
                  (β : (y₂ ≡ ◻ × action (E/E′ (⊖₁ 𝐸)) R′ ≡ ◻ → ⊥) → action (E/E′ (⊖₁ 𝐸)) R′ ≡ [ • ᴺ.suc x ﹙ y₂ ﹚ ᵇ ]) →
                  weaken ̃ y₁ ≡ y₂
-         y₁≡y₂ _ _ _ _ = trustMe
+         y₁≡y₂ ◻ ◻ _ _ = refl
+         y₁≡y₂ [ .ᴺ.zero ] [ .ᴺ.zero ] _ _ = refl
+         y₁≡y₂ ◻ [ .ᴺ.zero ] α β =
+            let δ : action E P ≡ [ • x ﹙ [ ᴺ.zero ] ﹚ ᵇ ]
+                δ = inj-push (action E P) [ • x ﹙ [ ᴺ.zero ] ﹚ ᵇ ] (trans (sym ≡a/a′) (β (λ { (() , _) })))
+            in ⊥-elim ([•x﹙◻﹚ᵇ]≢[•x﹙[zero]﹚ᵇ] (trans (sym (α (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
+         y₁≡y₂ [ .ᴺ.zero ] ◻ α β =
+            let δ : action (E/E′ (⊖₁ 𝐸)) R′ ≡ [ • ᴺ.suc x ﹙ [ ᴺ.zero ] ﹚ ᵇ ]
+                δ = trans ≡a/a′ (cong (push ᴬ*̃) (α (λ { (() , _) })))
+            in ⊥-elim ([•x﹙◻﹚ᵇ]≢[•x﹙[zero]﹚ᵇ] (trans (sym (β (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
