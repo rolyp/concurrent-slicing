@@ -272,10 +272,13 @@ module Transition.Concur.Cofinal.Lattice.Common where
          z₁≡z₂ ◻ ◻ _ _ = refl
          z₁≡z₂ [ .ᴺ.zero ] [ .ᴺ.zero ] _ _ = refl
          z₁≡z₂ ◻ [ .ᴺ.zero ] α β =
-            let δ : action E P ≡ [ • x ﹙ [ ᴺ.zero ] ﹚ ᵇ ]
+            let δ : action E′ P ≡ [ • u ﹙ [ ᴺ.zero ] ﹚ ᵇ ]
+                δ = {!!}
+            in ⊥-elim ([•x﹙◻﹚ᵇ]≢[•x﹙[zero]﹚ᵇ] (trans (sym (α (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
+         z₁≡z₂ [ .ᴺ.zero ] ◻ α β =
+            let δ : action (E′/E (⊖₁ 𝐸)) R ≡ [ • ᴺ.suc u 〈 [ ᴺ.zero ] 〉 ᶜ ]
                 δ = ?
-            in ?
-         z₁≡z₂ [ .ᴺ.zero ] ◻ α β = trustMe
+            in ⊥-elim ([•x〈◻〉ᶜ]≢[•x〈[-]〉ᶜ] (trans (sym (β (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
 
       module _
          (R′ : ↓ R′₀) (≡R′ : tgt E′ P ≡ R′) where
