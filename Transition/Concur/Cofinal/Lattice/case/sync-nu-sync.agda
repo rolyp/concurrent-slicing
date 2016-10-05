@@ -35,6 +35,7 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
       (pop-y*E′/E : (ᴿ.pop y *) R₀ —[ u • ᵇ - _ ]→ (ᴿ.suc (ᴿ.pop y) *) (tgt₁ (⊖₁ 𝐸))) (R : ↓ R₀) (R′ : ↓ R′₀)
       (S : ↓ S₀) (S′ : ↓ S′₀) (y′ : ↓ y) (z′ : ᴺ̃.↓_ {ᴺ.suc Γ} ᴺ.zero) (≡R : tgt E P ≡ R) (≡R′ : tgt E′ P ≡ R′)
       (≡S : tgt F Q ≡ S) (≡S′ : tgt F′ Q ≡ S′) (≡pop-y*E′/E : (ᴿ.pop y *ᵇ) (E′/E (⊖₁ 𝐸)) ≡ pop-y*E′/E)
+      (≡z′ : (z′ ≡ ◻ × action F′ Q ≡ ◻ → ⊥) → action F′ Q ≡ [ • u ﹙ z′ ﹚ ᵇ ])
       where
 
       module _
