@@ -8,7 +8,7 @@ module Action.Concur.Lattice where
    open import Action.Ren.Lattice using (_*)
    open import Lattice using (Lattices); open Lattice.Prefixes ⦃...⦄
    open import Name as ᴺ using ()
-   open import Name.Lattice as ᴺ̃ using (suc; zero)
+   open import Name.Lattice as ᴺ̃ using (suc; zero); open ᴺ̃.↓_
    open import Ren.Lattice using (push)
 
    -- Need more consistent naming here. Lattice counterpart of ᴬ/, although this produces a/a'.
@@ -25,12 +25,26 @@ module Action.Concur.Lattice where
    inj-residual ˣ∇ˣ ◻ ◻ _ = refl
    inj-residual ˣ∇ˣ ◻ [ • x ﹙ y ﹚ ᵇ ] ()
    inj-residual ˣ∇ˣ [ • x ﹙ y ﹚ ᵇ ] ◻ ()
-   inj-residual ˣ∇ˣ [ • x ﹙ ᴺ̃.◻ ﹚ ᵇ ] [ • .x ﹙ ᴺ̃.◻ ﹚ ᵇ ] _ = refl
-   inj-residual ˣ∇ˣ [ • x ﹙ ᴺ̃.◻ ﹚ ᵇ ] [ • .x ﹙ ᴺ̃.[ .ᴺ.zero ] ﹚ ᵇ ] ()
-   inj-residual ˣ∇ˣ [ • x ﹙ ᴺ̃.[ .ᴺ.zero ] ﹚ ᵇ ] [ • .x ﹙ ᴺ̃.◻ ﹚ ᵇ ] ()
-   inj-residual ˣ∇ˣ [ • x ﹙ ᴺ̃.[ .ᴺ.zero ] ﹚ ᵇ ] [ • .x ﹙ ᴺ̃.[ .ᴺ.zero ] ﹚ ᵇ ] refl = refl
-   inj-residual ᵇ∇ᵇ a a′ q = {!!}
-   inj-residual ᵇ∇ᶜ a .a refl = {!!}
-   inj-residual ᶜ∇ᵇ a a′ q = {!!}
+   inj-residual ˣ∇ˣ [ • x ﹙ ◻ ﹚ ᵇ ] [ • .x ﹙ ◻ ﹚ ᵇ ] _ = refl
+   inj-residual ˣ∇ˣ [ • x ﹙ ◻ ﹚ ᵇ ] [ • .x ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] ()
+   inj-residual ˣ∇ˣ [ • x ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] [ • .x ﹙ ◻ ﹚ ᵇ ] ()
+   inj-residual ˣ∇ˣ [ • x ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] [ • .x ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] _ = refl
+   inj-residual ᵇ∇ᵇ ◻ ◻ _ = refl
+   inj-residual ᵇ∇ᵇ ◻ [ a ᵇ ] ()
+   inj-residual ᵇ∇ᵇ [ a ᵇ ] ◻ ()
+   inj-residual ᵇ∇ᵇ [ x • ᵇ ] [ .x • ᵇ ] refl = refl
+   inj-residual ᵇ∇ᵇ [ • x ﹙ ◻ ﹚ ᵇ ] [ • .x ﹙ ◻ ﹚ ᵇ ] _ = refl
+   inj-residual ᵇ∇ᵇ [ • x ﹙ ◻ ﹚ ᵇ ] [ • .x ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] ()
+   inj-residual ᵇ∇ᵇ [ • x ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] [ • .x ﹙ ◻ ﹚ ᵇ ] ()
+   inj-residual ᵇ∇ᵇ [ • x ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] [ • .x ﹙ [ .ᴺ.zero ] ﹚ ᵇ ] _ = refl
+   inj-residual ᵇ∇ᶜ a .a refl = refl
+   inj-residual ᶜ∇ᵇ ◻ ◻ _ = refl
+   inj-residual ᶜ∇ᵇ ◻ [ a ᶜ ] ()
+   inj-residual ᶜ∇ᵇ [ a ᶜ ] ◻ ()
+   inj-residual ᶜ∇ᵇ [ • x 〈 ◻ 〉 ᶜ ] [ • .x 〈 ◻ 〉 ᶜ ] q = refl
+   inj-residual ᶜ∇ᵇ [ • x 〈 ◻ 〉 ᶜ ] [ • .x 〈 [ y ] 〉 ᶜ ] ()
+   inj-residual ᶜ∇ᵇ [ • x 〈 [ y ] 〉 ᶜ ] [ • .x 〈 ◻ 〉 ᶜ ] ()
+   inj-residual ᶜ∇ᵇ [ • x 〈 [ y ] 〉 ᶜ ] [ • .x 〈 [ .y ] 〉 ᶜ ] _ = refl
+   inj-residual ᶜ∇ᵇ [ τ ᶜ ] [ τ ᶜ ] _ = refl
    inj-residual ᶜ∇ᶜ a .a refl = refl
    inj-residual ᵛ∇ᵛ a .a refl = refl
