@@ -234,7 +234,7 @@ module Transition.Concur.Cofinal.Lattice.Common where
             in ⊥-elim ([•x﹙◻﹚ᵇ]≢[•x﹙[zero]﹚ᵇ] (trans (sym (α (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
          z₁≡z₂ [ .ᴺ.zero ] ◻ α β =
             let δ : action (E′/E (⊖₁ 𝐸)) R ≡ [ • ᴺ.suc u ﹙ [ ᴺ.zero ] ﹚ ᵇ ]
-                δ = {!!} -- α (λ { (() , _) })
+                δ = trans ≡a′/a (cong (push ᴬ*̃) (α (λ { (() , _) })))
             in ⊥-elim ([•x﹙◻﹚ᵇ]≢[•x﹙[zero]﹚ᵇ] (trans (sym (β (λ { (_ , δ′) → ◻≢[-] (trans (sym δ′) δ) }))) δ))
 
       module _
