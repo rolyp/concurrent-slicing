@@ -43,6 +43,7 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
          (y† : ᴺ̃.↓_ {ᴺ.suc Γ} (ᴺ.suc y)) (z† : ᴺ̃.↓_ {ᴺ.suc Γ} ᴺ.zero) (≡P′ : tgt pop-y*E′/E ((pop y′ *̃) R) ≡ P′)
          (≡Q′ : tgt (E′/E (⊖₁ 𝐹)) S ≡ Q′) (≡P″ : tgt ((idᶠ *ᵇ) (E/E′ (⊖₁ 𝐸))) ((repl z′ *̃) R′) ≡ P″)
          (≡Q″ : tgt (E/E′ (⊖₁ 𝐹)) S′ ≡ Q″)
+         (≡z† : (z† ≡ ◻ × action (E′/E (⊖₁ 𝐹)) S ≡ ◻ → ⊥) → action (E′/E (⊖₁ 𝐹)) S ≡ [ • u ﹙ z† ﹚ ᵇ ])
          where
 
          open ≡action′
