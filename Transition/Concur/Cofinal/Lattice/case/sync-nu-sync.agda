@@ -71,7 +71,7 @@ module Transition.Concur.Cofinal.Lattice.case.sync-nu-sync
             ≅⟨ id-pop-push-id̃ y′ z† ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))) ⟩
                (pop (push ̃ y′) *̃) ((suc (repl z†) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
             ≡⟨ cong₂ (λ z z′ → (pop z *̃) ((suc (repl z′) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P)))))
-                     cheat (sym (z₁≡z₂ 𝐹 Q S ≡S z′ z† {!!} {!!})) ⟩
+                     cheat (sym (z₁≡z₂ 𝐹 Q S ≡S z′ z† ≡z′ {!!})) ⟩
                (pop y† *̃) ((suc (repl z′) *̃) ((swap *̃) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
             ≅⟨ ≅-cong✴ ↓_ (γ₁ 𝐸) ((pop y† *̃) ∘ᶠ (suc (repl z′) *̃)) (≅-sym (reduce-ᵇ∇ᵇ (γ₁ 𝐸) _)) ⟩
                (pop y† *̃) ((suc (repl z′) *̃) (braiding (ᵇ∇ᵇ {a = x •} {u •}) {0} (γ₁ 𝐸) (tgt (E′/E (⊖₁ 𝐸)) (tgt E P))))
